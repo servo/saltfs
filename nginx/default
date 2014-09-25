@@ -1,0 +1,14 @@
+server {
+  listen 80 default_server;
+  server_name build.servo.org;
+  
+  location ~ /bors/.*\.(html|css|js)$ {
+    rewrite ^/bors/(.*)$ /$1 break;
+    root /home/servo/bors/;
+  }
+
+  location / {
+    proxy_pass http://localhost:8010/;
+  }
+}
+
