@@ -1,6 +1,14 @@
 buildbot:
   pip.installed
 
+txgithub:
+  pip.installed
+
+buildbot-master:
+  service:
+    - running
+    - enable: True
+
 /home/servo/buildbot/master:
   file.recurse:
     - source: salt://buildbot/master
@@ -9,6 +17,8 @@ buildbot:
     - group: servo
     - dir_mode: 755
     - file_mode: 644
+    - require_in:
+      - service: buildbot-master
     - watch_in:
       - service: buildbot-master
 
@@ -18,11 +28,36 @@ buildbot:
     - user: root
     - group: root
     - mode: 644
+    - require_in:
+      - service: buildbot-master
     - watch_in:
       - service: buildbot-master
-    
-buildbot-master:
+
+buildbot-github-listener:
   service:
     - running
     - enable: True
+    
+/usr/local/bin/github_buildbot.py:
+  file.managed:
+    - source: salt://buildbot/github_buildbot.py
+    - user: root
+    - group: root
+    - mode: 755
+    - reuqire_in:
+      - service: buildbot-github-listener
+    - watch_in:
+      - service: buildbot-github-listener
+
+/etc/init/buildbot-github-listener.conf:
+  file.managed:
+    - source: salt://buildbot/buildbot-github-listener.conf
+    - template: jinja
+    - user: root
+    - group: root
+    - mode: 644
+    - reuqire_in:
+      - service: buildbot-github-listener
+    - watch_in:
+      - service: buildbot-github-listener
 

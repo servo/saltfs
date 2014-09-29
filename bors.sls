@@ -1,6 +1,6 @@
 https://github.com/graydon/bors:
   git.latest:
-    - rev: master
+    - rev: 8de94fac5dc7a0422f520cf4c62395144675ddee
     - target: /home/servo/bors
     - user: servo
 
