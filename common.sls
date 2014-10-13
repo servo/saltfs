@@ -51,4 +51,14 @@ sshkey-gw:
     {% endif %}
     - source: salt://ssh/gw.pub
 
+sshkey-jdm:
+  ssh_auth:
+    - present
+    {% if grains["kernel"] != "Darwin" %}
+    - user: root
+    {% else %}
+    - user: administrator
+    {% endif %}
+    - source: salt://ssh/jdm.pub
+
 
