@@ -1,4 +1,4 @@
-https://github.com/graydon/bors:
+https://github.com/servo/bors:
   git.latest:
     - rev: 8de94fac5dc7a0422f520cf4c62395144675ddee
     - target: /home/servo/bors
