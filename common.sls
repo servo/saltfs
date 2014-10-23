@@ -25,6 +25,11 @@ host.servo-linux1:
     - name: servo-linux1
     - ip: 66.228.48.56
 
+host.servo-linux-android1:
+  host.present:
+    - name: servo-linux-android1
+    - ip: 72.14.176.110
+
 host.servo-mac1:
   host.present:
     - name: servo-mac1
@@ -61,4 +66,12 @@ sshkey-jdm:
     {% endif %}
     - source: salt://ssh/jdm.pub
 
-
+sshkey-larsberg:
+  ssh_auth:
+    - present
+    {% if grains["kernel"] != "Darwin" %}
+    - user: root
+    {% else %}
+    - user: administrator
+    {% endif %}
+    - source: salt://ssh/larsberg.pub
