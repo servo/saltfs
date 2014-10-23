@@ -75,3 +75,13 @@ sshkey-larsberg:
     - user: administrator
     {% endif %}
     - source: salt://ssh/larsberg.pub
+
+sshkey-simonsapin:
+  ssh_auth:
+    - present
+    {% if grains["kernel"] != "Darwin" %}
+    - user: root
+    {% else %}
+    - user: administrator
+    {% endif %}
+    - source: salt://ssh/simonsapin.pub
