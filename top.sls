@@ -19,3 +19,4 @@ base:
   'servo-linux-android\d+':
     - match: pcre
     - buildbot-slave
+    - android-dependencies
