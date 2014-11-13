@@ -1,35 +1,94 @@
-cmake:
+{% if '64' in grains["cpuarch"] %}
+libc6:i386:
+  pkg:
+    - installed
+
+libstdc++6:i386:
+  pkg:
+    - installed
+{% endif %}
+
+default-jdk:
   pkg.installed
 
-virtualenv:
+ant:
   pip.installed
 
-ghp-import:
+expect:
   pip.installed
 
-libglib2.0-dev:
-  pkg.installed
+gcc:
+  pip.installed
 
-libgl1-mesa-dri:
-  pkg.installed
+libstdc++6:
 
-freeglut3-dev:
-  pkg.installed
+android-sdk-download:
+  file.managed:
+    - name: /home/servo/android-sdk_r23.0.2-linux.tgz
+    - source: http://dl.google.com/android/android-sdk_r23.0.2-linux.tgz
+    - source_hash: sha1=6b79b05bc876a8126f5ba034602e01306706de75
+    - user: servo
+    - group: servo
+  cmd.wait:
+    - name: tar xzf /home/servo/android-sdk_r23.0.2-linux.tgz
+    - user: servo
+    - watch:
+      - file: android-sdk-download
 
-libfreetype6-dev:
-  pkg.installed
+android-sdk-chown:
+  cmd.wait:
+    - name: chown -R servo:servo /home/servo/android-sdk-linux
+    - watch:
+      - cmd: android-sdk-download
 
-xorg-dev:
-  pkg.installed
+android-sdk-update:
+  cmd.wait:
+    - name: expect -c '
+set timeout -1;
+spawn /home/servo/android-sdk-linux/tools/android - update sdk --no-ui;
+expect {
+    "Do you accept the license" { exp_send "y\r" ; exp_continue }
+    eof
+}
+'
+    - user: servo
+    - watch:
+      - cmd: android-sdk-download
+    - require:
+      - pkg: default-jdk
 
-libssl-dev:
-  pkg.installed
+android-ndk-download:
+  file.managed:
+    - name: /home/servo/android-ndk-r10c-linux-x86_64.bin
+    - source: http://dl.google.com/android/ndk/android-ndk-r10c-linux-x86_64.bin
+    - source_hash: sha1=87e159831a6759d5fb84545c445e551995185634
+    - user: servo
+    - group: servo
 
-xserver-xorg-input-void:
-  pkg.installed
+android-ndk-chmod:
+  cmd.wait:
+    - name: chmod a+x /home/servo/android-ndk-r10c-linux-x86_64.bin
+    - user: servo
+    - watch:
+      - file: android-ndk-download
 
-xserver-xorg-video-dummy:
-  pkg.installed
+android-ndk-install:
+  cmd.wait:
+    - name: /home/servo/android-ndk-r10c-linux-x86_64.bin
+    - user: servo
+    - watch:
+      - cmd: android-ndk-chmod
 
-xpra:
-  pkg.installed
+android-ndk-toolset-configuration:
+  cmd.wait:
+    - name: bash /home/servo/android-ndk-r10c/build/tools/make-standalone-toolchain.sh --platform=android-18 --install-dir='/home/servo/ndk-toolchain' --ndk-dir='/home/servo/android-ndk-r10c'
+    - user: servo
+    - watch:
+      - cmd: android-ndk-install
+
+/home/servo/.bash_profile:
+  file.managed:
+    - source: salt://bash/dot.bash_profile
+    - user: servo
+    - group: servo
+    - mode: 0644
