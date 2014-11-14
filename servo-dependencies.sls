@@ -26,6 +26,9 @@ xorg-dev:
 libssl-dev:
   pkg.installed
 
+libbz2-dev:
+  pkg.installed
+
 xserver-xorg-input-void:
   pkg.installed
 
