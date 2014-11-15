@@ -20,7 +20,11 @@ expect:
 gcc:
   pip.installed
 
+lib32z1
+  pip.installed
+
 libstdc++6:
+  pip.installed
 
 android-sdk-download:
   file.managed:

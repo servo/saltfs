@@ -1,6 +1,6 @@
 https://github.com/servo/bors:
   git.latest:
-    - rev: 8de94fac5dc7a0422f520cf4c62395144675ddee
+    - rev: ed7e199c7fa4200e270010a5b7b7b42a2d8893e6
     - target: /home/servo/bors
     - user: servo
 
