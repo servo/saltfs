@@ -25,6 +25,11 @@ host.servo-linux1:
     - name: servo-linux1
     - ip: 66.228.48.56
 
+host.servo-linux2:
+  host.present:
+    - name: servo-linux2
+    - ip: 173.255.201.95
+
 host.servo-linux-android1:
   host.present:
     - name: servo-linux-android1

@@ -1,6 +1,9 @@
 cmake:
   pkg.installed
 
+git:
+  pkg.installed
+
 virtualenv:
   pip.installed
 
