@@ -40,6 +40,10 @@ host.servo-mac1:
     - name: servo-mac1
     - ip: 208.52.161.130
 
+host.servo-head:
+  host.present:
+    - name: servo-head
+    - ip: 96.126.114.185
 
 sshkey-jack:
   ssh_auth:
