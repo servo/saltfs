@@ -41,6 +41,9 @@ xserver-xorg-video-dummy:
 xpra:
   pkg.installed
 
+libosmesa6-dev:
+  pkg.installed
+
 {% else %}
 
 {% endif %}
