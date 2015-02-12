@@ -46,4 +46,7 @@ libosmesa6-dev:
 
 {% else %}
 
+pkg-config:
+  pkg.installed
+
 {% endif %}
