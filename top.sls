@@ -20,3 +20,5 @@ base:
     - match: pcre
     - buildbot-slave
     - android-dependencies
+    - gonk-dependencies
+
