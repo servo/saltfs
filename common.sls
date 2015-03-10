@@ -104,3 +104,13 @@ sshkey-pcwalton:
     - user: administrator
     {% endif %}
     - source: salt://ssh/pcwalton.pub
+
+sshkey-manishearth:
+  ssh_auth:
+    - present
+    {% if grains["kernel"] != "Darwin" %}
+    - user: root
+    {% else %}
+    - user: administrator
+    {% endif %}
+    - source: salt://ssh/manishearth.pub
