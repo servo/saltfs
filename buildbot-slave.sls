@@ -9,6 +9,18 @@ buildbot-slave.pip:
     - name: buildbot-slave
     - installed
 
+{{ users_path }}/servo/servobuild:
+  file.managed:
+    - source: salt://buildbot/servobuild
+    - user: servo
+    {% if grains["kernel"] != "Darwin" %}
+    - group: servo
+    {% else %}
+    - group: staff
+    {% endif %}
+    - dir_mode: 755
+    - file_mode: 644
+
 {{ users_path }}/servo/buildbot/slave:
   file.recurse:
     - source: salt://buildbot/slave

@@ -1,0 +1,3 @@
+[tools]
+cache-dir = "~/.servo"
+cargo-home-dir = "~/.cargo"
