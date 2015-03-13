@@ -1,4 +1,7 @@
 {% if '64' in grains["cpuarch"] %}
+#TODO: need to do these first on new ubuntus.
+#dpkg --add-architecture i386
+#apt-get update
 libc6:i386:
   pkg:
     - installed
@@ -14,17 +17,26 @@ default-jdk:
 ant:
   pip.installed
 
-expect:
+s3cmd:
   pip.installed
+
+expect:
+  pkg.installed
 
 gcc:
-  pip.installed
+  pkg.installed
 
-lib32z1
-  pip.installed
+lib32z1:
+  pkg.installed
+
+libstdc++:
+  pkg.installed
 
 libstdc++6:
-  pip.installed
+  pkg.installed
+
+libgl1-mesa-dev:
+  pkg.installed
 
 android-sdk-download:
   file.managed:
@@ -47,14 +59,15 @@ android-sdk-chown:
 
 android-sdk-update:
   cmd.wait:
-    - name: expect -c '
-set timeout -1;
-spawn /home/servo/android-sdk-linux/tools/android - update sdk --no-ui;
-expect {
-    "Do you accept the license" { exp_send "y\r" ; exp_continue }
-    eof
-}
-'
+    - name: |
+        expect -c '
+        set timeout -1;
+        spawn /home/servo/android-sdk-linux/tools/android - update sdk --no-ui;
+        expect {
+         "Do you accept the license" { exp_send "y\r" ; exp_continue }
+         eof
+        }
+        '
     - user: servo
     - watch:
       - cmd: android-sdk-download

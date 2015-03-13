@@ -22,3 +22,7 @@ base:
     - android-dependencies
     - gonk-dependencies
 
+  'servo-head':
+    - match: pcre
+    - buildbot-slave
+    - android-dependencies
