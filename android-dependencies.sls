@@ -15,7 +15,7 @@ default-jdk:
   pkg.installed
 
 ant:
-  pip.installed
+  pkg.installed
 
 s3cmd:
   pip.installed
