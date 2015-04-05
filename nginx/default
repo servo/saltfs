@@ -10,5 +10,9 @@ server {
   location / {
     proxy_pass http://localhost:8010/;
   }
+
+  location /homu {
+    proxy_pass http://localhost:54856/;
+  }
 }
 

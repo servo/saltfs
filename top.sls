@@ -6,6 +6,7 @@ base:
   'servo-master':
     - buildbot-master
     - bors
+    - homu
     - nginx
 
   'servo-(linux|mac)\d+':
