@@ -11,7 +11,7 @@ server {
     proxy_pass http://localhost:8010/;
   }
 
-  location /homu {
+  location /homu/ {
     proxy_pass http://localhost:54856/;
   }
 }
