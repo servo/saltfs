@@ -42,7 +42,7 @@ secret = "{{ pillar["homu"]["gh-webhook-secret"] }}"
 ## Use buildbot for running tests
 [repo.servo.buildbot]
 
-url = "http://build.servo.org"
+url = "http://build.servo.org/homu/buildbot"
 secret = "{{ pillar["homu"]["buildbot-secret"] }}"
 
 builders = ["linux1", "linux2", "android", "mac1", "mac2", "gonk"]
