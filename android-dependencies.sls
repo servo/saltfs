@@ -29,9 +29,6 @@ gcc:
 lib32z1:
   pkg.installed
 
-libstdc++:
-  pkg.installed
-
 libstdc++6:
   pkg.installed
 
