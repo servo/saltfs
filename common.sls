@@ -30,6 +30,11 @@ host.servo-linux2:
     - name: servo-linux2
     - ip: 173.255.201.95
 
+host.servo-linux3:
+  host.present:
+    - name: servo-linux3
+    - ip: 45.79.167.177
+
 host.servo-linux-android1:
   host.present:
     - name: servo-linux-android1
@@ -39,6 +44,11 @@ host.servo-mac1:
   host.present:
     - name: servo-mac1
     - ip: 208.52.161.130
+
+host.servo-mac3:
+  host.present:
+    - name: servo-mac3
+    - ip: 63.135.170.19
 
 host.servo-head:
   host.present:
