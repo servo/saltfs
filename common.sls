@@ -124,3 +124,13 @@ sshkey-manishearth:
     - user: administrator
     {% endif %}
     - source: salt://ssh/manishearth.pub
+
+sshkey-edunham:
+  ssh_auth:
+    - present
+    {% if grains["kernel"] != "Darwin" %}
+    - user: root
+    {% else %}
+    - user: administrator
+    {% endif %}
+    - source: salt://ssh/edunham.pub
