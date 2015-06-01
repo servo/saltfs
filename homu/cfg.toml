@@ -23,7 +23,7 @@ owner = "servo"
 name = "servo"
 
 # who has r+ rights?
-reviewers = ["glennw","jdm","kmcallister","larsbergstrom","Manishearth","metajack","mbrubeck","Ms2ger","pcwalton","SimonSapin","mrobinson","brunoabinader","saneyuki"]
+reviewers = ["glennw","jdm","kmcallister","larsbergstrom","Manishearth","metajack","mbrubeck","Ms2ger","pcwalton","SimonSapin","mrobinson","brunoabinader","saneyuki","nox"]
 
 ## branch names (these settings here are the defaults)
 #[repo.NAME.branch]
