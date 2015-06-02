@@ -5,7 +5,6 @@ base:
 
   'servo-master':
     - buildbot-master
-    - bors
     - homu
     - nginx
 
