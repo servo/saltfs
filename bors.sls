@@ -11,9 +11,3 @@ https://github.com/servo/bors:
     - user: servo
     - group: servo
     - mode: 644
-
-cd /home/servo/bors && python bors.py:
-  cron.present:
-    - user: servo
-    - minute: '*/3'
-
