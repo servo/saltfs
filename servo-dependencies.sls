@@ -44,6 +44,9 @@ xpra:
 libosmesa6-dev:
   pkg.installed
 
+gperf:
+  pkg.installed
+
 {% else %}
 
 pkg-config:
