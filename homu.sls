@@ -36,7 +36,7 @@ homu:
     - require:
       - pip: install_homu
 
-/etc/init/homu.conf
+/etc/init/homu.conf:
   file.managed:
     - source: salt://homu/homu.conf
     - user: root
