@@ -13,7 +13,7 @@ app_client_secret = "{{ pillar["homu"]["app-client-secret"] }}"
 [web]
 port = 54856
 
-{% set repos = [('servo', 'html5ever')] %}
+{% set repos = [('servo', 'html5ever'), ('servo', 'rust-geom'), ('servo', 'rust-layers')] %}
 {% set reviewers = ["glennw","jdm","kmcallister","larsbergstrom","Manishearth","metajack","mbrubeck","Ms2ger","pcwalton","SimonSapin","mrobinson","brunoabinader","saneyuki","nox"] %}
 
 [repo.servo]
