@@ -28,3 +28,6 @@ install:
 
 script:
   - sudo salt-call state.show_highstate --local  --retcode-passthrough
+
+notifications:
+  webhooks: http://build.servo.org:54856/travis
