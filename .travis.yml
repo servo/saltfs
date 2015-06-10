@@ -3,8 +3,14 @@ python:
 - '2.7'
 
 before_install:
+  # Acquire the dependencies which can be installed normally.
   - sudo apt-get update
-  - curl -L http://bootstrap.saltstack.org | sudo sh -s -- git develop
+  - sudo apt-get install git-core python-yaml python-m2crypto python-crypto msgpack-python python-jinja2
+  # Travis is special. https://github.com/travis-ci/travis-ci/issues/3106  
+  - sudo rm -f /etc/apt/sources.list.d/travis_ci_zeromq3-source.list
+  - sudo apt-get install python-zmq
+  # Install latest stable salt version, allowing packages from Pip
+  - curl -L -vvv https://raw.githubusercontent.com/saltstack/salt-bootstrap/stable/bootstrap-salt.sh | sudo sh -s -- -P stable
 
 install:
   # Copy these states
@@ -13,8 +19,8 @@ install:
   - sudo cp .travis/minion /etc/salt/minion
   - sudo service salt-minion restart
 
-  # Additional debug help
-  - sudo cat /var/log/salt/*
+  # Additional debug help. May fail if run before Salt finishes restarting.
+  #- sudo cat /var/log/salt/*
 
   # See what kind of travis box you're on
   # to help with making your states compatible with travis
