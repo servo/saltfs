@@ -14,7 +14,7 @@ ghp-import:
 libglib2.0-dev:
   pkg.installed
 
-libgl1-mesa-dri:
+libgl1-mesa-dri
   pkg.installed
 
 freeglut3-dev:
