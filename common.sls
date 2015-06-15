@@ -134,3 +134,13 @@ sshkey-edunham:
     - user: administrator
     {% endif %}
     - source: salt://ssh/edunham.pub
+
+sshkey-mbrubeck:
+  ssh_auth:
+    - present
+    {% if grains["kernel"] != "Darwin" %}
+    - user: root
+    {% else %}
+    - user: administrator
+    {% endif %}
+    - source: salt://ssh/mbrubeck.pub
