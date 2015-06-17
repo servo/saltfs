@@ -16,7 +16,7 @@ port = 54856
 {% set repos = [('servo', 'html5ever'), ('servo', 'rust-geom'), ('servo', 'rust-layers'),
                 ('servo', 'saltfs'), ('servo', 'gleam'), ('servo', 'string-cache'),
                 ('servo', 'rust-selectors'), ('servo', 'rust-azure'), ('servo', 'tendril'),
-                ('servo', 'futf')] %}
+                ('servo', 'futf'), ('servo', 'glutin')] %}
 {% set reviewers = ["glennw","jdm","kmcallister","larsbergstrom","Manishearth","metajack","mbrubeck","Ms2ger","pcwalton","SimonSapin","mrobinson","brunoabinader","saneyuki","nox"] %}
 
 [repo.servo]
