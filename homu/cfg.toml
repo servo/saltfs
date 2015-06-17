@@ -35,6 +35,8 @@ try_builders = ["linux1", "linux2", "linux3", "android", "mac1", "mac2", "mac3",
 username = "{{ pillar["homu"]["buildbot-http-user"] }}"
 password = "{{ pillar["homu"]["buildbot-http-pass"] }}"
 
+# Standard per-repo configs (generated)
+
 {% for repo in repos %}
 [repo.{{ repo[1] }}]
 owner = "{{ repo[0] }}"
@@ -48,3 +50,8 @@ secret = "{{ pillar["homu"]["gh-webhook-secret"] }}"
 token = "{{ pillar["homu"]["travis-ci-token"] }}"
 
 {% endfor %}
+
+# Specialized per-repo configs
+
+[repo.glutin.branch]
+master = "servo"
