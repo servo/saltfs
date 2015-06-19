@@ -26,6 +26,9 @@ expect:
 gcc:
   pkg.installed
 
+g++:
+  pkg.installed
+
 lib32z1:
   pkg.installed
 
