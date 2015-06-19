@@ -144,3 +144,13 @@ sshkey-mbrubeck:
     - user: administrator
     {% endif %}
     - source: salt://ssh/mbrubeck.pub
+
+sshkey-mwu:
+  ssh_auth:
+    - present
+    {% if grains["kernel"] != "Darwin" %}
+    - user: root
+    {% else %}
+    - user: administrator
+    {% endif %}
+    - source: salt://ssh/mwu.pub
