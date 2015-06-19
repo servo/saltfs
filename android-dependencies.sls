@@ -98,7 +98,7 @@ android-ndk-install:
 
 android-ndk-toolset-configuration:
   cmd.wait:
-    - name: bash /home/servo/android-ndk-r10c/build/tools/make-standalone-toolchain.sh --platform=android-18 --install-dir='/home/servo/ndk-toolchain' --ndk-dir='/home/servo/android-ndk-r10c'
+    - name: bash /home/servo/android-ndk-r10c/build/tools/make-standalone-toolchain.sh --platform=android-18 --toolchain=arm-linux-androideabi-4.8 --install-dir='/home/servo/ndk-toolchain' --ndk-dir='/home/servo/android-ndk-r10c'
     - user: servo
     - watch:
       - cmd: android-ndk-install
