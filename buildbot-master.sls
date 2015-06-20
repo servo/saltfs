@@ -1,5 +1,6 @@
 buildbot:
-  pip.installed
+  pip.installed:
+    - name: buildbot == 0.8.12
 
 txgithub:
   pip.installed
