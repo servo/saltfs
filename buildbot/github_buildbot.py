@@ -110,9 +110,7 @@ class GitHubBuildBot(resource.Resource):
             repo = payload['repository']['name']
             repo_url = payload['repository']['url']
             self.private = payload['repository']['private']
-            project = request.args.get('project', None)
-            if project:
-                project = project[0]
+            project = repo_url.replace("https://github.com/","")
             self.process_change(payload, user, repo, repo_url, project, request)
             return server.NOT_DONE_YET
 
