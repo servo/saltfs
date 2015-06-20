@@ -5,9 +5,8 @@
 {% endif %}
 
 buildbot-slave.pip:
-  pip:
-    - name: buildbot-slave
-    - installed
+  pip.installed:
+    - name: buildbot-slave == 0.8.12
 
 {{ users_path }}/servo/buildbot/slave:
   file.recurse:
