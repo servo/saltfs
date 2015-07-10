@@ -18,8 +18,9 @@ port = 54856
                        ('servo', 'rust-selectors'), ('servo', 'rust-azure'), ('servo', 'tendril'),
                        ('servo', 'futf'), ('servo', 'glutin'), ('servo', 'rust-png'),
                        ('servo', 'rust-stb-image'), ('servo', 'libfreetype2'),
-                       ('servo', 'libfontconfig'), ('servo', 'skia')] %}
-{% set buildbot_repos = [('servo', 'mozjs'), ('servo', 'rust-mozjs'), ('servo', 'io-surface-rs')] %}
+                       ('servo', 'libfontconfig'), ('servo', 'skia'), ('servo', 'cocoa-rs'),
+                       ('servo', 'cgl-rs'), ('servo', 'io-surface-rs')] %}
+{% set buildbot_repos = [('servo', 'mozjs'), ('servo', 'rust-mozjs')] %}
 {% set reviewers = ["glennw","jdm","kmcallister","larsbergstrom","Manishearth","metajack","mbrubeck","Ms2ger","pcwalton","SimonSapin","mrobinson","brunoabinader","saneyuki","nox","zmike","edunham"] %}
 
 [repo.servo]
