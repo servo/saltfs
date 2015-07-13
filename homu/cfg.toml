@@ -20,7 +20,7 @@ port = 54856
                        ('servo', 'rust-stb-image'), ('servo', 'libfreetype2'),
                        ('servo', 'libfontconfig'), ('servo', 'skia')] %}
 {% set buildbot_repos = [('servo', 'mozjs'), ('servo', 'rust-mozjs'), ('servo', 'io-surface-rs')] %}
-{% set reviewers = ["glennw","jdm","kmcallister","larsbergstrom","Manishearth","metajack","mbrubeck","Ms2ger","pcwalton","SimonSapin","mrobinson","brunoabinader","saneyuki","nox","zmike"] %}
+{% set reviewers = ["glennw","jdm","kmcallister","larsbergstrom","Manishearth","metajack","mbrubeck","Ms2ger","pcwalton","SimonSapin","mrobinson","brunoabinader","saneyuki","nox","zmike","edunham"] %}
 
 [repo.servo]
 owner = "servo"
