@@ -3,31 +3,30 @@ python:
 - '2.7'
 
 before_install:
-  # Acquire the dependencies which can be installed normally.
+  - sudo add-apt-repository -y ppa:saltstack/salt
   - sudo apt-get update
-  - sudo apt-get install git-core python-yaml python-m2crypto python-crypto msgpack-python python-jinja2
-  # Travis is special. https://github.com/travis-ci/travis-ci/issues/3106  
-  - sudo rm -f /etc/apt/sources.list.d/travis_ci_zeromq3-source.list
-  - sudo apt-get install python-zmq
-  # Install latest stable salt version, allowing packages from Pip
-  - curl -L -vvv https://raw.githubusercontent.com/saltstack/salt-bootstrap/stable/bootstrap-salt.sh | sudo sh -s -- -P stable
+  - sudo apt-get install salt-master salt-minion
+  - sudo mkdir -p /srv/salt/states
+  - sudo cp .travis/minion /etc/salt/minion
 
 install:
-  # Copy these states
-  - sudo mkdir -p /srv/salt/states
+  # Copy the states
   - sudo cp -r . /srv/salt/states
   - sudo cp .travis/minion /etc/salt/minion
   - sudo service salt-minion restart
 
-  # Additional debug help. May fail if run before Salt finishes restarting.
-  #- sudo cat /var/log/salt/*
 
-  # See what kind of travis box you're on
-  # to help with making your states compatible with travis
+  # Additional debug help. May fail if run before Salt finishes restarting.
+  # - sudo cat /var/log/salt/*
+
+  # For additional debugging, see what's in grains on a travis box
   - sudo salt-call grains.items --local
 
 script:
-  - sudo salt-call state.show_highstate --local  --retcode-passthrough
+  # Minimally validate YAML and Jinja at a basic level
+  - sudo salt-call state.show_highstate --local --retcode-passthrough
+  # Full on installation test
+  - sudo salt-call state.highstate --local
 
 notifications:
   webhooks: http://build.servo.org:54856/travis
