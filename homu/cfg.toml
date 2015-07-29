@@ -20,7 +20,7 @@ port = 54856
                        ('servo', 'rust-stb-image'), ('servo', 'libfreetype2'),
                        ('servo', 'libfontconfig'), ('servo', 'skia'), ('servo', 'cocoa-rs'),
                        ('servo', 'cgl-rs'), ('servo', 'io-surface-rs'), ('servo', 'rust-cssparser'),
-                       ('servo', 'unicode-bidi')] %}
+                       ('servo', 'unicode-bidi'), ('servo', 'rust-smallvec')] %}
 {% set buildbot_repos = [('servo', 'mozjs'), ('servo', 'rust-mozjs')] %}
 {% set reviewers = ["glennw","jdm","kmcallister","larsbergstrom","Manishearth","metajack","mbrubeck","Ms2ger","pcwalton","SimonSapin","mrobinson","brunoabinader","saneyuki","nox","zmike","edunham"] %}
 
