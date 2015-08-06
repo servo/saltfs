@@ -5,6 +5,9 @@ buildbot:
 txgithub:
   pip.installed
 
+boto:
+  pip.installed
+
 buildbot-master:
   service:
     - running
