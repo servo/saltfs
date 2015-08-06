@@ -139,7 +139,8 @@ class GitHubBuildBot(resource.Resource):
             for change in payload['commits']:
                 files = change['added'] + change['removed'] + change['modified']
                 who = "%s <%s>" % (
-                    change['author']['username'], change['author']['email'])
+                    change['author']['username'] if 'username' in change["author"] else change["author"]["name"],
+                    change['author']['email'])
 
                 changes.append(
                     {'revision': change['id'],
