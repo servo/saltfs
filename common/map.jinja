@@ -1,0 +1,15 @@
+{%
+  set config = salt['grains.filter_by']({
+      'defaults': {
+        'servo_home': '/home/servo',
+        'root_user': 'root'
+       },
+      'Darwin': {
+        'servo_home': '/Users/servo',
+        'root_user': 'administrator'
+      }
+    },
+    base='defaults',
+    grain='kernel'
+  )
+%}

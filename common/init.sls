@@ -1,19 +1,18 @@
+{% from tpldir ~ '/map.jinja' import config with context %}
+
 {% if grains['kernel'] != 'Darwin' %}
-python-pip:
-  pkg.installed
-python-dev:
-  pkg.installed
+python-pkgs:
+  pkg.installed:
+    - pkgs:
+      - python-pip
+      - python-dev
 {% endif %}
 
 servo:
   user.present:
     - fullname: Tom Servo
     - shell: /bin/bash
-{% if grains['kernel'] != 'Darwin' %}
-    - home: /home/servo
-{% else %}
-    - home: /Users/servo
-{% endif %}
+    - home: {{ config.servo_home }}
 
 host.servo-master:
   host.present:
@@ -58,109 +57,65 @@ host.servo-head:
 sshkey-jack:
   ssh_auth:
     - present
-    {% if grains["kernel"] != "Darwin" %}
-    - user: root
-    {% else %}
-    - user: administrator
-    {% endif %}
+    - user: {{ config.root_user }}
     - source: salt://ssh/jack.pub
 
 sshkey-gw:
   ssh_auth:
     - present
-    {% if grains["kernel"] != "Darwin" %}
-    - user: root
-    {% else %}
-    - user: administrator
-    {% endif %}
+    - user: {{ config.root_user }}
     - source: salt://ssh/gw.pub
 
 sshkey-jdm:
   ssh_auth:
     - present
-    {% if grains["kernel"] != "Darwin" %}
-    - user: root
-    {% else %}
-    - user: administrator
-    {% endif %}
+    - user: {{ config.root_user }}
     - source: salt://ssh/jdm.pub
 
 sshkey-larsberg:
   ssh_auth:
     - present
-    {% if grains["kernel"] != "Darwin" %}
-    - user: root
-    {% else %}
-    - user: administrator
-    {% endif %}
+    - user: {{ config.root_user }}
     - source: salt://ssh/larsberg.pub
 
 sshkey-simonsapin:
   ssh_auth:
     - present
-    {% if grains["kernel"] != "Darwin" %}
-    - user: root
-    {% else %}
-    - user: administrator
-    {% endif %}
+    - user: {{ config.root_user }}
     - source: salt://ssh/simonsapin.pub
 
 sshkey-pcwalton:
   ssh_auth:
     - present
-    {% if grains["kernel"] != "Darwin" %}
-    - user: root
-    {% else %}
-    - user: administrator
-    {% endif %}
+    - user: {{ config.root_user }}
     - source: salt://ssh/pcwalton.pub
 
 sshkey-manishearth:
   ssh_auth:
     - present
-    {% if grains["kernel"] != "Darwin" %}
-    - user: root
-    {% else %}
-    - user: administrator
-    {% endif %}
+    - user: {{ config.root_user }}
     - source: salt://ssh/manishearth.pub
 
 sshkey-edunham:
   ssh_auth:
     - present
-    {% if grains["kernel"] != "Darwin" %}
-    - user: root
-    {% else %}
-    - user: administrator
-    {% endif %}
+    - user: {{ config.root_user }}
     - source: salt://ssh/edunham.pub
 
 sshkey-mbrubeck:
   ssh_auth:
     - present
-    {% if grains["kernel"] != "Darwin" %}
-    - user: root
-    {% else %}
-    - user: administrator
-    {% endif %}
+    - user: {{ config.root_user }}
     - source: salt://ssh/mbrubeck.pub
 
 sshkey-mwu:
   ssh_auth:
     - present
-    {% if grains["kernel"] != "Darwin" %}
-    - user: root
-    {% else %}
-    - user: administrator
-    {% endif %}
+    - user: {{ config.root_user }}
     - source: salt://ssh/mwu.pub
 
 sshkey-ms2ger:
   ssh_auth:
     - present
-    {% if grains["kernel"] != "Darwin" %}
-    - user: root
-    {% else %}
-    - user: administrator
-    {% endif %}
+    - user: {{ config.root_user }}
     - source: salt://ssh/Ms2ger.pub
