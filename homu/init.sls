@@ -13,8 +13,6 @@ https://github.com/barosl/homu:
     - user: servo
     - group: servo
     - mode: 644
-    - require_in:
-      - service: homu
     - watch_in:
       - service: homu
 
@@ -30,8 +28,7 @@ install_homu:
     - editable: /home/servo/homu
 
 homu:
-  service:
-    - running
+  service.running:
     - enable: True
     - require:
       - pip: install_homu
@@ -42,7 +39,5 @@ homu:
     - user: root
     - group: root
     - mode: 644
-    - require_in:
-      - service: homu
     - watch_in:
       - service: homu

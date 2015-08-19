@@ -6,10 +6,8 @@
     - mode: 644
 
 xvfb:
-  pkg:
-    - installed
-  service:
-    - running
+  pkg.installed: []
+  service.running:
     - enable: True
     - watch:
       - file: /etc/init/xvfb.conf
