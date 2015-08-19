@@ -1,42 +1,29 @@
-{% if '64' in grains["cpuarch"] %}
+{% if '64' in grains['cpuarch'] %}
 #TODO: need to do these first on new ubuntus.
 #dpkg --add-architecture i386
 #apt-get update
-libc6:i386:
-  pkg:
-    - installed
-
-libstdc++6:i386:
-  pkg:
-    - installed
+android-dependencies-multilib:
+  pkg.installed:
+    - pkgs:
+      - libc6:i386
+      - libstdc++6:i386
 {% endif %}
 
-default-jdk:
-  pkg.installed
+android-dependencies:
+  pkg.installed:
+    - pkgs:
+      - default-jdk
+      - ant
+      - expect
+      - gcc
+      - g++
+      - lib32z1
+      - libstdc++6
+      - libgl1-mesa-dev
 
-ant:
-  pkg.installed
-
-s3cmd:
-  pip.installed
-
-expect:
-  pkg.installed
-
-gcc:
-  pkg.installed
-
-g++:
-  pkg.installed
-
-lib32z1:
-  pkg.installed
-
-libstdc++6:
-  pkg.installed
-
-libgl1-mesa-dev:
-  pkg.installed
+android-python-dependencies:
+  pip.installed:
+    - s3cmd
 
 android-sdk-download:
   file.managed:
@@ -72,7 +59,7 @@ android-sdk-update:
     - watch:
       - cmd: android-sdk-download
     - require:
-      - pkg: default-jdk
+      - pkg: android-dependencies
 
 android-ndk-download:
   file.managed:
@@ -81,20 +68,14 @@ android-ndk-download:
     - source_hash: sha1=87e159831a6759d5fb84545c445e551995185634
     - user: servo
     - group: servo
-
-android-ndk-chmod:
-  cmd.wait:
-    - name: chmod a+x /home/servo/android-ndk-r10c-linux-x86_64.bin
-    - user: servo
-    - watch:
-      - file: android-ndk-download
+    - mode: 777
 
 android-ndk-install:
   cmd.wait:
     - name: /home/servo/android-ndk-r10c-linux-x86_64.bin
     - user: servo
     - watch:
-      - cmd: android-ndk-chmod
+      - file: android-ndk-download
 
 android-ndk-toolset-configuration:
   cmd.wait:
