@@ -41,7 +41,7 @@ buildbot-github-listener:
   service:
     - running
     - enable: True
-    
+
 /usr/local/bin/github_buildbot.py:
   file.managed:
     - source: salt://buildbot/github_buildbot.py

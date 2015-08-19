@@ -52,7 +52,7 @@ buildbot-slave:
     - source: salt://buildbot/net.buildbot.buildslave.plist
     - user: root
     - group: wheel
-    - mode: 644 
+    - mode: 644
 
 launchctl unload /Library/LaunchDaemons/net.buildbot.buildslave.plist:
   cmd.run
