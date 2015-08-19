@@ -4,13 +4,13 @@ base:
     - servo-dependencies
 
   'servo-master':
-    - buildbot-master
+    - buildbot.master
     - homu
     - nginx
 
   'servo-(linux|mac)\d+':
     - match: pcre
-    - buildbot-slave
+    - buildbot.slave
 
   'servo-linux\d+':
     - match: pcre
@@ -18,11 +18,11 @@ base:
 
   'servo-linux-android\d+':
     - match: pcre
-    - buildbot-slave
+    - buildbot.slave
     - android-dependencies
     - gonk-dependencies
 
   'servo-head':
     - match: pcre
-    - buildbot-slave
+    - buildbot.slave
     - android-dependencies
