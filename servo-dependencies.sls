@@ -34,8 +34,6 @@ servo-dependencies:
       - libosmesa6-dev
       - gperf
       {% endif %}
-
-servo-python-dependencies:
   pip.installed:
     - pkgs:
       - virtualenv

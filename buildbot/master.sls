@@ -9,8 +9,7 @@ boto:
   pip.installed
 
 buildbot-master:
-  service:
-    - running
+  service.running:
     - enable: True
 
 /home/servo/buildbot/master:
@@ -55,4 +54,3 @@ buildbot-github-listener:
     - mode: 644
     - watch_in:
       - service: buildbot-github-listener
-

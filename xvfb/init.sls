@@ -9,6 +9,7 @@ xvfb:
   pkg.installed: []
   service.running:
     - enable: True
+    - require:
+      - pkg: xvfb
     - watch:
       - file: /etc/init/xvfb.conf
-

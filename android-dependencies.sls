@@ -1,17 +1,13 @@
-{% if '64' in grains['cpuarch'] %}
-#TODO: need to do these first on new ubuntus.
-#dpkg --add-architecture i386
-#apt-get update
-android-dependencies-multilib:
-  pkg.installed:
-    - pkgs:
-      - libc6:i386
-      - libstdc++6:i386
-{% endif %}
-
 android-dependencies:
   pkg.installed:
     - pkgs:
+      {% if '64' in grains['cpuarch'] %}
+      # TODO: need to do these first on new ubuntus.
+      # dpkg --add-architecture i386
+      # apt-get update
+      - libc6:i386
+      - libstdc++6:i386
+      {% endif %}
       - default-jdk
       - ant
       - expect
@@ -20,8 +16,6 @@ android-dependencies:
       - lib32z1
       - libstdc++6
       - libgl1-mesa-dev
-
-android-python-dependencies:
   pip.installed:
     - s3cmd
 

@@ -1,10 +1,10 @@
-{% from 'common/map.jinja' import config.servo_home as servo_home with context %}
+{% from 'common/map.jinja' import config as common with context %}
 
 buildbot-slave.pip:
   pip.installed:
     - name: buildbot-slave == 0.8.12
 
-{{ servo_home }}/buildbot/slave:
+{{ common.servo_home }}/buildbot/slave:
   file.recurse:
     - source: salt://buildbot/slave
     - template: jinja
