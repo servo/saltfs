@@ -1,3 +1,5 @@
+# NOTE: Ensure all node types are covered in .travis.yml
+
 base:
   '*':
     - common
