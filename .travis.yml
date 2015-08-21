@@ -1,32 +1,38 @@
-language: python
-python:
-- '2.7'
+# Python is not supported on OS X yet
+# But a system python is installed for all workers
+language: cpp
+
+# NOTE: Make sure the matrix covers all node types in top.sls
+matrix:
+  include:
+    - os: linux
+      env: SALT_NODE_ID=servo-master
+    - os: linux
+      env: SALT_NODE_ID=servo-linux1
+    - os: osx
+      env: SALT_NODE_ID=servo-mac1
+    - os: linux
+      env: SALT_NODE_ID=servo-linux-android1
+    - os: linux
+      env: SALT_NODE_ID=servo-head
 
 before_install:
-  - sudo add-apt-repository -y ppa:saltstack/salt
-  - sudo apt-get update
-  - sudo apt-get install salt-master salt-minion
-  - sudo mkdir -p /srv/salt/states
-  - sudo cp .travis/minion /etc/salt/minion
+  - .travis/install_salt
 
 install:
-  # Copy the states
-  - sudo cp -r . /srv/salt/states
   - sudo cp .travis/minion /etc/salt/minion
-  - sudo service salt-minion restart
 
+  - sudo mkdir -p /srv/salt/states
+  - sudo cp -r . /srv/salt/states
 
-  # Additional debug help. May fail if run before Salt finishes restarting.
-  # - sudo cat /var/log/salt/*
-
-  # For additional debugging, see what's in grains on a travis box
-  - sudo salt-call grains.items --local
+  # For debugging, check the grains reported by the Travis builder
+  - sudo salt-call --id="${SALT_NODE_ID}" grains.items
 
 script:
   # Minimally validate YAML and Jinja at a basic level
-  - sudo salt-call state.show_highstate --local --retcode-passthrough
+  - sudo salt-call --id="${SALT_NODE_ID}" --retcode-passthrough state.show_highstate
   # Full on installation test
-  - sudo salt-call state.highstate --local
+  - sudo salt-call --id="${SALT_NODE_ID}" --retcode-passthrough state.highstate
 
 notifications:
   webhooks: http://build.servo.org:54856/travis
