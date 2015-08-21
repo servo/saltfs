@@ -11,10 +11,6 @@ elif [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then
   brew update
   brew install saltstack
 else
-  if [[ -v TRAVIS_OS_NAME ]]; then
-    printf >&2 "$0: unknown os type ${TRAVIS_OS_NAME}\n"
-  else
-    printf >&2 "$0: environment variable TRAVIS_OS_NAME not set\n"
-  fi
+  printf >&2 "$0: environment variable TRAVIS_OS_NAME not set or set to unknown value\n"
   exit 1
 fi
