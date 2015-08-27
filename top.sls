@@ -8,7 +8,7 @@ base:
     - homu
     - nginx
 
-  'servo-(linux|mac)\d+':
+  'servo-(linux|mac|macpro)\d+':
     - match: pcre
     - buildbot-slave
 
