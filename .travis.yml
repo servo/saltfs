@@ -11,10 +11,14 @@ matrix:
       env: SALT_NODE_ID=servo-linux1
     - os: osx
       env: SALT_NODE_ID=servo-mac1
+    - os: osx
+      env: SALT_NODE_ID=servo-macpro1
     - os: linux
       env: SALT_NODE_ID=servo-linux-android1
     - os: linux
       env: SALT_NODE_ID=servo-head
+    - os: linux
+      env: SALT_NODE_ID=linux1
 
 before_install:
   - .travis/install_salt
