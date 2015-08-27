@@ -21,7 +21,8 @@ port = 54856
                        ('servo', 'libfontconfig'), ('servo', 'skia'), ('servo', 'cocoa-rs'),
                        ('servo', 'cgl-rs'), ('servo', 'io-surface-rs'), ('servo', 'rust-cssparser'),
                        ('servo', 'unicode-bidi'), ('servo', 'rust-smallvec'), ('servo', 'core-text-rs'),
-                       ('servo', 'libexpat'), ('servo', 'rust-harfbuzz'), ('servo', 'heapsize')] %}
+                       ('servo', 'libexpat'), ('servo', 'rust-harfbuzz'), ('servo', 'heapsize'),
+                       ('servo', 'rust-url')] %}
 {% set buildbot_repos = [('servo', 'mozjs'), ('servo', 'rust-mozjs')] %}
 {% set reviewers = ["glennw","jdm","kmcallister","larsbergstrom","Manishearth","metajack","mbrubeck","Ms2ger","pcwalton","SimonSapin","mrobinson","brunoabinader","saneyuki","nox","zmike","edunham"] %}
 
@@ -36,8 +37,8 @@ secret = "{{ pillar["homu"]["gh-webhook-secret"] }}"
 [repo.servo.buildbot]
 url = "http://build.servo.org"
 secret = "{{ pillar["homu"]["buildbot-secret"] }}"
-builders = ["linux1", "linux2", "linux3", "android", "mac1", "mac2", "mac3", "gonk"]
-try_builders = ["linux1", "linux2", "linux3", "android", "mac1", "mac2", "mac3", "gonk"]
+builders = ["linux1", "linux2", "android", "mac1", "mac2", "mac3", "gonk"]
+try_builders = ["linux1", "linux2", "android", "mac1", "mac2", "mac3", "gonk"]
 username = "{{ pillar["homu"]["buildbot-http-user"] }}"
 password = "{{ pillar["homu"]["buildbot-http-pass"] }}"
 
