@@ -37,8 +37,8 @@ secret = "{{ pillar["homu"]["gh-webhook-secret"] }}"
 [repo.servo.buildbot]
 url = "http://build.servo.org"
 secret = "{{ pillar["homu"]["buildbot-secret"] }}"
-builders = ["linux-dev", "linux-rel", "android", "mac-dev-ref-unit", "mac-rel-wpt", "mac-rel-css", "gonk"]
-try_builders = ["linux-dev", "linux-rel", "android", "mac-dev-ref-unit", "mac-rel-wpt", "mac-rel-css", "gonk"]
+builders = ["linux-dev-ref-unit", "linux-dev-wpt", "android", "mac-dev-wpt", "mac-dev-ref-unit", "mac-rel-css", "gonk"]
+try_builders = ["linux-dev-ref-unit", "linux-dev-wpt", "android", "mac-dev-wpt", "mac-dev-ref-unit", "mac-rel-css", "gonk"]
 username = "{{ pillar["homu"]["buildbot-http-user"] }}"
 password = "{{ pillar["homu"]["buildbot-http-pass"] }}"
 
