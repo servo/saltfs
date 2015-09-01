@@ -60,5 +60,77 @@ remove-old-build-logs:
   cron.present:
     - name: 'find /home/servo/buildbot/master/*/*.bz2 -mtime +5 -delete'
     - user: root
-    - minute: 1 
+    - minute: 1
     - hour: 0
+
+iptables:
+  service.running:
+    - enable: True
+    - reload: True
+
+# Open TCP ports for nginx, Homu, Buildbot, ssh
+{% for port in '54856','9001','9010','ssh' %}
+iptables-open-port-{{ port }}:
+  iptables.append:
+    - table: filter
+    - chain: INPUT
+    - jump: ACCEPT
+    - dport: ssh
+    - proto: tcp
+    - save: True
+{% endfor %}
+
+# Enable SSH IPv6 connections
+iptables-enable-ipv6:
+  iptables.append:
+    - table: filter
+    - chain: INPUT
+    - jump: ACCEPT
+    - dport: ssh
+    - proto: tcp
+    - save: True
+    - family: ipv6
+
+# Open ports for ntp
+{% for family in 'ipv4','ipv6' %}
+iptables-enable-ntp-{{ family }}:
+  iptables.append:
+    - table: filter
+    - chain: INPUT
+    - jump: ACCEPT
+    - dport: ntp
+    - proto: udp
+    - save: True
+    - family: {{ family }}
+{% endfor %}
+
+# Open the ports Salt needs, but only to the minions.
+# Minion IPs should probably come from Pillar? Spelling out the list here
+# doesn't seem like the right way.
+{% for minion in '208.52.161.130',
+                 '208.52.161.128',
+                 '63.135.170.19',
+                 '52.88.241.130',
+                 '52.11.58.66',
+                 '52.36.147.44',
+                 '52.37.172.87',
+                 '96.126.114.185' %}
+{%  for port in '4504','4506' %}
+iptables-salt-ports-{{minion}}-{{port}}:
+  iptables.append:
+    - table: filter
+    - chain: INPUT
+    - jump: ACCEPT
+    - dport: {{ port }}
+    - source: {{ minion }}
+    - proto: tcp
+    - save: True
+{% endfor %}
+{% endfor %}
+
+# Reject everything else.
+iptables-reject:
+  iptables.append:
+    - table: filter
+    - chain: INPUT
+    - jump: DROP
