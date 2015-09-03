@@ -32,6 +32,9 @@ libssl-dev:
 libbz2-dev:
   pkg.installed
 
+msttcorefonts:
+  pkg.installed
+
 xserver-xorg-input-void:
   pkg.installed
 
