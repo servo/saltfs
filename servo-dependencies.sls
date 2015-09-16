@@ -44,7 +44,7 @@ libssl-dev:
 libbz2-dev:
   pkg.installed
 
-msttcorefonts:
+ttf-mscorefonts-installer:
   pkg.installed
 
 xserver-xorg-input-void:
