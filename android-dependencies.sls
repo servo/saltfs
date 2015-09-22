@@ -17,7 +17,7 @@ android-dependencies:
       - libstdc++6
       - libgl1-mesa-dev
   pip.installed:
-    - s3cmd
+    - name: s3cmd
 
 android-sdk-download:
   file.managed:
