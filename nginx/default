@@ -1,7 +1,7 @@
 server {
   listen 80 default_server;
   server_name build.servo.org;
-  
+
 
   location / {
     proxy_pass http://localhost:8010/;
