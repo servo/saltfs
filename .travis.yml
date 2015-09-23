@@ -13,10 +13,11 @@ matrix:
       env: SALT_NODE_ID=servo-mac1
     - os: osx
       env: SALT_NODE_ID=servo-macpro1
-    - os: linux
-      env: SALT_NODE_ID=servo-linux-android1
-    - os: linux
-      env: SALT_NODE_ID=servo-head
+    # Android is flaky on Travis CI, so skip android-related nodes
+    #- os: linux
+    #  env: SALT_NODE_ID=servo-linux-android1
+    #- os: linux
+    #  env: SALT_NODE_ID=servo-head
     - os: linux
       env: SALT_NODE_ID=linux1
 
