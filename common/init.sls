@@ -24,6 +24,6 @@ host-{{ hostname }}:
 {% for ssh_user in config.ssh_users %}
 sshkey-{{ ssh_user }}:
   ssh_auth.present:
-    - user: {{ config.root_user }}
+    - user: root
     - source: salt://{{ tpldir }}/ssh/{{ ssh_user }}.pub
 {% endfor %}
