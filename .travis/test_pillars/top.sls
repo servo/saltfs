@@ -1,5 +1,6 @@
 base:
   '*':
+    - travis
     - buildbot.common
 
   'servo-master':
