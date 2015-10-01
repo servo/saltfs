@@ -7,9 +7,15 @@ enable multiverse:
   pkgrepo.managed:
     - name: deb http://archive.ubuntu.com/ubuntu trusty multiverse
 
-agree to eula:
-  cmd.run:
-    - name: echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections
+ttf-mscorefonts-installer:
+  debconf.set:
+    - name: ttf-mscorefonts-installer
+    - data: { 'msttcorefonts/accepted-mscorefonts-eula': { 'type': 'boolean', 'value': True } }
+  pkg.installed:
+    - pkgs:
+      - ttf-mscorefonts-installer
+    - requires:
+      - debconf: ttf-mscorefonts-installer
 {% endif %}
 
 servo-dependencies:
@@ -28,7 +34,6 @@ servo-dependencies:
       - xorg-dev
       - libssl-dev
       - libbz2-dev
-      - ttf-mscorefonts-installer
       - xserver-xorg-input-void
       - xserver-xorg-video-dummy
       - xpra
