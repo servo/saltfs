@@ -19,6 +19,7 @@ servo-dependencies:
       - git
       {% if grains['kernel'] == 'Darwin' %}
       - pkg-config
+      - homebrew/versions/autoconf213
       {% else %}
       - libglib2.0-dev
       - libgl1-mesa-dri
@@ -33,6 +34,7 @@ servo-dependencies:
       - xpra
       - libosmesa6-dev
       - gperf
+      - autoconf2.13
       {% endif %}
   pip.installed:
     - pkgs:
