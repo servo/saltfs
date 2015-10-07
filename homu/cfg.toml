@@ -24,8 +24,9 @@ port = 54856
                        ('servo', 'libexpat'), ('servo', 'rust-harfbuzz'), ('servo', 'heapsize'),
                        ('servo', 'rust-url'), ('servo', 'rust-freetype'), ('servo', 'fontsan'),
                        ('servo', 'rust-fontconfig'), ('servo', 'core-graphics-rs'),
-                       ('servo', 'unicode-script')] %}
-{% set buildbot_repos = [('servo', 'mozjs'), ('servo', 'rust-mozjs')] %}
+                       ('servo', 'unicode-script'),
+                       ('servo', 'mozjs')] %}
+{% set buildbot_repos = [('servo', 'rust-mozjs')] %}
 {% set reviewers = ["glennw","jdm","kmcallister","larsbergstrom","Manishearth","metajack","mbrubeck","Ms2ger","pcwalton","SimonSapin","mrobinson","brunoabinader","saneyuki","nox","zmike","edunham","frewsxcv"] %}
 
 [repo.servo]
