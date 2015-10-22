@@ -1,6 +1,7 @@
 buildbot:
   pip.installed:
     - name: buildbot == 0.8.12
+    - name: service_identity == 14.0.0
 
 txgithub:
   pip.installed
