@@ -28,7 +28,7 @@ port = 54856
                        ('servo', 'mozjs'),
                        ('servo', 'rust-mozjs'),
                        ('servo', 'app_units')] %}
-{% set reviewers = ["glennw","jdm","kmcallister","larsbergstrom","Manishearth","metajack","mbrubeck","Ms2ger","pcwalton","SimonSapin","mrobinson","brunoabinader","saneyuki","nox","zmike","edunham","frewsxcv","michaelwu"] %}
+{% set reviewers = ["glennw","jdm","kmcallister","larsbergstrom","Manishearth","metajack","mbrubeck","Ms2ger","pcwalton","SimonSapin","mrobinson","brunoabinader","saneyuki","nox","zmike","edunham","frewsxcv","michaelwu","eefriedman"] %}
 
 [repo.servo]
 owner = "servo"
