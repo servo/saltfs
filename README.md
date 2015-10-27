@@ -1,4 +1,4 @@
-# Servo's SaltStack Configuration
+# Servo's Salt Stack Configuration
 
 [![Build Status](https://travis-ci.org/servo/saltfs.svg)](https://travis-ci.org/servo/saltfs)
 
