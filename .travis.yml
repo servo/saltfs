@@ -5,7 +5,7 @@ python:
 before_install:
   - sudo add-apt-repository -y ppa:saltstack/salt
   - sudo apt-get update
-  - sudo apt-get install salt-master salt-minion
+  - sudo apt-get install salt-common python-zmq dmidecode salt-master salt-minion
   - sudo mkdir -p /srv/salt/states
   - sudo cp .travis/minion /etc/salt/minion
 
@@ -14,7 +14,6 @@ install:
   - sudo cp -r . /srv/salt/states
   - sudo cp .travis/minion /etc/salt/minion
   - sudo service salt-minion restart
-
 
   # Additional debug help. May fail if run before Salt finishes restarting.
   # - sudo cat /var/log/salt/*
