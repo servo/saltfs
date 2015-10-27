@@ -1,6 +1,6 @@
-https://github.com/barosl/homu:
+https://github.com/Manishearth/homu:
   git.latest:
-    - rev: e9e71588b58402186eb01e8bf5b509eebecdf791
+    - rev: f08f1a3acf69d83a96f80d64837adfeb0a6a16c9
     - target: /home/servo/homu
     - user: servo
     - require_in:
