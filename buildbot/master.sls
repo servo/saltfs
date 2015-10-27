@@ -1,7 +1,8 @@
 buildbot:
   pip.installed:
-    - name: buildbot == 0.8.12
-    - name: service_identity == 14.0.0
+    - pkgs:
+      - buildbot == 0.8.12
+      - service_identity == 14.0.0
 
 txgithub:
   pip.installed
@@ -12,6 +13,8 @@ boto:
 buildbot-master:
   service.running:
     - enable: True
+    - require:
+      - pip: buildbot
 
 /home/servo/buildbot/master:
   file.recurse:
