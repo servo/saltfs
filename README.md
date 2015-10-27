@@ -1,4 +1,4 @@
-# Servo's SaltStack Configuration
+# Servo's Salt Stack Configuration
 
 [![Build Status](https://travis-ci.org/servo/saltfs.svg)](https://travis-ci.org/servo/saltfs)
 
@@ -18,5 +18,5 @@ into trouble, file [an issue](https://github.com/servo/saltfs/issues/new)!
 
 ## Travis
 
-TravisCI is set up to test these configurations as described
+Travis CI is set up to test these configurations as described
 [here](https://lambdaops.com/automation/travis/travis%20ci/configuration%20management/continuous%20integration/salt/chef/saltstack/salt%20stack/2014/01/29/travis-for-salt-states/).
