@@ -30,10 +30,13 @@ port = 54856
                        ('servo', 'app_units')] %}
 {% set reviewers = ["glennw","jdm","kmcallister","larsbergstrom","Manishearth","metajack","mbrubeck","Ms2ger","pcwalton","SimonSapin","mrobinson","brunoabinader","saneyuki","nox","zmike","edunham","frewsxcv","michaelwu","eefriedman"] %}
 
+{% set try = ["asajeffrey", "tschneidereit", "vvuk", "bholley", "Yoric"] %}
+
 [repo.servo]
 owner = "servo"
 name = "servo"
 reviewers = {{ reviewers }}
+try = {{ try }}
 
 [repo.servo.github]
 secret = "{{ pillar["homu"]["gh-webhook-secret"] }}"
@@ -54,6 +57,7 @@ password = "{{ pillar["homu"]["buildbot-http-pass"] }}"
 owner = "{{ repo[0] }}"
 name = "{{ repo[1] }}"
 reviewers = {{ reviewers }}
+try = {{ try }}
 
 [repo.{{ repo[1] }}.github]
 secret = "{{ pillar["homu"]["gh-webhook-secret"] }}"
