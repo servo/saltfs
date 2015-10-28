@@ -1,3 +1,6 @@
+# Android is flaky on Travis
+{% if not salt['pillar.get']('travis', False) %}
+
 android-dependencies:
   pkg.installed:
     - pkgs:
@@ -17,7 +20,7 @@ android-dependencies:
       - libstdc++6
       - libgl1-mesa-dev
   pip.installed:
-    - s3cmd
+    - name: s3cmd
 
 android-sdk-download:
   file.managed:
@@ -66,7 +69,8 @@ android-ndk-download:
 
 android-ndk-install:
   cmd.wait:
-    - name: /home/servo/android-ndk-r10c-linux-x86_64.bin
+      # Need to filter log output to avoid hitting log limits on Travis CI
+    - name: /home/servo/android-ndk-r10c-linux-x86_64.bin | grep -v Extracting
     - user: servo
     - watch:
       - file: android-ndk-download
@@ -84,3 +88,5 @@ android-ndk-toolset-configuration:
     - user: servo
     - group: servo
     - mode: 0644
+
+{% endif %}

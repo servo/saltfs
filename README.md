@@ -13,10 +13,9 @@ started.
 
 There are guides for some tasks available on [the
 wiki](https://github.com/servo/saltfs/wiki). If you see a way that these
-configurations could be improved, or try to set up your own intsance and run
+configurations could be improved, or try to set up your own instance and run
 into trouble, file [an issue](https://github.com/servo/saltfs/issues/new)!
 
 ## Travis
 
-TravisCI is set up to test these configurations as described
-[here](https://lambdaops.com/automation/travis/travis%20ci/configuration%20management/continuous%20integration/salt/chef/saltstack/salt%20stack/2014/01/29/travis-for-salt-states/).
+TravisCI is set up to test all configurations.

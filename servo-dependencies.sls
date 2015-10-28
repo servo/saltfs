@@ -18,6 +18,19 @@ ttf-mscorefonts-installer:
       - debconf: ttf-mscorefonts-installer
 {% endif %}
 
+{% if grains['kernel'] == 'Darwin' %}
+# Workaround for https://github.com/saltstack/salt/issues/26414
+servo-darwin-homebrew-versions-dependencies:
+  module.run:
+    - name: pkg.install
+    - pkgs:
+      - autoconf213
+    - taps:
+      - homebrew/versions
+    - require_in:
+      - pkg: servo-dependencies
+{% endif %}
+
 servo-dependencies:
   pkg.installed:
     - pkgs:
@@ -25,7 +38,6 @@ servo-dependencies:
       - git
       {% if grains['kernel'] == 'Darwin' %}
       - pkg-config
-      - homebrew/versions/autoconf213
       {% else %}
       - libglib2.0-dev
       - libgl1-mesa-dri

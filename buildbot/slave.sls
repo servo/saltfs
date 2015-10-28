@@ -2,7 +2,8 @@
 
 buildbot-slave.pip:
   pip.installed:
-    - name: buildbot-slave == 0.8.12
+    - pkgs:
+      - buildbot-slave == 0.8.12
 
 {{ common.servo_home }}/buildbot/slave:
   file.recurse:
