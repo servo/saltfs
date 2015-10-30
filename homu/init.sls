@@ -18,6 +18,7 @@ https://github.com/barosl/homu:
 
 /home/servo/homu/_venv:
   virtualenv.managed:
+    - venv_bin: virtualenv-3.4
     - system_site_packages: False
     - require_in:
       - pip: install_homu
