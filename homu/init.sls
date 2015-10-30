@@ -1,6 +1,6 @@
 https://github.com/barosl/homu:
   git.latest:
-    - rev: e9e71588b58402186eb01e8bf5b509eebecdf791
+    - rev: 7ff87321e4e60b4059c5c79637b8e1d3386920e8
     - target: /home/servo/homu
     - user: servo
     - require_in:
@@ -18,6 +18,7 @@ https://github.com/barosl/homu:
 
 /home/servo/homu/_venv:
   virtualenv.managed:
+    - venv_bin: virtualenv-3.4
     - system_site_packages: False
     - require_in:
       - pip: install_homu
