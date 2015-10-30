@@ -57,7 +57,7 @@ password = "{{ pillar["homu"]["buildbot-http-pass"] }}"
 owner = "{{ repo[0] }}"
 name = "{{ repo[1] }}"
 reviewers = {{ reviewers }}
-try = {{ try }}
+try_users = {{ try }}
 
 [repo.{{ repo[1] }}.github]
 secret = "{{ pillar["homu"]["gh-webhook-secret"] }}"
