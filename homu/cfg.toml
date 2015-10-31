@@ -13,24 +13,73 @@ app_client_secret = "{{ pillar["homu"]["app-client-secret"] }}"
 [web]
 port = 54856
 
-{% set travis_repos = [('servo', 'html5ever'), ('servo', 'euclid'), ('servo', 'rust-layers'),
-                       ('servo', 'saltfs'), ('servo', 'gleam'), ('servo', 'string-cache'),
-                       ('servo', 'rust-selectors'), ('servo', 'rust-azure'), ('servo', 'tendril'),
-                       ('servo', 'futf'), ('servo', 'glutin'), ('servo', 'rust-png'),
-                       ('servo', 'rust-stb-image'), ('servo', 'libfreetype2'),
-                       ('servo', 'libfontconfig'), ('servo', 'skia'), ('servo', 'cocoa-rs'),
-                       ('servo', 'cgl-rs'), ('servo', 'io-surface-rs'), ('servo', 'rust-cssparser'),
-                       ('servo', 'unicode-bidi'), ('servo', 'rust-smallvec'), ('servo', 'core-text-rs'),
-                       ('servo', 'libexpat'), ('servo', 'rust-harfbuzz'), ('servo', 'heapsize'),
-                       ('servo', 'rust-url'), ('servo', 'rust-freetype'), ('servo', 'fontsan'),
-                       ('servo', 'rust-fontconfig'), ('servo', 'core-graphics-rs'),
-                       ('servo', 'unicode-script'),
-                       ('servo', 'mozjs'),
-                       ('servo', 'rust-mozjs'),
-                       ('servo', 'app_units')] %}
-{% set reviewers = ["glennw","jdm","kmcallister","larsbergstrom","Manishearth","metajack","mbrubeck","Ms2ger","pcwalton","SimonSapin","mrobinson","brunoabinader","saneyuki","nox","zmike","edunham","frewsxcv","michaelwu","eefriedman"] %}
+{% set travis_repos = [
+    ('servo', 'app_units'),
+    ('servo', 'cgl-rs'),
+    ('servo', 'cocoa-rs'),
+    ('servo', 'core-graphics-rs'),
+    ('servo', 'core-text-rs'),
+    ('servo', 'euclid'),
+    ('servo', 'fontsan'),
+    ('servo', 'futf'),
+    ('servo', 'gleam'),
+    ('servo', 'glutin'),
+    ('servo', 'heapsize'),
+    ('servo', 'html5ever'),
+    ('servo', 'io-surface-rs'),
+    ('servo', 'libexpat'),
+    ('servo', 'libfontconfig'),
+    ('servo', 'libfreetype2'),
+    ('servo', 'mozjs'),
+    ('servo', 'rust-azure'),
+    ('servo', 'rust-cssparser'),
+    ('servo', 'rust-fontconfig'),
+    ('servo', 'rust-freetype'),
+    ('servo', 'rust-harfbuzz'),
+    ('servo', 'rust-layers'),
+    ('servo', 'rust-mozjs'),
+    ('servo', 'rust-png'),
+    ('servo', 'rust-selectors'),
+    ('servo', 'rust-smallvec'),
+    ('servo', 'rust-stb-image'),
+    ('servo', 'rust-url'),
+    ('servo', 'saltfs'),
+    ('servo', 'skia'),
+    ('servo', 'string-cache'),
+    ('servo', 'tendril'),
+    ('servo', 'unicode-bidi'),
+    ('servo', 'unicode-script'),
+] %}
 
-{% set try = ["asajeffrey", "tschneidereit", "vvuk", "bholley", "Yoric"] %}
+{% set reviewers = [
+    "brunoabinader",
+    "edunham",
+    "eefriedman",
+    "frewsxcv",
+    "glennw",
+    "jdm",
+    "kmcallister",
+    "larsbergstrom",
+    "Manishearth",
+    "mbrubeck",
+    "metajack",
+    "michaelwu",
+    "mrobinson",
+    "Ms2ger",
+    "nox",
+    "pcwalton",
+    "saneyuki",
+    "SimonSapin",
+    "zmike",
+] %}
+
+{% set try = [
+    "asajeffrey",
+    "bholley",
+    "tschneidereit",
+    "vvuk",
+    "Yoric",
+] %}
 
 [repo.servo]
 owner = "servo"
