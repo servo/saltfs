@@ -1,10 +1,15 @@
+{% if '64' in grains['cpuarch'] %}
+enable-i386-architecture:
+  cmd.run:
+    - name: 'dpkg --add-architecture i386'
+    - require_in:
+      - pkg: android-dependencies
+{% endif %}
+
 android-dependencies:
   pkg.installed:
     - pkgs:
       {% if '64' in grains['cpuarch'] %}
-      # TODO: need to do these first on new ubuntus.
-      # dpkg --add-architecture i386
-      # apt-get update
       - libc6:i386
       - libstdc++6:i386
       {% endif %}
@@ -16,6 +21,7 @@ android-dependencies:
       - lib32z1
       - libstdc++6
       - libgl1-mesa-dev
+    - refresh: True
   pip.installed:
     - name: s3cmd
 
