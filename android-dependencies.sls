@@ -1,6 +1,3 @@
-# Android is flaky on Travis
-{% if not salt['pillar.get']('travis', False) %}
-
 android-dependencies:
   pkg.installed:
     - pkgs:
@@ -88,5 +85,3 @@ android-ndk-toolset-configuration:
     - user: servo
     - group: servo
     - mode: 0644
-
-{% endif %}
