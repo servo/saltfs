@@ -3,22 +3,33 @@
 language: cpp
 
 # NOTE: Make sure the matrix covers all node types in top.sls
+# sudo: required and dist: trusty enable usage of Trusty
 matrix:
   include:
-    - os: linux
-      env: SALT_NODE_ID=servo-master
-    - os: linux
-      env: SALT_NODE_ID=servo-linux1
-    - os: osx
-      env: SALT_NODE_ID=servo-mac1
-    - os: osx
-      env: SALT_NODE_ID=servo-macpro1
-    - os: linux
-      env: SALT_NODE_ID=linux1
-    - os: linux
-      env: SALT_NODE_ID=servo-linux-android1
-    - os: linux
-      env: SALT_NODE_ID=servo-head
+    - env: SALT_NODE_ID=servo-master
+      os: linux
+      sudo: required
+      dist: trusty
+    - env: SALT_NODE_ID=servo-linux1
+      os: linux
+      sudo: required
+      dist: trusty
+    - env: SALT_NODE_ID=servo-mac1
+      os: osx
+    - env: SALT_NODE_ID=servo-macpro1
+      os: osx
+    - env: SALT_NODE_ID=linux1
+      os: linux
+      sudo: required
+      dist: trusty
+    - env: SALT_NODE_ID=servo-linux-android1
+      os: linux
+      sudo: required
+      dist: trusty
+    - env: SALT_NODE_ID=servo-head
+      os: linux
+      sudo: required
+      dist: trusty
 
 before_install:
   - .travis/install_salt
