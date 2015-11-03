@@ -1,10 +1,30 @@
-https://github.com/barosl/homu:
+homu:
   git.latest:
+    - name: https://github.com/barosl/homu
     - rev: 7ff87321e4e60b4059c5c79637b8e1d3386920e8
     - target: /home/servo/homu
     - user: servo
-    - require_in:
-      - pip: install_homu
+  virtualenv.managed:
+    - name: /home/servo/homu/_venv
+    - venv_bin: virtualenv-3.4
+    - python: python3
+    - system_site_packages: False
+    - require:
+      - pkg: python3
+      - pip: virtualenv
+  pip.installed:
+    - bin_env: /home/servo/homu/_venv
+    - editable: /home/servo/homu
+    - require:
+      - git: homu
+      - virtualenv: /home/servo/homu/_venv
+  service.running:
+    - enable: True
+    - require:
+      - pip: homu
+    - watch:
+      - file: /home/servo/homu/cfg.toml
+      - file: /etc/init/homu.conf
 
 /home/servo/homu/cfg.toml:
   file.managed:
@@ -13,26 +33,6 @@ https://github.com/barosl/homu:
     - user: servo
     - group: servo
     - mode: 644
-    - watch_in:
-      - service: homu
-
-/home/servo/homu/_venv:
-  virtualenv.managed:
-    - venv_bin: virtualenv-3.4
-    - system_site_packages: False
-    - require_in:
-      - pip: install_homu
-
-install_homu:
-  pip.installed:
-    - bin_env: /home/servo/homu/_venv
-    - editable: /home/servo/homu
-
-homu:
-  service.running:
-    - enable: True
-    - require:
-      - pip: install_homu
 
 /etc/init/homu.conf:
   file.managed:
@@ -40,5 +40,3 @@ homu:
     - user: root
     - group: root
     - mode: 644
-    - watch_in:
-      - service: homu
