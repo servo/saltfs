@@ -32,24 +32,19 @@ matrix:
       dist: trusty
 
 before_install:
-  - .travis/install_salt
+  - .travis/install_salt "${TRAVIS_OS_NAME}"
 
 install:
-  - sudo mkdir -p /etc/salt
-  - sudo cp .travis/minion /etc/salt/minion
-
-  - sudo mkdir -p /srv/salt/states
-  - sudo cp -r . /srv/salt/states
+  - .travis/configure_salt
 
   # For debugging, check the grains reported by the Travis builder
   - sudo salt-call --id="${SALT_NODE_ID}" grains.items
 
 script:
-  # Use test pillars on Travis
   # Minimally validate YAML and Jinja at a basic level
-  - sudo salt-call --id="${SALT_NODE_ID}" --retcode-passthrough --pillar-root=.travis/test_pillars state.show_highstate
+  - sudo salt-call --id="${SALT_NODE_ID}" --retcode-passthrough state.show_highstate
   # Full on installation test
-  - sudo salt-call --id="${SALT_NODE_ID}" --retcode-passthrough --pillar-root=.travis/test_pillars state.highstate
+  - sudo salt-call --id="${SALT_NODE_ID}" --retcode-passthrough state.highstate
 
 notifications:
   webhooks: http://build.servo.org:54856/travis
