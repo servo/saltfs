@@ -55,5 +55,7 @@ servo-dependencies:
       {% endif %}
   pip.installed:
     - pkgs:
-      - virtualenv
       - ghp-import
+    - require:
+      - pkg: pip
+      - pip: virtualenv
