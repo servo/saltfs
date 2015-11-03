@@ -1,0 +1,12 @@
+#/usr/bin/env bash
+
+set -e
+set -u
+set -o pipefail
+
+sudo mkdir -p /etc/salt
+sudo cp .travis/minion /etc/salt/minion
+
+sudo mkdir -p /srv/salt
+sudo cp -r . /srv/salt/states
+sudo cp -r .travis/test_pillars /srv/salt/pillars
