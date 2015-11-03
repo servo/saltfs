@@ -28,8 +28,10 @@ servo-dependencies:
       {% endif %}
   pip.installed:
     - pkgs:
-      - virtualenv
       - ghp-import
+    - require:
+      - pkg: pip
+      - pip: virtualenv
 
 {% if grains['kernel'] == 'Darwin' %}
 # Workaround for https://github.com/saltstack/salt/issues/26414

@@ -1,11 +1,38 @@
 {% from tpldir ~ '/map.jinja' import config with context %}
 
 {% if grains['kernel'] != 'Darwin' %}
-python-pkgs:
+# Ubuntu has python2 as default python
+python2:
+  pkg.installed:
+    - pkgs:
+      - python
+      - python-dev
+
+python3:
+  pkg.installed:
+    - pkgs:
+      - python3
+
+# Ensure pip is default by purging pip3
+pip:
   pkg.installed:
     - pkgs:
       - python-pip
-      - python-dev
+    - reload_modules: True
+
+pip3:
+  pkg.purged:
+    - pkgs:
+      - python3-pip
+
+# Virtualenv package creates virtualenv and virtualenv-3.4 executables
+virtualenv:
+  pip.installed:
+    - pkgs:
+      - virtualenv
+    - require:
+      - pkg: pip
+      - pkg: pip3
 {% endif %}
 
 servo:
