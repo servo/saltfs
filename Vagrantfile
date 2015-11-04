@@ -9,6 +9,10 @@ end
 
 Vagrant.configure(2) do |config|
 
+  if Vagrant.has_plugin?('vagrant-cachier')
+    config.cache.scope = :machine
+  end
+
   YAML.load_file('.travis.yml')['matrix']['include'].map do |node|
     node_config = case node['os']
     when 'linux'
