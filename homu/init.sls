@@ -1,3 +1,8 @@
+python3:
+  pkg.installed:
+    - pkgs:
+      - python3
+
 homu:
   git.latest:
     - name: https://github.com/barosl/homu
