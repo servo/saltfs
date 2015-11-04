@@ -9,7 +9,16 @@ end
 
 Vagrant.configure(2) do |config|
 
-  YAML.load_file('.travis.yml')['matrix']['include'].map do |node|
+  if Vagrant.has_plugin?('vagrant-cachier')
+    config.cache.scope = :machine
+  end
+
+  dir = File.dirname(__FILE__)
+  minion_config = YAML.load_file(File.join(dir, '.travis/minion'))
+  state_root = minion_config['file_roots']['base'][0]
+  pillar_root = minion_config['pillar_roots']['base'][0]
+
+  YAML.load_file(File.join(dir,'.travis.yml'))['matrix']['include'].map do |node|
     node_config = case node['os']
     when 'linux'
       case node['dist']
@@ -27,8 +36,8 @@ Vagrant.configure(2) do |config|
   end.compact.each do |node|
     config.vm.define node[:id] do |machine|
       machine.vm.box = node[:box]
-      machine.vm.synced_folder ".",  "/srv/salt/states"
-      machine.vm.synced_folder ".travis/test_pillars", "/srv/salt/pillars"
+      machine.vm.synced_folder dir, state_root
+      machine.vm.synced_folder File.join(dir, ".travis/test_pillars"), pillar_root
       machine.vm.provision :salt do |salt|
         salt.bootstrap_script = '.travis/install_salt'
         salt.install_command = node[:os] # Pass OS type to install_salt script
