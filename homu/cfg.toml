@@ -17,6 +17,7 @@ port = 54856
     ('servo', 'app_units'),
     ('servo', 'cgl-rs'),
     ('servo', 'cocoa-rs'),
+    ('servo', 'core-foundation-rs'),
     ('servo', 'core-graphics-rs'),
     ('servo', 'core-text-rs'),
     ('servo', 'euclid'),
