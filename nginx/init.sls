@@ -2,7 +2,7 @@ nginx:
   pkg.installed: []
   service.running:
     - enable: True
-    - require:
+    - watch:
       - pkg: nginx
 
 /etc/nginx/sites-available/default:

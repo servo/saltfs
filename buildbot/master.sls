@@ -9,9 +9,8 @@ buildbot-master:
       - pkg: pip
   service.running:
     - enable: True
-    - require:
-      - pip: buildbot-master
     - watch:
+      - pip: buildbot-master
       - file: /home/servo/buildbot/master
       - file: /etc/init/buildbot-master.conf
 
