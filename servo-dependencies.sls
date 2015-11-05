@@ -52,6 +52,7 @@ servo-dependencies:
       - libosmesa6-dev
       - gperf
       - autoconf2.13
+      - ccache
       {% endif %}
   pip.installed:
     - pkgs:
