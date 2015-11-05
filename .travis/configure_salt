@@ -1,12 +1,15 @@
-#/usr/bin/env bash
+#!/usr/bin/env sh
 
-set -e
-set -u
-set -o pipefail
+configure_salt () {
+    set -o errexit
+    set -o nounset
 
-sudo mkdir -p /etc/salt
-sudo cp .travis/minion /etc/salt/minion
+    sudo mkdir -p /etc/salt
+    sudo cp .travis/minion /etc/salt/minion
 
-sudo mkdir -p /srv/salt
-sudo cp -r . /srv/salt/states
-sudo cp -r .travis/test_pillars /srv/salt/pillars
+    sudo mkdir -p /srv/salt
+    sudo cp -r . /srv/salt/states
+    sudo cp -r .travis/test_pillars /srv/salt/pillars
+}
+
+configure_salt "$@"
