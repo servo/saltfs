@@ -8,7 +8,7 @@ check for compliance with this guide.
 
 ### Use pkgs instead of name
 
-pkg.installed, pip.installed, and any other states which install packages
+`pkg.installed`, `pip.installed`, and any other states which install packages
 should use the ```pkgs``` option instead of the ```name``` option to specify
 which package(s) to install, even if there is only one package. This prevents
 problems when adding another package, as in #132 (fixed in #97). Adding another
