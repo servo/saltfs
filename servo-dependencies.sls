@@ -24,6 +24,7 @@ servo-darwin-homebrew-versions-dependencies:
   module.run:
     - name: pkg.install
     - pkgs:
+      - automake
       - autoconf213
     - taps:
       - homebrew/versions
