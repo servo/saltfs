@@ -37,6 +37,7 @@ port = 54856
     ('servo', 'rust-cssparser'),
     ('servo', 'rust-fontconfig'),
     ('servo', 'rust-freetype'),
+    ('servo', 'rust-glx'),
     ('servo', 'rust-harfbuzz'),
     ('servo', 'rust-layers'),
     ('servo', 'rust-mozjs'),
