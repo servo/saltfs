@@ -14,14 +14,14 @@ install_salt () {
     if [ "${OS_NAME}" = "linux" ]; then
         printf "$0: installing salt for Linux\n"
         # Use Trusty (Ubuntu 14.04) on Travis
-        curl https://repo.saltstack.com/apt/ubuntu/14.04/amd64/archive/2015.5.8/SALTSTACK-GPG-KEY.pub | sudo apt-key add -
-        printf 'deb http://repo.saltstack.com/apt/ubuntu/14.04/amd64/archive/2015.5.8 trusty main\n' | sudo tee -a /etc/apt/sources.list >/dev/null
+        curl https://repo.saltstack.com/apt/ubuntu/14.04/amd64/archive/2015.8.1/SALTSTACK-GPG-KEY.pub | sudo apt-key add -
+        printf 'deb http://repo.saltstack.com/apt/ubuntu/14.04/amd64/archive/2015.8.1 trusty main\n' | sudo tee -a /etc/apt/sources.list >/dev/null
         sudo apt-get -y update
-        sudo apt-get -y install salt-minion=2015.5.8+ds-1
+        sudo apt-get -y install salt-minion=2015.8.1+ds-1
     elif [ "${OS_NAME}" = "osx" ]; then
         printf "$0: installing salt for Mac OS X\n"
         brew update
-        brew install https://raw.githubusercontent.com/Homebrew/homebrew/86efec6695b019762505be440798c46d50ebd738/Library/Formula/saltstack.rb
+        brew install https://raw.githubusercontent.com/Homebrew/homebrew/74bc5ef500fe2242258b672a5e96c5429fc4792f/Library/Formula/saltstack.rb
     else
         printf >&2 "$0: unknown operating system ${OS_NAME}\n"
         exit 1
