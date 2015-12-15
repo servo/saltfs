@@ -36,6 +36,10 @@ Vagrant.configure(2) do |config|
   end.compact.each do |node|
     config.vm.define node[:id] do |machine|
       machine.vm.box = node[:box]
+      machine.vm.provider :virtualbox do |vbox|
+         # Need extra memory for downloading large files (e.g. Android SDK)
+         vbox.memory = 1024
+      end
       machine.vm.synced_folder dir, state_root
       machine.vm.synced_folder File.join(dir, ".travis/test_pillars"), pillar_root
       machine.vm.provision :salt do |salt|
