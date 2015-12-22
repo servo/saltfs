@@ -1,15 +1,9 @@
 #!/usr/bin/env sh
 
+set -o errexit
+set -o nounset
+
 install_salt () {
-    set -o errexit
-    set -o nounset
-
-    if [ "$#" -lt 1 ]; then
-        printf >&2 "usage: $0 os_name\n"
-        exit 1
-    fi
-    OS_NAME="$1"
-
     # Ensure that pinned versions match as closely as possible
     if [ "${OS_NAME}" = "linux" ]; then
         printf "$0: installing salt for Linux\n"
@@ -28,4 +22,46 @@ install_salt () {
     fi
 }
 
-install_salt "$@"
+configure_salt () {
+    printf "$0: copying Salt minion configuration from ${TEMPORARY_CONFIG_DIR}\n"
+    sudo mkdir -p /etc/salt
+    sudo cp "${FORCE_FLAG}" -- "${TEMPORARY_CONFIG_DIR}/minion" /etc/salt/minion
+}
+
+OPTIONS=$(getopt --options 'c:F' --name "$0" --shell sh -- "$@")
+
+eval set -- "${OPTIONS}"
+
+TEMPORARY_CONFIG_DIR=""
+FORCE_FLAG=""
+OS_NAME=""
+
+while true; do
+    case "$1" in
+        -c)
+            shift
+            TEMPORARY_CONFIG_DIR="$1"
+            shift
+            ;;
+        -F)
+            FORCE_FLAG="-f"
+            shift
+            ;;
+        --)
+            shift
+            break
+            ;;
+    esac
+done
+
+if [ "$#" -lt 1 ]; then
+    printf >&2 "usage: $0 [-c <config_dir> [-F]] [--] os_name\n"
+    exit 1
+fi
+
+OS_NAME="$1"
+install_salt
+
+if [ -n "${TEMPORARY_CONFIG_DIR}" ]; then
+    configure_salt
+fi

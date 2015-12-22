@@ -44,7 +44,7 @@ Vagrant.configure(2) do |config|
       machine.vm.synced_folder File.join(dir, ".travis/test_pillars"), pillar_root
       machine.vm.provision :salt do |salt|
         salt.bootstrap_script = '.travis/install_salt'
-        salt.install_command = node[:os] # Pass OS type to install_salt script
+        salt.install_args = node[:os] # Pass OS type to install_salt script
         salt.masterless = true
         salt.minion_config = '.travis/minion'
         # hack to provide additional options to salt-call
