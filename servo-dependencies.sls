@@ -43,6 +43,7 @@ servo-dependencies:
       {% else %}
       - libglib2.0-dev
       - libgl1-mesa-dri
+      - libgles2-mesa-dev
       - freeglut3-dev
       - libfreetype6-dev
       - xorg-dev
