@@ -28,7 +28,7 @@ configure_salt () {
     sudo cp "${FORCE_FLAG}" -- "${TEMPORARY_CONFIG_DIR}/minion" /etc/salt/minion
 }
 
-OPTIONS=$(getopt --options 'c:F' --name "$0" --shell sh -- "$@")
+OPTIONS=$(getopt 'c:F' "$@")
 
 eval set -- "${OPTIONS}"
 
