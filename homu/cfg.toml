@@ -56,12 +56,14 @@ port = 54856
 
 {% set reviewers = [
     "brunoabinader",
+    "ecoal95",
     "edunham",
     "eefriedman",
     "frewsxcv",
     "glennw",
     "jdm",
     "jgraham",
+    "KiChjang",
     "kmcallister",
     "larsbergstrom",
     "Manishearth",
@@ -74,6 +76,7 @@ port = 54856
     "pcwalton",
     "saneyuki",
     "SimonSapin",
+    "Wafflespeanut",
     "zmike",
 ] %}
 
@@ -81,13 +84,10 @@ port = 54856
     "asajeffrey",
     "bholley",
     "dzbarsky",
-    "ecoal95",
     "gsnedders",
-    "KiChjang",
     "notriddle",
     "tschneidereit",
     "vvuk",
-    "Wafflespeanut",
     "Yoric",
 ] %}
 
