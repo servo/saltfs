@@ -16,3 +16,10 @@ your own instance and run into trouble, file [an issue](https://github.com/servo
 ## Travis
 
 TravisCI is set up to test all configurations.
+
+## License
+
+This repository is distributed under the terms of both the MIT license
+and the Apache License (Version 2.0).
+
+See [LICENSE-APACHE](LICENSE-APACHE) and [LICENSE-MIT](LICENSE-MIT) for details.
