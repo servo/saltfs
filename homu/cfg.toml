@@ -27,6 +27,7 @@ port = 54856
     ('servo', 'glutin'),
     ('servo', 'heapsize'),
     ('servo', 'html5ever'),
+    ('servo', 'homu'),
     ('servo', 'io-surface-rs'),
     ('servo', 'ipc-channel'),
     ('servo', 'libexpat'),
