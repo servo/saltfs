@@ -58,3 +58,9 @@ buildbot-github-listener:
     - mode: 644
     - watch_in:
       - service: buildbot-github-listener
+
+find /home/servo/buildbot/master/*/*.bz2 -mtime +5 -exec rm {} ;:
+  cron.present:
+    - user: root
+    - minute: 1 
+    - hour: 0
