@@ -59,7 +59,7 @@ buildbot-github-listener:
     - watch_in:
       - service: buildbot-github-listener
 
-find /home/servo/buildbot/master/*/*.bz2 -mtime +5 -exec rm {} ;:
+find /home/servo/buildbot/master/*/*.bz2 -mtime +5 -delete:
   cron.present:
     - user: root
     - minute: 1 
