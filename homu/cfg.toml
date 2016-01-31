@@ -12,6 +12,7 @@ app_client_secret = "{{ pillar["homu"]["app-client-secret"] }}"
 
 [web]
 port = 54856
+secret = "{{ pillar["homu"]["web-secret"] }}"
 
 {% set travis_repos = [
     ('servo', 'app_units'),
