@@ -7,3 +7,4 @@ homu:
   'buildbot-http-user': 'TEST_HOMU_BUILDBOT_HTTP_USER'
   'buildbot-http-pass': 'TEST_HOMU_BUILDBOT_HTTP_PASS'
   'travis-ci-token': 'TEST_HOMU_TRAVIS_CI_TOKEN'
+  'web-secret': 'TEST_HOMU_WEB_SECRET'
