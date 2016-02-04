@@ -10,9 +10,14 @@ base:
     - homu
     - nginx
 
-  'servo-(linux|mac|macpro)\d+':
+  'servo-(mac|macpro)\d+':
     - match: pcre
     - buildbot.slave
+
+  'servo-linux\d+':
+    - match: pcre
+    - buildbot.slave
+    - xvfb
 
   'linux\d+':
     - match: pcre
