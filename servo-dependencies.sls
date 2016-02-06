@@ -30,6 +30,20 @@ servo-darwin-homebrew-versions-dependencies:
       - homebrew/versions
     - require_in:
       - pkg: servo-dependencies
+
+homebrew-link-autoconf:
+  cmd.run:
+    - name: 'brew link --overwrite autoconf'
+    - user: administrator
+      # Warning: Only checks that some autoconf Homebrew package is linked,
+      # not necessarily the version installed above.
+      # Whether this handles updating autoconf properly is an open question.
+      # This state should be replaced by a custom Salt state.
+    - creates: /usr/local/Library/LinkedKegs/autoconf
+    - require:
+      - module: servo-darwin-homebrew-versions-dependencies
+    - require_in:
+      - pkg: servo-dependencies
 {% endif %}
 
 servo-dependencies:
