@@ -1,3 +1,5 @@
+{% from 'map.jinja' import homebrew with context %}
+
 servo-dependencies:
   pkg.installed:
     - pkgs:
@@ -46,7 +48,7 @@ servo-darwin-homebrew-versions-dependencies:
 homebrew-link-autoconf:
   cmd.run:
     - name: 'brew link --overwrite autoconf'
-    - user: administrator
+    - user: {{ homebrew.user }}
     - creates: /usr/local/Library/LinkedKegs/autoconf
     - require:
       - pkg: servo-dependencies
@@ -55,7 +57,7 @@ homebrew-link-autoconf:
 homebrew-link-openssl:
   cmd.run:
     - name: 'brew link --force openssl'
-    - user: administrator
+    - user: {{ homebrew.user }}
     - creates: /usr/local/Library/LinkedKegs/openssl
     - require:
       - pkg: servo-dependencies
