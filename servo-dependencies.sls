@@ -1,50 +1,4 @@
-{% if grains['kernel'] != 'Darwin' %}
-FIX enable multiverse:
-  pkgrepo.absent:
-    - name: deb http://archive.ubuntu.com/ubuntu trusty multiverse
-
-enable multiverse:
-  pkgrepo.managed:
-    - name: deb http://archive.ubuntu.com/ubuntu trusty multiverse
-
-ttf-mscorefonts-installer:
-  debconf.set:
-    - name: ttf-mscorefonts-installer
-    - data: { 'msttcorefonts/accepted-mscorefonts-eula': { 'type': 'boolean', 'value': True } }
-  pkg.installed:
-    - pkgs:
-      - ttf-mscorefonts-installer
-    - requires:
-      - debconf: ttf-mscorefonts-installer
-{% endif %}
-
-{% if grains['kernel'] == 'Darwin' %}
-# Workaround for https://github.com/saltstack/salt/issues/26414
-servo-darwin-homebrew-versions-dependencies:
-  module.run:
-    - name: pkg.install
-    - pkgs:
-      - automake
-      - autoconf213
-    - taps:
-      - homebrew/versions
-    - require_in:
-      - pkg: servo-dependencies
-
-homebrew-link-autoconf:
-  cmd.run:
-    - name: 'brew link --overwrite autoconf'
-    - user: administrator
-      # Warning: Only checks that some autoconf Homebrew package is linked,
-      # not necessarily the version installed above.
-      # Whether this handles updating autoconf properly is an open question.
-      # This state should be replaced by a custom Salt state.
-    - creates: /usr/local/Library/LinkedKegs/autoconf
-    - require:
-      - module: servo-darwin-homebrew-versions-dependencies
-    - require_in:
-      - pkg: servo-dependencies
-{% endif %}
+{% from 'map.jinja' import homebrew with context %}
 
 servo-dependencies:
   pkg.installed:
@@ -53,7 +7,9 @@ servo-dependencies:
       - git
       - ccache
       {% if grains['kernel'] == 'Darwin' %}
+      - automake
       - pkg-config
+      - openssl
       {% else %}
       - libglib2.0-dev
       - libgl1-mesa-dri
@@ -74,3 +30,53 @@ servo-dependencies:
     - pkgs:
       - virtualenv
       - ghp-import
+
+{% if grains['kernel'] == 'Darwin' %}
+# Workaround for https://github.com/saltstack/salt/issues/26414
+servo-darwin-homebrew-versions-dependencies:
+  module.run:
+    - name: pkg.install
+    - pkgs:
+      - autoconf213
+    - taps:
+      - homebrew/versions
+
+# Warning: These states that manually run brew link only check that some
+# version of the Homebrew package is linked, not necessarily the version
+# linked above. Whether this handles updates properly is an open question.
+# These should be replaced by a custom Salt state.
+homebrew-link-autoconf:
+  cmd.run:
+    - name: 'brew link --overwrite autoconf'
+    - user: {{ homebrew.user }}
+    - creates: /usr/local/Library/LinkedKegs/autoconf
+    - require:
+      - pkg: servo-dependencies
+      - module: servo-darwin-homebrew-versions-dependencies
+
+homebrew-link-openssl:
+  cmd.run:
+    - name: 'brew link --force openssl'
+    - user: {{ homebrew.user }}
+    - creates: /usr/local/Library/LinkedKegs/openssl
+    - require:
+      - pkg: servo-dependencies
+{% else %}
+FIX enable multiverse:
+  pkgrepo.absent:
+    - name: deb http://archive.ubuntu.com/ubuntu trusty multiverse
+
+enable multiverse:
+  pkgrepo.managed:
+    - name: deb http://archive.ubuntu.com/ubuntu trusty multiverse
+
+ttf-mscorefonts-installer:
+  debconf.set:
+    - name: ttf-mscorefonts-installer
+    - data: { 'msttcorefonts/accepted-mscorefonts-eula': { 'type': 'boolean', 'value': True } }
+  pkg.installed:
+    - pkgs:
+      - ttf-mscorefonts-installer
+    - requires:
+      - debconf: ttf-mscorefonts-installer
+{% endif %}
