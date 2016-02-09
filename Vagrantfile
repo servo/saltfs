@@ -37,8 +37,11 @@ Vagrant.configure(2) do |config|
     config.vm.define node[:id] do |machine|
       machine.vm.box = node[:box]
       machine.vm.provider :virtualbox do |vbox|
-         # Need extra memory for downloading large files (e.g. Android SDK)
-         vbox.memory = 1024
+        # Need extra memory for downloading large files (e.g. Android SDK)
+        vbox.memory = 1024
+        if Gem::Version.new(Vagrant::VERSION) >= Gem::Version.new('1.8.0')
+          vbox.linked_clone = true
+        end
       end
       machine.vm.synced_folder dir, state_root
       machine.vm.synced_folder File.join(dir, ".travis/test_pillars"), pillar_root
