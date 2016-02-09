@@ -28,10 +28,10 @@ matrix:
       dist: trusty
 
 before_install:
-  - .travis/install_salt "${TRAVIS_OS_NAME}"
+  - .travis/install_salt -F -c .travis -- "${TRAVIS_OS_NAME}"
 
 install:
-  - .travis/configure_salt
+  - .travis/setup_salt_roots
 
   # For debugging, check the grains reported by the Travis builder
   - sudo salt-call --id="${SALT_NODE_ID}" grains.items
