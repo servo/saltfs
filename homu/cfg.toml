@@ -85,9 +85,12 @@ secret = "{{ pillar["homu"]["web-secret"] }}"
     "zmike",
 ] %}
 
+{% set operators = [
+    "bholley",
+] %}
+
 {% set try = [
     "askalski",
-    "bholley",
     "chandler",
     "dzbarsky",
     "gsnedders",
@@ -100,7 +103,7 @@ secret = "{{ pillar["homu"]["web-secret"] }}"
 [repo.servo]
 owner = "servo"
 name = "servo"
-reviewers = {{ reviewers }}
+reviewers = {{ reviewers + operators}}
 try_users = {{ try }}
 
 [repo.servo.github]
@@ -121,7 +124,7 @@ password = "{{ pillar["homu"]["buildbot-http-pass"] }}"
 [repo.{{ repo[1] }}]
 owner = "{{ repo[0] }}"
 name = "{{ repo[1] }}"
-reviewers = {{ reviewers }}
+reviewers = {{ reviewers + operators }}
 try_users = {{ try }}
 
 [repo.{{ repo[1] }}.github]
