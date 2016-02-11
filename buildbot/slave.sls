@@ -1,9 +1,11 @@
 {% from 'common/map.jinja' import config as common with context %}
 
-buildbot-slave.pip:
+buildbot-slave-dependencies:
   pip.installed:
     - pkgs:
       - buildbot-slave == 0.8.12
+    - require:
+      - pkg: pip
 
 {{ common.servo_home }}/buildbot/slave:
   file.recurse:

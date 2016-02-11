@@ -1,12 +1,34 @@
 {% from tpldir ~ '/map.jinja' import config with context %}
 
-{% if grains['kernel'] != 'Darwin' %}
-python-pkgs:
+python2:
   pkg.installed:
     - pkgs:
-      - python-pip
+      - python
+
+{% if grains['os'] == 'Ubuntu' %}
+python2-dev:
+  pkg.installed:
+    - pkgs:
       - python-dev
 {% endif %}
+
+pip:
+  pkg.installed:
+    - pkgs:
+      {% if grains['os'] == 'Ubuntu' %}
+      - python-pip
+      {% elif grains['os'] == 'MacOS' %}
+      - python # pip is included with python in homebrew
+      {% endif %}
+    - reload_modules: True
+
+# Virtualenv package creates virtualenv and virtualenv-3.4 executables
+virtualenv:
+  pip.installed:
+    - pkgs:
+      - virtualenv
+    - require:
+      - pkg: pip
 
 servo:
   user.present:

@@ -19,16 +19,16 @@ regardless of the number of packages.
 *Unsafe*:
 
 ```salt
-buildbot-dependencies:
-  pip.installed:
-    - name: buildbot == 0.8.12
+essential-dependencies:
+  pkg.installed:
+    - name: cowsay
 ```
 
 *Better*:
 
 ```salt
-buildbot-dependencies:
-  pip.installed:
+essential-dependencies:
+  pkg.installed:
     - pkgs:
-      - buildbot == 0.8.12
+      - cowsay
 ```

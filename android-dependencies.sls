@@ -23,7 +23,10 @@ android-dependencies:
       - libgl1-mesa-dev
     - refresh: True
   pip.installed:
-    - name: s3cmd
+    - pkgs:
+      - s3cmd
+    - require:
+      - pkg: pip
 
 android-sdk:
   archive.extracted:
