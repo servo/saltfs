@@ -59,8 +59,9 @@ buildbot-github-listener:
     - watch_in:
       - service: buildbot-github-listener
 
-find /home/servo/buildbot/master/*/*.bz2 -mtime +5 -delete:
+remove-old-build-logs:
   cron.present:
+    - name: 'find /home/servo/buildbot/master/*/*.bz2 -mtime +5 -delete'
     - user: root
     - minute: 1 
     - hour: 0
