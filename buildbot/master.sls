@@ -51,3 +51,10 @@ buildbot-github-listener:
     - watch:
       - file: /usr/local/bin/github_buildbot.py
       - file: /etc/init/buildbot-github-listener.conf
+
+remove-old-build-logs:
+  cron.present:
+    - name: 'find /home/servo/buildbot/master/*/*.bz2 -mtime +5 -delete'
+    - user: root
+    - minute: 1 
+    - hour: 0
