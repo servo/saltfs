@@ -5,10 +5,15 @@ base:
     - common
     - servo-dependencies
 
-  'servo-master':
-    - buildbot.master
-    - homu
-    - nginx
+  'servo-head':
+    - buildbot.slave
+    - android-dependencies
+
+  'servo-linux-android\d+':
+    - match: pcre
+    - buildbot.slave
+    - android-dependencies
+    - gonk-dependencies
 
   'servo-(mac|macpro)\d+':
     - match: pcre
@@ -19,12 +24,7 @@ base:
     - buildbot.slave
     - xvfb
 
-  'servo-linux-android\d+':
-    - match: pcre
-    - buildbot.slave
-    - android-dependencies
-    - gonk-dependencies
-
-  'servo-head':
-    - buildbot.slave
-    - android-dependencies
+  'servo-master':
+    - buildbot.master
+    - homu
+    - nginx
