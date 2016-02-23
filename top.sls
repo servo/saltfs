@@ -19,11 +19,6 @@ base:
     - buildbot.slave
     - xvfb
 
-  'linux\d+':
-    - match: pcre
-    - buildbot.slave
-    - xvfb
-
   'servo-linux-android\d+':
     - match: pcre
     - buildbot.slave
