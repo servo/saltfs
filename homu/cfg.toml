@@ -56,6 +56,8 @@ secret = "{{ pillar["homu"]["web-secret"] }}"
     ('servo', 'tendril'),
     ('servo', 'unicode-bidi'),
     ('servo', 'unicode-script'),
+    ('servo', 'webrender'),
+    ('servo', 'webrender_traits'),
 ] %}
 
 {% set reviewers = [
