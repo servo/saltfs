@@ -17,6 +17,7 @@ base:
 
   'servo-(mac|macpro)\d+':
     - match: pcre
+    - osx
     - buildbot.slave
 
   'servo-linux\d+':
