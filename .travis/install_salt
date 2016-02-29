@@ -8,6 +8,8 @@ install_salt () {
     if [ "${OS_NAME}" = "linux" ]; then
         printf "$0: installing salt for Linux\n"
         # Use Trusty (Ubuntu 14.04) on Travis
+        # Don't autostart services
+        printf '#!/bin/sh\nexit 101\n' | sudo install -m 755 /dev/stdin /usr/sbin/policy-rc.d
         curl https://repo.saltstack.com/apt/ubuntu/14.04/amd64/archive/2015.5.8/SALTSTACK-GPG-KEY.pub | sudo apt-key add -
         printf 'deb http://repo.saltstack.com/apt/ubuntu/14.04/amd64/archive/2015.5.8 trusty main\n' | sudo tee -a /etc/apt/sources.list >/dev/null
         sudo apt-get -y update
