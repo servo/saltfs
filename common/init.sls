@@ -22,11 +22,12 @@ pip:
       {% endif %}
     - reload_modules: True
 
-# Virtualenv package creates virtualenv and virtualenv-3.4 executables
+# virtualenv == 14.0.6 package creates virtualenv and virtualenv-3.5 executables
+# note that the version of the second may change between virtualenv versions
 virtualenv:
   pip.installed:
     - pkgs:
-      - virtualenv
+      - virtualenv == 14.0.6
     - require:
       - pkg: pip
 
