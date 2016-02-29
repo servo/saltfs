@@ -34,7 +34,8 @@ android-sdk:
     - source: http://dl.google.com/android/android-sdk_r24.4.1-linux.tgz
     - source_hash: sha512=96fb71d78a8c2833afeba6df617edcd6cc4e37ecd0c3bec38c39e78204ed3c2bd54b138a56086bf5ccd95e372e3c36e72c1550c13df8232ec19537da93049284
     - archive_format: tar
-    - archive_user: servo # 2015.8 moves these to the standard user and group parameters
+    - user: servo
+    - group: servo
     - if_missing: /home/servo/android-sdk_r24.4.1-linux.tgz
   cmd.wait:
     # The arguments to --filter are from running 'android list sdk'
