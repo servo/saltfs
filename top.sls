@@ -5,6 +5,10 @@ base:
     - common
     - servo-dependencies
 
+  'os:Ubuntu':
+    - match: grain
+    - ubuntu
+
   'servo-head':
     - buildbot.slave
     - android-dependencies
