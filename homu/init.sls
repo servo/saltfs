@@ -11,7 +11,7 @@ homu:
     - user: servo
   virtualenv.managed:
     - name: /home/servo/homu/_venv
-    - venv_bin: virtualenv-3.4
+    - venv_bin: virtualenv-3.5
     - python: python3
     - system_site_packages: False
     - require:
