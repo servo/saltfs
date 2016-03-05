@@ -6,7 +6,7 @@ python3:
 homu:
   git.latest:
     - name: https://github.com/servo/homu
-    - rev: e07f74e7a3a185768e71639d6a328ef8ea234f92
+    - rev: 6ef9a768041883a9d6c779bc0ec2174aee3eb8e2
     - target: /home/servo/homu
     - user: servo
   virtualenv.managed:
