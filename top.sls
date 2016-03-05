@@ -33,3 +33,4 @@ base:
     - buildbot.master
     - homu
     - nginx
+    - longview
