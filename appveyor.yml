@@ -1,0 +1,20 @@
+version: 1.0.{build}
+
+
+platform:
+  - x64
+
+install:
+  - set MSYSTEM=MSYS
+  - set MSYS="winsymlinks=lnk"
+  - PATH C:\msys64\mingw64\bin;C:\msys64\usr\bin\;%PATH%
+
+build_script:
+  - cmd: >-
+      set MSYSTEM=MINGW64
+
+      PATH C:\msys64\mingw64\bin;C:\msys64\usr\bin\;%PATH%
+
+      bash -lc "echo nothing to see here, move along"
+
+test: off
