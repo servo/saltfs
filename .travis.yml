@@ -28,4 +28,4 @@ matrix:
 script:
   - cat /etc/apt/sources.list
   - ls -al /etc/apt/sources.list.d
-  - for f in /etc/apt/sources.list.d; do cat $f; done
+  - for f in /etc/apt/sources.list.d/*; do cat $f; done
