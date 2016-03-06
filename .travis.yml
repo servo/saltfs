@@ -2,10 +2,6 @@
 # But a system python is installed for all workers
 language: cpp
 
-branches:
-  except:
-    - master
-
 # NOTE: Make sure the matrix covers all node types in top.sls
 # sudo: required and dist: trusty enable usage of Trusty
 matrix:
