@@ -13,11 +13,12 @@ base:
     - buildbot.slave
     - android-dependencies
 
-  'servo-linux-android\d+':
+  'servo-linux-cross\d+':
     - match: pcre
     - buildbot.slave
     - android-dependencies
     - gonk-dependencies
+    - arm-dependencies
 
   'servo-(mac|macpro)\d+':
     - match: pcre
