@@ -4,24 +4,33 @@ arm-dependencies:
       - g++-aarch64-linux-gnu
       - g++-arm-linux-gnueabihf
 
-/home/servo/bin:
+/home/servo/bin/arm64:
   file.directory:
     - user: servo
     - group: servo
     - dir_mode: 755
     - file_mode: 644
-    
-arm64_links:
-  cmd.wait:
-    - name: 'for f in /usr/bin/aarch64-linux-*; do f2=$(basename $f); ln -s $f /home/servo/bin/${f2/-linux/-unknown-linux}; done'
-    - require:
-      - pkg: arm-dependencies
 
-arm32_links:
+/home/servo/bin/arm32:
+  file.directory:
+    - user: servo
+    - group: servo
+    - dir_mode: 755
+    - file_mode: 644
+
+arm64-links:
   cmd.wait:
-    - name: 'for f in /usr/bin/arm-linux-*; do f2=$(basename $f); ln -s $f /home/servo/bin/${f2/-linux/-unknown-linux}; done'
+    - name: 'for f in /usr/bin/aarch64-linux-*; do f2=$(basename $f); ln -s $f /home/servo/bin/arm64/${f2/-linux/-unknown-linux}; done'
     - require:
       - pkg: arm-dependencies
+      - file: /home/servo/bin/arm64
+
+arm32-links:
+  cmd.wait:
+    - name: 'for f in /usr/bin/arm-linux-*; do f2=$(basename $f); ln -s $f /home/servo/bin/arm32/${f2/-linux/-unknown-linux}; done'
+    - require:
+      - pkg: arm-dependencies
+      - file: /home/servo/bin/arm32
 
 arm32-libs:
   archive.extracted:
