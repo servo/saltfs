@@ -25,8 +25,10 @@ arm-dependencies:
     - makedirs: True
 
 links-{{ target.name }}:
-  cmd.wait:
+  cmd.run:
     - name: 'for f in /usr/bin/{{ target.name }}*; do f2=$(basename $f); ln -s $f /home/servo/bin/{{ target.name }}/${f2/-linux/-unknown-linux}; done'
+    - user: servo
+    - group: servo
     - require:
       - pkg: arm-dependencies
       - file: /home/servo/bin/{{ target.name }}
