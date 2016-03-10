@@ -46,7 +46,7 @@ libs-{{ target.name }}:
   file.symlink:
     - target: /home/servo/rootfs-trusty-{{ target.name }}/usr/include/{{ target.name }}
     - require:
-      - archive: libs-arm-linux-gnueab
+      - archive: libs-{{ target.name }}
 
 /usr/lib/{{ target.name }}:
   file.symlink:
