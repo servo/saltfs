@@ -15,7 +15,7 @@ base:
     - match: pcre
     - buildbot.slave
 
-  'servo-linux-android\d+':
+  'servo-linux-cross\d+':
     - match: pcre
     - buildbot.slave
 
