@@ -46,7 +46,7 @@ libs-{{ target.name }}:
   file.symlink:
     - target: /home/servo/v1/rootfs-trusty-{{ target.name }}{{ root }}{{ target.name }}
     - require:
-      - archive: libs-{{ root }}-{{ target.name }}
+      - archive: libs-{{ target.name }}
 
 {% endfor %}
 {% endfor %}
