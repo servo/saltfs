@@ -6,7 +6,7 @@ arm-dependencies:
       - g++-aarch64-linux-gnu
       - g++-arm-linux-gnueabihf
 
-{% set path = 'https://servo-rust.s3.amazonaws.com/ARM' %}
+{% set rootfs_repo = 'https://servo-rust.s3.amazonaws.com/ARM' %}
 {% set targets = [{
                     'name': 'arm-linux-gnueabihf',
                     'symlink_name': 'arm-unknown-linux-gnueabihf',
@@ -74,16 +74,27 @@ arm-dependencies:
 
 libs-{{ target.name }}:
   archive.extracted:
-    - name: {{ config.servo_home }}/{{ target.version }}/rootfs-trusty-{{ target.name }} # Directory to extract into
-    - source: {{ path }}/{{ target.version }}/{{ target.local_name }}
+    - name: {{ config.servo_home }}/rootfs-trusty-{{ target.name }}/{{ target.version }} # Directory to extract into
+    - source: {{ rootfs_repo }}/{{ target.version }}/{{ target.local_name }}
     - source_hash: sha512={{ target.hash }}
     - archive_format: tar
     - archive_user: servo # 2015.8 moves these to the standard user and group parameters
 
-{% for root in ['/usr/include', '/usr/lib', '/lib'] %}
-{{ root }}/{{ target.name }}:
+{{ config.servo_home }}/rootfs-trusty-{{ target.name }}:
+  file.directory:
+    - user: servo
+    - group: servo
+    - dir_mode: 755
+    - file_mode: 644
+    - makedirs: True
+    - clean: True
+    - require:
+      - archive: libs-{{ target.name }}
+
+{% for root in ['usr/include', 'usr/lib', 'lib'] %}
+/{{ root }}/{{ target.name }}:
   file.symlink:
-    - target: {{ config.servo_home }}/{{ target.version }}/rootfs-trusty-{{ target.name }}{{ root }}/{{ target.name }}
+    - target: {{ config.servo_home }}/rootfs-trusty-{{ target.name }}/{{ root }}/{{ target.version }}/{{ target.name }}
     - require:
       - archive: libs-{{ target.name }}
 {% endfor %}
