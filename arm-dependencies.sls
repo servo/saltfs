@@ -59,19 +59,6 @@ arm-dependencies:
       - archive: libs-{{ target.name }}
 {% endfor %}
 
-{{ config.servo_home }}/bin/{{ target.name }}:
-  file.directory:
-    - user: servo
-    - group: servo
-    - dir_mode: 755
-    - file_mode: 644
-    - makedirs: True
-    - clean: True
-    - require:
-      {% for binary in binaries %}
-      - file: {{ config.servo_home }}/bin/{{ target.symlink_name }}-{{ binary }}
-      {% endfor %}
-
 libs-{{ target.name }}:
   archive.extracted:
     - name: {{ config.servo_home }}/rootfs-trusty-{{ target.name }}/{{ target.version }} # Directory to extract into
@@ -100,3 +87,18 @@ libs-{{ target.name }}:
 {% endfor %}
 
 {% endfor %}
+
+{{ config.servo_home }}/bin:
+  file.directory:
+    - user: servo
+    - group: servo
+    - dir_mode: 755
+    - file_mode: 644
+    - makedirs: True
+    - clean: True
+    - require:
+      {% for target in targets %}
+      {% for binary in binaries %}
+      - file: {{ config.servo_home }}/bin/{{ target.symlink_name }}-{{ binary }}
+      {% endfor %}
+      {% endfor %}
