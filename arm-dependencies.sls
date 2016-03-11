@@ -80,6 +80,6 @@ libs-{{ target.name }}:
     - target: /home/servo/{{ target.version }}/rootfs-trusty-{{ target.name }}{{ root }}/{{ target.name }}
     - require:
       - archive: libs-{{ target.name }}
-
 {% endfor %}
+
 {% endfor %}
