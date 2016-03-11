@@ -62,9 +62,9 @@ arm-dependencies:
     - makedirs: True
     - clean: True
     - require:
-{% for file in binaries %}
+      {% for file in binaries %}
       - file: /home/servo/bin/{{ target.symlink_name }}-{{ file }}
-{% endfor %}
+      {% endfor %}
 
 libs-{{ target.name }}:
   archive.extracted:
