@@ -1,4 +1,4 @@
-{% from 'common/map.jinja' import config with context %}
+{% from 'common/map.jinja' import config %}
 
 arm-dependencies:
   pkg.installed:
@@ -7,13 +7,15 @@ arm-dependencies:
       - g++-arm-linux-gnueabihf
 
 {% set path = 'https://servo-rust.s3.amazonaws.com/ARM' %}
-{% set targets = [{ 'name': 'arm-linux-gnueabihf',
+{% set targets = [{
+                    'name': 'arm-linux-gnueabihf',
                     'symlink_name': 'arm-unknown-linux-gnueabihf',
                     'version': 'v1',
                     'local_name': 'armhf-trusty-libs.tgz',
                     'hash': 'd9a31ed488e4f848efcd07f71aa167fc73252da2a2c3b53ba8216100e2b4302b5ccd273b27c434ad189650652a1877607d328ff6b8e1edb5aa68a8927c617b49',
                   },
-                  { 'name': 'aarch64-linux-gnu',
+                  {
+                    'name': 'aarch64-linux-gnu',
                     'symlink_name': 'aarch64-unknown-linux-gnu',
                     'version': 'v1',
                     'local_name': 'arm64-trusty-libs.tgz',
@@ -44,7 +46,7 @@ arm-dependencies:
     'dwp',
     'ld.gold',
     'strip'
-    ] %}
+] %}
 
 {% for target in targets %}
 
