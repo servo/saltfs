@@ -76,9 +76,9 @@ libs-{{ target.name }}:
     - archive_user: servo # 2015.8 moves these to the standard user and group parameters
 
 {% for root in ['/usr/include', '/usr/lib', '/lib'] %}
-{{ root }}{{ target.name }}:
+{{ root }}/{{ target.name }}:
   file.symlink:
-    - target: /home/servo/v1/rootfs-trusty-{{ target.name }}{{ root }}{{ target.name }}
+    - target: /home/servo/v1/rootfs-trusty-{{ target.name }}{{ root }}/{{ target.name }}
     - require:
       - archive: libs-{{ target.name }}
 
