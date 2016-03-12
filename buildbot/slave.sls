@@ -1,4 +1,4 @@
-{% from 'common/map.jinja' import config as common with context %}
+{% from 'common/map.jinja' import common %}
 
 buildbot-slave-dependencies:
   pip.installed:

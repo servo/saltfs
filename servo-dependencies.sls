@@ -1,4 +1,4 @@
-{% from 'map.jinja' import homebrew with context %}
+{% from 'common/map.jinja' import homebrew %}
 
 servo-dependencies:
   pkg.installed:

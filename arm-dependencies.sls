@@ -1,4 +1,4 @@
-{% from 'common/map.jinja' import config %}
+{% from 'common/map.jinja' import common %}
 
 arm-dependencies:
   pkg.installed:
@@ -49,14 +49,14 @@ arm-dependencies:
 
 libs-{{ target.name }}:
   archive.extracted:
-    - name: {{ config.servo_home }}/rootfs-trusty-{{ target.name }}/{{ target.version }} # Directory to extract into
+    - name: {{ common.servo_home }}/rootfs-trusty-{{ target.name }}/{{ target.version }} # Directory to extract into
     - source: {{ rootfs_repo }}/{{ target.version }}/{{ target.local_name }}
     - source_hash: sha512={{ target.hash }}
     - archive_format: tar
     - archive_user: servo # 2015.8 moves these to the standard user and group parameters
 
 {% for binary in binaries %}
-{{ config.servo_home }}/bin/{{ target.symlink_name }}-{{ binary }}:
+{{ common.servo_home }}/bin/{{ target.symlink_name }}-{{ binary }}:
   file.symlink:
     - target: /usr/bin/{{ target.name }}-{{ binary }}
     - makedirs: True
@@ -64,7 +64,7 @@ libs-{{ target.name }}:
       - archive: libs-{{ target.name }}
 {% endfor %}
 
-{{ config.servo_home }}/rootfs-trusty-{{ target.name }}/{{ target.version }}:
+{{ common.servo_home }}/rootfs-trusty-{{ target.name }}/{{ target.version }}:
   file.directory:
     - user: servo
     - group: servo
@@ -74,7 +74,7 @@ libs-{{ target.name }}:
     - require:
       - archive: libs-{{ target.name }}
 
-{{ config.servo_home }}/rootfs-trusty-{{ target.name }}:
+{{ common.servo_home }}/rootfs-trusty-{{ target.name }}:
   file.directory:
     - user: servo
     - group: servo
@@ -83,19 +83,19 @@ libs-{{ target.name }}:
     - makedirs: True
     - clean: True
     - require:
-      - file: {{ config.servo_home }}/rootfs-trusty-{{ target.name }}/{{ target.version }}
+      - file: {{ common.servo_home }}/rootfs-trusty-{{ target.name }}/{{ target.version }}
 
 {% for root in ['usr/include', 'usr/lib', 'lib'] %}
 /{{ root }}/{{ target.name }}:
   file.symlink:
-    - target: {{ config.servo_home }}/rootfs-trusty-{{ target.name }}/{{ target.version }}/{{ root }}/{{ target.name }}
+    - target: {{ common.servo_home }}/rootfs-trusty-{{ target.name }}/{{ target.version }}/{{ root }}/{{ target.name }}
     - require:
       - archive: libs-{{ target.name }}
 {% endfor %}
 
 {% endfor %}
 
-{{ config.servo_home }}/bin:
+{{ common.servo_home }}/bin:
   file.directory:
     - user: servo
     - group: servo
@@ -106,6 +106,6 @@ libs-{{ target.name }}:
     - require:
       {% for target in targets %}
       {% for binary in binaries %}
-      - file: {{ config.servo_home }}/bin/{{ target.symlink_name }}-{{ binary }}
+      - file: {{ common.servo_home }}/bin/{{ target.symlink_name }}-{{ binary }}
       {% endfor %}
       {% endfor %}

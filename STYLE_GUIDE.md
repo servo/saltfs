@@ -4,6 +4,27 @@ Style guide for Salt states (and other code) in this repo. Unfortunately,
 no linter exists yet for Salt states, so there is no automated way to
 check for compliance with this guide.
 
+## Jinja Usage
+
+### Imports
+
+Guidelines for Jinja imports in .sls files:
+ - Put import statements at the top of the file
+ - Order import statements from the same directory first
+ - Prefer this form for imports from the same directory:
+
+   ```jinja
+   {% from tpldir ~ '/map.jinja' import example %}
+   ```
+ - Prefer this form for imports from other directories:
+
+   ```jinja
+   {% from 'common/map.jinja' import common %}
+   ```
+ - Avoid `with context` because it's unnecessary and inefficient
+ - Use meaningful names for variables set in `map.jinja` files,
+   e.g. avoid `config`, for clarity when imported into other files
+
 ## Package Installation
 
 ### Use pkgs instead of name
