@@ -30,11 +30,12 @@ configure_salt () {
     sudo cp "${FORCE_FLAG}" -- "${TEMPORARY_CONFIG_DIR}/minion" /etc/salt/minion
 }
 
-OPTIONS=$(getopt 'c:F' "$@")
+OPTIONS=$(getopt 'c:CF' "$@")
 
 eval set -- "${OPTIONS}"
 
 TEMPORARY_CONFIG_DIR=""
+CONFIGURE_ONLY=""
 FORCE_FLAG=""
 OS_NAME=""
 
@@ -43,6 +44,11 @@ while true; do
         -c)
             shift
             TEMPORARY_CONFIG_DIR="$1"
+            shift
+            ;;
+        -C)
+            CONFIGURE_ONLY="true"
+            FORCE_FLAG="-f" # -C implies -F
             shift
             ;;
         -F)
@@ -62,7 +68,9 @@ if [ "$#" -lt 1 ]; then
 fi
 
 OS_NAME="$1"
-install_salt
+if [ -z "${CONFIGURE_ONLY}" ]; then
+    install_salt
+fi
 
 if [ -n "${TEMPORARY_CONFIG_DIR}" ]; then
     configure_salt
