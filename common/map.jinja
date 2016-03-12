@@ -1,5 +1,5 @@
 {%
-  set config = salt['grains.filter_by']({
+  set common = salt['grains.filter_by']({
       'defaults': {
         'servo_home': '/home/servo',
         'hosts': {
@@ -34,6 +34,16 @@
       }
     },
     base='defaults',
+    grain='kernel'
+  )
+%}
+{%
+  set homebrew = salt['grains.filter_by']({
+      'defaults': {},
+      'Darwin': { 'user': 'administrator' }
+    },
+    base='defaults',
+    merge=salt.pillar.get('homebrew', {}),
     grain='kernel'
   )
 %}

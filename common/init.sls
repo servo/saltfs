@@ -1,4 +1,4 @@
-{% from tpldir ~ '/map.jinja' import config with context %}
+{% from tpldir ~ '/map.jinja' import common %}
 
 python2:
   pkg.installed:
@@ -35,16 +35,16 @@ servo:
   user.present:
     - fullname: Tom Servo
     - shell: /bin/bash
-    - home: {{ config.servo_home }}
+    - home: {{ common.servo_home }}
 
-{% for hostname, ip in config.hosts.items() %}
+{% for hostname, ip in common.hosts.items() %}
 host-{{ hostname }}:
   host.present:
     - name: {{ hostname }}
     - ip: {{ ip }}
 {% endfor %}
 
-{% for ssh_user in config.ssh_users %}
+{% for ssh_user in common.ssh_users %}
 sshkey-{{ ssh_user }}:
   ssh_auth.present:
     - user: root
