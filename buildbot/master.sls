@@ -1,3 +1,5 @@
+{% from 'common/map.jinja' import common %}
+
 buildbot-master:
   pip.installed:
     - pkgs:
@@ -17,11 +19,13 @@ buildbot-master:
 /home/servo/buildbot/master:
   file.recurse:
     - source: salt://buildbot/master
-    - template: jinja
     - user: servo
     - group: servo
     - dir_mode: 755
     - file_mode: 644
+    - template: jinja
+    - context:
+        - common: {{ common }}
 
 /etc/init/buildbot-master.conf:
   file.managed:

@@ -4,6 +4,12 @@ Style guide for Salt states (and other code) in this repo. Unfortunately,
 no linter exists yet for Salt states, so there is no automated way to
 check for compliance with this guide.
 
+## General
+
+### Hash functions
+
+Hashes used for download/file verification should be SHA512 or stronger.
+
 ## Jinja Usage
 
 ### Imports
