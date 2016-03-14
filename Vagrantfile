@@ -7,7 +7,7 @@ def extract_id(env)
   id[0]
 end
 
-Vagrant.require_version '>= 1.8.0'
+Vagrant.require_version '>= 1.8.5'
 
 Vagrant.configure(2) do |config|
 
@@ -48,13 +48,12 @@ Vagrant.configure(2) do |config|
       end
       machine.vm.synced_folder dir, state_root
       machine.vm.synced_folder File.join(dir, '.travis', 'test_pillars'), pillar_root
+      machine.vm.hostname = node[:id]
       machine.vm.provision :salt do |salt|
         salt.bootstrap_script = File.join(dir, '.travis', 'install_salt.sh')
         salt.install_args = node[:os] # Pass OS type to bootstrap script
         salt.masterless = true
         salt.minion_config = minion_config_path
-        # hack to provide additional options to salt-call
-        salt.minion_id = node[:id] + ' --retcode-passthrough'
         salt.run_highstate = true
         salt.verbose = true
         salt.log_level = 'info'
