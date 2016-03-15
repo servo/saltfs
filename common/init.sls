@@ -47,7 +47,7 @@ host-{{ hostname }}:
 {% for ssh_user in common.ssh_users %}
 {{ ssh_user }}:
   user.present:
-    - home: /home/{{ ssh_user }}
+    - createhome: True
     - optional_groups:
         - wheel
     - empty_password: True
