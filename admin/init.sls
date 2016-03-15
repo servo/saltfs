@@ -27,6 +27,19 @@ UTC:
     - mode: 644
     - source: salt://{{ tpldir }}/files/hosts
 
+# FIXME we should also explicitly AllowUsers usera userb userc
+/etc/sshd_config:
+  file.managed:
+    - user: root
+    {% if grains['os'] == 'MacOS' %}
+    - group: wheel
+    {% elif grains['os'] == 'Ubuntu' %}
+    - group: root
+    {% endif %}
+    - mode: 644
+    - source: salt://{{ tpldir }}/files/sshd_config
+
+
 {% for ssh_user in admin.ssh_users %}
 {{ ssh_user }}:
     user.present:
@@ -50,17 +63,3 @@ UTC:
         - text: {{ ssh_user }} ALL=(ALL:ALL) ALL
 {% endif %}
 {% endfor %}
-
-# FIXME we should also explicitly AllowUsers usera userb userc
-{% if grains['os'] == 'MacOS' %}
-/etc/ssh/sshd_config:
-    file.append:
-        - text:
-            - AllowRootLogin no
-{% elif grains['os'] == 'Ubuntu' %}
-/etc/ssh/ssh_config:
-    file.append:
-        - text:
-            - AllowRootLogin no
-{% endif %}
-
