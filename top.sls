@@ -3,7 +3,7 @@
 base:
   '*':
     - common
-    - servo-dependencies
+    - servo-build-dependencies
 
   'os:Ubuntu':
     - match: grain
@@ -11,14 +11,14 @@ base:
 
   'servo-head':
     - buildbot.slave
-    - android-dependencies
+    - servo-build-dependencies.android
 
   'servo-linux-cross\d+':
     - match: pcre
     - buildbot.slave
-    - android-dependencies
-    - gonk-dependencies
-    - arm-dependencies
+    - servo-build-dependencies.android
+    - servo-build-dependencies.gonk
+    - servo-build-dependencies.arm
 
   'servo-(mac|macpro)\d+':
     - match: pcre
