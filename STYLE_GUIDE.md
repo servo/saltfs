@@ -6,6 +6,13 @@ check for compliance with this guide.
 
 ## General
 
+### Downloads
+
+URLs used for downloads should always use HTTPS.
+
+Note that APT repos are currently an exception - they don't seem to like
+HTTPS urls, but they're GPG signed so this is OK.
+
 ### Hash functions
 
 Hashes used for download/file verification should be SHA512 or stronger.
