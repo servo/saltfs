@@ -64,21 +64,26 @@ homebrew-link-openssl:
     - require:
       - pkg: servo-dependencies
 {% else %}
-FIX enable multiverse:
-  pkgrepo.absent:
-    - name: deb http://archive.ubuntu.com/ubuntu trusty multiverse
-
-enable multiverse:
+multiverse:
   pkgrepo.managed:
-    - name: deb http://archive.ubuntu.com/ubuntu trusty multiverse
+    - name: 'deb http://archive.ubuntu.com/ubuntu trusty multiverse'
+    - file: /etc/apt/sources.list.d/multiverse.list
+    - require_in:
+      - pkg: ttf-mscorefonts-installer
+
+/etc/apt/sources.list.d/multiverse.list:
+  file.exists:
+    - require:
+      - pkgrepo: multiverse
+    - require_in:
+      - file: /etc/apt/sources.list.d
 
 ttf-mscorefonts-installer:
   debconf.set:
-    - name: ttf-mscorefonts-installer
     - data: { 'msttcorefonts/accepted-mscorefonts-eula': { 'type': 'boolean', 'value': True } }
   pkg.installed:
     - pkgs:
       - ttf-mscorefonts-installer
-    - requires:
+    - require:
       - debconf: ttf-mscorefonts-installer
 {% endif %}

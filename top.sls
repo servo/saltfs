@@ -4,6 +4,7 @@ base:
   '*':
     - common
     - servo-dependencies
+    - salt.common
 
   'os:Ubuntu':
     - match: grain
