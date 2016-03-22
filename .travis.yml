@@ -38,7 +38,7 @@ script:
   # Minimally validate YAML and Jinja at a basic level
   - sudo salt-call --id="${SALT_NODE_ID}" --retcode-passthrough state.show_highstate
   # Full on installation test
-  - sudo salt-call --id="${SALT_NODE_ID}" --retcode-passthrough state.highstate
+  - sudo salt-call --id="${SALT_NODE_ID}" --retcode-passthrough --log-level=warning state.highstate
 
 notifications:
   webhooks: http://build.servo.org:54856/travis
