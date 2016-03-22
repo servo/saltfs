@@ -31,7 +31,7 @@ android-dependencies:
 android-sdk:
   archive.extracted:
     - name: /home/servo # Directory to extract into
-    - source: http://dl.google.com/android/android-sdk_r24.4.1-linux.tgz
+    - source: https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz
     - source_hash: sha512=96fb71d78a8c2833afeba6df617edcd6cc4e37ecd0c3bec38c39e78204ed3c2bd54b138a56086bf5ccd95e372e3c36e72c1550c13df8232ec19537da93049284
     - archive_format: tar
     - archive_user: servo # 2015.8 moves these to the standard user and group parameters
@@ -59,7 +59,7 @@ android-sdk:
 android-ndk:
   file.managed:
     - name: /home/servo/android-ndk-r10e-linux-x86_64.bin
-    - source: http://dl.google.com/android/ndk/android-ndk-r10e-linux-x86_64.bin
+    - source: https://dl.google.com/android/ndk/android-ndk-r10e-linux-x86_64.bin
     - source_hash: sha512=8948c7bd1621e32dce554d5cd1268ffda2e9c5e6b2dda5b8cf0266ea60aa2dd6fddf8d290683fc1ef0b69d66c898226c7f52cc567dbb14352b4191ac19dfb371
     - user: servo
     - group: servo
