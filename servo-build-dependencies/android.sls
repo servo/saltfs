@@ -1,3 +1,6 @@
+{% from 'common/map.jinja' import common %}
+{% from tpldir ~ '/map.jinja' import android %}
+
 {% if '64' in grains['cpuarch'] %}
 enable-i386-architecture:
   cmd.run:
@@ -28,15 +31,18 @@ android-dependencies:
     - require:
       - pkg: pip
 
+
 android-sdk:
   archive.extracted:
-    - name: /home/servo # Directory to extract into
-    - source: https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz
-    - source_hash: sha512=96fb71d78a8c2833afeba6df617edcd6cc4e37ecd0c3bec38c39e78204ed3c2bd54b138a56086bf5ccd95e372e3c36e72c1550c13df8232ec19537da93049284
+    - name: {{ common.servo_home }}/android/sdk/{{ android.sdk.version }}
+    - source: https://dl.google.com/android/android-sdk_{{ android.sdk.version }}-linux.tgz
+    - source_hash: sha512={{ android.sdk.sha512 }}
     - archive_format: tar
-    - archive_user: servo # 2015.8 moves these to the standard user and group parameters
-    - if_missing: /home/servo/android-sdk_r24.4.1-linux.tgz
-  cmd.wait:
+    - archive_user: servo
+    - if_missing: {{ common.servo_home }}/android/sdk/{{ android.sdk.version }}/android-sdk-linux
+    - require:
+      - user: servo
+  cmd.run:
     # The arguments to --filter are from running 'android list sdk'
     # Currently these are:
     #   platform-tool: Android SDK Platform-tools, revision 23.0.1
@@ -44,43 +50,80 @@ android-sdk:
     - name: |
         expect -c '
         set timeout -1;
-        spawn /home/servo/android-sdk-linux/tools/android - update sdk --no-ui --filter platform-tool,9;
+        spawn {{ common.servo_home }}/android/sdk/{{ android.sdk.version }}/android-sdk-linux/tools/android - update sdk --no-ui --filter platform-tool,9;
         expect {
          "Do you accept the license" { exp_send "y\r" ; exp_continue }
          eof
         }
         '
     - user: servo
+    - creates: {{ common.servo_home }}/android/sdk/{{ android.sdk.version }}/android-sdk-linux/platform-tools
     - require:
       - pkg: android-dependencies
-    - watch:
       - archive: android-sdk
+
+android-sdk-current:
+  file.symlink:
+    - name: {{ common.servo_home }}/android/sdk/current
+    - target: {{ common.servo_home }}/android/sdk/{{ android.sdk.version }}/android-sdk-linux
+    - user: servo
+    - group: servo
+    - require:
+      - cmd: android-sdk
+
 
 android-ndk:
   file.managed:
-    - name: /home/servo/android-ndk-r10e-linux-x86_64.bin
-    - source: https://dl.google.com/android/ndk/android-ndk-r10e-linux-x86_64.bin
-    - source_hash: sha512=8948c7bd1621e32dce554d5cd1268ffda2e9c5e6b2dda5b8cf0266ea60aa2dd6fddf8d290683fc1ef0b69d66c898226c7f52cc567dbb14352b4191ac19dfb371
+    - name: {{ common.servo_home }}/android/ndk/{{ android.ndk.version }}/android-ndk-{{ android.ndk.version }}-linux-x86_64.bin
+    - source: https://dl.google.com/android/ndk/android-ndk-{{ android.ndk.version }}-linux-x86_64.bin
+    - source_hash: sha512={{ android.ndk.sha512 }}
     - user: servo
     - group: servo
-    - mode: 777
-  cmd.wait:
+    - mode: 744
+    - dir_mode: 755
+    - makedirs: True
+    - require:
+      - user: servo
+  cmd.run:
       # Need to filter log output to avoid hitting log limits on Travis CI
-    - name: /home/servo/android-ndk-r10e-linux-x86_64.bin | grep -v Extracting
+    - name: '{{ common.servo_home }}/android/ndk/{{ android.ndk.version }}/android-ndk-{{ android.ndk.version }}-linux-x86_64.bin | grep -v Extracting'
     - user: servo
-    - watch:
+    - cwd: {{ common.servo_home }}/android/ndk/{{ android.ndk.version }}
+    - creates: {{ common.servo_home }}/android/ndk/{{ android.ndk.version }}/android-ndk-{{ android.ndk.version }}
+    - require:
       - file: android-ndk
 
-android-ndk-toolset-configuration:
-  cmd.wait:
-    - name: bash /home/servo/android-ndk-r10e/build/tools/make-standalone-toolchain.sh --platform=android-18 --toolchain=arm-linux-androideabi-4.8 --install-dir='/home/servo/ndk-toolchain' --ndk-dir='/home/servo/android-ndk-r10e'
+android-toolchain:
+  cmd.run:
+    - name: bash {{ common.servo_home }}/android/ndk/{{ android.ndk.version }}/android-ndk-{{ android.ndk.version }}/build/tools/make-standalone-toolchain.sh --platform=android-18 --toolchain=arm-linux-androideabi-4.8 --install-dir='{{ common.servo_home }}/android/toolchain/{{ android.ndk.version }}/android-toolchain' --ndk-dir='{{ common.servo_home }}/android/ndk/{{ android.ndk.version }}/android-ndk-{{ android.ndk.version }}'
     - user: servo
+    - creates: {{ common.servo_home }}/android/toolchain/{{ android.ndk.version }}/android-toolchain
     - require:
-      - cmd: android-sdk
-    - watch:
       - cmd: android-ndk
 
-/home/servo/.bash_profile:
+# Toolchain depends on NDK so update the symlinks together
+android-ndk-current:
+  file.symlink:
+    - name: {{ common.servo_home }}/android/ndk/current
+    - target: {{ common.servo_home }}/android/ndk/{{ android.ndk.version }}/android-ndk-{{ android.ndk.version }}
+    - user: servo
+    - group: servo
+    - require:
+      - cmd: android-ndk
+      - cmd: android-toolchain
+
+android-toolchain-current:
+  file.symlink:
+    - name: {{ common.servo_home }}/android/toolchain/current
+    - target: {{ common.servo_home }}/android/toolchain/{{ android.ndk.version }}/android-toolchain
+    - user: servo
+    - group: servo
+    - require:
+      - cmd: android-ndk
+      - cmd: android-toolchain
+
+
+{{ common.servo_home }}/.bash_profile:
   file.managed:
     - source: salt://bash/dot.bash_profile
     - user: servo
