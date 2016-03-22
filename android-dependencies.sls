@@ -72,13 +72,12 @@ android-ndk:
       - file: android-ndk
 
 android-ndk-toolset-configuration:
-  cmd.wait:
+  cmd.run:
     - name: bash /home/servo/android-ndk-r10e/build/tools/make-standalone-toolchain.sh --platform=android-18 --toolchain=arm-linux-androideabi-4.8 --install-dir='/home/servo/ndk-toolchain' --ndk-dir='/home/servo/android-ndk-r10e'
     - user: servo
     - require:
       - cmd: android-sdk
-    - watch:
-      - cmd: android-ndk
+    - creates: /home/servo/ndk-toolchain
 
 /home/servo/.bash_profile:
   file.managed:
