@@ -25,7 +25,7 @@ buildbot-master:
     - file_mode: 644
     - template: jinja
     - context:
-        - common: {{ common }}
+        common: {{ common }}
 
 /etc/init/buildbot-master.conf:
   file.managed:
