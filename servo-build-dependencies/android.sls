@@ -3,8 +3,12 @@
 
 {% if '64' in grains['cpuarch'] %}
 enable-i386-architecture:
-  cmd.run:
-    - name: 'dpkg --add-architecture i386'
+  file.managed:
+    - name: /var/lib/dpkg/arch
+    - source: salt://{{ tpldir }}/files/arch
+    - user: root
+    - group: root
+    - mode: 644
     - require_in:
       - pkg: android-dependencies
 {% endif %}
