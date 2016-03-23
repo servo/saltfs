@@ -27,6 +27,7 @@ matrix:
 
 before_install:
   - .travis/install_salt -F -c .travis -- "${TRAVIS_OS_NAME}"
+  - sudo apt-get remove --purge libstdc++-4.8-dev-arm64-cross libstdc++6-4.8-dbg-arm64-cross libstdc++6-arm64-cross
 
 install:
   - .travis/setup_salt_roots
