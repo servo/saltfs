@@ -3,3 +3,4 @@ git:
   pkg.installed:
     - pkgs:
       - git
+      - python-pygit2
