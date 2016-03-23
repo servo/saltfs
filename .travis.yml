@@ -6,10 +6,6 @@ language: cpp
 # sudo: required and dist: trusty enable usage of Trusty
 matrix:
   include:
-    - env: SALT_NODE_ID=servo-head
-      os: linux
-      sudo: required
-      dist: trusty
     - env: SALT_NODE_ID=servo-linux-cross1
       os: linux
       sudo: required

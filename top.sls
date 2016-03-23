@@ -9,11 +9,6 @@ base:
     - match: grain
     - ubuntu
 
-  'servo-head':
-    - buildbot.slave
-    - servo-build-dependencies
-    - servo-build-dependencies.android
-
   'servo-linux-cross\d+':
     - match: pcre
     - buildbot.slave

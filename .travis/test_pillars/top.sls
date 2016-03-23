@@ -18,6 +18,3 @@ base:
   'servo-linux-cross\d+':
     - match: pcre
     - buildbot.slave
-
-  'servo-head':
-    - buildbot.slave
