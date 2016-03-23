@@ -1,5 +1,15 @@
 {% from 'common/map.jinja' import common %}
 
+# apt-get remove --purge libstdc++-4.8-dev-arm64-cross
+# libstdc++6-4.8-dbg-arm64-cross libstdc++6-arm64-cross
+
+purge-packages:
+  pkg.purged:
+    - pkgs:
+      - libstdc++-4.8-dev-arm64-cross
+      - libstdc++6-4.8-dbg-arm64-cross
+      - libstdc++6-arm64-cross
+
 arm-dependencies:
   pkg.installed:
     - pkgs:
