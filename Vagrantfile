@@ -7,6 +7,8 @@ def extract_id(env)
   id[0]
 end
 
+Vagrant.require_version '>= 1.8.0'
+
 Vagrant.configure(2) do |config|
 
   if Vagrant.has_plugin?('vagrant-cachier')
@@ -39,9 +41,7 @@ Vagrant.configure(2) do |config|
       machine.vm.provider :virtualbox do |vbox|
         # Need extra memory for downloading large files (e.g. Android SDK)
         vbox.memory = 1024
-        if Gem::Version.new(Vagrant::VERSION) >= Gem::Version.new('1.8.0')
-          vbox.linked_clone = true
-        end
+        vbox.linked_clone = true
       end
       machine.vm.synced_folder dir, state_root
       machine.vm.synced_folder File.join(dir, ".travis/test_pillars"), pillar_root
