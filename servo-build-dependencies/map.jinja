@@ -12,6 +12,27 @@
 %}
 
 {%
+  set arm = {
+    'targets': [
+      {
+        'name': 'arm-linux-gnueabihf',
+        'download_name': 'armhf-trusty-libs.tgz',
+        'symlink_name': 'arm-unknown-linux-gnueabihf',
+        'version': 'v1',
+        'sha512': 'd9a31ed488e4f848efcd07f71aa167fc73252da2a2c3b53ba8216100e2b4302b5ccd273b27c434ad189650652a1877607d328ff6b8e1edb5aa68a8927c617b49'
+      },
+      {
+        'name': 'aarch64-linux-gnu',
+        'download_name': 'arm64-trusty-libs.tgz',
+        'symlink_name': 'aarch64-unknown-linux-gnu',
+        'version': 'v1',
+        'sha512': '6c86097188b70940835b2fc936fe70f01890fae45ba4ef79dcccc6a552ad319dcba23e21d6c849fd9d396e0c2f4476a21c93f9b3d4abb4f34d69f22d18017b1b'
+      }
+    ]
+  }
+%}
+
+{%
   set b2g = {
     'sha512': '092a3c9210ce4eae864dc07a4a17f5fc38aebdd0179d64d7b77a65bad2adc004a9599ef7bf1e6ce610abaecae87cd61af5d58ea5ac609028b429e514dfe96e77'
   }
