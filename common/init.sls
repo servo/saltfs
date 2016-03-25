@@ -6,10 +6,11 @@ python2:
       - python
 
 {% if grains['os'] == 'Ubuntu' %}
-python2-dev:
+ubuntu-packages:
   pkg.installed:
     - pkgs:
       - python-dev
+      - unattended-upgrades
 
 unattended-upgrades:
   debconf.set:
@@ -17,13 +18,12 @@ unattended-upgrades:
         'unattended-upgrades/enable_auto_updates':
           type: boolean
           value: "true"
-  cmd.wait:
-    - name: "dpkg-reconfigure unattended-upgrades"
-    - watch:
-      - debconf: unattended-upgrades
-    - env:
-        DEBIAN_FRONTEND: noninteractive
-        DEBCONF_NONINTERACTIVE_SEEN: "true"
+  file.managed:
+    - name: /etc/apt/apt.conf.d/20auto-upgrades
+    - source: salt://{{ tpldir }}/files/20auto-upgrades
+    - user: root
+    - group: root
+    - mode: 644
 {% endif %}
 
 pip:
