@@ -15,6 +15,7 @@ port = 54856
 secret = "{{ pillar["homu"]["web-secret"] }}"
 
 {% set travis_repos = [
+    ('crabtw', 'rust-bindgen'),
     ('servo', 'app_units'),
     ('servo', 'cgl-rs'),
     ('servo', 'cocoa-rs'),
