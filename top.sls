@@ -29,7 +29,7 @@ base:
     - servo-build-dependencies
     - xvfb
 
-  'servo-master':
+  'servo-master\d+':
     - git
     - buildbot.master
     - homu
