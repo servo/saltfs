@@ -16,13 +16,13 @@ matrix:
       os: linux
       sudo: required
       dist: trusty
-    - env: SALT_NODE_ID=servo-master
+    - env: SALT_NODE_ID=servo-master1
       os: linux
       sudo: required
       dist: trusty
   allow_failures:
     - env: SALT_NODE_ID=servo-linux-cross1
-  
+
 before_install:
   - .travis/install_salt -F -c .travis -- "${TRAVIS_OS_NAME}"
 
