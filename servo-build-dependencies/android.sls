@@ -47,14 +47,10 @@ android-sdk:
     - require:
       - user: servo
   cmd.run:
-    # The arguments to --filter are from running 'android list sdk'
-    # Currently these are:
-    #   platform-tool: Android SDK Platform-tools, revision 23.0.1
-    #   9: SDK Platform Android 4.3.1, API 18, revision 3
     - name: |
         expect -c '
         set timeout -1;
-        spawn {{ common.servo_home }}/android/sdk/{{ android.sdk.version }}/android-sdk-linux/tools/android - update sdk --no-ui --filter platform-tool,9;
+        spawn {{ common.servo_home }}/android/sdk/{{ android.sdk.version }}/android-sdk-linux/tools/android - update sdk --no-ui --filter platform-tool,android-18;
         expect {
          "Do you accept the license" { exp_send "y\r" ; exp_continue }
          eof
