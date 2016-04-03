@@ -30,6 +30,7 @@ base:
     - xvfb
 
   'servo-master\d+':
+    - match: pcre
     - git
     - buildbot.master
     - homu
