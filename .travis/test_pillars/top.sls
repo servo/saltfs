@@ -3,7 +3,8 @@ base:
     - travis
     - buildbot.common
 
-  'servo-master':
+  'servo-master\d+':
+    - match: pcre
     - buildbot.master
     - homu
 
