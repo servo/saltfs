@@ -24,10 +24,10 @@ matrix:
     - env: SALT_NODE_ID=servo-linux-cross1
 
 before_install:
-  - .travis/install_salt -F -c .travis -- "${TRAVIS_OS_NAME}"
+  - .travis/install_salt.sh -F -c .travis -- "${TRAVIS_OS_NAME}"
 
 install:
-  - .travis/setup_salt_roots
+  - .travis/setup_salt_roots.sh
 
   # For debugging, check the grains reported by the Travis builder
   - sudo salt-call --id="${SALT_NODE_ID}" grains.items
