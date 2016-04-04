@@ -60,5 +60,5 @@ remove-old-build-logs:
   cron.present:
     - name: 'find /home/servo/buildbot/master/*/*.bz2 -mtime +5 -delete'
     - user: root
-    - minute: 1 
+    - minute: 1
     - hour: 0
