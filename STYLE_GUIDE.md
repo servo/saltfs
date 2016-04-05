@@ -2,7 +2,8 @@
 
 Style guide for Salt states (and other code) in this repo. Unfortunately,
 no linter exists yet for Salt states, so there is no automated way to
-check for compliance with this guide.
+check for compliance with this guide. However, there is a small test suite
+for a few items; it can be run with `./test.py`.
 
 ## General
 

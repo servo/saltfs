@@ -20,23 +20,16 @@ matrix:
       os: linux
       sudo: required
       dist: trusty
+    - env: SALT_NODE_ID=test # Not a Salt node, runs test suite instead
+      os: linux
+      sudo: required
+      dist: trusty
+      language: python
+      python: 3.5
   allow_failures:
     - env: SALT_NODE_ID=servo-linux-cross1
 
-before_install:
-  - .travis/install_salt -F -c .travis -- "${TRAVIS_OS_NAME}"
-
-install:
-  - .travis/setup_salt_roots
-
-  # For debugging, check the grains reported by the Travis builder
-  - sudo salt-call --id="${SALT_NODE_ID}" grains.items
-
-script:
-  # Minimally validate YAML and Jinja at a basic level
-  - sudo salt-call --id="${SALT_NODE_ID}" --retcode-passthrough state.show_highstate
-  # Full on installation test
-  - sudo salt-call --id="${SALT_NODE_ID}" --retcode-passthrough --log-level=warning state.highstate
+script: .travis/dispatch.sh
 
 notifications:
   webhooks: http://build.servo.org:54856/travis
