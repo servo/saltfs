@@ -12,6 +12,11 @@ def is_python_script(path):
 
 
 def main():
+    if sys.version_info < (3, 5):  # We use features introduced in Python 3.5
+        sys.stderr.write('{}: Python 3.5 or later is needed for this script\n'
+                         .format(__file__))
+        return 1
+
     ANY_FAILURES = False
 
     test_dir = os.path.join(project_path(), 'tests')
