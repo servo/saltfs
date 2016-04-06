@@ -4,11 +4,7 @@ import os
 from buildslave.bot import BuildSlave
 from twisted.application import service
 
-{% if grains["kernel"] != "Darwin" %}
-basedir = '/home/servo/buildbot/slave'
-{% else %}
-basedir = '/Users/servo/buildbot/slave'
-{% endif %}
+basedir = '{{ common.servo_home }}/buildbot/slave'
 rotateLength = 10000000
 maxRotatedFiles = 10
 
