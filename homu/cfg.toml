@@ -126,8 +126,9 @@ try_builders = ["linux-dev", "linux-rel", "android", "mac-dev-unit", "mac-rel-wp
 username = "{{ pillar["homu"]["buildbot-http-user"] }}"
 password = "{{ pillar["homu"]["buildbot-http-pass"] }}"
 
-[repo.servo.status.appveyor]
-context = 'continuous-integration/appveyor/branch'
+# Disabled due to performance an instability
+#[repo.servo.status.appveyor]
+#context = 'continuous-integration/appveyor/branch'
 
 # Standard per-repo configs (generated)
 
