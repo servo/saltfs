@@ -11,7 +11,9 @@ buildbot-master:
       - pkg: pip
   service.running:
     - enable: True
-    - watch:
+    # Buildbot must be restarted manually! See 'Buildbot administration' on the
+    # wiki and https://github.com/servo/saltfs/issues/304.
+    - require:
       - pip: buildbot-master
       - file: {{ common.servo_home }}/buildbot/master
       - file: /etc/init/buildbot-master.conf
