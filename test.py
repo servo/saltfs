@@ -7,35 +7,48 @@ import sys
 from tests.util import color, GREEN, RED, Failure, project_path
 
 
-def is_python_script(path):
-    return path.endswith('.py')
+def is_python_script(dir_entry):
+    return dir_entry.name.endswith('.py') and dir_entry.is_file()
+
+
+def run_tests(tests):
+    any_failures = False
+
+    for test_spec in tests:
+        test_dir = os.path.join(project_path(), 'tests', *test_spec.split('.'))
+
+        python_scripts = filter(is_python_script, os.scandir(test_dir))
+        tests = sorted([entry.name for entry in python_scripts])
+
+        for test in tests:
+            test_mod_name = 'tests.{}.{}'.format(test_spec, test[:-3])
+            test_mod = importlib.import_module(test_mod_name)
+            if not hasattr(test_mod, 'run'):  # Not a test script
+                continue
+
+            try:
+                result = test_mod.run()
+            except Exception as e:
+                message = 'Test \'{}\' raised an exception:'.format(test)
+                result = Failure(message, str(e))
+
+            if result.is_success():
+                print('[ {} ] {}'.format(color(GREEN, 'PASS'), result.message))
+            else:
+                any_failures = True
+                print('[ {} ] {}'.format(color(RED, 'FAIL'), result.message))
+                for line in result.output.splitlines():
+                    print('         {}'.format(line))
+
+    return 1 if any_failures else 0
 
 
 def main():
-    ANY_FAILURES = False
+    tests = ['lint']  # Only tests that are always safe and meaningful to run
+    if len(sys.argv) > 1:
+        tests = sys.argv[1:]
 
-    test_dir = os.path.join(project_path(), 'tests')
-    tests = sorted(filter(is_python_script, os.listdir(test_dir)))
-    for test in tests:
-        test_mod = importlib.import_module('tests.{}'.format(test[:-3]))
-        if not hasattr(test_mod, 'run'):  # Not a test script
-            continue
-
-        try:
-            result = test_mod.run()
-        except Exception as e:
-            result = Failure('Test \'{}\' raised an exception:'.format(test),
-                             str(e))
-
-        if result.is_success():
-            print('[ {} ] {}'.format(color(GREEN, 'PASS'), result.message))
-        else:
-            ANY_FAILURES = True
-            print('[ {} ] {}'.format(color(RED, 'FAIL'), result.message))
-            for line in result.output.splitlines():
-                print('         {}'.format(line))
-
-    return 1 if ANY_FAILURES else 0
+    return run_tests(tests)
 
 if __name__ == '__main__':
     sys.exit(main())

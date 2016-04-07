@@ -20,6 +20,8 @@ matrix:
       os: linux
       sudo: required
       dist: trusty
+      language: python
+      python: 3.5
     - env: SALT_NODE_ID=test # Not a Salt node, runs test suite instead
       os: linux
       sudo: required

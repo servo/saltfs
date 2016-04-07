@@ -1,7 +1,7 @@
 import itertools
 import re
 
-from .util import colon, color, display_path, paths, Failure, Success
+from tests.util import colon, color, display_path, paths, Failure, Success
 
 
 def display_trailing_whitespace(whitespace):
