@@ -1,7 +1,7 @@
 import os
 import stat
 
-from .util import display_path, paths, Failure, Success
+from tests.util import display_path, paths, Failure, Success
 
 
 SHEBANG = """\

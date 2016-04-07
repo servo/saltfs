@@ -20,4 +20,9 @@ else
     sudo salt-call --id="${SALT_NODE_ID}" --retcode-passthrough state.show_highstate
     # Full on installation test
     sudo salt-call --id="${SALT_NODE_ID}" --retcode-passthrough --log-level=warning state.highstate
+
+    # TODO: don't hard-code this
+    if [ "${SALT_NODE_ID}" = "servo-master1" ]; then
+        ./test.py sls.buildbot.master
+    fi
 fi

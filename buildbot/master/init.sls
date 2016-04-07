@@ -11,14 +11,16 @@ buildbot-master:
       - pkg: pip
   service.running:
     - enable: True
-    - watch:
+    # Buildbot must be restarted manually! See 'Buildbot administration' on the
+    # wiki and https://github.com/servo/saltfs/issues/304.
+    - require:
       - pip: buildbot-master
-      - file: /home/servo/buildbot/master
+      - file: {{ common.servo_home }}/buildbot/master
       - file: /etc/init/buildbot-master.conf
 
-/home/servo/buildbot/master:
+{{ common.servo_home }}/buildbot/master:
   file.recurse:
-    - source: salt://buildbot/master
+    - source: salt://{{ tpldir }}/files/config
     - user: servo
     - group: servo
     - dir_mode: 755
@@ -29,25 +31,30 @@ buildbot-master:
 
 /etc/init/buildbot-master.conf:
   file.managed:
-    - source: salt://buildbot/buildbot-master.conf
+    - source: salt://{{ tpldir }}/files/buildbot-master.conf
     - user: root
     - group: root
     - mode: 644
+    - template: jinja
+    - context:
+        common: {{ common }}
 
 /usr/local/bin/github_buildbot.py:
   file.managed:
-    - source: salt://buildbot/github_buildbot.py
+    - source: salt://{{ tpldir }}/files/github_buildbot.py
     - user: root
     - group: root
     - mode: 755
 
 /etc/init/buildbot-github-listener.conf:
   file.managed:
-    - source: salt://buildbot/buildbot-github-listener.conf
-    - template: jinja
+    - source: salt://{{ tpldir }}/files/buildbot-github-listener.conf
     - user: root
     - group: root
     - mode: 644
+    - template: jinja
+    - context:
+        common: {{ common }}
 
 buildbot-github-listener:
   service.running:
@@ -58,7 +65,7 @@ buildbot-github-listener:
 
 remove-old-build-logs:
   cron.present:
-    - name: 'find /home/servo/buildbot/master/*/*.bz2 -mtime +5 -delete'
+    - name: 'find {{ common.servo_home }}/buildbot/master/*/*.bz2 -mtime +5 -delete'
     - user: root
     - minute: 1
     - hour: 0

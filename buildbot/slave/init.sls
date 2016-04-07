@@ -9,8 +9,7 @@ buildbot-slave-dependencies:
 
 {{ common.servo_home }}/buildbot/slave:
   file.recurse:
-    - source: salt://buildbot/slave
-    - template: jinja
+    - source: salt://{{ tpldir }}/files/config
     - user: servo
     {% if grains['kernel'] == 'Darwin' %}
     - group: staff
@@ -19,6 +18,9 @@ buildbot-slave-dependencies:
     {% endif %}
     - dir_mode: 755
     - file_mode: 644
+    - template: jinja
+    - context:
+        common: {{ common }}
     {% if grains['kernel'] != 'Darwin' %}
     - watch_in:
       - service: buildbot-slave
@@ -28,7 +30,7 @@ buildbot-slave-dependencies:
 
 /Library/LaunchDaemons/net.buildbot.buildslave.plist:
   file.managed:
-    - source: salt://buildbot/net.buildbot.buildslave.plist
+    - source: salt://{{ tpldir }}/files/net.buildbot.buildslave.plist
     - user: root
     - group: wheel
     - mode: 644
@@ -43,10 +45,13 @@ launchctl load -w /Library/LaunchDaemons/net.buildbot.buildslave.plist:
 
 /etc/init/buildbot-slave.conf:
   file.managed:
-    - source: salt://buildbot/buildbot-slave.conf
+    - source: salt://{{ tpldir }}/files/buildbot-slave.conf
     - user: root
     - group: root
     - mode: 644
+    - template: jinja
+    - context:
+        common: {{ common }}
     - watch_in:
       - service: buildbot-slave
 
@@ -55,4 +60,3 @@ buildbot-slave:
     - enable: True
 
 {% endif %}
-
