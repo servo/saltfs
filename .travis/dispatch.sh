@@ -23,6 +23,6 @@ else
 
     # TODO: don't hard-code this
     if [ "${SALT_NODE_ID}" = "servo-master1" ]; then
-        ./test.py sls.buildbot.master
+        ./test.py sls.buildbot.master sls.nginx
     fi
 fi
