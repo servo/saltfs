@@ -17,7 +17,7 @@ install_salt () {
     elif [ "${OS_NAME}" = "osx" ]; then
         printf "$0: installing salt for Mac OS X\n"
         brew update
-        brew install https://raw.githubusercontent.com/Homebrew/homebrew/86efec6695b019762505be440798c46d50ebd738/Library/Formula/saltstack.rb
+        brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/3461c9c74b2f3aba9a6fbd7165823c81dc2b4792/Formula/saltstack.rb
     else
         printf >&2 "$0: unknown operating system ${OS_NAME}\n"
         exit 1
