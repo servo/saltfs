@@ -2,6 +2,7 @@ import re
 
 from buildbot.plugins import steps, util
 from buildbot.process import buildstep
+from buildbot.status.results import SUCCESS
 
 import environments as envs
 
@@ -58,9 +59,13 @@ class DynamicServoFactory(ServoFactory):
             print(str(e))
             dynamic_steps = [BadConfigurationStep(e)]
 
+        # TODO: windows compatibility (use a custom script for this?)
+        pkill_step = [steps.ShellCommand(command=["pkill", "-x", "servo"],
+                                         decodeRC={0: SUCCESS, 1: SUCCESS})]
+
         # util.BuildFactory is an old-style class so we cannot use super()
         # but must hardcode the superclass here
-        ServoFactory.__init__(self, dynamic_steps)
+        ServoFactory.__init__(self, pkill_step + dynamic_steps)
 
     def make_step(self, command):
         step_kwargs = {}
