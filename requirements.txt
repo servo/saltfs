@@ -1,0 +1,3 @@
+# Python modules needed for testing
+# (Travis-CI will auto-install them from this file)
+flake8 == 2.5.4
