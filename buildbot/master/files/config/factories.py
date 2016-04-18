@@ -122,4 +122,5 @@ windows = ServoFactory([
                   env=envs.build_windows),
     steps.Compile(command=["bash", "-l", "-c", "./mach test-unit"],
                   env=envs.build_windows),
+    # TODO: run lockfile_changed.sh and manifest_changed.sh scripts
 ])

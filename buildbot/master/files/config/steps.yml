@@ -1,5 +1,4 @@
 mac-rel-wpt:
-  - ./mach test-tidy --no-progress
   - ./mach build --release
   - ./mach test-wpt-failure
   - ./mach test-wpt --release --processes 4 --log-raw test-wpt.log --log-errorsummary wpt-errorsummary.log
@@ -32,6 +31,7 @@ linux-dev:
   - ./mach build-geckolib
   - bash ./etc/ci/lockfile_changed.sh
   - bash ./etc/ci/manifest_changed.sh
+  - bash ./etc/ci/check_no_unwrap.sh
 
 linux-rel:
   - ./mach build --release
@@ -42,7 +42,6 @@ linux-rel:
   - ./mach build-geckolib --release
   - bash ./etc/ci/lockfile_changed.sh
   - bash ./etc/ci/manifest_changed.sh
-  - bash ./etc/ci/check_no_unwrap.sh
 
 android:
   - ./mach build --android --dev
@@ -57,6 +56,10 @@ android-nightly:
 
 arm32:
   - ./mach build --rel --target=arm-unknown-linux-gnueabihf
+  - bash ./etc/ci/lockfile_changed.sh
+  - bash ./etc/ci/manifest_changed.sh
 
 arm64:
   - ./mach build --rel --target=aarch64-unknown-linux-gnu
+  - bash ./etc/ci/lockfile_changed.sh
+  - bash ./etc/ci/manifest_changed.sh
