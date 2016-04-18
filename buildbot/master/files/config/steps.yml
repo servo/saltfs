@@ -1,26 +1,19 @@
 mac-rel-wpt:
-  - ./mach test-tidy --no-progress
   - ./mach build --release
   - ./mach test-wpt-failure
   - ./mach test-wpt --release --processes 4 --log-raw test-wpt.log
   - ./mach build-cef --release
-  - bash ./etc/ci/lockfile_changed.sh
-  - bash ./etc/ci/manifest_changed.sh
 
 mac-dev-unit:
   - ./mach build --dev
   - ./mach test-unit
   - ./mach build-cef
   - ./mach build-geckolib
-  - bash ./etc/ci/lockfile_changed.sh
-  - bash ./etc/ci/manifest_changed.sh
 
 mac-rel-css:
   - ./mach build --release
   - ./mach test-css --release --processes 4 --log-raw test-css.log
   - ./mach build-geckolib --release
-  - bash ./etc/ci/lockfile_changed.sh
-  - bash ./etc/ci/manifest_changed.sh
 
 linux-dev:
   - ./mach test-tidy --no-progress
@@ -32,6 +25,7 @@ linux-dev:
   - ./mach build-geckolib
   - bash ./etc/ci/lockfile_changed.sh
   - bash ./etc/ci/manifest_changed.sh
+  - bash ./etc/ci/check_no_unwrap.sh
 
 linux-rel:
   - ./mach build --release
@@ -40,14 +34,9 @@ linux-rel:
   - ./mach test-css --release --processes 16 --log-raw test-css.log
   - ./mach build-cef --release
   - ./mach build-geckolib --release
-  - bash ./etc/ci/lockfile_changed.sh
-  - bash ./etc/ci/manifest_changed.sh
-  - bash ./etc/ci/check_no_unwrap.sh
 
 android:
   - ./mach build --android --dev
-  - bash ./etc/ci/lockfile_changed.sh
-  - bash ./etc/ci/manifest_changed.sh
   - python ./etc/ci/check_dynamic_symbols.py
 
 android-nightly:
