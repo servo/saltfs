@@ -7,6 +7,7 @@ buildbot-master:
       - service_identity == 14.0.0
       - txgithub == 15.0.0
       - boto == 2.38.0
+      - pyyaml == 3.11
     - require:
       - pkg: pip
   service.running:
