@@ -114,13 +114,20 @@ doc = ServoFactory([
                        logEnviron=False),
 ])
 
+
+def make_cd_string(command):
+    return "cd /c/buildbot/slave/windows/build ; " + command
+
+
 windows = ServoFactory([
     # TODO: convert this to use DynamicServoFactory
     # We need to run each command in a bash login shell, which breaks the
     # heuristics used by DynamicServoFactory.make_step
-    steps.Compile(command=["bash", "-l", "-c", "./mach build -d -v"],
+    steps.Compile(command=["bash", "-l", "-c",
+                           make_cd_string("./mach build -d -v")],
                   env=envs.build_windows),
-    steps.Compile(command=["bash", "-l", "-c", "./mach test-unit"],
+    steps.Compile(command=["bash", "-l", "-c",
+                           make_cd_string("./mach test-unit")],
                   env=envs.build_windows),
     # TODO: run lockfile_changed.sh and manifest_changed.sh scripts
 ])
