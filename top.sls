@@ -2,6 +2,7 @@
 
 base:
   '*':
+    - admin
     - common
     - salt.common
 
