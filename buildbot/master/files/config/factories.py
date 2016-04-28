@@ -126,7 +126,7 @@ windows = ServoFactory([
     # heuristics used by DynamicServoFactory.make_step
     steps.Compile(command=make_win_command("./mach build -d -v"),
                   env=envs.build_windows),
-    steps.Compile(command=make_win_command("./mach test-unit"),
-                  env=envs.build_windows),
+    steps.Test(command=make_win_command("./mach test-unit"),
+               env=envs.build_windows),
     # TODO: run lockfile_changed.sh and manifest_changed.sh scripts
 ])
