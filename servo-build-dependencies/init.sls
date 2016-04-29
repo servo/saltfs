@@ -25,6 +25,7 @@ servo-dependencies:
       - libosmesa6-dev
       - gperf
       - autoconf2.13
+      - libdbus-glib-1-dev
       {% endif %}
   pip.installed:
     - pkgs:
