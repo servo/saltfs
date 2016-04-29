@@ -6,6 +6,7 @@ arm-dependencies:
     - pkgs:
       - g++-aarch64-linux-gnu
       - g++-arm-linux-gnueabihf
+      - libdbus-glib-1-dev
 
 
 {% set binaries = [
