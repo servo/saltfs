@@ -35,3 +35,4 @@ base:
     - buildbot.master
     - homu
     - nginx
+    - salt.master

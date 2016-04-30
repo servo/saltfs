@@ -1,10 +1,24 @@
 {%
-  set salt = salt.grains.filter_by({
-      'defaults': {
-        'version':  '2015.5.8'
+  set salt = {
+    'version': '2015.5.8',
+    'master': salt['grains.filter_by']({
+        'defaults': {
+          'config': {
+            'file_roots': {
+              'base': [ '/srv/salt' ]
+            },
+            'pillar_roots': {
+              'base': [ '/srv/pillar' ]
+            }
+          }
+        },
+        'Ubuntu': {
+          'pkg': 'salt-master',
+          'version': '2015.5.8+ds-1'
+        }
       },
-    },
-    base='defaults',
-    merge=salt.pillar.get('salt', {})
-  )
+      base='defaults',
+      grain='os',
+    )
+  }
 %}
