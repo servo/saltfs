@@ -4,9 +4,12 @@
     'master': salt['grains.filter_by']({
         'defaults': {
           'config': {
+            'fileserver_backend': [ 'roots', 'git' ],
             'file_roots': {
-              'base': [ '/srv/salt' ]
+              'base': [ '/tmp/salt-testing-root' ]
             },
+            'gitfs_remotes': [ 'https://github.com/servo/saltfs.git' ],
+            'gitfs_env_whitelist': [ 'base' ],
             'pillar_roots': {
               'base': [ '/srv/pillar' ]
             }
