@@ -1,9 +1,3 @@
+master: localhost  # Used to test the salt-master
 state_output: terse
 state_tabular: True
-file_client: local
-file_roots:
-  base:
-    - /srv/salt/states
-pillar_roots:
-  base:
-    - /srv/salt/pillars

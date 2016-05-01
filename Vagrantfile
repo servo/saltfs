@@ -7,6 +7,16 @@ def extract_id(env)
   id[0]
 end
 
+def is_salt_master(id)
+  # The ideal way of doing this would be to ask Salt, which minions will
+  # execute the `salt/master.sls` state file during a highstate? However,
+  # it is not possible to do that from Vagrant outside the VM, and parsing
+  # the top.sls is also not a good idea because there are Salt intracacies
+  # like compound matching. Hence, simply hardcode this regex for now.
+  # This should be kept in sync with the top.sls file.
+  !id.match(/servo-master\d+/).nil?
+end
+
 Vagrant.require_version '>= 1.8.0'
 
 Vagrant.configure(2) do |config|
@@ -16,10 +26,7 @@ Vagrant.configure(2) do |config|
   end
 
   dir = File.dirname(__FILE__)
-  minion_config_path = File.join(dir, '.travis', 'minion')
-  minion_config = YAML.load_file(minion_config_path)
-  state_root = minion_config['file_roots']['base'][0]
-  pillar_root = minion_config['pillar_roots']['base'][0]
+  test_pillars_path = File.join(dir, '.travis', 'test_pillars')
 
   YAML.load_file(File.join(dir, '.travis.yml'))['matrix']['include'].map do |node|
     node_config = case node['os']
@@ -46,15 +53,24 @@ Vagrant.configure(2) do |config|
         vbox.memory = 1024
         vbox.linked_clone = true
       end
-      machine.vm.synced_folder dir, state_root
-      machine.vm.synced_folder File.join(dir, '.travis', 'test_pillars'), pillar_root
+      if is_salt_master(node[:id])
+        # Salt master directories are hardcoded because we'd need to run Salt
+        # to resolve the configuration stored in the salt/map.jinja file.
+        # Make sure to keep these values in sync with that file.
+        machine.vm.synced_folder dir, '/srv/salt'
+        machine.vm.synced_folder test_pillars_path, '/srv/pillar'
+      end
       machine.vm.provision :salt do |salt|
         salt.bootstrap_script = File.join(dir, '.travis', 'install_salt.sh')
         salt.install_args = node[:os] # Pass OS type to bootstrap script
         salt.masterless = true
-        salt.minion_config = minion_config_path
+        salt.minion_config = File.join(dir, '.travis', 'minion')
         # hack to provide additional options to salt-call
-        salt.minion_id = node[:id] + ' --retcode-passthrough'
+        salt.minion_id = node[:id] + ' ' + ([
+            '--file-root=/vagrant',
+            '--pillar-root=/vagrant/.travis/test_pillars',
+            '--retcode-passthrough'
+        ].join(' '))
         salt.run_highstate = true
         salt.verbose = true
         salt.log_level = 'info'
