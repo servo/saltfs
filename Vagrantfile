@@ -57,7 +57,10 @@ Vagrant.configure(2) do |config|
         # Salt master directories are hardcoded because we'd need to run Salt
         # to resolve the configuration stored in the salt/map.jinja file.
         # Make sure to keep these values in sync with that file.
-        machine.vm.synced_folder dir, '/srv/salt'
+        # Note that because gitfs always reflects the master branch on GitHub,
+        # the states dir is synced to the override location instead to allow
+        # testing out changes locally.
+        machine.vm.synced_folder dir, '/tmp/salt-testing-root/saltfs'
         machine.vm.synced_folder test_pillars_path, '/srv/pillar'
       end
       machine.vm.provision :salt do |salt|
