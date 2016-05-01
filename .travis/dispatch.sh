@@ -3,6 +3,13 @@
 set -o errexit
 set -o nounset
 
+salt_call() {
+    sudo salt-call \
+        --id="${SALT_NODE_ID}" \
+        --local --file-root='./.' --pillar-root='./.travis/test_pillars' \
+        "$@"
+}
+
 travis_fold_start () {
     printf "travis_fold:start:$1\n"
     printf "$2\n"
@@ -15,19 +22,18 @@ travis_fold_end () {
 run_salt () {
     travis_fold_start "salt.install.$1" 'Installing and configuring Salt'
     .travis/install_salt.sh -F -c .travis -- "${TRAVIS_OS_NAME}"
-    .travis/setup_salt_roots.sh
     travis_fold_end "salt.install.$1"
 
     travis_fold_start "grains.items.$1" 'Printing Salt grains for debugging'
-    sudo salt-call --id="${SALT_NODE_ID}" grains.items
+    salt_call grains.items
     travis_fold_end "grains.items.$1"
 
     travis_fold_start "state.show_highstate.$1" 'Performing basic YAML and Jinja validation'
-    sudo salt-call --id="${SALT_NODE_ID}" --retcode-passthrough state.show_highstate
+    salt_call --retcode-passthrough state.show_highstate
     travis_fold_end "state.show_highstate.$1"
 
     printf 'Running the full Salt highstate\n'
-    sudo salt-call --id="${SALT_NODE_ID}" --retcode-passthrough --log-level=warning state.highstate
+    salt_call --retcode-passthrough --log-level=warning state.highstate
 }
 
 
