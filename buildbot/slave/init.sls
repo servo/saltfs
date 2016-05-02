@@ -21,10 +21,6 @@ buildbot-slave-dependencies:
     - template: jinja
     - context:
         common: {{ common }}
-    {% if grains['kernel'] != 'Darwin' %}
-    - watch_in:
-      - service: buildbot-slave
-    {% endif %}
 
 {% if grains['kernel'] == 'Darwin' %}
 
@@ -34,12 +30,8 @@ buildbot-slave-dependencies:
     - user: root
     - group: wheel
     - mode: 644
-
-launchctl unload /Library/LaunchDaemons/net.buildbot.buildslave.plist:
-  cmd.run
-
-launchctl load -w /Library/LaunchDaemons/net.buildbot.buildslave.plist:
-  cmd.run
+    - watch_in:
+      - service: buildbot-slave
 
 {% else %}
 
@@ -55,8 +47,10 @@ launchctl load -w /Library/LaunchDaemons/net.buildbot.buildslave.plist:
     - watch_in:
       - service: buildbot-slave
 
+{% endif %}
+
 buildbot-slave:
   service.running:
     - enable: True
-
-{% endif %}
+    - watch:
+      - file: {{ common.servo_home }}/buildbot/slave
