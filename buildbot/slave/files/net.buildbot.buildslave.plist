@@ -3,7 +3,7 @@
 <plist version="1.0">
   <dict>
     <key>Label</key>
-    <string>buildslave</string>
+    <string>buildbot-slave</string>
     <key>EnvironmentVariables</key>
     <dict>
         <key>PATH</key>
