@@ -36,7 +36,7 @@ arm-dependencies:
 libs-{{ target.name }}:
   archive.extracted:
     - name: {{ common.servo_home }}/rootfs-trusty-{{ target.name }}/{{ target.version }}
-    - source: https://servo-rust.s3.amazonaws.com/ARM/{{ target.download_name }}/{{ target.version }}/{{ target.download_name }}-{{ target.version }}.tgz
+    - source: https://servo-rust.s3.amazonaws.com/ARM/{{ target.version }}/{{ target.download_name }}.tgz
     - source_hash: sha512={{ target.sha512 }}
     - archive_format: tar
     - archive_user: servo
