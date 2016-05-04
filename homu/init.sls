@@ -1,14 +1,11 @@
+{% from tpldir ~ '/map.jinja' import homu %}
+
 python3:
   pkg.installed:
     - pkgs:
       - python3
 
 homu:
-  git.latest:
-    - name: https://github.com/servo/homu
-    - rev: a26486e54e13db443a2f4450400ed3785e1b1989
-    - target: /home/servo/homu
-    - user: servo
   virtualenv.managed:
     - name: /home/servo/homu/_venv
     - venv_bin: virtualenv-3.5
@@ -18,11 +15,10 @@ homu:
       - pkg: python3
       - pip: virtualenv
   pip.installed:
+    - name: git+https://github.com/servo/homu@{{ homu.rev }}
     - bin_env: /home/servo/homu/_venv
-    - editable: /home/servo/homu
     - require:
-      - git: homu
-      - virtualenv: /home/servo/homu/_venv
+      - virtualenv: homu
   service.running:
     - enable: True
     - require:
@@ -33,7 +29,7 @@ homu:
 
 /home/servo/homu/cfg.toml:
   file.managed:
-    - source: salt://homu/cfg.toml
+    - source: salt://{{ tpldir }}/files/cfg.toml
     - template: jinja
     - user: servo
     - group: servo
@@ -41,7 +37,10 @@ homu:
 
 /etc/init/homu.conf:
   file.managed:
-    - source: salt://homu/homu.conf
+    - source: salt://{{ tpldir }}/files/homu.conf
     - user: root
     - group: root
     - mode: 644
+    - require:
+      - pip: homu
+      - file: /home/servo/homu/cfg.toml
