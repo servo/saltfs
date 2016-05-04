@@ -1,11 +1,12 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 set -o errexit
 set -o nounset
+set -o pipefail
 
 install_salt () {
     # Ensure that pinned versions match as closely as possible
-    if [ "${OS_NAME}" = "linux" ]; then
+    if [[ "${OS_NAME}" == "linux" ]]; then
         printf "$0: installing salt for Linux\n"
         # Use Trusty (Ubuntu 14.04) on Travis
         # Don't autostart services
@@ -14,7 +15,7 @@ install_salt () {
         printf 'deb http://repo.saltstack.com/apt/ubuntu/14.04/amd64/archive/2015.5.8 trusty main\n' | sudo tee /etc/apt/sources.list.d/saltstack.list >/dev/null
         sudo apt-get -y update
         sudo apt-get -y install salt-minion=2015.5.8+ds-1
-    elif [ "${OS_NAME}" = "osx" ]; then
+    elif [[ "${OS_NAME}" == "osx" ]]; then
         printf "$0: installing salt for Mac OS X\n"
         brew update
         brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/3461c9c74b2f3aba9a6fbd7165823c81dc2b4792/Formula/saltstack.rb
@@ -62,16 +63,16 @@ while true; do
     esac
 done
 
-if [ "$#" -lt 1 ]; then
+if [[ "$#" -lt 1 ]]; then
     printf >&2 "usage: $0 [-c <config_dir> [-F]] [--] os_name\n"
     exit 1
 fi
 
 OS_NAME="$1"
-if [ -z "${CONFIGURE_ONLY}" ]; then
+if [[ -z "${CONFIGURE_ONLY}" ]]; then
     install_salt
 fi
 
-if [ -n "${TEMPORARY_CONFIG_DIR}" ]; then
+if [[ -n "${TEMPORARY_CONFIG_DIR}" ]]; then
     configure_salt
 fi
