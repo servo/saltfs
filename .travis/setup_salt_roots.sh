@@ -1,7 +1,8 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 set -o errexit
 set -o nounset
+set -o pipefail
 
 setup_salt_roots () {
     sudo rm -rf /srv/salt
