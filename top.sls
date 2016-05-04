@@ -14,7 +14,6 @@ base:
     - buildbot.slave
     - servo-build-dependencies
     - servo-build-dependencies.android
-    - servo-build-dependencies.gonk
     - servo-build-dependencies.arm
 
   'servo-(mac|macpro)\d+':
