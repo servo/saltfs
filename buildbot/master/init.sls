@@ -30,6 +30,15 @@ buildbot-master:
     - context:
         common: {{ common }}
 
+ownership-{{ common.servo_home }}/buildbot/master:
+  file.directory:
+    - name: {{ common.servo_home }}/buildbot/master
+    - user: servo
+    - group: servo
+    - recurse:
+      - user
+      - group
+
 /etc/init/buildbot-master.conf:
   file.managed:
     - source: salt://{{ tpldir }}/files/buildbot-master.conf
