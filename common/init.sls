@@ -4,6 +4,9 @@ python2:
   pkg.installed:
     - pkgs:
       - python
+    {% if grains['os'] == 'MacOS' %}
+    - refresh: True
+    {% endif %}
 
 {% if grains['os'] == 'Ubuntu' %}
 python2-dev:
