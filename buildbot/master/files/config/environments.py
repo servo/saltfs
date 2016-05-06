@@ -41,7 +41,7 @@ build_windows = build_common + Environment({
         r'C:\Windows\System32\WindowsPowerShell\v1.0',
         r'C:\Program Files\Amazon\cfn-bootstrap',
     ]),
-    'SERVO_CACHE_DIR': r'c:\msys64\home\Administrator\.servo',
+    'SERVO_CACHE_DIR': r'C:\msys64\home\Administrator\.servo',
 })
 
 build_mac = build_common + Environment({
