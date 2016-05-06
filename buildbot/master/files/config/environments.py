@@ -29,6 +29,8 @@ build_common = Environment({
 })
 
 build_windows = build_common + Environment({
+    'CARGO_HOME': r'C:\msys64\home\Administrator\.cargo',
+    'SERVO_CACHE_DIR': r'c:\msys64\home\Administrator\.servo',
     'MSYS': 'winsymlinks=lnk',
     'MSYSTEM': 'MINGW64',
     'PATH': ';'.join([
