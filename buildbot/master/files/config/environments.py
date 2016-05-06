@@ -29,7 +29,6 @@ build_common = Environment({
 })
 
 build_windows = build_common + Environment({
-    'CARGO_HOME': r'C:\msys64\home\Administrator\.cargo',
     'MSYS': 'winsymlinks=lnk',
     'MSYSTEM': 'MINGW64',
     'PATH': ';'.join([
@@ -41,7 +40,6 @@ build_windows = build_common + Environment({
         r'C:\Windows\System32\WindowsPowerShell\v1.0',
         r'C:\Program Files\Amazon\cfn-bootstrap',
     ]),
-    'SERVO_CACHE_DIR': r'C:\msys64\home\Administrator\.servo',
 })
 
 build_mac = build_common + Environment({
