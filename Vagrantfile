@@ -28,11 +28,13 @@ Vagrant.configure(2) do |config|
         { id: extract_id(node['env']), os: node['os'], box: 'ubuntu/trusty64' }
       end
     end
-    if node_config.nil? && ENV['VAGRANT_LOG'] == 'debug'
-      version = node.has_key?('dist') ? ', version' + node['dist'] : ''
-      os_and_version = node['os'] + version
-      puts "OS #{os_and_version} is not yet supported"
-    else
+    if node_config.nil?
+      if ENV['VAGRANT_LOG'] == 'debug'
+        version = node.has_key?('dist') ? ', version' + node['dist'] : ''
+        os_and_version = node['os'] + version
+        puts "OS #{os_and_version} is not yet supported"
+      end
+    elsif node_config[:id] != 'test'
       node_config
     end
   end.compact.each do |node|
@@ -46,8 +48,8 @@ Vagrant.configure(2) do |config|
       machine.vm.synced_folder dir, state_root
       machine.vm.synced_folder File.join(dir, ".travis/test_pillars"), pillar_root
       machine.vm.provision :salt do |salt|
-        salt.bootstrap_script = '.travis/install_salt'
-        salt.install_args = node[:os] # Pass OS type to install_salt script
+        salt.bootstrap_script = '.travis/install_salt.sh'
+        salt.install_args = node[:os] # Pass OS type to bootstrap script
         salt.masterless = true
         salt.minion_config = '.travis/minion'
         # hack to provide additional options to salt-call
