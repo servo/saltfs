@@ -17,7 +17,7 @@ mac-dev-unit:
 
 mac-rel-css:
   - ./mach build --release
-  - ./mach test-css --release --processes 8 --log-raw test-css.log --log-errorsummary css-errorsummary.log
+  - ./mach test-css --release --processes 4 --log-raw test-css.log --log-errorsummary css-errorsummary.log
   - ./mach build-geckolib --release
   - bash ./etc/ci/lockfile_changed.sh
   - bash ./etc/ci/manifest_changed.sh
