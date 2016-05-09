@@ -4,6 +4,7 @@ import re
 from buildbot.plugins import steps, util
 from buildbot.process import buildstep
 from buildbot.status.results import SUCCESS
+from twisted.internet import defer
 import yaml
 
 import environments as envs
@@ -102,6 +103,106 @@ class DynamicServoFactory(ServoFactory):
                 step_kwargs['logfiles'][logfile] = logfile
 
         return step_class(**step_kwargs)
+
+
+class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
+    """
+    Step which resolves the in-tree YAML and dynamically adds test steps.
+    """
+
+    haltOnFailure = True
+    flunkOnFailure = True
+
+    def __init__(self, builder_name, environment, yaml_path, **kwargs):
+        kwargs = self.setupShellMixin(kwargs)
+        buildstep.BuildStep.__init__(self, **kwargs)
+        self.builder_name = builder_name
+        self.environment = environment
+        self.yaml_path = yaml_path
+
+    @defer.inlineCallbacks
+    def run(self):
+        try:  # Prevent the buildbot master from dying. Will remove after test.
+            try:
+                print_yaml_cmd = "cat {}".format(self.yaml_path)
+                cmd = yield self.makeRemoteShellCommand(
+                    command=[print_yaml_cmd],
+                    collectStdout=True
+                )
+                yield self.runCommand(cmd)
+
+                result = cmd.results()
+                if result != util.SUCCESS:
+                    raise Exception(
+                        "Command failed with return code: {}" + str(cmd.rc)
+                    )
+                else:
+                    builder_steps = yaml.safe_load(cmd.stdout)
+                    commands = builder_steps[self.builder_name]
+                    dynamic_steps = [self.make_step(command)
+                                     for command in commands]
+            except Exception as e:  # Bad step configuration, fail build
+                # Capture the exception and re-raise with a friendly message
+                raise Exception("Bad configuration, " +
+                                "unable to convert to steps" +
+                                str(e))
+
+            # TODO: windows compatibility (use a custom script for this?)
+            pkill_step = steps.ShellCommand(command=["pkill", "-x", "servo"],
+                                            decodeRC={0: SUCCESS, 1: SUCCESS})
+            static_steps = [pkill_step]
+
+            self.build.steps += static_steps + dynamic_steps
+
+            defer.returnValue(result)
+        except Exception as e:
+            print(str(e))
+
+    def make_step(self, command):
+        step_kwargs = {}
+        step_kwargs['env'] = self.environment
+
+        command = command.split(' ')
+        step_kwargs['command'] = command
+
+        step_class = steps.ShellCommand
+        args = iter(command)
+        for arg in args:
+            # Change Step class to capture warnings as needed
+            # (steps.Compile and steps.Test catch warnings)
+            if arg == './mach':
+                mach_arg = next(args)
+                if re.match('build(-.*)?', mach_arg):
+                    step_class = steps.Compile
+                elif re.match('test-.*', mach_arg):
+                    step_class = steps.Test
+
+            # Capture any logfiles
+            elif re.match('--log-.*', arg):
+                logfile = next(args)
+                if 'logfiles' not in step_kwargs:
+                    step_kwargs['logfiles'] = {}
+                step_kwargs['logfiles'][logfile] = logfile
+
+        return step_class(**step_kwargs)
+
+
+class DynamicServoYAMLFactory(ServoFactory):
+    """
+    Smart factory which takes a list of shell commands from a YAML file
+    located in the main servo/servo repository and creates the appropriate
+    Buildbot Steps.
+    Uses heuristics to infer Step type, if there are any logfiles, etc.
+    """
+
+    def __init__(self, builder_name, environment):
+
+        # util.BuildFactory is an old-style class so we cannot use super()
+        # but must hardcode the superclass here
+        ServoFactory.__init__(self, [
+            StepsYAMLParsingStep(builder_name, environment,
+                                 "etc/ci/buildbot_steps.yml")
+        ])
 
 
 doc = ServoFactory([
