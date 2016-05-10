@@ -40,16 +40,14 @@ servo:
     - shell: /bin/bash
     - home: {{ common.servo_home }}
 
-{% for hostname, ip in common.hosts.items() %}
-host-{{ hostname }}:
-  host.present:
-    - name: {{ hostname }}
-    - ip: {{ ip }}
-{% endfor %}
-
 {% for ssh_user in common.ssh_users %}
 sshkey-{{ ssh_user }}:
   ssh_auth.present:
     - user: root
     - source: salt://{{ tpldir }}/ssh/{{ ssh_user }}.pub
 {% endfor %}
+
+/etc/hosts:
+  file.managed:
+    - contents: "127.0.0.1           localhost\n::1                 localhost\n255.255.255.255     broadcasthost"
+    - 
