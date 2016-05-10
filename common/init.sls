@@ -40,13 +40,6 @@ servo:
     - shell: /bin/bash
     - home: {{ common.servo_home }}
 
-{% for hostname, ip in common.hosts.items() %}
-host-{{ hostname }}:
-  host.present:
-    - name: {{ hostname }}
-    - ip: {{ ip }}
-{% endfor %}
-
 {% for ssh_user in common.ssh_users %}
 sshkey-{{ ssh_user }}:
   ssh_auth.present:
