@@ -50,12 +50,16 @@ UTC:
     timezone.system
 {% endif %}
 
-{% for hostname, ip in common.hosts.items() %}
-host-{{ hostname }}:
-  host.present:
-    - name: {{ hostname }}
-    - ip: {{ ip }}
-{% endfor %}
+/etc/hosts:
+  file.managed:
+    - user: root
+    {% if grains['os'] == 'MacOS' %}
+    - group: wheel
+    {% elif grains['os'] == 'Ubuntu' %}
+    - group: root
+    {% endif %}
+    - mode: 644
+    - source: salt://{{ tpldir }}/files/hosts
 
 {% for ssh_user in common.ssh_users %}
 sshkey-{{ ssh_user }}:
