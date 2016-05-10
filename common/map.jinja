@@ -2,15 +2,6 @@
   set common = salt['grains.filter_by']({
       'defaults': {
         'servo_home': '/home/servo',
-        'hosts': {
-          'servo-master': 'li374-232.members.linode.com',
-          'servo-linux1': 'li290-56.members.linode.com',
-          'servo-linux2': 'li211-95.members.linode.com',
-          'servo-linux3': 'li266-177.members.linode.com',
-          'servo-linux-android1': 'li35-110.members.linode.com',
-          'servo-mac1': '208.52.161.130',
-          'servo-mac3': '63.135.170.19',
-        },
         'ssh_users': [
           'ajeffrey',
           'aneeshusa',
