@@ -40,16 +40,21 @@ servo:
     - shell: /bin/bash
     - home: {{ common.servo_home }}
 
-{% for hostname, ip in common.hosts.items() %}
-host-{{ hostname }}:
-  host.present:
-    - name: {{ hostname }}
-    - ip: {{ ip }}
-{% endfor %}
-
 {% for ssh_user in common.ssh_users %}
 sshkey-{{ ssh_user }}:
   ssh_auth.present:
     - user: root
     - source: salt://{{ tpldir }}/ssh/{{ ssh_user }}.pub
 {% endfor %}
+
+hosts-file:
+  file.managed:
+    - name: /etc/hosts
+    - user: root
+    - mode: 644
+    {% if grains['os'] == 'MacOS' %}
+    - group: wheel
+    {% elif grains['os'] == 'Ubuntu' %}
+    - group: root"
+    {% endif %}
+    - location: /common/files/hosts
