@@ -34,6 +34,9 @@ linux-dev:
   - bash ./etc/ci/manifest_changed.sh
   - bash ./etc/ci/check_no_unwrap.sh
 
+linux-nogate:
+  - bash ./etc/ci/chaos_monkey_test.sh
+
 linux-rel:
   - ./mach build --release
   - ./mach test-wpt-failure
