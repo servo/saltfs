@@ -23,7 +23,8 @@ class ServoFactory(util.BuildFactory):
         Prefer using DynamicServoFactory to using this class directly.
         """
         all_steps = [
-            steps.Git(repourl=SERVO_REPO, mode="full", method="clobber"),
+            steps.Git(repourl=SERVO_REPO,
+                      mode="full", method="fresh", retryFetch=True),
         ] + build_steps
         # util.BuildFactory is an old-style class so we cannot use super()
         # but must hardcode the superclass here
