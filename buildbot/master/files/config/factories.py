@@ -63,8 +63,9 @@ class DynamicServoFactory(ServoFactory):
             commands = builder_steps[builder_name]
             dynamic_steps = [self.make_step(command) for command in commands]
         except Exception as e:  # Bad step configuration, fail build
-            print(str(e))
-            dynamic_steps = [BadConfigurationStep(e)]
+            # Capture the expception and re-raise with a friendly message
+            raise Exception("Bad configuration, unable to convert to steps" +
+                            str(e))
 
         # TODO: windows compatibility (use a custom script for this?)
         pkill_step = [steps.ShellCommand(command=["pkill", "-x", "servo"],
@@ -163,15 +164,15 @@ class StepsYAMLParsingStep(buildstep.BuildStep):
         return step_class(**step_kwargs)
 
 
-class DynamicServoIntreeYAMLFactory(ServoFactory):
+class DynamicServoYAMLFactory(ServoFactory):
     """
-    Smart factory which takes a list of shell commands from a yaml file
-    and creates the appropriate Buildbot Steps. Uses heuristics to infer
-    Step type, if there are any logfiles, etc.
+    Smart factory which takes a list of shell commands from a YAML file
+    located in the main servo/servo repository and creates the appropriate
+    Buildbot Steps.
+    Uses heuristics to infer Step type, if there are any logfiles, etc.
     """
 
     def __init__(self, builder_name, environment):
-        self.environment = environment
 
         # util.BuildFactory is an old-style class so we cannot use super()
         # but must hardcode the superclass here
