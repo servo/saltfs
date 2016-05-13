@@ -105,18 +105,18 @@ class DynamicServoFactory(ServoFactory):
 
 class StepsYAMLParsingStep(buildstep.BuildStep):
     """
-    Step which resolves the in-tree YAML and dynamically add test steps
+    Step which resolves the in-tree YAML and dynamically add test steps.
     """
-    yaml_path = ""
+
+    haltOnFailure = True
+    flunkOnFailure = True
 
     def __init__(self, builder_name, environment, yaml_path):
-        print(yaml_path)
         self.builder_name = builder_name
         self.environment = environment
         self.yaml_path = yaml_path
 
     def run(self):
-        print(self.yaml_path)
         try:
             full_yaml_path = os.path.join(self.build.workdir, self.yaml_path)
             with open(full_yaml_path) as steps_file:
@@ -128,12 +128,11 @@ class StepsYAMLParsingStep(buildstep.BuildStep):
             dynamic_steps = [BadConfigurationStep(e)]
 
         # TODO: windows compatibility (use a custom script for this?)
-        pkill_step = [steps.ShellCommand(command=["pkill", "-x", "servo"],
-                                         decodeRC={0: SUCCESS, 1: SUCCESS})]
+        pkill_step = steps.ShellCommand(command=["pkill", "-x", "servo"],
+                                        decodeRC={0: SUCCESS, 1: SUCCESS})
+        static_steps = [pkill_step]
 
-        # util.BuildFactory is an old-style class so we cannot use super()
-        # but must hardcode the superclass here
-        self.build.steps = pkill_step + dynamic_steps
+        self.build.steps += static_steps + dynamic_steps
 
     def make_step(self, command):
         step_kwargs = {}
@@ -176,7 +175,6 @@ class DynamicServoIntreeYAMLFactory(ServoFactory):
 
         # util.BuildFactory is an old-style class so we cannot use super()
         # but must hardcode the superclass here
-        # TODO: pass environments
         ServoFactory.__init__(self, [
             StepsYAMLParsingStep(builder_name, environment,
                                  "etc/ci/buildbot_steps.yml")
