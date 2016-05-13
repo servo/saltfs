@@ -45,6 +45,13 @@ linux-rel:
   - bash ./etc/ci/lockfile_changed.sh
   - bash ./etc/ci/manifest_changed.sh
 
+linux-rel-gczeal:
+  - ./mach build --release --debug-mozjs
+  - ./mach test-wpt --release --processes 24 --pref js.mem.gc.zeal.level=2 --pref js.mem.gc.zeal.frequency=1 --log-raw test-wpt-every-alloc.log --log-errorsummary wpt-errorsummary-every-alloc.log
+  - ./mach test-wpt --release --processes 24 --pref js.mem.gc.zeal.level=2 --pref js.mem.gc.zeal.frequency=100 --log-raw test-wpt-every-hundred.log --log-errorsummary wpt-errorsummary-every-hundred.log
+  - ./mach test-wpt --release --processes 24 --pref js.mem.gc.zeal.level=4 --pref js.mem.gc.zeal.frequency=1 --log-raw test-wpt-pre-barriers.log --log-errorsummary wpt-errorsummary-pre-barriers.log
+  - ./mach test-wpt --release --processes 24 --pref js.mem.gc.zeal.level=11 --pref js.mem.gc.zeal.frequency=1 --log-raw test-wpt-post-barriers.log --log-errorsummary wpt-errorsummary-post-barriers.log
+
 android:
   - ./mach build --android --dev
   - bash ./etc/ci/lockfile_changed.sh
