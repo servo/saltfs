@@ -63,9 +63,8 @@ class DynamicServoFactory(ServoFactory):
             commands = builder_steps[builder_name]
             dynamic_steps = [self.make_step(command) for command in commands]
         except Exception as e:  # Bad step configuration, fail build
-            # Capture the expception and re-raise with a friendly message
-            raise Exception("Bad configuration, unable to convert to steps" +
-                            str(e))
+            print(str(e))
+            dynamic_steps = [BadConfigurationStep(e)]
 
         # TODO: windows compatibility (use a custom script for this?)
         pkill_step = [steps.ShellCommand(command=["pkill", "-x", "servo"],
@@ -125,8 +124,9 @@ class StepsYAMLParsingStep(buildstep.BuildStep):
             commands = builder_steps[self.builder_name]
             dynamic_steps = [self.make_step(command) for command in commands]
         except Exception as e:  # Bad step configuration, fail build
-            print(str(e))
-            dynamic_steps = [BadConfigurationStep(e)]
+            # Capture the expception and re-raise with a friendly message
+            raise Exception("Bad configuration, unable to convert to steps" +
+                            str(e))
 
         # TODO: windows compatibility (use a custom script for this?)
         pkill_step = steps.ShellCommand(command=["pkill", "-x", "servo"],
