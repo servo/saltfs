@@ -26,6 +26,7 @@ install_salt () {
 
 configure_salt () {
     printf "$0: copying Salt minion configuration from ${TEMPORARY_CONFIG_DIR}\n"
+    sudo rm -rf /etc/salt
     sudo mkdir -p /etc/salt
     sudo cp "${FORCE_FLAG}" -- "${TEMPORARY_CONFIG_DIR}/minion" /etc/salt/minion
 }
