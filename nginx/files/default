@@ -1,0 +1,21 @@
+server {
+  listen 80 default_server;
+  server_name build.servo.org;
+
+
+  location / {
+    proxy_pass http://localhost:8010/;
+
+    # Enable CORS for basic (GET-only without OPTIONS preflight) requests
+    if ($request_method = 'GET') {
+        add_header 'Access-Control-Allow-Origin' '*' always;
+        # Do not set Access-Control-Allow-Credentials
+        # Do not set Access-Control-Expose-Headers
+    }
+  }
+
+  location /homu/ {
+    proxy_pass http://localhost:54856/;
+  }
+}
+

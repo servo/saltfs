@@ -1,0 +1,13 @@
+{%
+  set nginx = salt.grains.filter_by({
+      'Ubuntu': {
+        'pkg': 'nginx',
+        'version': '1.10.0-1~trusty',
+        'user': 'www-data',
+      },
+    },
+    base='defaults',
+    merge=salt.pillar.get('nginx', {}),
+    grain='os'
+  )
+%}

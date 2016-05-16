@@ -4,7 +4,7 @@ import importlib
 import os
 import sys
 
-from tests.util import color, GREEN, RED, Failure, project_path
+from tests.util import Failure, project_path
 
 
 def is_python_script(dir_entry):
@@ -32,13 +32,10 @@ def run_tests(tests):
                 message = 'Test \'{}\' raised an exception:'.format(test)
                 result = Failure(message, str(e))
 
-            if result.is_success():
-                print('[ {} ] {}'.format(color(GREEN, 'PASS'), result.message))
-            else:
+            if result.is_failure():
                 any_failures = True
-                print('[ {} ] {}'.format(color(RED, 'FAIL'), result.message))
-                for line in result.output.splitlines():
-                    print('         {}'.format(line))
+
+            print(result)
 
     return 1 if any_failures else 0
 

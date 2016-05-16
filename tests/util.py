@@ -52,6 +52,9 @@ class Success(TestResult):
     def is_failure(self):
         return False
 
+    def __str__(self):
+        return '[ {} ] {}'.format(color(GREEN, 'PASS'), self.message)
+
 
 class Failure(TestResult):
     def __init__(self, message, output):
@@ -63,3 +66,15 @@ class Failure(TestResult):
 
     def is_failure(self):
         return True
+
+    def __str__(self):
+        output = ['[ {} ] {}'.format(color(RED, 'FAIL'), self.message)]
+        for line in self.output.splitlines():
+            output.append('         {}'.format(line))
+        return '\n'.join(output)
+
+
+def format_nested_failure(failure):
+    output = ['- {}'.format(failure.message)]
+    output += ['  {}'.format(line) for line in failure.output.splitlines()]
+    return '\n'.join(output)
