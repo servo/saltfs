@@ -4,6 +4,7 @@ import re
 from buildbot.plugins import steps, util
 from buildbot.process import buildstep
 from buildbot.status.results import SUCCESS
+from twisted.internet import defer
 import yaml
 
 import environments as envs
@@ -103,7 +104,7 @@ class DynamicServoFactory(ServoFactory):
         return step_class(**step_kwargs)
 
 
-class StepsYAMLParsingStep(buildstep.BuildStep):
+class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
     """
     Step which resolves the in-tree YAML and dynamically add test steps.
     """
@@ -116,13 +117,21 @@ class StepsYAMLParsingStep(buildstep.BuildStep):
         self.environment = environment
         self.yaml_path = yaml_path
 
+    @defer.inlineCallbacks
     def run(self):
         try:
             full_yaml_path = os.path.join(self.build.workdir, self.yaml_path)
-            with open(full_yaml_path) as steps_file:
-                builder_steps = yaml.safe_load(steps_file)
-            commands = builder_steps[self.builder_name]
-            dynamic_steps = [self.make_step(command) for command in commands]
+            print_yaml_cmd = "cat {}".format(full_yaml_path)
+            cmd = yield self.makeRemoteShellCommand(command=[print_yaml_cmd],
+                                                    collectStdout=True)
+            yield self.runCommand(cmd)
+
+            if cmd.didFail():
+                raise Exception(str(cmd.result()))
+            else:
+                builder_steps = yaml.load(cmd.stdout)
+                commands = builder_steps[self.builder_name]
+                dynamic_steps = [self.make_step(command) for command in commands]
         except Exception as e:  # Bad step configuration, fail build
             # Capture the expception and re-raise with a friendly message
             raise Exception("Bad configuration, unable to convert to steps" +
@@ -134,6 +143,8 @@ class StepsYAMLParsingStep(buildstep.BuildStep):
         static_steps = [pkill_step]
 
         self.build.steps += static_steps + dynamic_steps
+
+        defer.returnValue(cmd.reslts())
 
     def make_step(self, command):
         step_kwargs = {}
