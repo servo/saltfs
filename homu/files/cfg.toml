@@ -155,3 +155,6 @@ token = "{{ pillar["homu"]["travis-ci-token"] }}"
 
 [repo.glutin.branch]
 master = "servo"
+
+[repo.ipc-channel.status.appveyor]
+context = 'continuous-integration/appveyor/branch'
