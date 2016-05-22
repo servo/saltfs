@@ -8,7 +8,7 @@ def display_trailing_whitespace(whitespace):
     # Show trailing whitespace with printing characters and in red
     # To make it easy to see what needs to be removed
     replaced = whitespace.replace(' ', '-').replace('\t', r'\t')
-    return color(31, replaced)
+    return color(RED, replaced)
 
 
 def display_failure(failure):
