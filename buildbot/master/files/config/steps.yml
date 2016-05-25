@@ -47,6 +47,7 @@ linux-rel:
 
 android:
   - ./mach build --android --dev
+  - ./mach package --dev
   - bash ./etc/ci/lockfile_changed.sh
   - bash ./etc/ci/manifest_changed.sh
   - python ./etc/ci/check_dynamic_symbols.py
