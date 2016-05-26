@@ -29,6 +29,7 @@ buildbot-master:
     - template: jinja
     - context:
         common: {{ common }}
+        buildbot_credentials: {{ pillar['buildbot']['credentials'] }}
 
 ownership-{{ common.servo_home }}/buildbot/master:
   file.directory:
