@@ -50,7 +50,7 @@ android-sdk:
     - name: |
         expect -c '
         set timeout -1;
-        spawn {{ common.servo_home }}/android/sdk/{{ android.sdk.version }}/android-sdk-linux/tools/android - update sdk --no-ui --filter platform-tool,android-{{ android.platform }};
+        spawn {{ common.servo_home }}/android/sdk/{{ android.sdk.version }}/android-sdk-linux/tools/android - update sdk --no-ui --all --filter platform-tools,android-{{ android.platform }},build-tools-{{ android.build_tools }};
         expect {
          "Do you accept the license" { exp_send "y\r" ; exp_continue }
          eof
@@ -60,6 +60,7 @@ android-sdk:
     - creates:
       - {{ common.servo_home }}/android/sdk/{{ android.sdk.version }}/android-sdk-linux/platform-tools
       - {{ common.servo_home }}/android/sdk/{{ android.sdk.version }}/android-sdk-linux/platforms/android-{{ android.platform }}
+      - {{ common.servo_home }}/android/sdk/{{ android.sdk.version }}/android-sdk-linux/build-tools/{{ android.build_tools }}
     - require:
       - pkg: android-dependencies
       - archive: android-sdk
