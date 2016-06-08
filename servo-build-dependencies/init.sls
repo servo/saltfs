@@ -10,6 +10,7 @@ servo-dependencies:
       - automake
       - pkg-config
       - openssl
+      - freetype2
       {% else %}
       - libglib2.0-dev
       - libgl1-mesa-dri
