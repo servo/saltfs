@@ -47,14 +47,13 @@ sshkey-{{ ssh_user }}:
     - source: salt://{{ tpldir }}/ssh/{{ ssh_user }}.pub
 {% endfor %}
 
-hosts-file:
+/etc/hosts:
   file.managed:
-    - name: /etc/hosts
     - user: root
     - mode: 644
     {% if grains['os'] == 'MacOS' %}
     - group: wheel
     {% elif grains['os'] == 'Ubuntu' %}
-    - group: root"
+    - group: root
     {% endif %}
-    - location: /common/files/hosts
+    - source: salt://{{ tlpdir }}/files/hosts
