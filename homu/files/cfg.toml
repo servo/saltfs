@@ -160,8 +160,5 @@ master = "servo"
 
 # Additional AppVeyor testing for relevant repos
 
-[repo.angle.status.appveyor]
-context = 'continuous-integration/appveyor/branch'
-
 [repo.ipc-channel.status.appveyor]
 context = 'continuous-integration/appveyor/branch'
