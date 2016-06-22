@@ -53,7 +53,7 @@ android:
 
 android-nightly:
   - ./mach build --android --release
-  - ./mach package -r
+  - ./mach package --android --release
   - s3cmd put target/arm-linux-androideabi/release/servo.apk s3://servo-rust/nightly/servo.apk
 
 arm32:
