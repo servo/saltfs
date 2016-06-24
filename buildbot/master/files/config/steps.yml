@@ -22,6 +22,12 @@ mac-rel-css:
   - bash ./etc/ci/lockfile_changed.sh
   - bash ./etc/ci/manifest_changed.sh
 
+mac-nightly:
+  - ./mach build --release
+  - ./mach package --release
+  - s3cmd -c ~/.s3cfg-servo put target/release/*.tar.gz s3://servo-developer-preview/nightly/`date +%Y`/
+  - rm -rf target/
+
 linux-dev:
   - ./mach test-tidy --no-progress --all
   - ./mach test-tidy --no-progress --self-test
@@ -44,6 +50,12 @@ linux-rel:
   - ./mach build-geckolib --release
   - bash ./etc/ci/lockfile_changed.sh
   - bash ./etc/ci/manifest_changed.sh
+
+linux-nightly:
+  - ./mach build --release
+  - ./mach package --release
+  - s3cmd -c ~/.s3cfg-servo put target/release/*.tar.gz s3://servo-developer-preview/nightly/`date +%Y`/
+  - rm -rf target/
 
 android:
   - ./mach build --android --dev
