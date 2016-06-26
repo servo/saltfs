@@ -20,11 +20,12 @@ Vagrant.configure(2) do |config|
   end
 
   dir = File.dirname(__FILE__)
-  minion_config = YAML.load_file(File.join(dir, '.travis/minion'))
+  minion_config_path = File.join(dir, '.travis', 'minion')
+  minion_config = YAML.load_file(minion_config_path)
   state_root = minion_config['file_roots']['base'][0]
   pillar_root = minion_config['pillar_roots']['base'][0]
 
-  YAML.load_file(File.join(dir,'.travis.yml'))['matrix']['include'].map do |node|
+  YAML.load_file(File.join(dir, '.travis.yml'))['matrix']['include'].map do |node|
     node_config = case node['os']
     when 'linux'
       case node['dist']
@@ -50,12 +51,12 @@ Vagrant.configure(2) do |config|
         vbox.linked_clone = true
       end
       machine.vm.synced_folder dir, state_root
-      machine.vm.synced_folder File.join(dir, ".travis/test_pillars"), pillar_root
+      machine.vm.synced_folder File.join(dir, '.travis', 'test_pillars'), pillar_root
       machine.vm.provision :salt do |salt|
-        salt.bootstrap_script = '.travis/install_salt.sh'
+        salt.bootstrap_script = File.join(dir, '.travis', 'install_salt.sh')
         salt.install_args = node[:os] # Pass OS type to bootstrap script
         salt.masterless = true
-        salt.minion_config = '.travis/minion'
+        salt.minion_config = minion_config_path
         # hack to provide additional options to salt-call
         salt.minion_id = node[:id] + ' --retcode-passthrough'
         salt.run_highstate = true
