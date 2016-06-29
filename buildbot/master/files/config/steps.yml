@@ -25,8 +25,7 @@ mac-rel-css:
 mac-nightly:
   - ./mach build --release
   - ./mach package --release
-  - s3cmd -c ~/.s3cfg-servo put target/release/*.tar.gz s3://servo-developer-preview/nightly/`date +%Y`/
-  - rm -rf target/
+  - s3cmd put target/*.dmg s3://servo-developer-preview/nightly/mac/
 
 linux-dev:
   - ./mach test-tidy --no-progress --all
@@ -54,7 +53,7 @@ linux-rel:
 linux-nightly:
   - ./mach build --release
   - ./mach package --release
-  - s3cmd -c ~/.s3cfg-servo put target/release/*.tar.gz s3://servo-developer-preview/nightly/`date +%Y`/
+  - s3cmd -c ~/.s3cfg-servo put target/release/*.tar.gz s3://servo-developer-preview/nightly/linux/
   - rm -rf target/
 
 android:
@@ -67,7 +66,7 @@ android:
 android-nightly:
   - ./mach build --android --release
   - ./mach package --android --release
-  - s3cmd put target/arm-linux-androideabi/release/servo.apk s3://servo-rust/nightly/servo.apk
+  - s3cmd put target/arm-linux-androideabi/release/*.apk s3://servo-developer-preview/nightly/android/
 
 arm32:
   - ./mach build --rel --target=arm-unknown-linux-gnueabihf
