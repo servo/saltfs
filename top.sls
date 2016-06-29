@@ -18,19 +18,21 @@ base:
 
   'servo-(mac|macpro)\d+':
     - match: pcre
-    - osx
     - buildbot.slave
+    - nightly
+    - osx
     - servo-build-dependencies
 
   'servo-linux\d+':
     - match: pcre
     - buildbot.slave
+    - nightly
     - servo-build-dependencies
     - xvfb
 
   'servo-master\d+':
     - match: pcre
-    - git
     - buildbot.master
+    - git
     - homu
     - nginx
