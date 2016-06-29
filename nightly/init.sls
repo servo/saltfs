@@ -1,13 +1,6 @@
-/home/servo/.s3cfg-servo:
-  file.managed:
-    - source: salt://{{ tpldir }}/files/s3cfg-servo
-    - user: servo
-    - group: servo
-    - mode: 644
-
 /home/servo/.s3cfg:
   file.managed:
-    - source: salt://{{ tpldir }}/files/s3cfg-rust
+    - source: salt://{{ tpldir }}/files/s3cfg
     - user: servo
     - group: servo
     - mode: 644
