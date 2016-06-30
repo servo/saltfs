@@ -22,6 +22,11 @@ mac-rel-css:
   - bash ./etc/ci/lockfile_changed.sh
   - bash ./etc/ci/manifest_changed.sh
 
+mac-nightly:
+  - ./mach build --release
+  - ./mach package --release
+  - ./etc/ci/upload_nightly.sh mac
+
 linux-dev:
   - ./mach test-tidy --no-progress --all
   - ./mach test-tidy --no-progress --self-test
@@ -45,6 +50,11 @@ linux-rel:
   - bash ./etc/ci/lockfile_changed.sh
   - bash ./etc/ci/manifest_changed.sh
 
+linux-nightly:
+  - ./mach build --release
+  - ./mach package --release
+  - ./etc/ci/upload_nightly.sh linux
+
 android:
   - ./mach build --android --dev
   - ./mach package --android --dev
@@ -55,7 +65,7 @@ android:
 android-nightly:
   - ./mach build --android --release
   - ./mach package --android --release
-  - s3cmd put target/arm-linux-androideabi/release/servo.apk s3://servo-rust/nightly/servo.apk
+  - ./etc/ci/upload_nightly.sh android
 
 arm32:
   - ./mach build --rel --target=arm-unknown-linux-gnueabihf
