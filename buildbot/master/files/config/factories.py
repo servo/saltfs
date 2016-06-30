@@ -1,3 +1,4 @@
+from copy import deepcopy
 import os.path
 import re
 
@@ -8,6 +9,7 @@ from twisted.internet import defer
 import yaml
 
 import environments as envs
+from passwords import S3_UPLOAD_ACCESS_KEY_ID, S3_UPLOAD_SECRET_ACCESS_KEY
 
 
 SERVO_REPO = "https://github.com/servo/servo"
@@ -78,7 +80,7 @@ class DynamicServoFactory(ServoFactory):
 
     def make_step(self, command):
         step_kwargs = {}
-        step_kwargs['env'] = self.environment
+        step_env = copy.deepcopy(self.environment)
 
         command = command.split(' ')
         step_kwargs['command'] = command
@@ -102,6 +104,13 @@ class DynamicServoFactory(ServoFactory):
                     step_kwargs['logfiles'] = {}
                 step_kwargs['logfiles'][logfile] = logfile
 
+            # Provide environment variables for s3cmd
+            elif arg == './etc/ci/upload_nightly.sh':
+                step_kwargs['logEnviron'] = False
+                step_env['AWS_ACCESS_KEY_ID'] = S3_UPLOAD_ACCESS_KEY_ID
+                step_env['AWS_SECRET_ACCESS_KEY'] = S3_UPLOAD_SECRET_ACCESS_KEY
+
+        step_kwargs['env'] = self.environment
         return step_class(**step_kwargs)
 
 
@@ -158,7 +167,7 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
 
     def make_step(self, command):
         step_kwargs = {}
-        step_kwargs['env'] = self.environment
+        step_env = copy.deepcopy(self.environment)
 
         command = command.split(' ')
         step_kwargs['command'] = command
@@ -182,6 +191,13 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
                     step_kwargs['logfiles'] = {}
                 step_kwargs['logfiles'][logfile] = logfile
 
+            # Provide environment variables for s3cmd
+            elif arg == './etc/ci/upload_nightly.sh':
+                step_kwargs['logEnviron'] = False
+                step_env['AWS_ACCESS_KEY_ID'] = S3_UPLOAD_ACCESS_KEY_ID
+                step_env['AWS_SECRET_ACCESS_KEY'] = S3_UPLOAD_SECRET_ACCESS_KEY
+
+        step_kwargs['env'] = self.environment
         return step_class(**step_kwargs)
 
 
