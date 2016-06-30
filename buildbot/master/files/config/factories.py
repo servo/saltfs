@@ -253,6 +253,6 @@ windows_nightly = ServoFactory([
     steps.Compile(command=make_win_command(
                       "./etc/ci/upload_nightly.sh windows"
                   ),
-                  env=envs.upload_nightly,
+                  env=envs.upload_nightly_windows,
                   logEnviron=False),
 ])
