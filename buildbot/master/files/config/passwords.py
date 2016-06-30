@@ -3,7 +3,7 @@ import json
 # Jinja will replace the inside with double-quote-using JSON,
 # so use single quotes to delimit the string.
 # Use double quotes inside to keep the expression as a single string.
-credentials = json.loads('{{ pillar["buildbot"]["credentials"]|json }}')
+credentials = json.loads('{{ pillar["buildbot"]["credentials"]|json }}', strict=False)
 # json.loads creates unicode strings but Buildbot requires bytestrings.
 # Python 2's Unicode situation makes me sad.
 credentials = {k: v.encode('utf-8') for k, v in credentials.items()}
