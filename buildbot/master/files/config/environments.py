@@ -1,4 +1,5 @@
 from passwords import GITHUB_DOC_TOKEN
+from passwords import S3_UPLOAD_ACCESS_KEY_ID, S3_UPLOAD_SECRET_ACCESS_KEY
 
 
 class Environment(dict):
@@ -114,4 +115,9 @@ build_arm64 = build_arm + Environment({
     ]),
     'PKG_CONFIG_PATH': '/usr/lib/aarch64-linux-gnu/pkgconfig',
     'SERVO_RUSTC_WITH_GOLD': 'False',
+})
+
+upload_nightly = Environment({
+    'AWS_ACCESS_KEY_ID': S3_UPLOAD_ACCESS_KEY_ID,
+    'AWS_SECRET_ACCESS_KEY': S3_UPLOAD_SECRET_ACCESS_KEY,
 })

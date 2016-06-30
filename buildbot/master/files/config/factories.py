@@ -9,7 +9,6 @@ from twisted.internet import defer
 import yaml
 
 import environments as envs
-from passwords import S3_UPLOAD_ACCESS_KEY_ID, S3_UPLOAD_SECRET_ACCESS_KEY
 
 
 SERVO_REPO = "https://github.com/servo/servo"
@@ -107,10 +106,9 @@ class DynamicServoFactory(ServoFactory):
             # Provide environment variables for s3cmd
             elif arg == './etc/ci/upload_nightly.sh':
                 step_kwargs['logEnviron'] = False
-                step_env['AWS_ACCESS_KEY_ID'] = S3_UPLOAD_ACCESS_KEY_ID
-                step_env['AWS_SECRET_ACCESS_KEY'] = S3_UPLOAD_SECRET_ACCESS_KEY
+                step_env = copy.deepcopy(envs.upload_nightly)
 
-        step_kwargs['env'] = self.environment
+        step_kwargs['env'] = step_env
         return step_class(**step_kwargs)
 
 
@@ -194,10 +192,9 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
             # Provide environment variables for s3cmd
             elif arg == './etc/ci/upload_nightly.sh':
                 step_kwargs['logEnviron'] = False
-                step_env['AWS_ACCESS_KEY_ID'] = S3_UPLOAD_ACCESS_KEY_ID
-                step_env['AWS_SECRET_ACCESS_KEY'] = S3_UPLOAD_SECRET_ACCESS_KEY
+                step_env = copy.deepcopy(envs.upload_nightly)
 
-        step_kwargs['env'] = self.environment
+        step_kwargs['env'] = step_env
         return step_class(**step_kwargs)
 
 
@@ -245,4 +242,17 @@ windows = ServoFactory([
     steps.Test(command=make_win_command("./mach test-unit"),
                env=envs.build_windows),
     # TODO: run lockfile_changed.sh and manifest_changed.sh scripts
+])
+
+windows_nightly = ServoFactory([
+    # TODO same comments as windows builder
+    steps.Compile(command=make_win_command("./mach build --release"),
+                  env=envs.build_windows),
+    steps.Test(command=make_win_command("./mach package --release"),
+               env=envs.build_windows),
+    steps.Compile(command=make_win_command(
+                      "./etc/ci/upload_nightly.sh windows"
+                  ),
+                  env=envs.upload_nightly,
+                  logEnviron=False),
 ])
