@@ -6,7 +6,7 @@ from tests.util import Failure, Success, project_path
 
 
 def run():
-    config_path = os.path.join(project_path(), 'homu', 'files', 'cfg.toml')
+    config_path = os.path.join('/home', 'servo', 'homu', 'cfg.toml')
     with open(config_path) as conf:
         try:
             toml.loads(conf.read())
