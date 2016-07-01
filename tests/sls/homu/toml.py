@@ -2,7 +2,7 @@ import os
 
 import toml
 
-from tests.util import Failure, Success, project_path
+from tests.util import Failure, Success
 
 
 def run():
@@ -12,4 +12,5 @@ def run():
             toml.loads(conf.read())
             return Success('Homu config file is valid TOML')
         except Exception as e:
-            return Failure('Homu config file is not valid TOML: ', '{}'.format(e))
+            return Failure('Homu config file is not valid TOML: ',
+                           '{}'.format(e))
