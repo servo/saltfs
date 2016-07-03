@@ -44,3 +44,11 @@ homu:
     - require:
       - pip: homu
       - file: /home/servo/homu/cfg.toml
+
+toml:
+  pip.installed:
+    - pkgs:
+      - toml == 0.9.1 # Ensure this is up to date with requirements.txt
+    - bin_env: /home/servo/homu/_venv
+    - require:
+      - pkg: python-pip
