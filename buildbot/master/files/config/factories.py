@@ -130,9 +130,8 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
     @defer.inlineCallbacks
     def run(self):
         try:
-            print_yaml_cmd = "cat {}".format(self.yaml_path)
             cmd = yield self.makeRemoteShellCommand(
-                command=[print_yaml_cmd],
+                command=["cat", "./{}".format(self.yaml_path)],
                 collectStdout=True
             )
             yield self.runCommand(cmd)
