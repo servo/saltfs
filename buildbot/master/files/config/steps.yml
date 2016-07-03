@@ -76,3 +76,12 @@ arm64:
   - ./mach build --rel --target=aarch64-unknown-linux-gnu
   - bash ./etc/ci/lockfile_changed.sh
   - bash ./etc/ci/manifest_changed.sh
+
+windows:
+  - ./mach build -d -v
+  - ./mach test-unit
+
+windows-nightly:
+  - ./mach build --release
+  - ./mach package --release
+  - ./etc/ci/upload_nightly.sh windows

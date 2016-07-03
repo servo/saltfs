@@ -31,6 +31,7 @@ build_common = Environment({
 
 build_windows = build_common + Environment({
     'CARGO_HOME': '/home/Administrator/.cargo',
+    'HOME': r'C:\buildbot\slave\windows\build',
     'MSYS': 'winsymlinks=lnk',
     'MSYSTEM': 'MINGW64',
     'PATH': ';'.join([
