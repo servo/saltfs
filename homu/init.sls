@@ -48,7 +48,5 @@ homu:
 toml:
   pip.installed:
     - pkgs:
-      - toml == 0.9.1 # Ensure this is up to date with requirements.txt
+      - toml == 0.9.1  # Ensure this is up to date with requirements.txt
     - bin_env: /home/servo/homu/_venv
-    - require:
-      - pkg: python-pip
