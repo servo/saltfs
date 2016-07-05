@@ -77,7 +77,7 @@ arm64:
   - bash ./etc/ci/lockfile_changed.sh
   - bash ./etc/ci/manifest_changed.sh
 
-windows:
+windows-dev:
   - ./mach build --dev
   - ./mach test-unit
 
