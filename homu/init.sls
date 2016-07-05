@@ -15,7 +15,9 @@ homu:
       - pkg: python3
       - pip: virtualenv
   pip.installed:
-    - name: git+https://github.com/servo/homu@{{ homu.rev }}
+    - pkgs:
+      - git+https://github.com/servo/homu@{{ homu.rev }}
+      - toml == 0.9.1  # Please ensure this is in sync with requirements.txt
     - bin_env: /home/servo/homu/_venv
     - require:
       - virtualenv: homu
@@ -44,9 +46,3 @@ homu:
     - require:
       - pip: homu
       - file: /home/servo/homu/cfg.toml
-
-toml:
-  pip.installed:
-    - pkgs:
-      - toml == 0.9.1  # Ensure this is up to date with requirements.txt
-    - bin_env: /home/servo/homu/_venv
