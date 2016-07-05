@@ -1,7 +1,6 @@
 import copy
 import os.path
 import re
-import platform
 
 from buildbot.plugins import steps, util
 from buildbot.process import buildstep
@@ -59,21 +58,22 @@ class DynamicServoFactory(ServoFactory):
 
     def __init__(self, builder_name, environment):
         self.environment = environment
-        is_windows = True if re.match('windows(.*)', builder_name) else False
+        self.is_windows = True if re.match('windows(.*)',
+                                           builder_name) else False
         try:
             config_dir = os.path.dirname(os.path.realpath(__file__))
             yaml_path = os.path.join(config_dir, 'steps.yml')
             with open(yaml_path) as steps_file:
                 builder_steps = yaml.safe_load(steps_file)
             commands = builder_steps[builder_name]
-            dynamic_steps = [self.make_step(command, is_windows) 
+            dynamic_steps = [self.make_step(command, self.is_windows)
                              for command in commands]
         except Exception as e:  # Bad step configuration, fail build
             print(str(e))
             dynamic_steps = [BadConfigurationStep(e)]
 
         pkill_step = [steps.ShellCommand(
-            command=make_pkill_command("servo", is_windows),
+            command=self.make_pkill_command("servo", self.is_windows),
             decodeRC={0: SUCCESS, 1: SUCCESS}
         )]
 
@@ -118,6 +118,12 @@ class DynamicServoFactory(ServoFactory):
         step_kwargs['env'] = step_env
         return step_class(**step_kwargs)
 
+    def make_pkill_command(self, target, is_windows):
+        if is_windows:
+            return ["powershell", "kill", "-n", target]
+
+        return ["pkill", "-x", target]
+
 
 class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
     """
@@ -136,7 +142,7 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
 
     @defer.inlineCallbacks
     def run(self):
-        is_windows = True if re.match('windows(.*)', 
+        is_windows = True if re.match('windows(.*)',
                                       self.builder_name) else False
         try:
             print_yaml_cmd = "cat {}".format(self.yaml_path)
@@ -164,7 +170,7 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
             ))
 
         pkill_step = steps.ShellCommand(
-            command=make_pkill_command("servo", is_windows),
+            command=self.make_pkill_command("servo", is_windows),
             decodeRC={0: SUCCESS, 1: SUCCESS}
         )
         static_steps = [pkill_step]
@@ -210,6 +216,12 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
         step_kwargs['env'] = step_env
         return step_class(**step_kwargs)
 
+    def make_pkill_command(self, target, is_windows):
+        if is_windows:
+            return ["powershell", "kill", "-n", target]
+
+        return ["pkill", "-x", target]
+
 
 class DynamicServoYAMLFactory(ServoFactory):
     """
@@ -227,12 +239,6 @@ class DynamicServoYAMLFactory(ServoFactory):
             StepsYAMLParsingStep(builder_name, environment,
                                  "etc/ci/buildbot_steps.yml")
         ])
-
-def make_pkill_command(target, is_windows):
-    if is_windows:
-        return ["powershell", "kill", "-n", target]
-
-    return ["pkill", "-x", target]
 
 
 doc = ServoFactory([
