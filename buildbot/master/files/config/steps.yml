@@ -78,7 +78,7 @@ arm64:
   - bash ./etc/ci/manifest_changed.sh
 
 windows:
-  - ./mach build -d -v
+  - ./mach build --dev
   - ./mach test-unit
 
 windows-nightly:

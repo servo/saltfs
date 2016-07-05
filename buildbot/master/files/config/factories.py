@@ -59,18 +59,20 @@ class DynamicServoFactory(ServoFactory):
 
     def __init__(self, builder_name, environment):
         self.environment = environment
+        is_windows = True if re.match('windows(.*)', builder_name) else False
         try:
             config_dir = os.path.dirname(os.path.realpath(__file__))
             yaml_path = os.path.join(config_dir, 'steps.yml')
             with open(yaml_path) as steps_file:
                 builder_steps = yaml.safe_load(steps_file)
             commands = builder_steps[builder_name]
-            dynamic_steps = [self.make_step(command) for command in commands]
+            dynamic_steps = [self.make_step(command, is_windows) 
+                             for command in commands]
         except Exception as e:  # Bad step configuration, fail build
             print(str(e))
             dynamic_steps = [BadConfigurationStep(e)]
 
-        if is_windows():
+        if is_windows:
             pkill_command = ["powershell", "kill", "-n", "servo"]
         else:
             pkill_command = ["pkill", "-x", "servo"]
@@ -81,14 +83,14 @@ class DynamicServoFactory(ServoFactory):
         # but must hardcode the superclass here
         ServoFactory.__init__(self, pkill_step + dynamic_steps)
 
-    def make_step(self, command):
+    def make_step(self, command, is_windows):
         step_kwargs = {}
         step_env = copy.deepcopy(self.environment)
 
         command = command.split(' ')
 
         # Add bash -l before every command on Windows builders
-        bash_args = ["bash", "-l"] if is_windows() else []
+        bash_args = ["bash", "-l"] if is_windows else []
         step_kwargs['command'] = bash_args + command
 
         step_class = steps.ShellCommand
@@ -113,10 +115,7 @@ class DynamicServoFactory(ServoFactory):
             # Provide environment variables for s3cmd
             elif arg == './etc/ci/upload_nightly.sh':
                 step_kwargs['logEnviron'] = False
-                if is_windows():
-                    step_env = copy.deepcopy(envs.upload_nightly_windows)
-                else:
-                    step_env = copy.deepcopy(envs.upload_nightly)
+                step_env += envs.upload_nightly
 
         step_kwargs['env'] = step_env
         return step_class(**step_kwargs)
@@ -139,6 +138,8 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
 
     @defer.inlineCallbacks
     def run(self):
+        is_windows = True if re.match('windows(.*)', 
+                                      self.builder_name) else False
         try:
             print_yaml_cmd = "cat {}".format(self.yaml_path)
             cmd = yield self.makeRemoteShellCommand(
@@ -155,7 +156,7 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
             else:
                 builder_steps = yaml.safe_load(cmd.stdout)
                 commands = builder_steps[self.builder_name]
-                dynamic_steps = [self.make_step(command)
+                dynamic_steps = [self.make_step(command, is_windows)
                                  for command in commands]
         except Exception as e:  # Bad step configuration, fail build
             # Capture the exception and re-raise with a friendly message
@@ -164,7 +165,7 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
                 str(e)
             ))
 
-        if is_windows():
+        if is_windows:
             pkill_command = ["powershell", "kill", "-n", "servo"]
         else:
             pkill_command = ["pkill", "-x", "servo"]
@@ -176,14 +177,14 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
 
         defer.returnValue(result)
 
-    def make_step(self, command):
+    def make_step(self, command, is_windows):
         step_kwargs = {}
         step_env = copy.deepcopy(self.environment)
 
         command = command.split(' ')
 
         # Add bash -l before every command on Windows builders
-        bash_command = ["bash", "-l"] if is_windows() else []
+        bash_command = ["bash", "-l"] if is_windows else []
         step_kwargs['command'] = bash_command + command
 
         step_class = steps.ShellCommand
@@ -208,10 +209,7 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
             # Provide environment variables for s3cmd
             elif arg == './etc/ci/upload_nightly.sh':
                 step_kwargs['logEnviron'] = False
-                if is_windows():
-                    step_env = copy.deepcopy(envs.upload_nightly_windows)
-                else:
-                    step_env = copy.deepcopy(envs.upload_nightly)
+                step_env += envs.upload_nightly
 
         step_kwargs['env'] = step_env
         return step_class(**step_kwargs)
@@ -233,10 +231,6 @@ class DynamicServoYAMLFactory(ServoFactory):
             StepsYAMLParsingStep(builder_name, environment,
                                  "etc/ci/buildbot_steps.yml")
         ])
-
-
-def is_windows():
-    return platform.system() == "Windows"
 
 
 doc = ServoFactory([
