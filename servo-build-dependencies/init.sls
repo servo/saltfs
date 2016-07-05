@@ -27,6 +27,9 @@ servo-dependencies:
       - gperf
       - autoconf2.13
       - libdbus-glib-1-dev
+      - libavformat-dev
+      - libavcodec-dev
+      - libavutil-dev
       {% endif %}
   pip.installed:
     - pkgs:
