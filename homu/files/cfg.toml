@@ -72,7 +72,6 @@ secret = "{{ pillar["homu"]["web-secret"] }}"
     "brunoabinader",
     "ConnorGBrewster",
     "edunham",
-    "eefriedman",
     "emilio",
     "frewsxcv",
     "glennw",
