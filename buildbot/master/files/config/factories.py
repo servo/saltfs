@@ -72,12 +72,10 @@ class DynamicServoFactory(ServoFactory):
             print(str(e))
             dynamic_steps = [BadConfigurationStep(e)]
 
-        if is_windows:
-            pkill_command = ["powershell", "kill", "-n", "servo"]
-        else:
-            pkill_command = ["pkill", "-x", "servo"]
-        pkill_step = [steps.ShellCommand(command=pkill_command,
-                                         decodeRC={0: SUCCESS, 1: SUCCESS})]
+        pkill_step = [steps.ShellCommand(
+            command=make_pkill_command("servo", is_windows),
+            decodeRC={0: SUCCESS, 1: SUCCESS}
+        )]
 
         # util.BuildFactory is an old-style class so we cannot use super()
         # but must hardcode the superclass here
@@ -165,12 +163,10 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
                 str(e)
             ))
 
-        if is_windows:
-            pkill_command = ["powershell", "kill", "-n", "servo"]
-        else:
-            pkill_command = ["pkill", "-x", "servo"]
-        pkill_step = steps.ShellCommand(command=pkill_command,
-                                        decodeRC={0: SUCCESS, 1: SUCCESS})
+        pkill_step = steps.ShellCommand(
+            command=make_pkill_command("servo", is_windows),
+            decodeRC={0: SUCCESS, 1: SUCCESS}
+        )
         static_steps = [pkill_step]
 
         self.build.steps += static_steps + dynamic_steps
@@ -231,6 +227,12 @@ class DynamicServoYAMLFactory(ServoFactory):
             StepsYAMLParsingStep(builder_name, environment,
                                  "etc/ci/buildbot_steps.yml")
         ])
+
+def make_pkill_command(target, is_windows):
+    if is_windows:
+        return ["powershell", "kill", "-n", target]
+
+    return ["pkill", "-x", target]
 
 
 doc = ServoFactory([
