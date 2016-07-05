@@ -31,6 +31,7 @@ build_common = Environment({
 
 build_windows = build_common + Environment({
     'CARGO_HOME': '/home/Administrator/.cargo',
+    # Set home directory, to avoid adding `cd` command on every command
     'HOME': r'C:\buildbot\slave\windows\build',
     'MSYS': 'winsymlinks=lnk',
     'MSYSTEM': 'MINGW64',
