@@ -58,6 +58,7 @@ class DynamicServoFactory(ServoFactory):
 
     def __init__(self, builder_name, environment):
         self.environment = environment
+        self.is_windows = re.match('windows.*', builder_name) is not None
         try:
             config_dir = os.path.dirname(os.path.realpath(__file__))
             yaml_path = os.path.join(config_dir, 'steps.yml')
@@ -69,9 +70,7 @@ class DynamicServoFactory(ServoFactory):
             print(str(e))
             dynamic_steps = [BadConfigurationStep(e)]
 
-        # TODO: windows compatibility (use a custom script for this?)
-        pkill_step = [steps.ShellCommand(command=["pkill", "-x", "servo"],
-                                         decodeRC={0: SUCCESS, 1: SUCCESS})]
+        pkill_step = [self.make_pkill_step("servo")]
 
         # util.BuildFactory is an old-style class so we cannot use super()
         # but must hardcode the superclass here
@@ -82,7 +81,10 @@ class DynamicServoFactory(ServoFactory):
         step_env = copy.deepcopy(self.environment)
 
         command = command.split(' ')
-        step_kwargs['command'] = command
+
+        # Add bash -l before every command on Windows builders
+        bash_args = ["bash", "-l"] if self.is_windows else []
+        step_kwargs['command'] = bash_args + command
 
         step_class = steps.ShellCommand
         args = iter(command)
@@ -106,10 +108,21 @@ class DynamicServoFactory(ServoFactory):
             # Provide environment variables for s3cmd
             elif arg == './etc/ci/upload_nightly.sh':
                 step_kwargs['logEnviron'] = False
-                step_env = copy.deepcopy(envs.upload_nightly)
+                step_env += envs.upload_nightly
 
         step_kwargs['env'] = step_env
         return step_class(**step_kwargs)
+
+    def make_pkill_step(self, target):
+        if self.is_windows:
+            pkill_command = ["powershell", "kill", "-n", target]
+        else:
+            pkill_command = ["pkill", "-x", target]
+
+        return steps.ShellCommand(
+            command=pkill_command,
+            decodeRC={0: SUCCESS, 1: SUCCESS}
+        )
 
 
 class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
@@ -129,6 +142,7 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
 
     @defer.inlineCallbacks
     def run(self):
+        self.is_windows = re.match('windows.*', self.builder_name) is not None
         try:
             print_yaml_cmd = "cat {}".format(self.yaml_path)
             cmd = yield self.makeRemoteShellCommand(
@@ -154,12 +168,9 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
                 str(e)
             ))
 
-        # TODO: windows compatibility (use a custom script for this?)
-        pkill_step = steps.ShellCommand(command=["pkill", "-x", "servo"],
-                                        decodeRC={0: SUCCESS, 1: SUCCESS})
-        static_steps = [pkill_step]
+        pkill_step = [self.make_pkill_step("servo")]
 
-        self.build.steps += static_steps + dynamic_steps
+        self.build.steps += pkill_step + dynamic_steps
 
         defer.returnValue(result)
 
@@ -168,7 +179,10 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
         step_env = copy.deepcopy(self.environment)
 
         command = command.split(' ')
-        step_kwargs['command'] = command
+
+        # Add bash -l before every command on Windows builders
+        bash_command = ["bash", "-l"] if self.is_windows else []
+        step_kwargs['command'] = bash_command + command
 
         step_class = steps.ShellCommand
         args = iter(command)
@@ -192,10 +206,21 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
             # Provide environment variables for s3cmd
             elif arg == './etc/ci/upload_nightly.sh':
                 step_kwargs['logEnviron'] = False
-                step_env = copy.deepcopy(envs.upload_nightly)
+                step_env += envs.upload_nightly
 
         step_kwargs['env'] = step_env
         return step_class(**step_kwargs)
+
+    def make_pkill_step(self, target):
+        if self.is_windows:
+            pkill_command = ["powershell", "kill", "-n", target]
+        else:
+            pkill_command = ["pkill", "-x", target]
+
+        return steps.ShellCommand(
+            command=pkill_command,
+            decodeRC={0: SUCCESS, 1: SUCCESS}
+        )
 
 
 class DynamicServoYAMLFactory(ServoFactory):
@@ -225,34 +250,4 @@ doc = ServoFactory([
                        env=envs.doc,
                        # important not to leak token
                        logEnviron=False),
-])
-
-
-def make_win_command(command):
-    cd_command = "cd /c/buildbot/slave/windows/build; " + command
-    return ["bash", "-l", "-c", cd_command]
-
-
-windows = ServoFactory([
-    # TODO: convert this to use DynamicServoFactory
-    # We need to run each command in a bash login shell, which breaks the
-    # heuristics used by DynamicServoFactory.make_step
-    steps.Compile(command=make_win_command("./mach build -d -v"),
-                  env=envs.build_windows),
-    steps.Test(command=make_win_command("./mach test-unit"),
-               env=envs.build_windows),
-    # TODO: run lockfile_changed.sh and manifest_changed.sh scripts
-])
-
-windows_nightly = ServoFactory([
-    # TODO same comments as windows builder
-    steps.Compile(command=make_win_command("./mach build --release"),
-                  env=envs.build_windows),
-    steps.Test(command=make_win_command("./mach package --release"),
-               env=envs.build_windows),
-    steps.Compile(command=make_win_command(
-                      "./etc/ci/upload_nightly.sh windows"
-                  ),
-                  env=envs.upload_nightly_windows,
-                  logEnviron=False),
 ])

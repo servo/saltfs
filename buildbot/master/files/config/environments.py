@@ -31,6 +31,8 @@ build_common = Environment({
 
 build_windows = build_common + Environment({
     'CARGO_HOME': '/home/Administrator/.cargo',
+    # Set home directory, to avoid adding `cd` command on every command
+    'HOME': r'C:\buildbot\slave\windows\build',
     'MSYS': 'winsymlinks=lnk',
     'MSYSTEM': 'MINGW64',
     'PATH': ';'.join([
@@ -121,5 +123,3 @@ upload_nightly = Environment({
     'AWS_ACCESS_KEY_ID': S3_UPLOAD_ACCESS_KEY_ID,
     'AWS_SECRET_ACCESS_KEY': S3_UPLOAD_SECRET_ACCESS_KEY,
 })
-
-upload_nightly_windows = build_windows + upload_nightly
