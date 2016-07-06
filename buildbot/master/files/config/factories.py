@@ -58,8 +58,7 @@ class DynamicServoFactory(ServoFactory):
 
     def __init__(self, builder_name, environment):
         self.environment = environment
-        self.is_windows = True if re.match('windows(.*)',
-                                           builder_name) else False
+        self.is_windows = re.match('windows.*', builder_name) is not None
         try:
             config_dir = os.path.dirname(os.path.realpath(__file__))
             yaml_path = os.path.join(config_dir, 'steps.yml')
@@ -73,7 +72,7 @@ class DynamicServoFactory(ServoFactory):
             dynamic_steps = [BadConfigurationStep(e)]
 
         pkill_step = [steps.ShellCommand(
-            command=self.make_pkill_command("servo", self.is_windows),
+            command=self.make_pkill_command("servo"),
             decodeRC={0: SUCCESS, 1: SUCCESS}
         )]
 
@@ -81,14 +80,14 @@ class DynamicServoFactory(ServoFactory):
         # but must hardcode the superclass here
         ServoFactory.__init__(self, pkill_step + dynamic_steps)
 
-    def make_step(self, command, is_windows):
+    def make_step(self, command):
         step_kwargs = {}
         step_env = copy.deepcopy(self.environment)
 
         command = command.split(' ')
 
         # Add bash -l before every command on Windows builders
-        bash_args = ["bash", "-l"] if is_windows else []
+        bash_args = ["bash", "-l"] if self.is_windows else []
         step_kwargs['command'] = bash_args + command
 
         step_class = steps.ShellCommand
@@ -118,8 +117,8 @@ class DynamicServoFactory(ServoFactory):
         step_kwargs['env'] = step_env
         return step_class(**step_kwargs)
 
-    def make_pkill_command(self, target, is_windows):
-        if is_windows:
+    def make_pkill_command(self, target):
+        if self.is_windows:
             return ["powershell", "kill", "-n", target]
 
         return ["pkill", "-x", target]
@@ -142,8 +141,7 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
 
     @defer.inlineCallbacks
     def run(self):
-        is_windows = True if re.match('windows(.*)',
-                                      self.builder_name) else False
+        self.is_windows = re.match('windows.*', self.builder_name) is not None
         try:
             print_yaml_cmd = "cat {}".format(self.yaml_path)
             cmd = yield self.makeRemoteShellCommand(
@@ -160,7 +158,7 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
             else:
                 builder_steps = yaml.safe_load(cmd.stdout)
                 commands = builder_steps[self.builder_name]
-                dynamic_steps = [self.make_step(command, is_windows)
+                dynamic_steps = [self.make_step(command)
                                  for command in commands]
         except Exception as e:  # Bad step configuration, fail build
             # Capture the exception and re-raise with a friendly message
@@ -170,7 +168,7 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
             ))
 
         pkill_step = steps.ShellCommand(
-            command=self.make_pkill_command("servo", is_windows),
+            command=self.make_pkill_command("servo"),
             decodeRC={0: SUCCESS, 1: SUCCESS}
         )
         static_steps = [pkill_step]
@@ -179,14 +177,14 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
 
         defer.returnValue(result)
 
-    def make_step(self, command, is_windows):
+    def make_step(self, command):
         step_kwargs = {}
         step_env = copy.deepcopy(self.environment)
 
         command = command.split(' ')
 
         # Add bash -l before every command on Windows builders
-        bash_command = ["bash", "-l"] if is_windows else []
+        bash_command = ["bash", "-l"] if self.is_windows else []
         step_kwargs['command'] = bash_command + command
 
         step_class = steps.ShellCommand
@@ -216,8 +214,8 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
         step_kwargs['env'] = step_env
         return step_class(**step_kwargs)
 
-    def make_pkill_command(self, target, is_windows):
-        if is_windows:
+    def make_pkill_command(self, target):
+        if self.is_windows:
             return ["powershell", "kill", "-n", target]
 
         return ["pkill", "-x", target]
