@@ -65,13 +65,12 @@ class DynamicServoFactory(ServoFactory):
             with open(yaml_path) as steps_file:
                 builder_steps = yaml.safe_load(steps_file)
             commands = builder_steps[builder_name]
-            dynamic_steps = [self.make_step(command)
-                             for command in commands]
+            dynamic_steps = [self.make_step(command) for command in commands]
         except Exception as e:  # Bad step configuration, fail build
             print(str(e))
             dynamic_steps = [BadConfigurationStep(e)]
 
-        pkill_step = [self.make_pkill_command("servo")]
+        pkill_step = [self.make_pkill_step("servo")]
 
         # util.BuildFactory is an old-style class so we cannot use super()
         # but must hardcode the superclass here
@@ -114,7 +113,7 @@ class DynamicServoFactory(ServoFactory):
         step_kwargs['env'] = step_env
         return step_class(**step_kwargs)
 
-    def make_pkill_command(self, target):
+    def make_pkill_step(self, target):
         if self.is_windows:
             pkill_command = ["powershell", "kill", "-n", target]
         else:
@@ -169,7 +168,7 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
                 str(e)
             ))
 
-        pkill_step = [self.make_pkill_command("servo")]
+        pkill_step = [self.make_pkill_step("servo")]
 
         self.build.steps += pkill_step + dynamic_steps
 
@@ -212,7 +211,7 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
         step_kwargs['env'] = step_env
         return step_class(**step_kwargs)
 
-    def make_pkill_command(self, target):
+    def make_pkill_step(self, target):
         if self.is_windows:
             pkill_command = ["powershell", "kill", "-n", target]
         else:
