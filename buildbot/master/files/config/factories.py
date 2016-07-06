@@ -65,16 +65,13 @@ class DynamicServoFactory(ServoFactory):
             with open(yaml_path) as steps_file:
                 builder_steps = yaml.safe_load(steps_file)
             commands = builder_steps[builder_name]
-            dynamic_steps = [self.make_step(command, self.is_windows)
+            dynamic_steps = [self.make_step(command)
                              for command in commands]
         except Exception as e:  # Bad step configuration, fail build
             print(str(e))
             dynamic_steps = [BadConfigurationStep(e)]
 
-        pkill_step = [steps.ShellCommand(
-            command=self.make_pkill_command("servo"),
-            decodeRC={0: SUCCESS, 1: SUCCESS}
-        )]
+        pkill_step = [self.make_pkill_command("servo")]
 
         # util.BuildFactory is an old-style class so we cannot use super()
         # but must hardcode the superclass here
@@ -119,9 +116,14 @@ class DynamicServoFactory(ServoFactory):
 
     def make_pkill_command(self, target):
         if self.is_windows:
-            return ["powershell", "kill", "-n", target]
+            pkill_command = ["powershell", "kill", "-n", target]
+        else:
+            pkill_command = ["pkill", "-x", target]
 
-        return ["pkill", "-x", target]
+        return steps.ShellCommand(
+            command=pkill_command,
+            decodeRC={0: SUCCESS, 1: SUCCESS}
+        )
 
 
 class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
@@ -167,13 +169,9 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
                 str(e)
             ))
 
-        pkill_step = steps.ShellCommand(
-            command=self.make_pkill_command("servo"),
-            decodeRC={0: SUCCESS, 1: SUCCESS}
-        )
-        static_steps = [pkill_step]
+        pkill_step = [self.make_pkill_command("servo")]
 
-        self.build.steps += static_steps + dynamic_steps
+        self.build.steps += pkill_step + dynamic_steps
 
         defer.returnValue(result)
 
@@ -216,9 +214,14 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
 
     def make_pkill_command(self, target):
         if self.is_windows:
-            return ["powershell", "kill", "-n", target]
+            pkill_command = ["powershell", "kill", "-n", target]
+        else:
+            pkill_command = ["pkill", "-x", target]
 
-        return ["pkill", "-x", target]
+        return steps.ShellCommand(
+            command=pkill_command,
+            decodeRC={0: SUCCESS, 1: SUCCESS}
+        )
 
 
 class DynamicServoYAMLFactory(ServoFactory):
