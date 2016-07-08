@@ -1,3 +1,5 @@
+import copy
+
 from passwords import GITHUB_DOC_TOKEN
 from passwords import S3_UPLOAD_ACCESS_KEY_ID, S3_UPLOAD_SECRET_ACCESS_KEY
 
@@ -16,6 +18,18 @@ class Environment(dict):
         combined = self.copy()
         combined.update(other)  # other takes precedence over self
         return Environment(combined)
+
+    def without(self, to_unset):
+        """
+        Return a new Environment that does not contain the environment
+        variables specified in the list of strings to_unset.
+        """
+        modified = copy.deepcopy(self)
+        assert type(to_unset) == list
+        for env_var in to_unset:
+            if env_var in modified:
+                modified.pop(env_var)
+        return modified
 
 
 doc = Environment({
@@ -85,8 +99,9 @@ build_arm = build_linux + Environment({
     'PKG_CONFIG_ALLOW_CROSS': '1',
 })
 
-
-build_arm32 = build_arm + Environment({
+# Unset SERVO_CACHE_DIR to test our download code for host and cross targets.
+# Use arm32 because it is the fastest cross builder.
+build_arm32 = build_arm.without(['SERVO_CACHE_DIR']) + Environment({
     'BUILD_TARGET': 'arm-unknown-linux-gnueabihf',
     'CC': 'arm-linux-gnueabihf-gcc',
     'CXX': 'arm-linux-gnueabihf-g++',
