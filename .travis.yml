@@ -58,7 +58,8 @@ matrix:
       language: python
       python: 3.5
     # Not a Salt node, runs test suite instead
-    - env: SALT_NODE_ID=test
+    - env:
+        - SALT_NODE_ID=test
       os: linux
       sudo: required
       dist: trusty

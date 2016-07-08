@@ -1,7 +1,7 @@
 require 'yaml'
 
 def extract_id(env)
-  id = env.split.map do |env_var|
+  id = env.map do |env_var|
     env_var[/^SALT_NODE_ID=(?<node_id>.+)$/, "node_id"]
   end.compact
   id[0]
