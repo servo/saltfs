@@ -79,6 +79,7 @@ arm64:
 
 windows-dev:
   - ./mach build --dev
+  - ./mach build-geckolib
   - ./mach test-unit
 
 windows-nightly:
