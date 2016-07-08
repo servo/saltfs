@@ -80,6 +80,7 @@ arm64:
 windows-dev:
   - ./mach build --dev
   - ./mach test-unit
+  - ./mach build-geckolib
 
 windows-nightly:
   - ./mach build --release
