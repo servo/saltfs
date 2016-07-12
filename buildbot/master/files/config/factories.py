@@ -82,10 +82,11 @@ class DynamicServoFactory(ServoFactory):
 
         command = command.split(' ')
 
-        # Add bash -l before every command on Windows builders
+        # Add `bash -l` before every command on Windows builders
         bash_args = ["bash", "-l"] if self.is_windows else []
         step_kwargs['command'] = bash_args + command
 
+        step_desc = []
         step_class = steps.ShellCommand
         args = iter(command)
         for arg in args:
@@ -93,6 +94,7 @@ class DynamicServoFactory(ServoFactory):
             # (steps.Compile and steps.Test catch warnings)
             if arg == './mach':
                 mach_arg = next(args)
+                step_desc = [mach_arg]
                 if re.match('build(-.*)?', mach_arg):
                     step_class = steps.Compile
                 elif re.match('test-.*', mach_arg):
@@ -109,6 +111,15 @@ class DynamicServoFactory(ServoFactory):
             elif arg == './etc/ci/upload_nightly.sh':
                 step_kwargs['logEnviron'] = False
                 step_env += envs.upload_nightly
+
+            else:
+                step_desc = [arg]
+
+        if step_class != steps.ShellCommand:
+            step_kwargs['descriptionSuffix'] = " ".join(step_desc)
+
+        step_kwargs['description'] = "running"
+        step_kwargs['descriptionDone'] = "ran"
 
         step_kwargs['env'] = step_env
         return step_class(**step_kwargs)
@@ -179,14 +190,15 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
 
         command = command.split(' ')
 
-        # Add bash -l before every command on Windows builders
-        bash_command = ["bash", "-l"] if self.is_windows else []
-        step_kwargs['command'] = bash_command + command
+        # Add `bash -l` before every command on Windows builders
+        bash_args = ["bash", "-l"] if self.is_windows else []
+        step_kwargs['command'] = bash_args + command
         step_env += envs.Environment({
             # Set home directory, to avoid adding `cd` command on every command
             'HOME': r'C:\buildbot\slave\{}\build'.format(self.builder_name),
             })
 
+        step_desc = []
         step_class = steps.ShellCommand
         args = iter(command)
         for arg in args:
@@ -194,6 +206,7 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
             # (steps.Compile and steps.Test catch warnings)
             if arg == './mach':
                 mach_arg = next(args)
+                step_desc = [mach_arg]
                 if re.match('build(-.*)?', mach_arg):
                     step_class = steps.Compile
                 elif re.match('test-.*', mach_arg):
@@ -210,6 +223,15 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
             elif arg == './etc/ci/upload_nightly.sh':
                 step_kwargs['logEnviron'] = False
                 step_env += envs.upload_nightly
+
+            else:
+                step_desc = [arg]
+
+        if step_class != steps.ShellCommand:
+            step_kwargs['descriptionSuffix'] = " ".join(step_desc)
+
+        step_kwargs['description'] = "running"
+        step_kwargs['descriptionDone'] = "ran"
 
         step_kwargs['env'] = step_env
         return step_class(**step_kwargs)
