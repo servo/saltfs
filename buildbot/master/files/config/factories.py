@@ -82,7 +82,7 @@ class DynamicServoFactory(ServoFactory):
 
         command = command.split(' ')
 
-        # Add bash -l before every command on Windows builders
+        # Add `bash -l` before every command on Windows builders
         bash_args = ["bash", "-l"] if self.is_windows else []
         step_kwargs['command'] = bash_args + command
 
@@ -109,6 +109,22 @@ class DynamicServoFactory(ServoFactory):
             elif arg == './etc/ci/upload_nightly.sh':
                 step_kwargs['logEnviron'] = False
                 step_env += envs.upload_nightly
+
+        step_desc_suffix = []
+        if step_class == steps.Test:
+            args = iter(command[1:])
+            for arg in args:
+                if re.match('--log-.*', arg):
+                    break
+                step_desc_suffix += [arg]
+        elif step_class == steps.Compile:
+            step_desc_suffix = (command[1:])
+
+        if step_desc_suffix:
+            step_kwargs['descriptionSuffix'] = " ".join(step_desc_suffix)
+
+        step_kwargs['description'] = "running"
+        step_kwargs['descriptionDone'] = "ran"
 
         step_kwargs['env'] = step_env
         return step_class(**step_kwargs)
@@ -207,6 +223,22 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
             elif arg == './etc/ci/upload_nightly.sh':
                 step_kwargs['logEnviron'] = False
                 step_env += envs.upload_nightly
+
+        step_desc_suffix = []
+        if step_class == steps.Test:
+            args = iter(command[1:])
+            for arg in args:
+                if re.match('--log-.*', arg):
+                    break
+                step_desc_suffix += [arg]
+        elif step_class == steps.Compile:
+            step_desc_suffix = (command[1:])
+
+        if step_desc_suffix:
+            step_kwargs['descriptionSuffix'] = " ".join(step_desc_suffix)
+
+        step_kwargs['description'] = "running"
+        step_kwargs['descriptionDone'] = "ran"
 
         step_kwargs['env'] = step_env
         return step_class(**step_kwargs)
