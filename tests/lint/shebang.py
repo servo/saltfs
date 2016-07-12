@@ -11,7 +11,7 @@ SHEBANG = """\
 
 INTERPRETERS = {
     'py': 'python3',
-    'sh': 'sh'
+    'sh': 'bash'
 }
 
 
