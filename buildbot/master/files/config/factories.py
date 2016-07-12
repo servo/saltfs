@@ -82,7 +82,7 @@ class DynamicServoFactory(ServoFactory):
 
         command = command.split(' ')
 
-        # Add bash -l before every command on Windows builders
+        # Add `bash -l` before every command on Windows builders
         bash_args = ["bash", "-l"] if self.is_windows else []
         step_kwargs['command'] = bash_args + command
 
@@ -109,6 +109,16 @@ class DynamicServoFactory(ServoFactory):
             elif arg == './etc/ci/upload_nightly.sh':
                 step_kwargs['logEnviron'] = False
                 step_env += envs.upload_nightly
+
+        if step_class == steps.Compile:
+            step_desc = "Compiling"
+        if step_class == steps.Test:
+            step_desc = "Testing"
+        else:
+            step_desc = "Running"
+        step_desc = step_desc + " '" + " ".join(command[0:3]) + "'"
+        step_kwargs['description'] = step_desc
+        step_kwargs['descriptionDone'] = " ".join(command[0:3])
 
         step_kwargs['env'] = step_env
         return step_class(**step_kwargs)
