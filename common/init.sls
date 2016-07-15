@@ -45,7 +45,7 @@ servo:
     - shell: /bin/bash
     - home: {{ common.servo_home }}
 
-Etc/UTC:
+UTC:
     timezone.system
 
 {% for hostname, ip in common.hosts.items() %}
