@@ -53,6 +53,6 @@ else
     # Only run tests against the new configuration
     # TODO: don't hard-code this
     if [[ "${SALT_NODE_ID}" == "servo-master1" ]]; then
-        ./test.py sls.buildbot.master sls.homu sls.nginx
+        ./test.py sls.buildbot.master sls.common.timezone sls.homu sls.nginx
     fi
 fi
