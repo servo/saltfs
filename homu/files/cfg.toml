@@ -74,6 +74,7 @@ secret = "{{ pillar["homu"]["web-secret"] }}"
     "emilio",
     "frewsxcv",
     "glennw",
+    "heycam",
     "jdm",
     "jgraham",
     "KiChjang",
@@ -93,9 +94,7 @@ secret = "{{ pillar["homu"]["web-secret"] }}"
     "zmike",
 ] %}
 
-{% set operators = [
-    "heycam",
-] %}
+{% set operators = [] %}
 
 {% set try = [
     "askalski",
