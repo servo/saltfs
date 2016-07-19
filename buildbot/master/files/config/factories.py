@@ -187,7 +187,6 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
             'HOME': r'C:\buildbot\slave\{}\build'.format(self.builder_name),
             })
 
-
         step_class = steps.ShellCommand
         args = iter(command)
         for arg in args:
