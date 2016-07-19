@@ -182,7 +182,7 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
         # Add bash -l before every command on Windows builders
         bash_command = ["bash", "-l"] if self.is_windows else []
         step_kwargs['command'] = bash_command + command
-        step_env += Environment({
+        step_env += envs.Environment({
             # Set home directory, to avoid adding `cd` command on every command
             'HOME': r'C:\buildbot\slave\{}\build'.format(self.builder_name),
             })
