@@ -59,16 +59,13 @@ class DynamicServoFactory(ServoFactory):
     def __init__(self, builder_name, environment):
         self.environment = environment
         self.is_windows = re.match('windows.*', builder_name) is not None
-        try:
-            config_dir = os.path.dirname(os.path.realpath(__file__))
-            yaml_path = os.path.join(config_dir, 'steps.yml')
-            with open(yaml_path) as steps_file:
-                builder_steps = yaml.safe_load(steps_file)
-            commands = builder_steps[builder_name]
-            dynamic_steps = [self.make_step(command) for command in commands]
-        except Exception as e:  # Bad step configuration, fail build
-            print(str(e))
-            dynamic_steps = [BadConfigurationStep(e)]
+        self.builder_name = builder_name
+        config_dir = os.path.dirname(os.path.realpath(__file__))
+        yaml_path = os.path.join(config_dir, 'steps.yml')
+        with open(yaml_path) as steps_file:
+            builder_steps = yaml.safe_load(steps_file)
+        commands = builder_steps[builder_name]
+        dynamic_steps = [self.make_step(command) for command in commands]
 
         pkill_step = [self.make_pkill_step("servo")]
 
@@ -83,9 +80,13 @@ class DynamicServoFactory(ServoFactory):
         command = command.split(' ')
 
         # Add bash -l before every command on Windows builders
-        bash_args = ["bash", "-l", "-c",
-                        "cd /c/buildbot/slave/{}/build; ".format(self.builder_name)] if self.is_windows else []
+        bash_args = ["bash", "-l"] if self.is_windows else []
         step_kwargs['command'] = bash_args + command
+        if self.is_windows:
+            step_env += envs.Environment({
+                # Set home directory, to avoid adding `cd` command on every command
+                'HOME': r'C:\buildbot\slave\{}\build'.format(self.builder_name),
+                })
 
         step_class = steps.ShellCommand
         args = iter(command)
@@ -181,9 +182,13 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
         command = command.split(' ')
 
         # Add bash -l before every command on Windows builders
-        bash_command = ["bash", "-l", "-c",
-                        "cd /c/buildbot/slave/{}/build; ".format(self.builder_name)] if self.is_windows else []
+        bash_command = ["bash", "-l"] if self.is_windows else []
         step_kwargs['command'] = bash_command + command
+        if self.is_windows:
+            step_env += envs.Environment({
+                # Set home directory, to avoid adding `cd` command on every command
+                'HOME': r'C:\buildbot\slave\{}\build'.format(self.builder_name),
+                })
 
         step_class = steps.ShellCommand
         args = iter(command)
