@@ -84,8 +84,9 @@ class DynamicServoFactory(ServoFactory):
         step_kwargs['command'] = bash_args + command
         if self.is_windows:
             step_env += envs.Environment({
-                # Set home directory, to avoid adding `cd` command on every command
-                'HOME': r'C:\buildbot\slave\{}\build'.format(self.builder_name),
+                # Set home directory, to avoid adding `cd` command every time
+                'HOME': r'C:\buildbot\slave\{}\build'.format(
+                self.builder_name),
                 })
 
         step_class = steps.ShellCommand
@@ -186,8 +187,9 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
         step_kwargs['command'] = bash_command + command
         if self.is_windows:
             step_env += envs.Environment({
-                # Set home directory, to avoid adding `cd` command on every command
-                'HOME': r'C:\buildbot\slave\{}\build'.format(self.builder_name),
+                # Set home directory, to avoid adding `cd` command every time
+                'HOME': r'C:\buildbot\slave\{}\build'.format(
+                self.builder_name),
                 })
 
         step_class = steps.ShellCommand
