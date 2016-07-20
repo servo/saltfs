@@ -112,6 +112,11 @@ class DynamicServoFactory(ServoFactory):
             elif arg == './etc/ci/upload_nightly.sh':
                 step_kwargs['logEnviron'] = False
                 step_env += envs.upload_nightly
+                if self.is_windows:
+                    # s3cmd on Windows only works within msys
+                    step_env += envs.Environment({
+                    'MSYSTEM': 'MSYS',
+                    })
 
         step_kwargs['env'] = step_env
         return step_class(**step_kwargs)
@@ -218,8 +223,8 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
                 if self.is_windows:
                     # s3cmd on Windows only works within msys
                     step_env += envs.Environment({
-                        'MSYSTEM': 'MSYS',
-                        })
+                    'MSYSTEM': 'MSYS',
+                    })
 
         step_kwargs['env'] = step_env
         return step_class(**step_kwargs)
