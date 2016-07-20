@@ -110,8 +110,8 @@ class DynamicServoFactory(ServoFactory):
 
             # Provide environment variables for s3cmd
             elif arg == './etc/ci/upload_nightly.sh':
-#                step_kwargs['logEnviron'] = False
-#                step_env += envs.upload_nightly
+                step_kwargs['logEnviron'] = False
+                step_env += envs.upload_nightly
                 if self.is_windows:
                     # s3cmd on Windows only works within msys
                     step_env['MSYSTEM'] = 'MSYS'
@@ -224,8 +224,8 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
 
             # Provide environment variables for s3cmd
             elif arg == './etc/ci/upload_nightly.sh':
-#                step_kwargs['logEnviron'] = False
-#                step_env += envs.upload_nightly
+                step_kwargs['logEnviron'] = False
+                step_env += envs.upload_nightly
                 if self.is_windows:
                     # s3cmd on Windows only works within msys
                     step_env['MSYSTEM'] = 'MSYS'
