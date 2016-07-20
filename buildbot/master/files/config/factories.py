@@ -115,6 +115,14 @@ class DynamicServoFactory(ServoFactory):
                 if self.is_windows:
                     # s3cmd on Windows only works within msys
                     step_env['MSYSTEM'] = 'MSYS'
+                    step_env['PATH'] = ';'.join([
+                        r'C:\msys64\usr\bin',
+                        r'C:\Windows\system32',
+                        r'C:\Windows',
+                        r'C:\Windows\System32\Wbem',
+                        r'C:\Windows\System32\WindowsPowerShell\v1.0',
+                        r'C:\Program Files\Amazon\cfn-bootstrap',
+                        ])
 
         step_kwargs['env'] = step_env
         return step_class(**step_kwargs)
@@ -221,6 +229,14 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
                 if self.is_windows:
                     # s3cmd on Windows only works within msys
                     step_env['MSYSTEM'] = 'MSYS'
+                    step_env['PATH'] = ';'.join([
+                        r'C:\msys64\usr\bin',
+                        r'C:\Windows\system32',
+                        r'C:\Windows',
+                        r'C:\Windows\System32\Wbem',
+                        r'C:\Windows\System32\WindowsPowerShell\v1.0',
+                        r'C:\Program Files\Amazon\cfn-bootstrap',
+                        ])
 
         step_kwargs['env'] = step_env
         return step_class(**step_kwargs)
