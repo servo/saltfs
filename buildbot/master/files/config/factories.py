@@ -62,12 +62,15 @@ class DynamicServoFactory(ServoFactory):
         self.environment = environment
         self.is_windows = re.match('windows.*', builder_name) is not None
         self.builder_name = builder_name
-        config_dir = os.path.dirname(os.path.realpath(__file__))
-        yaml_path = os.path.join(config_dir, 'steps.yml')
-        with open(yaml_path) as steps_file:
-            builder_steps = yaml.safe_load(steps_file)
-        commands = builder_steps[builder_name]
-        dynamic_steps = [self.make_step(command) for command in commands]
+        try:
+            config_dir = os.path.dirname(os.path.realpath(__file__))
+            yaml_path = os.path.join(config_dir, 'steps.yml')
+            with open(yaml_path) as steps_file:
+                builder_steps = yaml.safe_load(steps_file)
+            commands = builder_steps[builder_name]
+            dynamic_steps = [self.make_step(command) for command in commands]
+        except Exception as e:  # Bad step configuration, fail the build
+            dynamic_steps = [BadConfigurationStep(e)]
 
         pkill_step = [self.make_pkill_step("servo")]
 
