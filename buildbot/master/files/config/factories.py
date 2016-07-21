@@ -43,6 +43,7 @@ class BadConfigurationStep(buildstep.BuildStep):
 
     def __init__(self, exception):
         self.exception = exception
+        buildstep.BuildStep.__init__(self)
 
     def run(self):
         raise Exception("Bad configuration, unable to convert to steps" +
