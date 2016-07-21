@@ -46,6 +46,7 @@ class BadConfigurationStep(buildstep.BuildStep):
         buildstep.BuildStep.__init__(self)
 
     def run(self):
+        self.addCompleteLog("bad_configuration.txt", str(self.exception))
         raise Exception("Bad configuration, unable to convert to steps" +
                         str(self.exception))
 
