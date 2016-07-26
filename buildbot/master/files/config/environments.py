@@ -55,6 +55,7 @@ build_windows = build_common + Environment({
         r'C:\Windows\System32\Wbem',
         r'C:\Windows\System32\WindowsPowerShell\v1.0',
         r'C:\Program Files\Amazon\cfn-bootstrap',
+        r'C:\Program Files (x86)\WiX Toolset v3.10\bin',
     ]),
     'SERVO_CACHE_DIR': '/home/Administrator/.servo',
 })
