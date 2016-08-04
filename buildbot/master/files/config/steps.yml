@@ -29,11 +29,11 @@ mac-nightly:
 
 linux-rel-intermittent:
   - ./mach build --release
-  - ./etc/ci/check_intermittents.sh
+  - ./etc/ci/check_intermittents.sh --log-raw intermittents.log
 
 mac-rel-intermittent:
   - ./mach build --release
-  - ./etc/ci/check_intermittents.sh
+  - ./etc/ci/check_intermittents.sh --log-raw intermittents.log
 
 linux-dev:
   - ./mach test-tidy --no-progress --all
