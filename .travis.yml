@@ -66,7 +66,11 @@ matrix:
       language: python
       python: 3.5
 
-script: .travis/dispatch.sh
+script:
+  # Must be run at the top level, not inside a script,
+  # because deactivate is a shell function (which doesn't get inherited)
+  - if [[ -n "${VIRTUAL_ENV+x}" ]]; then TEST_VENV_ROOT="${VIRTUAL_ENV}"; deactivate; fi
+  - ./.travis/dispatch.sh
 
 notifications:
   webhooks: http://build.servo.org:54856/travis

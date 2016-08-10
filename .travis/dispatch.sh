@@ -28,6 +28,7 @@ run_salt () {
 
     printf 'Running the full Salt highstate\n'
     sudo salt-call --id="${SALT_NODE_ID}" --retcode-passthrough --log-level=warning state.highstate
+    env
     which salt-call
     salt-call --version
     dpkg -s python-pip
@@ -45,6 +46,7 @@ if [[ "${SALT_NODE_ID}" == "test" ]]; then
     printf "Using $(python3 --version) at $(which python3)\n"
 
     # Run test suite separately for parallelism
+    source "${TEST_VENV_ROOT}/bin/activate"
     ./test.py
 else
     if [ "${SALT_FROM_SCRATCH}" = "true" ]; then
@@ -61,6 +63,7 @@ else
     # Only run tests against the new configuration
     # TODO: don't hard-code this
     if [[ "${SALT_NODE_ID}" == "servo-master1" ]]; then
+        source "${TEST_VENV_ROOT}/bin/activate"
         ./test.py sls.buildbot.master sls.homu sls.nginx
     fi
 fi
