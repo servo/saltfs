@@ -37,7 +37,8 @@ run_salt () {
     which pip2
     pip2 --version
     cat /usr/lib/python2.7/dist-packages/salt/states/pip_state.py
-    cat /usr/lib/python2.7/dist-packages/pkg_resources.py
+    python2 -c 'import pip; print(pip); print (pip.__file__); print(open(pip.__file__).read())'
+    python2 -c 'import pkg_resources; print(pkg_resources); print (pkg_resources.__file__); print(open(pkg_resources.__file__).read())'
 }
 
 
