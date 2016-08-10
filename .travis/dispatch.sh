@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-set -o errexit
 set -o nounset
 set -o pipefail
 
@@ -29,6 +28,15 @@ run_salt () {
 
     printf 'Running the full Salt highstate\n'
     sudo salt-call --id="${SALT_NODE_ID}" --retcode-passthrough --log-level=warning state.highstate
+    which salt-call
+    salt-call --version
+    dpkg -s python-pip
+    which pip
+    pip --version
+    which pip2
+    pip2 --version
+    cat /usr/lib/python2.7/dist-packages/salt/states/pip_state.py
+    cat /usr/lib/python2.7/dist-packages/pkg_resources.py
 }
 
 
