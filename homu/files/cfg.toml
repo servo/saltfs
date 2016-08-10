@@ -147,8 +147,8 @@ try_users = {{ try }}
 [repo.{{ repo[1] }}.github]
 secret = "{{ pillar["homu"]["gh-webhook-secret"] }}"
 
-[repo.{{ repo[1] }}.travis]
-token = "{{ pillar["homu"]["travis-ci-token"] }}"
+[repo.{{ repo[1] }}.status.travis]
+context = 'continuous-integration/travis-ci/push'
 
 {% endfor %}
 
