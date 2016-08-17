@@ -23,3 +23,9 @@ This repository is distributed under the terms of both the MIT license
 and the Apache License (Version 2.0).
 
 See [LICENSE-APACHE](LICENSE-APACHE) and [LICENSE-MIT](LICENSE-MIT) for details.
+
+Note that some files in underscore-prefix directories (e.g. under `_modules`)
+are copies (possibly with changes) of files from the
+[main Salt repo](https://github.com/saltstack/salt); these files have headers
+detailing the source of those files, any changes made, and the original license
+notice associated with those files.

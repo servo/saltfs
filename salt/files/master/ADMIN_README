@@ -1,0 +1,16 @@
+Note: this directory is meant to be used to TEMPORARILY test out changes to our
+Salt configurations on the live builders. To use it, clone the saltfs repo into
+this folder, and Salt will read from it (/tmp/salt-testing-root/saltfs).
+This folder takes precedence over gitfs (which reads file from the master
+branch of the saltfs repository), so it is important to follow a few guidelines:
+
+- Avoid using this folder if possible: prefer to test changes locally using the
+steps under "Making changes" at
+https://github.com/servo/servo/wiki/Buildbot-administration
+
+- If you do need to use this folder, use it only as long as you need it, and
+make sure to remove the cloned saltfs folder afterwards. Any files that are
+left dangling will continue to mask changes in the real saltfs repository.
+
+- There is only one of these folders, so if it's already in use, wait until it
+is empty again before testing your change.
