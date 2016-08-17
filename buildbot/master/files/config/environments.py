@@ -1,6 +1,6 @@
 import copy
 
-from passwords import GITHUB_DOC_TOKEN
+from passwords import GITHUB_DOC_TOKEN, GITHUB_HOMEBREW_TOKEN
 from passwords import S3_UPLOAD_ACCESS_KEY_ID, S3_UPLOAD_SECRET_ACCESS_KEY
 
 
@@ -136,4 +136,5 @@ build_arm64 = build_arm + Environment({
 upload_nightly = Environment({
     'AWS_ACCESS_KEY_ID': S3_UPLOAD_ACCESS_KEY_ID,
     'AWS_SECRET_ACCESS_KEY': S3_UPLOAD_SECRET_ACCESS_KEY,
+    'TOKEN': GITHUB_HOMEBREW_TOKEN,
 })
