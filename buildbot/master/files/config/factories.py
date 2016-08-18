@@ -133,7 +133,7 @@ class DynamicServoFactory(ServoFactory):
                     ])
 
             # Set token for homebrew repository
-            elif arg == './etc/ci/update_brew.sh'
+            elif arg == './etc/ci/update_brew.sh':
                 step_kwargs['logEnviron'] = False
                 step_env += envs.update_brew
 
