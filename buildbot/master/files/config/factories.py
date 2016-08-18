@@ -132,6 +132,11 @@ class DynamicServoFactory(ServoFactory):
                         r'C:\Program Files\Amazon\cfn-bootstrap',
                     ])
 
+            # Set token for homebrew repository
+            elif arg == './etc/ci/update_brew.sh'
+                step_kwargs['logEnviron'] = False
+                step_env += envs.update_brew
+
             else:
                 step_desc += [arg]
 
