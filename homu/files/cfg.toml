@@ -105,6 +105,7 @@ secret = "{{ pillar["homu"]["web-secret"] }}"
     "dzbarsky",
     "jryans",
     "gsnedders",
+    "GuillaumeGomez",
     "izgzhen",
     "magni-",
     "notriddle",
