@@ -17,7 +17,11 @@ def is_salt_master(id)
   !id.match(/servo-master\d+/).nil?
 end
 
-Vagrant.require_version '>= 1.8.0'
+# Need Vagrant >= 1.8.0, in which the Vagrant Salt provisioner was overhauled
+# See https://github.com/servo/saltfs/pull/180
+# Vagrant 1.8.3+ breaks our usage of minion_id to pass additional args to Salt
+# See https://github.com/mitchellh/vagrant/pull/7207
+Vagrant.require_version('>= 1.8.0', "< 1.8.3")
 
 Vagrant.configure(2) do |config|
 
