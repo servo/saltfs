@@ -141,10 +141,9 @@ class DynamicServoFactory(ServoFactory):
                 step_desc += [arg]
 
         if step_class != steps.ShellCommand:
+            step_kwargs['description'] = "running"
+            step_kwargs['descriptionDone'] = "ran"
             step_kwargs['descriptionSuffix'] = " ".join(step_desc)
-
-        step_kwargs['description'] = "running"
-        step_kwargs['descriptionDone'] = "ran"
 
         step_kwargs['env'] = step_env
         return step_class(**step_kwargs)
@@ -267,10 +266,9 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
                 step_desc += [arg]
 
         if step_class != steps.ShellCommand:
+            step_kwargs['description'] = "running"
+            step_kwargs['descriptionDone'] = "ran"
             step_kwargs['descriptionSuffix'] = " ".join(step_desc)
-
-        step_kwargs['description'] = "running"
-        step_kwargs['descriptionDone'] = "ran"
 
         step_kwargs['env'] = step_env
         return step_class(**step_kwargs)
