@@ -46,3 +46,12 @@ homu:
     - require:
       - pip: homu
       - file: /home/servo/homu/cfg.toml
+
+/var/homu:
+  file.directory:
+    - source:  salt://{{ tpldir }}/var/homu
+    - user:  name
+    - group:  group
+    - name:  /var/homu
+    - dir_mode: 2775
+    - file_mode: 777
