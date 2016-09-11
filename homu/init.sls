@@ -46,3 +46,9 @@ homu:
     - require:
       - pip: homu
       - file: /home/servo/homu/cfg.toml
+
+/var/homu:
+  file.directory:
+    - user:  servo
+    - group:  servo
+    - dir_mode: 700
