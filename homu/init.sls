@@ -5,6 +5,11 @@ python3:
     - pkgs:
       - python3
 
+homu-debugging-packages:
+  pkg.installed:
+    - pkgs:
+      - sqlite3
+
 homu:
   virtualenv.managed:
     - name: /home/servo/homu/_venv
