@@ -168,6 +168,5 @@ context = 'continuous-integration/appveyor/branch'
 [repo.rust-mozjs.status.appveyor]
 context = 'continuous-integration/appveyor/branch'
 
-# The database homu uses
 [db]
 file = "/var/homu/main.db"

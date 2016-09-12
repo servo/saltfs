@@ -49,8 +49,8 @@ homu:
 
 /var/homu:
   file.directory:
-    - source:  salt://{{ tpldir }}/var/homu
-    - user:  root
-    - group:  root
-    - name:  /var/homu
-    - dir_mode: 2775
+    - template: jinja
+    - user:  servo/servo
+    - group:  servo/servo
+    - dir_mode: 700
+    
