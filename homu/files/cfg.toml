@@ -165,5 +165,8 @@ master = "servo"
 [repo.ipc-channel.status.appveyor]
 context = 'continuous-integration/appveyor/branch'
 
+[repo.mozjs.status.appveyor]
+context = 'continuous-integration/appveyor/branch'
+
 [repo.rust-mozjs.status.appveyor]
 context = 'continuous-integration/appveyor/branch'
