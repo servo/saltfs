@@ -75,6 +75,10 @@ build_linux = build_common + Environment({
     'SHELL': '/bin/bash',
 })
 
+build_linux_rel_debug_assert = build_linux + Environment({
+    'SERVO_ENABLE_DEBUG_ASSERTIONS': '1',
+})
+
 build_android = build_linux + Environment({
     'ANDROID_NDK': '{{ common.servo_home }}/android/ndk/current/',
     'ANDROID_SDK': '{{ common.servo_home }}/android/sdk/current/',
