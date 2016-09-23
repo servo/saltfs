@@ -5,7 +5,7 @@
 ## What's going on?
 
 Salt is a configuration management tool that we use to automate Servo's
-infrastructure. See [the tutorials](https://docs.saltstack.com/en/2015.5/topics/tutorials/index.html) to get started.
+infrastructure. See [the tutorials](https://docs.saltstack.com/en/2016.3/topics/tutorials/index.html) to get started.
 
 ## Contributing
 

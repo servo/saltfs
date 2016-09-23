@@ -1,7 +1,7 @@
 {% set salt_ = salt %}
 {%
   set salt = {
-    'version': '2015.5.8',
+    'version': '2016.3.3',
     'master': salt['grains.filter_by']({
         'defaults': {
           'config': {
@@ -19,7 +19,7 @@
         'Ubuntu': {
           'pkg': {
             'name': 'salt-master',
-            'version': '2015.5.8+ds-1'
+            'version': '2016.3.3+ds-1'
           }
         }
       },
