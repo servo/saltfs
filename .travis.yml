@@ -70,3 +70,8 @@ script: .travis/dispatch.sh
 
 notifications:
   webhooks: http://build.servo.org:54856/travis
+  email:
+    recipients:
+      - github-saltfs@servo.org
+    on_success: never
+    on_failure: always
