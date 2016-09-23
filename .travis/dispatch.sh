@@ -50,7 +50,11 @@ else
     else
         git fetch origin master:master
         git checkout master
+        # Upstream changes could cause the old rev to fail, so disable errexit
+        # (homu will maintain the invariant that each rev on master is passing)
+        set +o errexit
         run_salt 'old'
+        set -o errexit
 
         git checkout "${TRAVIS_COMMIT}"
         run_salt 'upgrade'
