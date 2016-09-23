@@ -22,4 +22,4 @@ disable-homebrew-analytics:
   git.config:
     - name: 'homebrew.analyticsdisabled'
     - value: 'true'
-    - repo: /usr/local
+    - repo: /usr/local/Homebrew
