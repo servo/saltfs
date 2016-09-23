@@ -42,7 +42,10 @@ android-sdk:
     - source: https://dl.google.com/android/android-sdk_{{ android.sdk.version }}-linux.tgz
     - source_hash: sha512={{ android.sdk.sha512 }}
     - archive_format: tar
+      # Workaround for https://github.com/saltstack/salt/pull/36552
     - archive_user: servo
+    - user: servo
+    - group: servo
     - if_missing: {{ common.servo_home }}/android/sdk/{{ android.sdk.version }}/android-sdk-linux
     - require:
       - user: servo
@@ -56,7 +59,7 @@ android-sdk:
          eof
         }
         '
-    - user: servo
+    - runas: servo
     - creates:
       - {{ common.servo_home }}/android/sdk/{{ android.sdk.version }}/android-sdk-linux/platform-tools
       - {{ common.servo_home }}/android/sdk/{{ android.sdk.version }}/android-sdk-linux/platforms/android-{{ android.platform }}
@@ -90,7 +93,7 @@ android-ndk:
   cmd.run:
       # Need to filter log output to avoid hitting log limits on Travis CI
     - name: '{{ common.servo_home }}/android/ndk/{{ android.ndk.version }}/android-ndk-{{ android.ndk.version }}-linux-x86_64.bin | grep -v Extracting'
-    - user: servo
+    - runas: servo
     - cwd: {{ common.servo_home }}/android/ndk/{{ android.ndk.version }}
     - creates: {{ common.servo_home }}/android/ndk/{{ android.ndk.version }}/android-ndk-{{ android.ndk.version }}
     - require:
@@ -99,7 +102,7 @@ android-ndk:
 android-toolchain:
   cmd.run:
     - name: bash {{ common.servo_home }}/android/ndk/{{ android.ndk.version }}/android-ndk-{{ android.ndk.version }}/build/tools/make-standalone-toolchain.sh --platform=android-{{ android.platform }} --toolchain=arm-linux-androideabi-4.8 --install-dir='{{ common.servo_home }}/android/toolchain/{{ android.ndk.version }}/android-toolchain' --ndk-dir='{{ common.servo_home }}/android/ndk/{{ android.ndk.version }}/android-ndk-{{ android.ndk.version }}'
-    - user: servo
+    - runas: servo
     - creates: {{ common.servo_home }}/android/toolchain/{{ android.ndk.version }}/android-toolchain
     - require:
       - cmd: android-ndk

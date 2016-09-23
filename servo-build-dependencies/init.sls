@@ -57,7 +57,7 @@ servo-darwin-homebrew-versions-dependencies:
 homebrew-link-autoconf:
   cmd.run:
     - name: 'brew link --overwrite autoconf'
-    - user: {{ homebrew.user }}
+    - runas: {{ homebrew.user }}
     - creates: /usr/local/Library/LinkedKegs/autoconf
     - require:
       - pkg: servo-dependencies
@@ -66,7 +66,7 @@ homebrew-link-autoconf:
 homebrew-link-openssl:
   cmd.run:
     - name: 'brew link --force openssl'
-    - user: {{ homebrew.user }}
+    - runas: {{ homebrew.user }}
     - creates: /usr/local/Library/LinkedKegs/openssl
     - require:
       - pkg: servo-dependencies
