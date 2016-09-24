@@ -64,6 +64,8 @@ build_mac = build_common + Environment({
     'CARGO_HOME': '/Users/servo/.cargo',
     'CCACHE': '/usr/local/bin/ccache',
     'SERVO_CACHE_DIR': '/Users/servo/.servo',
+    'OPENSSL_INCLUDE_DIR': '/usr/local/opt/openssl/include',
+    'OPENSSL_LIB_DIR': '/usr/local/opt/openssl/lib',
 })
 
 
