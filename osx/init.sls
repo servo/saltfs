@@ -23,3 +23,6 @@ disable-homebrew-analytics:
     - name: 'homebrew.analyticsdisabled'
     - value: 'true'
     - repo: /usr/local/Homebrew
+
+com.apple.metadata.mds:
+  service.dead
