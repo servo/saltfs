@@ -14,7 +14,11 @@ install_salt () {
         curl https://repo.saltstack.com/apt/ubuntu/14.04/amd64/archive/2016.3.3/SALTSTACK-GPG-KEY.pub | sudo apt-key add -
         printf 'deb http://repo.saltstack.com/apt/ubuntu/14.04/amd64/archive/2016.3.3 trusty main\n' | sudo tee /etc/apt/sources.list.d/saltstack.list >/dev/null
         sudo apt-get -y update
-        sudo apt-get -y install salt-minion=2016.3.3+ds-1
+        # Use existing config file if it exists (if reinstalling)
+        sudo apt-get -y \
+                -o Dpkg::Options::="--force-confold" \
+                -o Dpkg::Options::="--force-confdef" \
+                install salt-minion=2016.3.3+ds-1
     elif [[ "${OS_NAME}" == "osx" ]]; then
         printf "$0: installing salt for Mac OS X\n"
         brew update
