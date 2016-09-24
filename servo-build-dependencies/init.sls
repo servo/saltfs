@@ -42,26 +42,21 @@ servo-dependencies:
 
 {% if grains['kernel'] == 'Darwin' %}
 # Workaround for https://github.com/saltstack/salt/issues/26414
-servo-darwin-homebrew-versions-dependencies:
-  module.run:
-    - name: pkg.install
-    - pkgs:
-      - autoconf213
-    - taps:
-      - homebrew/versions
-
-# Warning: These states that manually run brew link only check that some
-# version of the Homebrew package is linked, not necessarily the version
-# linked above. Whether this handles updates properly is an open question.
-# These should be replaced by a custom Salt state.
-homebrew-link-autoconf:
+servo-darwin-tap-homebrew-versions:
   cmd.run:
-    - name: 'brew link --overwrite autoconf'
+    - name: 'brew tap homebrew/versions'
     - runas: {{ homebrew.user }}
-    - creates: /usr/local/Library/LinkedKegs/autoconf
+    - unless: 'brew tap | grep homebrew/versions'
     - require:
       - pkg: servo-dependencies
-      - module: servo-darwin-homebrew-versions-dependencies
+
+# This should be replaced by a custom Salt state.
+servo-darwin-install-autoconf213-and-fix-links:
+  cmd.script:
+    - source: salt://{{ tpldir }}/files/install-homebrew-autoconf213.sh
+    - runas: {{ homebrew.user }}
+    - require:
+      - pkg: servo-dependencies
 {% else %}
 multiverse:
   pkgrepo.managed:
