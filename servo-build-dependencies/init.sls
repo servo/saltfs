@@ -62,14 +62,6 @@ homebrew-link-autoconf:
     - require:
       - pkg: servo-dependencies
       - module: servo-darwin-homebrew-versions-dependencies
-
-homebrew-link-openssl:
-  cmd.run:
-    - name: 'brew link --force openssl'
-    - runas: {{ homebrew.user }}
-    - creates: /usr/local/Library/LinkedKegs/openssl
-    - require:
-      - pkg: servo-dependencies
 {% else %}
 multiverse:
   pkgrepo.managed:
