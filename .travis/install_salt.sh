@@ -28,6 +28,8 @@ install_salt () {
             brew unlink saltstack
         fi
         brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/9e3a66b6b7ca978bfea86897dcc3391c37f9f0ef/Formula/saltstack.rb
+        # In case we had the same version previously, we need to relink
+        brew link saltstack
     else
         printf >&2 "$0: unknown operating system ${OS_NAME}\n"
         exit 1
