@@ -90,6 +90,7 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
     @defer.inlineCallbacks
     def run(self):
         self.is_windows = re.match('windows.*', self.builder_name) is not None
+        self.is_win_gnu = re.match('windows.*gnu', builder_name) is not None
         try:
             show_cmd = "cat" if not self.is_windows else "type"
             native_yaml_path = self.yaml_path
@@ -176,8 +177,8 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
 
         command = command.split(' ')
 
-        # Add `bash -l` before every command on Windows builders
-        bash_args = ["bash", "-l"] if self.is_windows else []
+        # Add `bash -l` before every command on Windows GNU builders
+        bash_args = ["bash", "-l"] if self.is_win_gnu else []
         step_kwargs['command'] = bash_args + command
         if self.is_windows:
             step_env += envs.Environment({
@@ -193,7 +194,7 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
         for arg in args:
             # Change Step class to capture warnings as needed
             # (steps.Compile and steps.Test catch warnings)
-            if arg == './mach':
+            if arg == './mach' or arg == 'mach.bat':
                 mach_arg = next(args)
                 step_desc = [mach_arg]
                 if re.match('build(-.*)?', mach_arg):
@@ -211,11 +212,12 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
                 step_kwargs['logfiles'][logfile] = logfile
 
             # Provide environment variables for s3cmd
-            elif arg == './etc/ci/upload_nightly.sh':
+            elif arg == './etc/ci/upload_nightly.sh' or
+                 arg == r'.\etc\ci\upload_nightly.sh':
                 step_kwargs['logEnviron'] = False
                 step_env += envs.upload_nightly
-                if self.is_windows:
-                    # s3cmd on Windows only works within msys
+                if self.is_win_gnu:
+                    # s3cmd on Windows GNU does not work in MINGW
                     step_env['MSYSTEM'] = 'MSYS'
                     step_env['PATH'] = ';'.join([
                         r'C:\msys64\usr\bin',
