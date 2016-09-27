@@ -43,7 +43,7 @@ build_common = Environment({
     'RUST_BACKTRACE': '1',
 })
 
-build_windows = build_common + Environment({
+build_windows_gnu = build_common + Environment({
     'CARGO_HOME': '/home/Administrator/.cargo',
     'MSYS': 'winsymlinks=lnk',
     'MSYSTEM': 'MINGW64',
@@ -58,6 +58,22 @@ build_windows = build_common + Environment({
         r'C:\Program Files (x86)\WiX Toolset v3.10\bin',
     ]),
     'SERVO_CACHE_DIR': '/home/Administrator/.servo',
+})
+
+build_windows_msvc = build_common + Environment({
+    'CARGO_HOME': 'C:\Users\Administrator\.cargo',
+    'PATH': ';'.join([
+        r'C:\Python27',
+        r'C:\Python27\Scripts',
+        r'C:\Windows\system32',
+        r'C:\Windows',
+        r'C:\Windows\System32\Wbem',
+        r'C:\Windows\System32\WindowsPowerShell\v1.0',
+        r'C:\Program Files\Amazon\cfn-bootstrap',
+        r'C:\Program Files\Git\cmd',
+        r'C:\Program Files (x86)\WiX Toolset v3.10\bin',
+    ]),
+    'SERVO_CACHE_DIR': 'C:\Users\Administrator\.servo',
 })
 
 build_mac = build_common + Environment({

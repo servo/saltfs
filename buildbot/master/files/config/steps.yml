@@ -87,10 +87,13 @@ arm64:
   - bash ./etc/ci/lockfile_changed.sh
   - bash ./etc/ci/manifest_changed.sh
 
-windows-dev:
+windows-dev-gnu:
   - ./mach build --dev
   - ./mach test-unit
   - ./mach build-geckolib
+
+windows-dev-msvc:
+  - mach.bat build -d
 
 windows-nightly:
   - ./mach build --release
