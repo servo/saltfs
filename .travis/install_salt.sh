@@ -11,14 +11,23 @@ install_salt () {
         # Use Trusty (Ubuntu 14.04) on Travis
         # Don't autostart services
         printf '#!/bin/sh\nexit 101\n' | sudo install -m 755 /dev/stdin /usr/sbin/policy-rc.d
-        curl https://repo.saltstack.com/apt/ubuntu/14.04/amd64/archive/2015.5.8/SALTSTACK-GPG-KEY.pub | sudo apt-key add -
-        printf 'deb http://repo.saltstack.com/apt/ubuntu/14.04/amd64/archive/2015.5.8 trusty main\n' | sudo tee /etc/apt/sources.list.d/saltstack.list >/dev/null
+        curl https://repo.saltstack.com/apt/ubuntu/14.04/amd64/archive/2016.3.3/SALTSTACK-GPG-KEY.pub | sudo apt-key add -
+        printf 'deb http://repo.saltstack.com/apt/ubuntu/14.04/amd64/archive/2016.3.3 trusty main\n' | sudo tee /etc/apt/sources.list.d/saltstack.list >/dev/null
         sudo apt-get -y update
-        sudo apt-get -y install salt-minion=2015.5.8+ds-1
+        # Use existing config file if it exists (if reinstalling)
+        sudo apt-get -y \
+                -o Dpkg::Options::="--force-confold" \
+                -o Dpkg::Options::="--force-confdef" \
+                install salt-minion=2016.3.3+ds-1
     elif [[ "${OS_NAME}" == "osx" ]]; then
         printf "$0: installing salt for Mac OS X\n"
         brew update
-        brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/3461c9c74b2f3aba9a6fbd7165823c81dc2b4792/Formula/saltstack.rb
+        # Unlink allows switching versions,
+        # I wish Homebrew had an atomic operation for pinned upgrades
+        if brew list | grep 'saltstack' >/dev/null; then
+            brew unlink saltstack
+        fi
+        brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/9e3a66b6b7ca978bfea86897dcc3391c37f9f0ef/Formula/saltstack.rb
     else
         printf >&2 "$0: unknown operating system ${OS_NAME}\n"
         exit 1

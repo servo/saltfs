@@ -4,6 +4,8 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
+shopt -s nullglob
+
 salt_call() {
     sudo salt-call \
         --id="${SALT_NODE_ID}" \
@@ -50,10 +52,18 @@ else
     else
         git fetch origin master:master
         git checkout master
+        # Upstream changes could cause the old rev to fail, so disable errexit
+        # (homu will maintain the invariant that each rev on master is passing)
+        set +o errexit
         run_salt 'old'
+        set -o errexit
 
         git checkout "${TRAVIS_COMMIT}"
         run_salt 'upgrade'
+
+        # Invalidate the Salt cache
+        rm -rf /var/cache/salt/minion/files/base/*
+        salt_call 'saltutil.sync_all'
     fi
 
     # Only run tests against the new configuration
