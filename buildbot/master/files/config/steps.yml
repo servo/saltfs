@@ -1,11 +1,15 @@
-mac-rel-wpt:
+mac-rel-wpt1:
   - ./mach build --release
   - ./mach test-wpt-failure
-  - ./mach test-wpt --release --processes 8 --log-raw test-wpt.log --log-errorsummary wpt-errorsummary.log
+  - ./mach test-wpt --release --processes 8 --total-chunks 2--this-chunk 1 --log-raw test-wpt.log --log-errorsummary wpt-errorsummary.log
   - ./mach test-wpt --release --binary-arg=--multiprocess --processes 8 --log-raw test-wpt-mp.log --log-errorsummary wpt-mp-errorsummary.log eventsource
   - ./mach build-cef --release
   - bash ./etc/ci/lockfile_changed.sh
   - bash ./etc/ci/manifest_changed.sh
+
+mac-rel-wpt2:
+  - ./mach build --release
+  - ./mach test-wpt --release --processes 8 --total-chunks 2 --this-chunk 2 --log-raw test-wpt.log --log-errorsummary wpt-errorsummary.log
 
 mac-dev-unit:
   - ./mach build --dev
