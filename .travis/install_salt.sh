@@ -22,6 +22,9 @@ install_salt () {
     elif [[ "${OS_NAME}" == "osx" ]]; then
         printf "$0: installing salt for Mac OS X\n"
         brew update
+        printf "\nhomebrew --version output:\n"
+        brew --version # For debugging
+        printf "\n"
         # Unlink allows switching versions,
         # I wish Homebrew had an atomic operation for pinned upgrades
         if brew list | grep 'saltstack' >/dev/null; then
