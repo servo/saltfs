@@ -17,7 +17,12 @@ set -o pipefail
 # only via editing the Formula to add `keg_only`.
 # Hence, just ignore errors for now, and double-check everything at the end.
 brew_install() { set +o errexit; brew install "$@"; set -o errexit; }
-brew_link() { set +o errexit; brew link "$@"; set -o errexit; }
+brew_link() {
+    brew unlink "${1}"
+    set +o errexit
+    brew link --overwrite "${1}"
+    set -o errexit
+}
 
 # Use "yes"/"no" for conditionals (not "true"/"false")
 # to avoid confusion with the true/false commands
@@ -28,7 +33,7 @@ autoconf213_linked="no"
 
 
 set_autoconf_vars() {
-    if brew list | grep 'autoconf' >/dev/null; then
+    if brew list | grep '^autoconf$' >/dev/null; then
         autoconf_installed="yes"
         if readlink '/usr/local/share/info/autoconf.info' \
                 | grep 'Cellar/autoconf/' >/dev/null; then
@@ -39,7 +44,7 @@ set_autoconf_vars() {
 
 
 set_autoconf213_vars() {
-    if brew list | grep 'autoconf213' >/dev/null; then
+    if brew list | grep '^autoconf213$' >/dev/null; then
         autoconf213_installed="yes"
         if readlink '/usr/local/bin/autoconf213' \
                 | grep 'Cellar/autoconf213/' >/dev/null; then
@@ -65,7 +70,7 @@ check() {
     else
         if [[ "${verbose}" == "yes" ]]; then
             printf "%s\n" "autoconf/autoconf213 check failed:"
-            printf "%s %s\n" "autoconf 213 installed?" \
+            printf "%s %s\n" "autoconf213 installed?" \
                 "${autoconf213_installed}"
             printf "%s %s\n" "autoconf installed?" \
                 "${autoconf_installed}"
@@ -92,7 +97,7 @@ main() {
     fi
     set_autoconf213_vars
     if [[ "${autoconf213_linked}" == "no" ]]; then
-        brew_link --overwrite autoconf213
+        brew_link autoconf213
     fi
 
     set_autoconf_vars
@@ -101,7 +106,7 @@ main() {
     fi
     set_autoconf_vars
     if [[ "${autoconf_fully_linked}" == "no" ]]; then
-        brew_link --overwrite autoconf
+        brew_link autoconf
     fi
 
     check 'verbose' # errexit will handle return in failure case

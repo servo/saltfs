@@ -22,12 +22,17 @@ install_salt () {
     elif [[ "${OS_NAME}" == "osx" ]]; then
         printf "$0: installing salt for Mac OS X\n"
         brew update
+        printf "\nhomebrew --version output:\n"
+        brew --version # For debugging
+        printf "\n"
         # Unlink allows switching versions,
         # I wish Homebrew had an atomic operation for pinned upgrades
         if brew list | grep 'saltstack' >/dev/null; then
             brew unlink saltstack
         fi
         brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/9e3a66b6b7ca978bfea86897dcc3391c37f9f0ef/Formula/saltstack.rb
+        # In case we had the same version previously, we need to relink
+        brew link saltstack
     else
         printf >&2 "$0: unknown operating system ${OS_NAME}\n"
         exit 1
