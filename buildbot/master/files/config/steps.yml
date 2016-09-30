@@ -49,6 +49,7 @@ linux-dev:
   - ./mach test-unit
   - ./mach build-cef
   - ./mach build-geckolib
+  - ./mach test-stylo
   - bash ./etc/ci/lockfile_changed.sh
   - bash ./etc/ci/manifest_changed.sh
   - bash ./etc/ci/check_no_unwrap.sh
