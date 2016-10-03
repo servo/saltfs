@@ -204,9 +204,24 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
 
         pkill_step = [self.make_pkill_step("servo")]
 
-        self.build.steps += pkill_step + dynamic_steps
+        for step in pkill_step + dynamic_steps:
+            self.add_step(step)
 
         defer.returnValue(result)
+
+    def add_step(self, step):
+        """\
+        Adds a new step to this build, making sure to maintain internal
+        Buildbot invariants.
+        Semi-polyfill for addStepsAfterLastStep from Buildbot 9.
+        """
+        step.setBuild(self.build)
+        step.setBuildSlave(self.build.slavebuilder.slave)
+        step.setDefaultWorkdir(self.workdir)
+        self.build.steps.append(step)
+
+        step_status = self.build.build_status.addStepWithName(step.name)
+        step.setStepStatus(step_status)
 
     def make_step(self, command):
         step_kwargs = {}
