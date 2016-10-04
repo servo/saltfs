@@ -167,6 +167,7 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
 
     haltOnFailure = True
     flunkOnFailure = True
+    workdir = None
 
     def __init__(self, builder_name, environment, yaml_path, **kwargs):
         kwargs = self.setupShellMixin(kwargs)
@@ -174,6 +175,10 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
         self.builder_name = builder_name
         self.environment = environment
         self.yaml_path = yaml_path
+
+    def setDefaultWorkdir(self, workdir):
+        buildstep.BuildStep.setDefaultWorkdir(self, workdir)
+        self.workdir = workdir
 
     @defer.inlineCallbacks
     def run(self):
