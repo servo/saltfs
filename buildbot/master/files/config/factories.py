@@ -106,6 +106,8 @@ class DynamicServoFactory(ServoFactory):
                 step_desc = [mach_arg]
                 if re.match('build(-.*)?', mach_arg):
                     step_class = steps.Compile
+                if re.match('package', mach_arg):
+                    step_class = steps.Compile
                 elif re.match('test-.*', mach_arg):
                     step_class = steps.Test
 
@@ -250,6 +252,8 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
                 mach_arg = next(args)
                 step_desc = [mach_arg]
                 if re.match('build(-.*)?', mach_arg):
+                    step_class = steps.Compile
+                if re.match('package', mach_arg):
                     step_class = steps.Compile
                 elif re.match('test-.*', mach_arg):
                     step_class = steps.Test
