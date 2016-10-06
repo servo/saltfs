@@ -67,15 +67,36 @@ buildbot-master:
     - template: jinja
     - context:
         common: {{ common }}
+
+# Automatically queue a clean restart of Buildbot if anything changes
+queue-buildbot-master-restart:
+  cmd.run:
+    - name: 'initctl start buildbot-master reason="$(date --utc --iso-8601=seconds)-salt-restart"'
+    - runas: root
+    - onchanges:
+      - pip: buildbot-master
+      - file: buildbot-config
+      - file: buildbot-config-ownership
+      - file: buildbot-master
+
+# Start a fresh Buildbot instance if one isn't running (including at bootup)
+buildbot-master-autostart:
+  file.managed:
+    - name: /etc/init/buildbot-master-autostart.conf
+    - source: salt://{{ tpldir }}/files/buildbot-master-autostart.conf
+    - user: root
+    - group: root
+    - mode: 644
+    - template: jinja
   service.running:
     - enable: True
-    # Buildbot must be restarted manually! See 'Buildbot administration' on the
-    # wiki and https://github.com/servo/saltfs/issues/304.
     - require:
       - pip: buildbot-master
       - file: buildbot-config-ownership
       - cmd: buildbot-master
       - file: buildbot-master
+      - cmd: queue-buildbot-master-restart
+      - file: buildbot-master-autostart
 
 
 /usr/local/bin/github_buildbot.py:
