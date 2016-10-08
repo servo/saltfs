@@ -103,7 +103,12 @@ windows-dev-gnu:
 windows-dev-msvc:
   - mach.bat build -d
 
-windows-nightly:
+windows-nightly-gnu:
   - ./mach build --release
   - ./mach package --release
-  - ./etc/ci/upload_nightly.sh windows
+  - ./etc/ci/upload_nightly.sh windows-gnu
+
+windows-nightly-msvc:
+  - mach.bat build --release
+  - mach.bat package --release
+  - python .\etc\ci\upload_nightly.sh windows-msvc
