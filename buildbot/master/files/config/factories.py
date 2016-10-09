@@ -61,8 +61,8 @@ class DynamicServoFactory(ServoFactory):
     def __init__(self, builder_name, environment):
         self.environment = environment
         self.is_windows = re.match('windows.*', builder_name) is not None
-        self.is_windows_gnu = re.match('windows.*gnu', builder_name) is not None
-        self.is_windows_msvc = re.match('windows.*msvc', builder_name) is not None
+        self.is_win_gnu = re.match('windows.*gnu', builder_name) is not None
+        self.is_win_msvc = re.match('windows.*msvc', builder_name) is not None
         self.builder_name = builder_name
         try:
             config_dir = os.path.dirname(os.path.realpath(__file__))
@@ -87,7 +87,7 @@ class DynamicServoFactory(ServoFactory):
         command = command.split(' ')
 
         # Add `bash -l` before every command on Windows builders
-        bash_args = ["bash", "-l"] if self.is_windows_gnu else []
+        bash_args = ["bash", "-l"] if self.is_win_gnu else []
         step_kwargs['command'] = bash_args + command
         if self.is_windows:
             step_env += envs.Environment({
@@ -119,11 +119,11 @@ class DynamicServoFactory(ServoFactory):
                 step_kwargs['logfiles'][logfile] = logfile
 
             # Provide environment variables for s3cmd
-            elif arg == './etc/ci/upload_nightly.sh' or
-            next(args) == '.\\etc\\ci\\upload_nightly.sh':
+            elif (arg == './etc/ci/upload_nightly.sh' or
+            next(args) == '.\\etc\\ci\\upload_nightly.sh'):
                 step_kwargs['logEnviron'] = False
                 step_env += envs.upload_nightly
-                if self.is_windows_gnu:
+                if self.is_win_gnu:
                     # s3cmd on Windows does not work in the mingw environment
                     step_env['MSYSTEM'] = 'MSYS'
                     step_env['PATH'] = ';'.join([

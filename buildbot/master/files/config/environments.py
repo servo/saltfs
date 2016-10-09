@@ -61,7 +61,7 @@ build_windows_gnu = build_common + Environment({
 })
 
 build_windows_msvc = build_common + Environment({
-    'CARGO_HOME': 'C:\Users\Administrator\.cargo',
+    'CARGO_HOME': 'C:\\Users\\Administrator\\.cargo',
     'PATH': ';'.join([
         r'C:\Python27',
         r'C:\Python27\Scripts',
