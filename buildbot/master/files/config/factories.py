@@ -187,8 +187,11 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
         self.is_windows = re.match('windows.*', self.builder_name) is not None
         try:
             show_cmd = "cat" if not self.is_windows else "type"
+            native_yaml_path = self.yaml_path
+            if self.is_windows:
+                native_yaml_path = native_yaml_path.replace('/', '\\')
             cmd = yield self.makeRemoteShellCommand(
-                command=[show_cmd, "{}".format(self.yaml_path)],
+                command=[show_cmd, native_yaml_path],
                 collectStdout=True
             )
             yield self.runCommand(cmd)
