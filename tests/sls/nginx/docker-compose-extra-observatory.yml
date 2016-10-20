@@ -25,7 +25,7 @@ services:
       build.servo.org.test: 172.101.0.1
   observatory-cli:
     image: jarondl/observatory-cli
-    links: 
+    links:
       - website
     environment:
       HTTPOBS_API_URL: http://website:57001/api/v1/
