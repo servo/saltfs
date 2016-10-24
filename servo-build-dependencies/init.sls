@@ -59,19 +59,6 @@ servo-darwin-install-autoconf213-and-fix-links:
     - require:
       - pkg: servo-dependencies
 {% else %}
-multiverse:
-  pkgrepo.managed:
-    - name: 'deb http://archive.ubuntu.com/ubuntu trusty multiverse'
-    - file: /etc/apt/sources.list.d/multiverse.list
-    - require_in:
-      - pkg: ttf-mscorefonts-installer
-
-/etc/apt/sources.list.d/multiverse.list:
-  file.exists:
-    - require:
-      - pkgrepo: multiverse
-    - require_in:
-      - file: /etc/apt/sources.list.d
 
 ttf-mscorefonts-installer:
   debconf.set:
