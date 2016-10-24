@@ -12,6 +12,7 @@ servo-dependencies:
       - openssl
       - freetype
       - ffmpeg
+      - yasm
       {% else %}
       - libglib2.0-dev
       - libgl1-mesa-dri
