@@ -118,7 +118,7 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
                 # First step has count = 0 but no suffix,
                 # so second step will have `__1` as suffix, etc.
                 step.name += '__{}'.format(existing_count)
-                name_counts[step_type(step)] += 1
+            name_counts[step_type(step)] += 1
             self._add_step(step)
 
     def _add_step(self, step):
