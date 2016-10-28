@@ -1,3 +1,4 @@
+import collections
 import copy
 import re
 
@@ -85,17 +86,47 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
             ))
 
         pkill_step = [self.make_pkill_step("servo")]
-
-        for step in pkill_step + dynamic_steps:
-            self.add_step(step)
+        self.add_steps(pkill_step + dynamic_steps)
 
         defer.returnValue(result)
 
-    def add_step(self, step):
+    def add_steps(self, steps):
+        """\
+        Adds new steps to this build, making sure to avoid name collisions
+        by adding counts to disambiguate multiple steps of the same type,
+        and respecting internal Buildbot invariants.
+        Semi-polyfill for addStepsAfterLastStep from Buildbot 9.
+        """
+
+        def step_type(step):
+            return step.name.split('__')[0]
+
+        name_counts = collections.Counter()
+
+        # Check for existing max step counts for each type of step
+        # in the existing steps on the build.
+        # Adding multiple steps at the same time makes it more efficient
+        # to check for collisions since this is amortized over all
+        # steps added together.
+        for step in self.build.steps:
+            name_counts[step_type(step)] += 1
+
+        # Add new steps, updating `name_counts` along the way
+        for step in steps:
+            existing_count = name_counts[step_type(step)]
+            if existing_count > 0:
+                # First step has count = 0 but no suffix,
+                # so second step will have `__1` as suffix, etc.
+                step.name += '__{}'.format(existing_count)
+                name_counts[step_type(step)] += 1
+            self._add_step(self, step)
+
+    def _add_step(self, step):
         """\
         Adds a new step to this build, making sure to maintain internal
         Buildbot invariants.
-        Semi-polyfill for addStepsAfterLastStep from Buildbot 9.
+        Do not call this method directly, but go through add_steps
+        to prevent `name` collisions.
         """
         step.setBuild(self.build)
         step.setBuildSlave(self.build.slavebuilder.slave)
