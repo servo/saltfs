@@ -28,6 +28,7 @@ android-dependencies:
       - lib32z1
       - libstdc++6
       - libgl1-mesa-dev
+      - unzip
     - refresh: True
   pip.installed:
     - pkgs:
@@ -80,8 +81,8 @@ android-sdk-current:
 
 android-ndk:
   file.managed:
-    - name: {{ common.servo_home }}/android/ndk/{{ android.ndk.version }}/android-ndk-{{ android.ndk.version }}-linux-x86_64.bin
-    - source: https://dl.google.com/android/ndk/android-ndk-{{ android.ndk.version }}-linux-x86_64.bin
+    - name: {{ common.servo_home }}/android/ndk/{{ android.ndk.version }}/android-ndk-{{ android.ndk.version }}-linux-x86_64.zip
+    - source: https://dl.google.com/android/repository/android-ndk-{{ android.ndk.version }}-linux-x86_64.zip
     - source_hash: sha512={{ android.ndk.sha512 }}
     - user: servo
     - group: servo
@@ -92,22 +93,13 @@ android-ndk:
       - user: servo
   cmd.run:
       # Need to filter log output to avoid hitting log limits on Travis CI
-    - name: '{{ common.servo_home }}/android/ndk/{{ android.ndk.version }}/android-ndk-{{ android.ndk.version }}-linux-x86_64.bin | grep -v Extracting'
+    - name: 'unzip {{ common.servo_home }}/android/ndk/{{ android.ndk.version }}/android-ndk-{{ android.ndk.version }}-linux-x86_64.zip'
     - runas: servo
     - cwd: {{ common.servo_home }}/android/ndk/{{ android.ndk.version }}
     - creates: {{ common.servo_home }}/android/ndk/{{ android.ndk.version }}/android-ndk-{{ android.ndk.version }}
     - require:
       - file: android-ndk
 
-android-toolchain:
-  cmd.run:
-    - name: bash {{ common.servo_home }}/android/ndk/{{ android.ndk.version }}/android-ndk-{{ android.ndk.version }}/build/tools/make-standalone-toolchain.sh --platform=android-{{ android.platform }} --toolchain=arm-linux-androideabi-4.8 --install-dir='{{ common.servo_home }}/android/toolchain/{{ android.ndk.version }}/android-toolchain' --ndk-dir='{{ common.servo_home }}/android/ndk/{{ android.ndk.version }}/android-ndk-{{ android.ndk.version }}'
-    - runas: servo
-    - creates: {{ common.servo_home }}/android/toolchain/{{ android.ndk.version }}/android-toolchain
-    - require:
-      - cmd: android-ndk
-
-# Toolchain depends on NDK so update the symlinks together
 android-ndk-current:
   file.symlink:
     - name: {{ common.servo_home }}/android/ndk/current
@@ -116,14 +108,3 @@ android-ndk-current:
     - group: servo
     - require:
       - cmd: android-ndk
-      - cmd: android-toolchain
-
-android-toolchain-current:
-  file.symlink:
-    - name: {{ common.servo_home }}/android/toolchain/current
-    - target: {{ common.servo_home }}/android/toolchain/{{ android.ndk.version }}/android-toolchain
-    - user: servo
-    - group: servo
-    - require:
-      - cmd: android-ndk
-      - cmd: android-toolchain
