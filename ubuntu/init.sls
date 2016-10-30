@@ -29,5 +29,4 @@
     - user: root
     - group: root
     - mode: 755
-    - source: salt://{{ tpldir }}/apt/sources.list
-    
+    - source: salt://{{ tpldir }}/files/sources.list
