@@ -99,15 +99,6 @@ android-ndk:
     - require:
       - file: android-ndk
 
-android-toolchain:
-  cmd.run:
-    - name: bash {{ common.servo_home }}/android/ndk/{{ android.ndk.version }}/android-ndk-{{ android.ndk.version }}/build/tools/make-standalone-toolchain.sh --platform=android-{{ android.platform }} --toolchain=arm-linux-androideabi-4.8 --install-dir='{{ common.servo_home }}/android/toolchain/{{ android.ndk.version }}/android-toolchain' --ndk-dir='{{ common.servo_home }}/android/ndk/{{ android.ndk.version }}/android-ndk-{{ android.ndk.version }}'
-    - runas: servo
-    - creates: {{ common.servo_home }}/android/toolchain/{{ android.ndk.version }}/android-toolchain
-    - require:
-      - cmd: android-ndk
-
-# Toolchain depends on NDK so update the symlinks together
 android-ndk-current:
   file.symlink:
     - name: {{ common.servo_home }}/android/ndk/current
@@ -116,14 +107,4 @@ android-ndk-current:
     - group: servo
     - require:
       - cmd: android-ndk
-      - cmd: android-toolchain
 
-android-toolchain-current:
-  file.symlink:
-    - name: {{ common.servo_home }}/android/toolchain/current
-    - target: {{ common.servo_home }}/android/toolchain/{{ android.ndk.version }}/android-toolchain
-    - user: servo
-    - group: servo
-    - require:
-      - cmd: android-ndk
-      - cmd: android-toolchain

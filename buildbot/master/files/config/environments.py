@@ -84,7 +84,6 @@ build_linux_rel_debug_assert = build_linux + Environment({
 build_android = build_linux + Environment({
     'ANDROID_NDK': '{{ common.servo_home }}/android/ndk/current/',
     'ANDROID_SDK': '{{ common.servo_home }}/android/sdk/current/',
-    'ANDROID_TOOLCHAIN': '{{ common.servo_home }}/android/toolchain/current/',
     'PATH': ':'.join([
         '/usr/local/sbin',
         '/usr/local/bin',
@@ -93,7 +92,6 @@ build_android = build_linux + Environment({
         '/sbin',
         '/bin',
         '{{ common.servo_home }}/android/sdk/current/platform-tools',
-        '{{ common.servo_home }}/android/toolchain/current/bin',
     ]),
 })
 
