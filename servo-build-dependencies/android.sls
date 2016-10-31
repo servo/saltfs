@@ -28,6 +28,7 @@ android-dependencies:
       - lib32z1
       - libstdc++6
       - libgl1-mesa-dev
+      - unzip
     - refresh: True
   pip.installed:
     - pkgs:
@@ -79,25 +80,18 @@ android-sdk-current:
 
 
 android-ndk:
-  file.managed:
-    - name: {{ common.servo_home }}/android/ndk/{{ android.ndk.version }}/android-ndk-{{ android.ndk.version }}-linux-x86_64.bin
-    - source: https://dl.google.com/android/ndk/android-ndk-{{ android.ndk.version }}-linux-x86_64.bin
+  archive.extracted:
+    - name: {{ common.servo_home }}/android/ndk/{{ android.ndk.version }}
+    - source: https://dl.google.com/android/repository/android-ndk-{{ android.ndk.version }}-linux-x86_64.zip
     - source_hash: sha512={{ android.ndk.sha512 }}
+    - archive_format: zip
+      # Workaround for https://github.com/saltstack/salt/pull/36552
+    - archive_user: servo
     - user: servo
     - group: servo
-    - mode: 744
-    - dir_mode: 755
-    - makedirs: True
+    - if_missing: {{ common.servo_home }}/android/ndk/{{ android.ndk.version }}/android-ndk-{{ android.ndk.version }}
     - require:
       - user: servo
-  cmd.run:
-      # Need to filter log output to avoid hitting log limits on Travis CI
-    - name: '{{ common.servo_home }}/android/ndk/{{ android.ndk.version }}/android-ndk-{{ android.ndk.version }}-linux-x86_64.bin | grep -v Extracting'
-    - runas: servo
-    - cwd: {{ common.servo_home }}/android/ndk/{{ android.ndk.version }}
-    - creates: {{ common.servo_home }}/android/ndk/{{ android.ndk.version }}/android-ndk-{{ android.ndk.version }}
-    - require:
-      - file: android-ndk
 
 android-ndk-current:
   file.symlink:
@@ -106,5 +100,4 @@ android-ndk-current:
     - user: servo
     - group: servo
     - require:
-      - cmd: android-ndk
-
+      - android-ndk
