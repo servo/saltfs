@@ -25,8 +25,10 @@ class ServoFactory(util.BuildFactory):
         Prefer using DynamicServoFactory to using this class directly.
         """
         all_steps = [
-            steps.Git(repourl=SERVO_REPO,
-                      mode="full", method="fresh", retryFetch=True),
+            steps.Git(
+                repourl=SERVO_REPO,
+                mode="full", method="fresh", retryFetch=True
+            ),
         ] + build_steps
         # util.BuildFactory is an old-style class so we cannot use super()
         # but must hardcode the superclass here
@@ -76,8 +78,9 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
             else:
                 builder_steps = yaml.safe_load(cmd.stdout)
                 commands = builder_steps[self.builder_name]
-                dynamic_steps = [self.make_step(command)
-                                 for command in commands]
+                dynamic_steps = [
+                    self.make_step(command) for command in commands
+                ]
         except Exception as e:  # Bad step configuration, fail build
             # Capture the exception and re-raise with a friendly message
             raise Exception("Bad step configuration for {}: {}".format(
