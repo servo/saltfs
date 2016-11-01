@@ -14,6 +14,36 @@ import environments as envs
 SERVO_REPO = "https://github.com/servo/servo"
 
 
+class CheckRevisionStep(buildstep.BuildStep):
+    """\
+    Step which checks to ensure the revision that triggered the build
+    is the same revision that we actually checked out,
+    and fails the build if this is not the case.
+    """
+
+    haltOnFailure = True
+    flunkOnFailure = True
+
+    def __init__(self, **kwargs):
+        buildstep.BuildStep.__init__(self, **kwargs)
+
+    @defer.inlineCallbacks
+    def run(self):
+        rev = self.getProperty('revision')
+        got_rev = self.getProperty('got_revision')
+
+        # `revision` can be None if the build is not tied to a single commit,
+        # e.g. if "force build" is requested on the status page
+        if rev is not None and rev != got_rev:
+            raise Exception(
+                "Actual commit ({}) differs from requested commit ({})".format(
+                    got_rev, rev
+                )
+            )
+
+        defer.returnValue(SUCCESS)
+
+
 class ServoFactory(util.BuildFactory):
     """\
     Build factory which checks out the servo repo as the first build step.
@@ -29,6 +59,7 @@ class ServoFactory(util.BuildFactory):
                 repourl=SERVO_REPO,
                 mode="full", method="fresh", retryFetch=True
             ),
+            CheckRevisionStep(),
         ] + build_steps
         # util.BuildFactory is an old-style class so we cannot use super()
         # but must hardcode the superclass here
