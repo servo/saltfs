@@ -176,11 +176,9 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
 
         command = command.split(' ')
 
-        # Add `bash -l -c` and export Windows Python before every command
-        # on Windows builders
-        bash_args = "export PATH=/c/python27:/c/python27/scripts:$PATH; "
-        command_win = ["bash", "-l", "-c", bash_args + " ".join(command)]
-        step_kwargs['command'] = command_win if self.is_windows else command
+        # Add `bash` before every command on Windows builders
+        bash_args = ["bash"] if self.is_windows else []
+        step_kwargs['command'] = bash_args + command
         if self.is_windows:
             step_env += envs.Environment({
                 # Set home directory, to avoid adding `cd` command every time
