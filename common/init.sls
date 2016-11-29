@@ -39,6 +39,18 @@ virtualenv:
     - require:
       - pkg: pip
 
+# Prereqs for making SNI work, slaves run tests where they load an https page
+{% if grains['os'] == 'Ubuntu' %}
+https-sni-deps:
+  pip.installed:
+    - pkgs:
+      - pyopenssl
+      - ndg-httpsclient
+      - pyasn1
+    - require:
+      - pkg: pip
+{% endif %}
+
 servo:
   user.present:
     - fullname: Tom Servo
