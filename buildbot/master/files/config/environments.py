@@ -152,8 +152,5 @@ build_arm64 = build_arm + Environment({
 upload_nightly = Environment({
     'AWS_ACCESS_KEY_ID': S3_UPLOAD_ACCESS_KEY_ID,
     'AWS_SECRET_ACCESS_KEY': S3_UPLOAD_SECRET_ACCESS_KEY,
-})
-
-update_brew = Environment({
-    'TOKEN': GITHUB_HOMEBREW_TOKEN,
+    'GITHUB_HOMEBREW_TOKEN': GITHUB_HOMEBREW_TOKEN,
 })
