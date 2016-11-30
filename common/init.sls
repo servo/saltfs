@@ -8,6 +8,11 @@ python2:
     - refresh: True
     {% endif %}
 
+python3:
+  pkg.installed:
+    - pkgs:
+      - python3
+
 {% if grains['os'] == 'Ubuntu' %}
 python2-dev:
   pkg.installed:
