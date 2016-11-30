@@ -34,5 +34,6 @@ base:
     - git
     - buildbot.master
     - homu
+    - intermittent-tracker
     - nginx
     - salt.master
