@@ -1,0 +1,1 @@
+{"token": "{{ pillar["homu"]["gh-access-token"] }}"}
