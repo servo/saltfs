@@ -41,7 +41,7 @@ class CheckRevisionStep(buildstep.BuildStep):
                 )
             )
 
-        defer.returnValue(SUCCESS)
+        yield defer.returnValue(SUCCESS)
 
 
 class ServoFactory(util.BuildFactory):
