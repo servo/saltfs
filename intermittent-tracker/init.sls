@@ -16,7 +16,7 @@ intermittent-tracker:
       - pip: virtualenv
   pip.installed:
     - pkgs:
-      - git+https://github.com/Manishearth/intermittent-tracker@{{ tracker.rev }}
+      - git+https://github.com/servo/intermittent-tracker@{{ tracker.rev }}
     - bin_env: /home/servo/intermittent-tracker/_venv
     - require:
       - virtualenv: intermittent-tracker
