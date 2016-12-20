@@ -91,7 +91,6 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
     def run(self):
         self.is_windows = re.match('windows.*', self.builder_name) is not None
         self.is_win_gnu = re.match('windows.*gnu', builder_name) is not None
-        self.is_win_msvc = re.match('windows.*msvc', builder_name) is not None
         try:
             show_cmd = "cat" if not self.is_windows else "type"
             native_yaml_path = self.yaml_path
