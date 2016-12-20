@@ -176,8 +176,8 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
 
         command = command.split(' ')
 
-        # Add `bash -l` before every command on Windows builders
-        bash_args = ["bash", "-l"] if self.is_windows else []
+        # Add `bash` before every command on Windows builders
+        bash_args = ["bash"] if self.is_windows else []
         step_kwargs['command'] = bash_args + command
         if self.is_windows:
             step_env += envs.Environment({

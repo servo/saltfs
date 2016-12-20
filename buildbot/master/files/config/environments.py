@@ -48,6 +48,8 @@ build_windows = build_common + Environment({
     'MSYS': 'winsymlinks=lnk',
     'MSYSTEM': 'MINGW64',
     'PATH': ';'.join([
+        r'C:\Python27',
+        r'C:\Python27\Scripts',
         r'C:\msys64\mingw64\bin',
         r'C:\msys64\usr\bin',
         r'C:\Windows\system32',
