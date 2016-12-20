@@ -125,6 +125,9 @@ secret = "{{ pillar["homu"]["web-secret"] }}"
         "name": "rust-png"
     },
     {
+        "name": "rust-quicksort"
+    },
+    {
         "name": "rust-selectors"
     },
     {
