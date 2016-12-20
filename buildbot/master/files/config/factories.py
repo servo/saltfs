@@ -177,7 +177,7 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
 
         command = command.split(' ')
 
-        # Add `bash -l` before every command on Windows builders
+        # Add `bash -l` before every command on Windows GNU builders
         bash_args = ["bash", "-l"] if self.is_win_gnu else []
         step_kwargs['command'] = bash_args + command
         if self.is_windows:
@@ -213,11 +213,11 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
 
             # Provide environment variables for s3cmd
             elif arg == './etc/ci/upload_nightly.sh' or
-                 next(args) == r'.\etc\ci\upload_nightly.sh':
+                 args == r'.\etc\ci\upload_nightly.sh':
                 step_kwargs['logEnviron'] = False
                 step_env += envs.upload_nightly
                 if self.is_win_gnu:
-                    # s3cmd on Windows only works within msys
+                    # s3cmd on Windows GNU does not work in MINGW
                     step_env['MSYSTEM'] = 'MSYS'
                     step_env['PATH'] = ';'.join([
                         r'C:\msys64\usr\bin',
