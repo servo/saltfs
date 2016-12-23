@@ -9,7 +9,8 @@ infrastructure. See [the tutorials](https://docs.saltstack.com/en/2016.3/topics/
 
 ## Contributing
 
-There are guides available on [the servo wiki](https://github.com/servo/servo/wiki/Buildbot-administration).
+There are guides available on [the servo wiki](https://github.com/servo/servo/wiki/Buildbot-administration),
+as well as some documention in-tree in the `docs` folder.
 If you see a way that these configurations could be improved, or try to set up
 your own instance and run into trouble, file [an issue](https://github.com/servo/saltfs/issues/new)!
 
