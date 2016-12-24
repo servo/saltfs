@@ -58,12 +58,13 @@ else
         run_salt 'old'
         set -o errexit
 
-        git checkout "${TRAVIS_COMMIT}"
-        run_salt 'upgrade'
-
-        # Invalidate the Salt cache
+        travis_fold_start "salt.invalidate_cache" 'Invalidating the Salt cache'
         rm -rf /var/cache/salt/minion/files/base/*
         salt_call 'saltutil.sync_all'
+        travis_fold_end "salt.invalidate_cache"
+
+        git checkout "${TRAVIS_COMMIT}"
+        run_salt 'upgrade'
     fi
 
     # Only run tests against the new configuration
