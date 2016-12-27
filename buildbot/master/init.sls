@@ -46,7 +46,11 @@ buildbot-master:
       - pkg: pip
   cmd.run:  # Need to create/upgrade DB file on new Buildbot version
     - name: |
-        '/usr/local/bin/stop-buildbot.py' \
+        pip freeze \
+        && python -c 'import sys; print sys.path' \
+        && echo $PYTHONPATH \
+        && ls -al /usr/local/lib/python2.7/dist-packages \
+        && /usr/local/bin/stop-buildbot.py \
             '{{ common.servo_home }}/buildbot/master' \
         && buildbot upgrade-master '{{ common.servo_home }}/buildbot/master'
     - runas: servo
