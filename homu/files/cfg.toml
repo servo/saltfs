@@ -73,7 +73,8 @@ secret = "{{ pillar["homu"]["web-secret"] }}"
         "name": "io-surface-rs"
     },
     {
-        "name": "ipc-channel"
+        "name": "ipc-channel",
+        "extra_reviewers": [ "antrik" ],
     },
     {
         "name": "libexpat"
