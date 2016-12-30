@@ -4,15 +4,14 @@ from tests.util import Failure, Success
 
 
 def run():
-    command = "date | grep -v UTC"
+    command = 'date'
     ret = subprocess.run(command,
                          stdout=subprocess.PIPE,
-                         stderr=subprocess.PIPE,
-                         universal_newlines=True,
-                         shell=True)
+                         stderr=subprocess.PIPE)
 
-    if ret.returncode == 1:
-        return Success("Date is in UTC")
+    stdout = ret.stdout.decode('utf-8')
+
+    if ret.returncode == 0 and 'UTC' in stdout:
+        return Success('Date is in UTC')
     else:
-        return Failure("Date is not in UTC: ", ret.stdout)
-
+        return Failure('Date is not in UTC: ', stdout)
