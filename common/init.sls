@@ -45,8 +45,10 @@ servo:
     - shell: /bin/bash
     - home: {{ common.servo_home }}
 
+{% if grains['os'] != 'MacOS' %}
 UTC:
     timezone.system
+{% endif %}
 
 {% for hostname, ip in common.hosts.items() %}
 host-{{ hostname }}:

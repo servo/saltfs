@@ -4,10 +4,11 @@ from tests.util import Failure, Success
 
 
 def run():
-    command = 'date'
-    ret = subprocess.run(command,
-                         stdout=subprocess.PIPE,
-                         stderr=subprocess.PIPE)
+    ret = subprocess.run(
+        ['date'],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
+    )
 
     stdout = ret.stdout.decode('utf-8')
 

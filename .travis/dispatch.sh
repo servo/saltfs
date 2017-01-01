@@ -72,5 +72,10 @@ else
     if [[ "${SALT_NODE_ID}" == "servo-master1" ]]; then
         ./test.py sls.buildbot.master sls.homu sls.nginx
     fi
-    ./test.py sls.common
+
+    # Salt doesn't support timezone.system on OSX
+    # See https://github.com/saltstack/salt/issues/31345
+    if [[ "${TRAVIS_OS_NAME}" != "osx" ]]; then
+        ./test.py sls.common
+    fi
 fi
