@@ -7,6 +7,7 @@ servo-dependencies:
       - git
       - ccache
       {% if grains['kernel'] == 'Darwin' %}
+      - autoconf@2.13
       - automake
       - pkg-config
       - openssl
@@ -41,24 +42,7 @@ servo-dependencies:
       - pkg: pip
       - pip: virtualenv
 
-{% if grains['kernel'] == 'Darwin' %}
-# Workaround for https://github.com/saltstack/salt/issues/26414
-servo-darwin-tap-homebrew-versions:
-  cmd.run:
-    - name: 'brew tap homebrew/versions'
-    - runas: {{ homebrew.user }}
-    - unless: 'brew tap | grep homebrew/versions'
-    - require:
-      - pkg: servo-dependencies
-
-# This should be replaced by a custom Salt state.
-servo-darwin-install-autoconf213-and-fix-links:
-  cmd.script:
-    - source: salt://{{ tpldir }}/files/install-homebrew-autoconf213.sh
-    - runas: {{ homebrew.user }}
-    - require:
-      - pkg: servo-dependencies
-{% else %}
+{% if grains['os'] == 'Ubuntu' %}
 multiverse:
   pkgrepo.managed:
     - name: 'deb http://archive.ubuntu.com/ubuntu trusty multiverse'
