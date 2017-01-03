@@ -218,7 +218,7 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
             ):
                 step_kwargs['logEnviron'] = False
                 step_env += envs.upload_nightly
-                if self.is_win_gnu:
+                if self.is_windows:
                     # s3cmd on Windows GNU does not work in MINGW
                     step_env['MSYSTEM'] = 'MSYS'
                     step_env['PATH'] = ';'.join([
