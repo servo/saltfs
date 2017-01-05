@@ -40,6 +40,9 @@ secret = "{{ pillar["homu"]["web-secret"] }}"
         "name": "devices"
     },
     {
+        "name": "download.servo.org"
+    },
+    {
         "name": "euclid"
     },
     {
