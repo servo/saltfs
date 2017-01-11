@@ -58,8 +58,15 @@ host-{{ hostname }}:
 {% endfor %}
 
 {% for ssh_user in common.ssh_users %}
+{{ ssh_user }}:
+  user.present:
+    - createhome: True
+    - optional_groups:
+        - wheel
+    - empty_password: True
+
 sshkey-{{ ssh_user }}:
   ssh_auth.present:
-    - user: root
+    - user: {{ ssh_user }}
     - source: salt://{{ tpldir }}/ssh/{{ ssh_user }}.pub
 {% endfor %}
