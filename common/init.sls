@@ -63,3 +63,10 @@ sshkey-{{ ssh_user }}:
     - user: root
     - source: salt://{{ tpldir }}/ssh/{{ ssh_user }}.pub
 {% endfor %}
+
+/etc/ssh/sshd_config:
+  file.managed:
+    - source: salt://common/sshd_config
+    - user: root
+    - group: root
+    - mode: 644
