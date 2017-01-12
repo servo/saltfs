@@ -1,5 +1,3 @@
-{% from 'common/map.jinja' import homebrew %}
-
 servo-dependencies:
   pkg.installed:
     - pkgs:
