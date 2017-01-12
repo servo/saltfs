@@ -1,3 +1,6 @@
+include:
+  - python
+
 servo-dependencies:
   pkg.installed:
     - pkgs:
