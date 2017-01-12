@@ -4,36 +4,36 @@ include:
 servo-dependencies:
   pkg.installed:
     - pkgs:
+      - ccache
       - cmake
       - git
-      - ccache
-      {% if grains['kernel'] == 'Darwin' %}
+      {% if grains['os'] == 'MacOS' %}
       - autoconf@2.13
       - automake
-      - pkg-config
-      - openssl
-      - freetype
       - ffmpeg
+      - freetype
+      - openssl
+      - pkg-config
       - yasm
-      {% else %}
-      - libglib2.0-dev
-      - libgl1-mesa-dri
-      - libgles2-mesa-dev
+      {% elif grains['os'] == 'Ubuntu' %}
+      - autoconf2.13
       - freeglut3-dev
-      - libfreetype6-dev
-      - xorg-dev
-      - libssl-dev
+      - gperf
+      - libavcodec-dev
+      - libavformat-dev
+      - libavutil-dev
       - libbz2-dev
+      - libdbus-glib-1-dev
+      - libfreetype6-dev
+      - libgl1-mesa-dri
+      - libglib2.0-dev
+      - libgles2-mesa-dev
+      - libosmesa6-dev
+      - libssl-dev
+      - xorg-dev
+      - xpra
       - xserver-xorg-input-void
       - xserver-xorg-video-dummy
-      - xpra
-      - libosmesa6-dev
-      - gperf
-      - autoconf2.13
-      - libdbus-glib-1-dev
-      - libavformat-dev
-      - libavcodec-dev
-      - libavutil-dev
       {% endif %}
   pip.installed:
     - pkgs:
