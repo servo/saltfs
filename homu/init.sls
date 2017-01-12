@@ -1,5 +1,8 @@
 {% from tpldir ~ '/map.jinja' import homu %}
 
+include:
+  - python
+
 homu-debugging-packages:
   pkg.installed:
     - pkgs:

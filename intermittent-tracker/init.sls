@@ -1,5 +1,8 @@
 {% from tpldir ~ '/map.jinja' import tracker %}
 
+include:
+  - python
+
 tracker-debugging-packages:
   pip.installed:
     - pkgs:
