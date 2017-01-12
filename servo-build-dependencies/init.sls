@@ -55,8 +55,10 @@ multiverse:
   file.exists:
     - require:
       - pkgrepo: multiverse
+    {% if salt['pillar.get']('fully_managed', True) %}
     - require_in:
       - file: /etc/apt/sources.list.d
+    {% endif %}
 
 ttf-mscorefonts-installer:
   debconf.set:
