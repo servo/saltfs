@@ -1,5 +1,8 @@
 {% from 'common/map.jinja' import common %}
 
+include:
+  - python
+
 buildbot-master:
   pip.installed:
     - pkgs:

@@ -1,6 +1,9 @@
 {% from 'common/map.jinja' import common %}
 {% from tpldir ~ '/map.jinja' import android %}
 
+include:
+  - python
+
 {% if '64' in grains['cpuarch'] %}
 enable-i386-architecture:
   file.managed:

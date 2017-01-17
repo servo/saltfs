@@ -1,5 +1,8 @@
 {% from 'common/map.jinja' import common %}
 
+include:
+  - python
+
 buildbot-slave-dependencies:
   pip.installed:
     - pkgs:
