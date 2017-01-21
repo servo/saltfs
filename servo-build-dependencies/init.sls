@@ -36,6 +36,7 @@ servo-dependencies:
       - xserver-xorg-input-void
       - xserver-xorg-video-dummy
       {% endif %}
+  {% if not salt['pillar.get']('is_bootstrap') %}
   pip.installed:
     - pkgs:
       - ghp-import
@@ -43,8 +44,9 @@ servo-dependencies:
     - require:
       - pkg: pip
       - pip: virtualenv
+  {% endif %}
 
-{% if grains['os'] == 'Ubuntu' %}
+{% if grains['os'] == 'Ubuntu' and not salt['pillar.get']('is_bootstrap') %}
 multiverse:
   pkgrepo.managed:
     - name: 'deb http://archive.ubuntu.com/ubuntu trusty multiverse'

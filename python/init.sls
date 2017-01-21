@@ -28,6 +28,7 @@ pip:
       {% endif %}
     - reload_modules: True
 
+{% if not salt['pillar.get']('is_bootstrap') %}
 # virtualenv == 14.0.6 package creates virtualenv and virtualenv-3.5 executables
 # note that the version of the second may change between virtualenv versions
 virtualenv:
@@ -36,3 +37,4 @@ virtualenv:
       - virtualenv == 14.0.6
     - require:
       - pkg: pip
+{% endif %}
