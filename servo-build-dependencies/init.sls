@@ -18,6 +18,7 @@ servo-dependencies:
       - yasm
       {% elif grains['os'] == 'Ubuntu' %}
       - autoconf2.13
+      - curl
       - freeglut3-dev
       - gperf
       - libavcodec-dev
