@@ -30,6 +30,7 @@ servo-dependencies:
       - libgles2-mesa-dev
       - libosmesa6-dev
       - libssl-dev
+      - llvm-3.5-dev
       - xorg-dev
       - xpra
       - xserver-xorg-input-void
