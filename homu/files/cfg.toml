@@ -252,16 +252,16 @@ password = "{{ pillar["homu"]["buildbot-http-pass"] }}"
 
 {% for repo in travis_repos %}
 
-[repo.{{ repo["name"] }}]
+[repo."{{ repo["name"] }}"]
 owner = "{{ repo.get("owner", "servo") }}"
 name = "{{ repo["name"] }}"
 reviewers = {{ reviewers + operators + repo.get("extra_reviewers", []) }}
 try_users = {{ try }}
 
-[repo.{{ repo["name"] }}.github]
+[repo."{{ repo["name"] }}".github]
 secret = "{{ pillar["homu"]["gh-webhook-secret"] }}"
 
-[repo.{{ repo["name"] }}.status.travis]
+[repo."{{ repo["name"] }}".status.travis]
 context = 'continuous-integration/travis-ci/push'
 
 {% endfor %}
