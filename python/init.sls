@@ -21,7 +21,7 @@ python2-dev:
 pip:
   pkg.installed:
     - pkgs:
-      {% if grains['os'] == 'Ubuntu' %}
+      {% if grains['os'] in ('CentOS', 'Fedora', 'Ubuntu') %}
       - python-pip
       {% elif grains['os'] == 'MacOS' %}
       - python # pip is included with python in homebrew

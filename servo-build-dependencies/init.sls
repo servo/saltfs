@@ -35,6 +35,31 @@ servo-dependencies:
       - xpra
       - xserver-xorg-input-void
       - xserver-xorg-video-dummy
+      {% elif grains['os'] in ('CentOS', 'Fedora') %}
+      - bzip2-devel
+      - cabextract
+      - curl
+      - dbus-devel
+      - expat-devel
+      - fontconfig-devel
+      - freeglut-devel
+      - freetype-devel
+      - gcc-c++
+      - glib2-devel
+      - gperf
+      - libX11-devel
+      - libXcursor-devel
+      - libXi-devel
+      - libXmu-devel
+      - libXrandr-devel
+      - libtool
+      - llvm-devel
+      - mesa-libEGL-devel
+      - mesa-libGL-devel
+      - mesa-libOSMesa-devel
+      - openssl-devel
+      - rpm-build
+      - ttmkfdir
       {% endif %}
   {% if not salt['pillar.get']('is_bootstrap') %}
   pip.installed:
