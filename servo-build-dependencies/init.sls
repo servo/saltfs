@@ -12,6 +12,7 @@ servo-dependencies:
       - automake
       - ffmpeg
       - freetype
+      - llvm
       - openssl
       - pkg-config
       - yasm
