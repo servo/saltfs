@@ -18,6 +18,7 @@ servo-dependencies:
       - yasm
       {% elif grains['os'] == 'Ubuntu' %}
       - autoconf2.13
+      - curl
       - freeglut3-dev
       - gperf
       - libavcodec-dev
@@ -36,7 +37,33 @@ servo-dependencies:
       - xpra
       - xserver-xorg-input-void
       - xserver-xorg-video-dummy
+      {% elif grains['os'] in ['CentOS', 'Fedora'] %}
+      - bzip2-devel
+      - cabextract
+      - curl
+      - dbus-devel
+      - expat-devel
+      - fontconfig-devel
+      - freeglut-devel
+      - freetype-devel
+      - gcc-c++
+      - glib2-devel
+      - gperf
+      - libtool
+      - libX11-devel
+      - libXcursor-devel
+      - libXi-devel
+      - libXmu-devel
+      - libXrandr-devel
+      - llvm-devel
+      - mesa-libEGL-devel
+      - mesa-libGL-devel
+      - mesa-libOSMesa-devel
+      - openssl-devel
+      - rpm-build
+      - ttmkfdir
       {% endif %}
+  {% if salt['pillar.get']('fully_managed', True) %}
   pip.installed:
     - pkgs:
       - ghp-import
@@ -44,8 +71,9 @@ servo-dependencies:
     - require:
       - pkg: pip
       - pip: virtualenv
+  {% endif %}
 
-{% if grains['os'] == 'Ubuntu' %}
+{% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'trusty' %}
 multiverse:
   pkgrepo.managed:
     - name: 'deb http://archive.ubuntu.com/ubuntu trusty multiverse'
