@@ -169,8 +169,7 @@ secret = "{{ pillar["homu"]["web-secret"] }}"
         "extra_reviewers": [ "jrmuizel", "vvuk" ]
     },
     {
-        "name": "webrender_traits",
-        "extra_reviewers": [ "jrmuizel", "vvuk" ]
+        "name": "webrender_traits"
     },
 ] %}
 
