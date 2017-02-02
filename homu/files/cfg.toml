@@ -11,6 +11,7 @@ app_client_id = "{{ pillar["homu"]["app-client-id"] }}"
 app_client_secret = "{{ pillar["homu"]["app-client-secret"] }}"
 
 [web]
+host = "0.0.0.0"
 port = 54856
 secret = "{{ pillar["homu"]["web-secret"] }}"
 
