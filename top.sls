@@ -1,7 +1,8 @@
 # NOTE: Ensure all node types are covered in .travis.yml
 
 base:
-  '*':
+  'not G@os:Windows':
+    - match: compound
     - admin
     - common
     - salt.common
