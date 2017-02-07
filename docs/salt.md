@@ -265,6 +265,17 @@ $ sudo service salt-minion start
 See [the wiki](https://github.com/servo/servo/wiki/SaltStack-Administration)
 for information about setting up new macOS minions.
 
+#### Windows
+
+Installation is not yet scripted and must currently be done manually.
+
+1. Download [the Salt MSI](https://repo.saltstack.com/windows/Salt-Minion-2016.3.3-AMD64-Setup.exe),
+   currently using version 2016.3.3.
+2. Run the installer with a some options that
+   configure the minion and autostart the minion.
+   Make sure to provide the correct minion ID!
+   `Salt-Minion-2016.3.3-AMD64-Setup.exe /S /master=servo-master1.servo.org /minion-name=servo-windowsN`
+
 #### Enabling a new Salt minion
 
 On the master:
