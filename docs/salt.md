@@ -235,8 +235,53 @@ make sure it finds it way into the saltfs repo to make it repeatable!
 
 ## Salt administration
 
+### Setting up a new Salt minion
+
+Installation differs from OS to OS; see each specific section for details.
+After installation, new minions must be enabled and accepted into the Salt PKI;
+see the [instructions below](#enabling-a-new-salt-minion).
+
+#### Linux
+
+:warning: Setting up a master requires additional steps, these instructions only set up a minion.
+
+Install the Salt minion:
+
+```console
+$ curl https://raw.githubusercontent.com/servo/saltfs/master/.travis/install_salt.sh | sudo sh -s linux
+```
+
+Configure and start the Salt minion:
+
+```console
+$ echo 'master:' | sudo tee /etc/salt/minion
+$ echo ' - servo-master1.servo.org' | sudo tee -a /etc/salt/minion
+$ echo 'servo-linuxN' | sudo tee /etc/salt/minion_id # Use the actual minion ID!
+$ sudo service salt-minion start
+```
+
+#### macOS
+
 See [the wiki](https://github.com/servo/servo/wiki/SaltStack-Administration)
-for more information about setting up new minions and/or masters.
+for information about setting up new macOS minions.
+
+#### Enabling a new Salt minion
+
+On the master:
+
+```console
+root@servo-master1$ salt-key -L # List pending minion keys
+root@servo-master1$ salt-key -a KEY # Accept a pending minion key
+root@servo-master1$ salt '*' test.ping # Verify connectivity to the new minion
+```
+
+It's also a good idea to [run a highstate](#deploying-changes)
+on the new minion to set it up.
+
+#### Setting up a new Salt master
+
+See [the wiki](https://github.com/servo/servo/wiki/SaltStack-Administration)
+for more information about setting up new masters.
 
 ### Looking up previous runs
 
