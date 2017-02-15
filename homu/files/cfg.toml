@@ -151,8 +151,32 @@ secret = "{{ secrets['gh-webhook-secret'] }}"
 [repo.servo.buildbot]
 url = "http://build.servo.org"
 secret = "{{ secrets["buildbot-secret"] }}"
-builders = ["linux-dev", "linux-rel-css", "linux-rel-wpt", "mac-dev-unit", "mac-rel-wpt1", "mac-rel-wpt2", "mac-rel-css", "android", "arm32", "arm64", "windows-msvc-dev"]
-try_builders = ["linux-dev", "linux-rel-css", "linux-rel-wpt", "mac-dev-unit", "mac-rel-wpt1", "mac-rel-wpt2", "mac-rel-css", "android", "arm32", "arm64", "windows-msvc-dev"]
+builders = [
+    "linux-dev",
+    "linux-rel-css",
+    "linux-rel-wpt",
+    "mac-dev-unit",
+    "mac-rel-wpt1",
+    "mac-rel-wpt2",
+    "mac-rel-css",
+    "android",
+    "arm32",
+    "arm64",
+    "windows-msvc-dev",
+]
+try_builders = [
+    "linux-dev",
+    "linux-rel-css",
+    "linux-rel-wpt",
+    "mac-dev-unit",
+    "mac-rel-wpt1",
+    "mac-rel-wpt2",
+    "mac-rel-css",
+    "android",
+    "arm32",
+    "arm64",
+    "windows-msvc-dev",
+]
 username = "{{ secrets["buildbot-http-user"] }}"
 password = "{{ secrets["buildbot-http-pass"] }}"
 
