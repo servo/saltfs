@@ -14,162 +14,62 @@ app_client_secret = "{{ pillar["homu"]["app-client-secret"] }}"
 port = 54856
 secret = "{{ pillar["homu"]["web-secret"] }}"
 
-{% set travis_repos = [
-    {
-        "name": "angle"
-    },
-    {
-        "name": "app_units"
-    },
-    {
-        "name": "cgl-rs"
-    },
-    {
-        "name": "cocoa-rs"
-    },
-    {
-        "name": "core-foundation-rs"
-    },
-    {
-        "name": "core-graphics-rs"
-    },
-    {
-        "name": "core-text-rs"
-    },
-    {
-        "name": "devices"
-    },
-    {
-        "name": "download.servo.org"
-    },
-    {
-        "name": "euclid"
-    },
-    {
-        "name": "fontsan"
-    },
-    {
-        "name": "futf"
-    },
-    {
-        "name": "gaol"
-    },
-    {
-        "name": "gleam"
-    },
-    {
-        "name": "glutin"
-    },
-    {
-        "name": "heapsize"
-    },
-    {
-        "name": "highfive"
-    },
-    {
-        "name": "homu"
-    },
-    {
-        "name": "html5ever"
-    },
-    {
-        "name": "io-surface-rs"
-    },
-    {
-        "name": "ipc-channel",
+{% set travis_repos = {
+    "angle": {},
+    "app_units": {},
+    "cgl-rs": {},
+    "cocoa-rs": {},
+    "core-foundation-rs": {},
+    "core-graphics-rs": {},
+    "core-text-rs": {},
+    "devices": {},
+    "download.servo.org": {},
+    "euclid": {},
+    "fontsan": {},
+    "futf": {},
+    "gaol": {},
+    "gleam": {},
+    "glutin": {},
+    "heapsize": {},
+    "highfive": {},
+    "homu": {},
+    "html5ever": {},
+    "io-surface-rs": {},
+    "ipc-channel": {
         "extra_reviewers": [ "antrik" ],
-    },
-    {
-        "name": "libexpat"
-    },
-    {
-        "name": "libfontconfig"
-    },
-    {
-        "name": "libfreetype2"
-    },
-    {
-        "name": "mozjs"
-    },
-    {
-        "name": "osmesa-src"
-    },
-    {
-        "name": "rust-azure"
-    },
-    {
-        "name": "rust-bindgen",
+    }
+    "libexpat": {},
+    "libfontconfig": {},
+    "libfreetype2": {},
+    "mozjs": {},
+    "osmesa-src": {},
+    "rust-azure": {},
+    "rust-bindgen": {
         "extra_reviewers": [ "fitzgen" ],
-    },
-    {
-        "name": "rust-cssparser"
-    },
-    {
-        "name": "rust-fnv"
-    },
-    {
-        "name": "rust-fontconfig"
-    },
-    {
-        "name": "rust-freetype"
-    },
-    {
-        "name": "rust-glx"
-    },
-    {
-        "name": "rust-harfbuzz"
-    },
-    {
-        "name": "rust-layers"
-    },
-    {
-        "name": "rust-mozjs"
-    },
-    {
-        "name": "rust-png"
-    },
-    {
-        "name": "rust-quicksort"
-    },
-    {
-        "name": "rust-selectors"
-    },
-    {
-        "name": "rust-smallvec"
-    },
-    {
-        "name": "rust-stb-image"
-    },
-    {
-        "name": "rust-url"
-    },
-    {
-        "name": "saltfs"
-    },
-    {
-        "name": "servo-starters"
-    },
-    {
-        "name": "skia"
-    },
-    {
-        "name": "string-cache"
-    },
-    {
-        "name": "tendril"
-    },
-    {
-        "name": "unicode-bidi"
-    },
-    {
-        "name": "unicode-script"
-    },
-    {
-        "name": "webrender"
-    },
-    {
-        "name": "webrender_traits"
-    },
+    }
+    "rust-cssparser": {},
+    "rust-fnv": {},
+    "rust-fontconfig": {},
+    "rust-freetype": {},
+    "rust-glx": {},
+    "rust-harfbuzz": {},
+    "rust-layers": {},
+    "rust-mozjs": {},
+    "rust-png": {},
+    "rust-quicksort": {},
+    "rust-selectors": {},
+    "rust-smallvec": {},
+    "rust-stb-image": {},
+    "rust-url": {},
+    "saltfs": {},
+    "servo-starters": {},
+    "skia": {},
+    "string-cache": {},
+    "tendril": {},
+    "unicode-bidi": {},
+    "unicode-script": {},
+    "webrender": {},
+    "webrender_traits": {},
 ] %}
 
 {% set reviewers = [
@@ -252,18 +152,18 @@ password = "{{ pillar["homu"]["buildbot-http-pass"] }}"
 
 # Standard per-repo configs (generated)
 
-{% for repo in travis_repos %}
+{% for name, repo in travis_repos.items() %}
 
-[repo."{{ repo["name"] }}"]
+[repo."{{ name }}"]
 owner = "{{ repo.get("owner", "servo") }}"
-name = "{{ repo["name"] }}"
+name = "{{ name }}"
 reviewers = {{ reviewers + operators + repo.get("extra_reviewers", []) }}
 try_users = {{ try }}
 
-[repo."{{ repo["name"] }}".github]
+[repo."{{ name }}".github]
 secret = "{{ pillar["homu"]["gh-webhook-secret"] }}"
 
-[repo."{{ repo["name"] }}".status.travis]
+[repo."{{ name }}".status.travis]
 context = 'continuous-integration/travis-ci/push'
 
 {% endfor %}
