@@ -35,10 +35,12 @@ homu:
 /home/servo/homu/cfg.toml:
   file.managed:
     - source: salt://{{ tpldir }}/files/cfg.toml
-    - template: jinja
     - user: servo
     - group: servo
     - mode: 644
+    - template: jinja
+    - context:
+        secrets: {{ pillar['homu'] }}
 
 /etc/init/homu.conf:
   file.managed:

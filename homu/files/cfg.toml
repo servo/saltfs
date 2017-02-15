@@ -4,15 +4,15 @@
 # under <https://github.com/settings/applications>.
 
 # A GitHub personal access token
-access_token = "{{ pillar["homu"]["gh-access-token"] }}"
+access_token = "{{ secrets['gh-access-token'] }}"
 
 # A GitHub oauth application for this instance of homu:
-app_client_id = "{{ pillar["homu"]["app-client-id"] }}"
-app_client_secret = "{{ pillar["homu"]["app-client-secret"] }}"
+app_client_id = "{{ secrets['app-client-id'] }}"
+app_client_secret = "{{ secrets['app-client-secret'] }}"
 
 [web]
 port = 54856
-secret = "{{ pillar["homu"]["web-secret"] }}"
+secret = "{{ secrets['web-secret'] }}"
 
 {% set travis_repos = {
     "angle": {},
@@ -136,15 +136,15 @@ reviewers = {{ reviewers + operators }}
 try_users = {{ try }}
 
 [repo.servo.github]
-secret = "{{ pillar["homu"]["gh-webhook-secret"] }}"
+secret = "{{ secrets['gh-webhook-secret'] }}"
 
 [repo.servo.buildbot]
 url = "http://build.servo.org"
-secret = "{{ pillar["homu"]["buildbot-secret"] }}"
+secret = "{{ secrets['buildbot-secret'] }}"
 builders = ["linux-dev", "linux-rel-css", "linux-rel-wpt", "mac-dev-unit", "mac-rel-wpt1", "mac-rel-wpt2", "mac-rel-css", "android", "arm32", "arm64", "windows-gnu-dev", "windows-msvc-dev"]
 try_builders = ["linux-dev", "linux-rel-css", "linux-rel-wpt", "mac-dev-unit", "mac-rel-wpt1", "mac-rel-wpt2", "mac-rel-css", "android", "arm32", "arm64", "windows-gnu-dev", "windows-msvc-dev"]
-username = "{{ pillar["homu"]["buildbot-http-user"] }}"
-password = "{{ pillar["homu"]["buildbot-http-pass"] }}"
+username = "{{ secrets['buildbot-http-user'] }}"
+password = "{{ secrets['buildbot-http-pass'] }}"
 
 # Disabled due to performance and instability
 #[repo.servo.status.appveyor]
@@ -161,7 +161,7 @@ reviewers = {{ reviewers + operators + repo.get("extra_reviewers", []) }}
 try_users = {{ try }}
 
 [repo."{{ name }}".github]
-secret = "{{ pillar["homu"]["gh-webhook-secret"] }}"
+secret = "{{ secrets['gh-webhook-secret'] }}"
 
 [repo."{{ name }}".status.travis]
 context = 'continuous-integration/travis-ci/push'
