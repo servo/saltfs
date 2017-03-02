@@ -144,6 +144,9 @@ secret = "{{ pillar["homu"]["web-secret"] }}"
         "name": "rust-url"
     },
     {
+        "name": "rust-websocket"
+    },
+    {
         "name": "saltfs"
     },
     {
@@ -272,6 +275,9 @@ context = 'continuous-integration/travis-ci/push'
 # Specialized per-repo configs
 
 [repo.glutin.branch]
+master = "servo"
+
+[repo.rust-websocket.branch]
 master = "servo"
 
 # Additional AppVeyor testing for relevant repos
