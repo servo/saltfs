@@ -290,3 +290,17 @@ context = 'continuous-integration/appveyor/branch'
 
 [repo.rust-mozjs.status.appveyor]
 context = 'continuous-integration/appveyor/branch'
+
+# dwrote only has appveyor
+
+[repo.dwrote-rs]
+owner = "servo"
+name = "dwrote-rs"
+reviewers = {{ reviewers + operators }}
+try_users = {{ try }}
+
+[repo.dwrote-rs.github]
+secret = "{{ pillar["homu"]["gh-webhook-secret"] }}"
+
+[repo.dwrote-rs.status.appveyor]
+context = 'continuous-integration/appveyor/branch'
