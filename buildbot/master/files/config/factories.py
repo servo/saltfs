@@ -57,7 +57,7 @@ class ServoFactory(util.BuildFactory):
         all_steps = [
             steps.Git(
                 repourl=SERVO_REPO,
-                mode="full", method="fresh", retryFetch=True
+                mode="full", method="clean", retryFetch=True
             ),
             CheckRevisionStep(),
         ] + build_steps
