@@ -187,7 +187,7 @@ You can clone the saltfs repo to `/tmp/salt-testing-root/saltfs` on the master,
 which acts as an override directory.
 See the `salt/files/master/ADMIN_README` in this repo for more information.
 
-:warning: Make sure to clean out the directly when you are done using it!
+:warning: Make sure to clean out the directory when you are done using it!
 
 
 You can also run Salt locally on a minion.
