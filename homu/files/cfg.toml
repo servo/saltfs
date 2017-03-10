@@ -178,8 +178,10 @@ secret = "{{ pillar["homu"]["web-secret"] }}"
 {% set reviewers = [
     "aneeshusa",
     "asajeffrey",
+    "avadacatavra",
     "bholley",
     "bzbarsky",
+    "canaltinova",
     "cbrewster",
     "edunham",
     "emilio",
@@ -215,8 +217,6 @@ secret = "{{ pillar["homu"]["web-secret"] }}"
 
 {% set try = [
     "askalski",
-    "avadacatavra",
-    "canaltinova",
     "chandler",
     "cynicaldevil",
     "danlrobertson",
