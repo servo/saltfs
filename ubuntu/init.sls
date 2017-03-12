@@ -23,3 +23,10 @@
       - group
       - mode
     - clean: True
+
+/etc/apt/sources.list:
+  file.managed:
+    - user: root
+    - group: root
+    - mode: 644
+    - source: salt://{{ tpldir }}/files/sources.list
