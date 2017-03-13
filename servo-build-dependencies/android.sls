@@ -23,7 +23,7 @@ android-dependencies:
       - libc6:i386
       - libstdc++6:i386
       {% endif %}
-      - default-jdk
+      - openjdk-8-jdk
       - ant
       - expect
       - gcc
