@@ -15,61 +15,172 @@ port = 54856
 secret = "{{ pillar["homu"]["web-secret"] }}"
 
 {% set travis_repos = [
-    ('servo', 'angle'),
-    ('servo', 'app_units'),
-    ('servo', 'cgl-rs'),
-    ('servo', 'cocoa-rs'),
-    ('servo', 'core-foundation-rs'),
-    ('servo', 'core-graphics-rs'),
-    ('servo', 'core-text-rs'),
-    ('servo', 'devices'),
-    ('servo', 'euclid'),
-    ('servo', 'fontsan'),
-    ('servo', 'futf'),
-    ('servo', 'gaol'),
-    ('servo', 'gleam'),
-    ('servo', 'glutin'),
-    ('servo', 'heapsize'),
-    ('servo', 'highfive'),
-    ('servo', 'homu'),
-    ('servo', 'html5ever'),
-    ('servo', 'io-surface-rs'),
-    ('servo', 'ipc-channel'),
-    ('servo', 'libexpat'),
-    ('servo', 'libfontconfig'),
-    ('servo', 'libfreetype2'),
-    ('servo', 'mozjs'),
-    ('servo', 'rust-azure'),
-    ('servo', 'rust-bindgen'),
-    ('servo', 'rust-cssparser'),
-    ('servo', 'rust-fnv'),
-    ('servo', 'rust-fontconfig'),
-    ('servo', 'rust-freetype'),
-    ('servo', 'rust-glx'),
-    ('servo', 'rust-harfbuzz'),
-    ('servo', 'rust-layers'),
-    ('servo', 'rust-mozjs'),
-    ('servo', 'rust-png'),
-    ('servo', 'rust-selectors'),
-    ('servo', 'rust-smallvec'),
-    ('servo', 'rust-stb-image'),
-    ('servo', 'rust-url'),
-    ('servo', 'saltfs'),
-    ('servo', 'servo-starters'),
-    ('servo', 'skia'),
-    ('servo', 'string-cache'),
-    ('servo', 'tendril'),
-    ('servo', 'unicode-bidi'),
-    ('servo', 'unicode-script'),
-    ('servo', 'webrender'),
-    ('servo', 'webrender_traits'),
+    {
+        "name": "angle"
+    },
+    {
+        "name": "app_units"
+    },
+    {
+        "name": "cgl-rs"
+    },
+    {
+        "name": "cocoa-rs"
+    },
+    {
+        "name": "core-foundation-rs"
+    },
+    {
+        "name": "core-graphics-rs"
+    },
+    {
+        "name": "core-text-rs"
+    },
+    {
+        "name": "devices"
+    },
+    {
+        "name": "download.servo.org"
+    },
+    {
+        "name": "euclid"
+    },
+    {
+        "name": "fontsan"
+    },
+    {
+        "name": "futf"
+    },
+    {
+        "name": "gaol"
+    },
+    {
+        "name": "gleam"
+    },
+    {
+        "name": "glutin"
+    },
+    {
+        "name": "heapsize"
+    },
+    {
+        "name": "highfive"
+    },
+    {
+        "name": "homu"
+    },
+    {
+        "name": "html5ever"
+    },
+    {
+        "name": "io-surface-rs"
+    },
+    {
+        "name": "ipc-channel",
+        "extra_reviewers": [ "antrik" ],
+    },
+    {
+        "name": "libexpat"
+    },
+    {
+        "name": "libfontconfig"
+    },
+    {
+        "name": "libfreetype2"
+    },
+    {
+        "name": "mozjs"
+    },
+    {
+        "name": "osmesa-src"
+    },
+    {
+        "name": "rust-azure"
+    },
+    {
+        "name": "rust-bindgen",
+        "extra_reviewers": [ "fitzgen" ],
+    },
+    {
+        "name": "rust-cssparser"
+    },
+    {
+        "name": "rust-fnv"
+    },
+    {
+        "name": "rust-fontconfig"
+    },
+    {
+        "name": "rust-freetype"
+    },
+    {
+        "name": "rust-glx"
+    },
+    {
+        "name": "rust-harfbuzz"
+    },
+    {
+        "name": "rust-layers"
+    },
+    {
+        "name": "rust-mozjs"
+    },
+    {
+        "name": "rust-png"
+    },
+    {
+        "name": "rust-quicksort"
+    },
+    {
+        "name": "rust-selectors"
+    },
+    {
+        "name": "rust-smallvec"
+    },
+    {
+        "name": "rust-stb-image"
+    },
+    {
+        "name": "rust-url"
+    },
+    {
+        "name": "rust-websocket"
+    },
+    {
+        "name": "saltfs"
+    },
+    {
+        "name": "servo-starters"
+    },
+    {
+        "name": "skia"
+    },
+    {
+        "name": "string-cache"
+    },
+    {
+        "name": "tendril"
+    },
+    {
+        "name": "unicode-bidi"
+    },
+    {
+        "name": "unicode-script"
+    },
+    {
+        "name": "webrender"
+    },
+    {
+        "name": "webrender_traits"
+    },
 ] %}
 
 {% set reviewers = [
     "aneeshusa",
     "asajeffrey",
     "bholley",
-    "ConnorGBrewster",
+    "bzbarsky",
+    "cbrewster",
     "edunham",
     "emilio",
     "frewsxcv",
@@ -79,6 +190,7 @@ secret = "{{ pillar["homu"]["web-secret"] }}"
     "jgraham",
     "KiChjang",
     "kmcallister",
+    "kvark",
     "larsbergstrom",
     "Manishearth",
     "mbrubeck",
@@ -91,16 +203,22 @@ secret = "{{ pillar["homu"]["web-secret"] }}"
     "pcwalton",
     "saneyuki",
     "SimonSapin",
+    "shinglyu",
+    "upsuper",
     "Wafflespeanut",
     "zmike",
 ] %}
 
-{% set operators = [] %}
+{% set operators = [
+    "BorisChiou",
+] %}
 
 {% set try = [
     "askalski",
     "avadacatavra",
+    "canaltinova",
     "chandler",
+    "cynicaldevil",
     "danlrobertson",
     "dzbarsky",
     "jryans",
@@ -108,7 +226,6 @@ secret = "{{ pillar["homu"]["web-secret"] }}"
     "GuillaumeGomez",
     "izgzhen",
     "magni-",
-    "notriddle",
     "paulrouget",
     "stshine",
     "tschneidereit",
@@ -119,7 +236,7 @@ secret = "{{ pillar["homu"]["web-secret"] }}"
 [repo.servo]
 owner = "servo"
 name = "servo"
-reviewers = {{ reviewers + operators}}
+reviewers = {{ reviewers + operators }}
 try_users = {{ try }}
 
 [repo.servo.github]
@@ -128,8 +245,8 @@ secret = "{{ pillar["homu"]["gh-webhook-secret"] }}"
 [repo.servo.buildbot]
 url = "http://build.servo.org"
 secret = "{{ pillar["homu"]["buildbot-secret"] }}"
-builders = ["linux-dev", "linux-rel", "mac-dev-unit", "mac-rel-wpt", "mac-rel-css", "arm32", "arm64", "windows-dev"]
-try_builders = ["linux-dev", "linux-rel", "mac-dev-unit", "mac-rel-wpt", "mac-rel-css", "arm32", "arm64", "windows-dev"]
+builders = ["linux-dev", "linux-rel-css", "linux-rel-wpt", "mac-dev-unit", "mac-rel-wpt1", "mac-rel-wpt2", "mac-rel-css", "android", "arm32", "arm64", "windows-gnu-dev", "windows-msvc-dev"]
+try_builders = ["linux-dev", "linux-rel-css", "linux-rel-wpt", "mac-dev-unit", "mac-rel-wpt1", "mac-rel-wpt2", "mac-rel-css", "android", "arm32", "arm64", "windows-gnu-dev", "windows-msvc-dev"]
 username = "{{ pillar["homu"]["buildbot-http-user"] }}"
 password = "{{ pillar["homu"]["buildbot-http-pass"] }}"
 
@@ -141,16 +258,16 @@ password = "{{ pillar["homu"]["buildbot-http-pass"] }}"
 
 {% for repo in travis_repos %}
 
-[repo.{{ repo[1] }}]
-owner = "{{ repo[0] }}"
-name = "{{ repo[1] }}"
-reviewers = {{ reviewers + operators }}
+[repo."{{ repo["name"] }}"]
+owner = "{{ repo.get("owner", "servo") }}"
+name = "{{ repo["name"] }}"
+reviewers = {{ reviewers + operators + repo.get("extra_reviewers", []) }}
 try_users = {{ try }}
 
-[repo.{{ repo[1] }}.github]
+[repo."{{ repo["name"] }}".github]
 secret = "{{ pillar["homu"]["gh-webhook-secret"] }}"
 
-[repo.{{ repo[1] }}.status.travis]
+[repo."{{ repo["name"] }}".status.travis]
 context = 'continuous-integration/travis-ci/push'
 
 {% endfor %}
@@ -160,9 +277,15 @@ context = 'continuous-integration/travis-ci/push'
 [repo.glutin.branch]
 master = "servo"
 
+[repo.rust-websocket.branch]
+master = "servo"
+
 # Additional AppVeyor testing for relevant repos
 
 [repo.ipc-channel.status.appveyor]
+context = 'continuous-integration/appveyor/branch'
+
+[repo.mozjs.status.appveyor]
 context = 'continuous-integration/appveyor/branch'
 
 [repo.rust-mozjs.status.appveyor]
@@ -170,3 +293,16 @@ context = 'continuous-integration/appveyor/branch'
 
 [db]
 file = "/var/homu/main.db"
+# dwrote only has appveyor
+
+[repo.dwrote-rs]
+owner = "servo"
+name = "dwrote-rs"
+reviewers = {{ reviewers + operators }}
+try_users = {{ try }}
+
+[repo.dwrote-rs.github]
+secret = "{{ pillar["homu"]["gh-webhook-secret"] }}"
+
+[repo.dwrote-rs.status.appveyor]
+context = 'continuous-integration/appveyor/branch'

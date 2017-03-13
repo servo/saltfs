@@ -10,5 +10,11 @@ server {
   location /homu/ {
     proxy_pass http://localhost:54856/;
   }
+  location /homu-test/ {
+    proxy_pass http://localhost:54857/;
+  }
+  location /intermittent-tracker/ {
+    proxy_pass http://localhost:5000/;
+  }
 }
 

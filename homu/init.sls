@@ -1,9 +1,12 @@
 {% from tpldir ~ '/map.jinja' import homu %}
 
-python3:
+include:
+  - python
+
+homu-debugging-packages:
   pkg.installed:
     - pkgs:
-      - python3
+      - sqlite3
 
 homu:
   virtualenv.managed:

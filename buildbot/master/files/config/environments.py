@@ -43,7 +43,7 @@ build_common = Environment({
     'RUST_BACKTRACE': '1',
 })
 
-build_windows = build_common + Environment({
+build_windows_gnu = build_common + Environment({
     'CARGO_HOME': '/home/Administrator/.cargo',
     'MSYS': 'winsymlinks=lnk',
     'MSYSTEM': 'MINGW64',
@@ -60,10 +60,28 @@ build_windows = build_common + Environment({
     'SERVO_CACHE_DIR': '/home/Administrator/.servo',
 })
 
+build_windows_msvc = build_common + Environment({
+    'CARGO_HOME': r'C:\Users\Administrator\.cargo',
+    'PATH': ';'.join([
+        r'C:\Python27',
+        r'C:\Python27\Scripts',
+        r'C:\Windows\system32',
+        r'C:\Windows',
+        r'C:\Windows\System32\Wbem',
+        r'C:\Windows\System32\WindowsPowerShell\v1.0',
+        r'C:\Program Files\Amazon\cfn-bootstrap',
+        r'C:\Program Files\Git\cmd',
+        r'C:\Program Files (x86)\WiX Toolset v3.10\bin',
+    ]),
+    'SERVO_CACHE_DIR': r'C:\Users\Administrator\.servo',
+})
+
 build_mac = build_common + Environment({
     'CARGO_HOME': '/Users/servo/.cargo',
     'CCACHE': '/usr/local/bin/ccache',
     'SERVO_CACHE_DIR': '/Users/servo/.servo',
+    'OPENSSL_INCLUDE_DIR': '/usr/local/opt/openssl/include',
+    'OPENSSL_LIB_DIR': '/usr/local/opt/openssl/lib',
 })
 
 
@@ -78,7 +96,6 @@ build_linux = build_common + Environment({
 build_android = build_linux + Environment({
     'ANDROID_NDK': '{{ common.servo_home }}/android/ndk/current/',
     'ANDROID_SDK': '{{ common.servo_home }}/android/sdk/current/',
-    'ANDROID_TOOLCHAIN': '{{ common.servo_home }}/android/toolchain/current/',
     'PATH': ':'.join([
         '/usr/local/sbin',
         '/usr/local/bin',
@@ -87,7 +104,6 @@ build_android = build_linux + Environment({
         '/sbin',
         '/bin',
         '{{ common.servo_home }}/android/sdk/current/platform-tools',
-        '{{ common.servo_home }}/android/toolchain/current/bin',
     ]),
 })
 
@@ -136,8 +152,5 @@ build_arm64 = build_arm + Environment({
 upload_nightly = Environment({
     'AWS_ACCESS_KEY_ID': S3_UPLOAD_ACCESS_KEY_ID,
     'AWS_SECRET_ACCESS_KEY': S3_UPLOAD_SECRET_ACCESS_KEY,
-})
-
-update_brew = Environment({
-    'TOKEN': GITHUB_HOMEBREW_TOKEN,
+    'GITHUB_HOMEBREW_TOKEN': GITHUB_HOMEBREW_TOKEN,
 })

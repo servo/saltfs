@@ -5,11 +5,12 @@
 ## What's going on?
 
 Salt is a configuration management tool that we use to automate Servo's
-infrastructure. See [the tutorials](https://docs.saltstack.com/en/2015.5/topics/tutorials/index.html) to get started.
+infrastructure. See [the tutorials](https://docs.saltstack.com/en/2016.3/topics/tutorials/index.html) to get started.
 
 ## Contributing
 
-There are guides available on [the servo wiki](https://github.com/servo/servo/wiki/Buildbot-administration).
+There are guides available on [the servo wiki](https://github.com/servo/servo/wiki/Buildbot-administration),
+as well as some documention in-tree in the `docs` folder.
 If you see a way that these configurations could be improved, or try to set up
 your own instance and run into trouble, file [an issue](https://github.com/servo/saltfs/issues/new)!
 

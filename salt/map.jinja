@@ -1,7 +1,7 @@
 {% set salt_ = salt %}
 {%
   set salt = {
-    'version': '2015.5.8',
+    'version': '2016.3.3',
     'master': salt['grains.filter_by']({
         'defaults': {
           'config': {
@@ -11,6 +11,8 @@
             },
             'gitfs_remotes': [ 'https://github.com/servo/saltfs.git' ],
             'gitfs_env_whitelist': [ 'base' ],
+            'hash_type': 'sha384',
+            'keep_jobs': 0,
             'pillar_roots': {
               'base': [ '/srv/pillar' ]
             }
@@ -19,7 +21,7 @@
         'Ubuntu': {
           'pkg': {
             'name': 'salt-master',
-            'version': '2015.5.8+ds-1'
+            'version': '2016.3.3+ds-1'
           }
         }
       },

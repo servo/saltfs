@@ -14,16 +14,21 @@ matrix:
       os: linux
       sudo: required
       dist: trusty
+      language: python
+      python: 3.5
     - env:
         - SALT_NODE_ID=servo-mac1
         - SALT_FROM_SCRATCH=true
       os: osx
+      osx_image: xcode7.3
     - env:
         - SALT_NODE_ID=servo-linux1
         - SALT_FROM_SCRATCH=true
       os: linux
       sudo: required
       dist: trusty
+      language: python
+      python: 3.5
     - env:
         - SALT_NODE_ID=servo-master1
         - SALT_FROM_SCRATCH=true
@@ -39,16 +44,21 @@ matrix:
       os: linux
       sudo: required
       dist: trusty
+      language: python
+      python: 3.5
     - env:
         - SALT_NODE_ID=servo-mac1
         - SALT_FROM_SCRATCH=false
       os: osx
+      osx_image: xcode7.3
     - env:
         - SALT_NODE_ID=servo-linux1
         - SALT_FROM_SCRATCH=false
       os: linux
       sudo: required
       dist: trusty
+      language: python
+      python: 3.5
     - env:
         - SALT_NODE_ID=servo-master1
         - SALT_FROM_SCRATCH=false
@@ -70,3 +80,5 @@ script: .travis/dispatch.sh
 
 notifications:
   webhooks: http://build.servo.org:54856/travis
+  irc: "irc.mozilla.org#servo-bots"
+

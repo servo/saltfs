@@ -1,37 +1,69 @@
-{% from 'common/map.jinja' import homebrew %}
+include:
+  - python
 
 servo-dependencies:
   pkg.installed:
     - pkgs:
+      - ccache
       - cmake
       - git
-      - ccache
-      {% if grains['kernel'] == 'Darwin' %}
+      {% if grains['os'] == 'MacOS' %}
+      - autoconf@2.13
       - automake
-      - pkg-config
-      - openssl
-      - freetype
       - ffmpeg
-      {% else %}
-      - libglib2.0-dev
-      - libgl1-mesa-dri
-      - libgles2-mesa-dev
+      - freetype
+      - llvm
+      - openssl
+      - pkg-config
+      - yasm
+      {% elif grains['os'] == 'Ubuntu' %}
+      - autoconf2.13
+      - curl
       - freeglut3-dev
-      - libfreetype6-dev
-      - xorg-dev
-      - libssl-dev
+      - gperf
+      - libavcodec-dev
+      - libavformat-dev
+      - libavutil-dev
       - libbz2-dev
+      - libdbus-glib-1-dev
+      - libfreetype6-dev
+      - libgl1-mesa-dri
+      - libglib2.0-dev
+      - libgles2-mesa-dev
+      - libosmesa6-dev
+      - libssl-dev
+      - llvm-3.5-dev
+      - xorg-dev
+      - xpra
       - xserver-xorg-input-void
       - xserver-xorg-video-dummy
-      - xpra
-      - libosmesa6-dev
+      {% elif grains['os'] in ['CentOS', 'Fedora'] %}
+      - bzip2-devel
+      - cabextract
+      - curl
+      - dbus-devel
+      - expat-devel
+      - fontconfig-devel
+      - freeglut-devel
+      - freetype-devel
+      - gcc-c++
+      - glib2-devel
       - gperf
-      - autoconf2.13
-      - libdbus-glib-1-dev
-      - libavformat-dev
-      - libavcodec-dev
-      - libavutil-dev
+      - libtool
+      - libX11-devel
+      - libXcursor-devel
+      - libXi-devel
+      - libXmu-devel
+      - libXrandr-devel
+      - llvm-devel
+      - mesa-libEGL-devel
+      - mesa-libGL-devel
+      - mesa-libOSMesa-devel
+      - openssl-devel
+      - rpm-build
+      - ttmkfdir
       {% endif %}
+  {% if salt['pillar.get']('fully_managed', True) %}
   pip.installed:
     - pkgs:
       - ghp-import
@@ -39,38 +71,9 @@ servo-dependencies:
     - require:
       - pkg: pip
       - pip: virtualenv
+  {% endif %}
 
-{% if grains['kernel'] == 'Darwin' %}
-# Workaround for https://github.com/saltstack/salt/issues/26414
-servo-darwin-homebrew-versions-dependencies:
-  module.run:
-    - name: pkg.install
-    - pkgs:
-      - autoconf213
-    - taps:
-      - homebrew/versions
-
-# Warning: These states that manually run brew link only check that some
-# version of the Homebrew package is linked, not necessarily the version
-# linked above. Whether this handles updates properly is an open question.
-# These should be replaced by a custom Salt state.
-homebrew-link-autoconf:
-  cmd.run:
-    - name: 'brew link --overwrite autoconf'
-    - user: {{ homebrew.user }}
-    - creates: /usr/local/Library/LinkedKegs/autoconf
-    - require:
-      - pkg: servo-dependencies
-      - module: servo-darwin-homebrew-versions-dependencies
-
-homebrew-link-openssl:
-  cmd.run:
-    - name: 'brew link --force openssl'
-    - user: {{ homebrew.user }}
-    - creates: /usr/local/Library/LinkedKegs/openssl
-    - require:
-      - pkg: servo-dependencies
-{% else %}
+{% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'trusty' %}
 multiverse:
   pkgrepo.managed:
     - name: 'deb http://archive.ubuntu.com/ubuntu trusty multiverse'
@@ -82,8 +85,10 @@ multiverse:
   file.exists:
     - require:
       - pkgrepo: multiverse
+    {% if salt['pillar.get']('fully_managed', True) %}
     - require_in:
       - file: /etc/apt/sources.list.d
+    {% endif %}
 
 ttf-mscorefonts-installer:
   debconf.set:

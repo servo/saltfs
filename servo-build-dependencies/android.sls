@@ -1,6 +1,9 @@
 {% from 'common/map.jinja' import common %}
 {% from tpldir ~ '/map.jinja' import android %}
 
+include:
+  - python
+
 {% if '64' in grains['cpuarch'] %}
 enable-i386-architecture:
   file.managed:
@@ -20,7 +23,7 @@ android-dependencies:
       - libc6:i386
       - libstdc++6:i386
       {% endif %}
-      - default-jdk
+      - openjdk-8-jdk
       - ant
       - expect
       - gcc
@@ -28,6 +31,7 @@ android-dependencies:
       - lib32z1
       - libstdc++6
       - libgl1-mesa-dev
+      - unzip
     - refresh: True
   pip.installed:
     - pkgs:
@@ -42,7 +46,10 @@ android-sdk:
     - source: https://dl.google.com/android/android-sdk_{{ android.sdk.version }}-linux.tgz
     - source_hash: sha512={{ android.sdk.sha512 }}
     - archive_format: tar
+      # Workaround for https://github.com/saltstack/salt/pull/36552
     - archive_user: servo
+    - user: servo
+    - group: servo
     - if_missing: {{ common.servo_home }}/android/sdk/{{ android.sdk.version }}/android-sdk-linux
     - require:
       - user: servo
@@ -56,7 +63,7 @@ android-sdk:
          eof
         }
         '
-    - user: servo
+    - runas: servo
     - creates:
       - {{ common.servo_home }}/android/sdk/{{ android.sdk.version }}/android-sdk-linux/platform-tools
       - {{ common.servo_home }}/android/sdk/{{ android.sdk.version }}/android-sdk-linux/platforms/android-{{ android.platform }}
@@ -76,35 +83,19 @@ android-sdk-current:
 
 
 android-ndk:
-  file.managed:
-    - name: {{ common.servo_home }}/android/ndk/{{ android.ndk.version }}/android-ndk-{{ android.ndk.version }}-linux-x86_64.bin
-    - source: https://dl.google.com/android/ndk/android-ndk-{{ android.ndk.version }}-linux-x86_64.bin
+  archive.extracted:
+    - name: {{ common.servo_home }}/android/ndk/{{ android.ndk.version }}
+    - source: https://dl.google.com/android/repository/android-ndk-{{ android.ndk.version }}-linux-x86_64.zip
     - source_hash: sha512={{ android.ndk.sha512 }}
+    - archive_format: zip
+      # Workaround for https://github.com/saltstack/salt/pull/36552
+    - archive_user: servo
     - user: servo
     - group: servo
-    - mode: 744
-    - dir_mode: 755
-    - makedirs: True
+    - if_missing: {{ common.servo_home }}/android/ndk/{{ android.ndk.version }}/android-ndk-{{ android.ndk.version }}
     - require:
       - user: servo
-  cmd.run:
-      # Need to filter log output to avoid hitting log limits on Travis CI
-    - name: '{{ common.servo_home }}/android/ndk/{{ android.ndk.version }}/android-ndk-{{ android.ndk.version }}-linux-x86_64.bin | grep -v Extracting'
-    - user: servo
-    - cwd: {{ common.servo_home }}/android/ndk/{{ android.ndk.version }}
-    - creates: {{ common.servo_home }}/android/ndk/{{ android.ndk.version }}/android-ndk-{{ android.ndk.version }}
-    - require:
-      - file: android-ndk
 
-android-toolchain:
-  cmd.run:
-    - name: bash {{ common.servo_home }}/android/ndk/{{ android.ndk.version }}/android-ndk-{{ android.ndk.version }}/build/tools/make-standalone-toolchain.sh --platform=android-{{ android.platform }} --toolchain=arm-linux-androideabi-4.8 --install-dir='{{ common.servo_home }}/android/toolchain/{{ android.ndk.version }}/android-toolchain' --ndk-dir='{{ common.servo_home }}/android/ndk/{{ android.ndk.version }}/android-ndk-{{ android.ndk.version }}'
-    - user: servo
-    - creates: {{ common.servo_home }}/android/toolchain/{{ android.ndk.version }}/android-toolchain
-    - require:
-      - cmd: android-ndk
-
-# Toolchain depends on NDK so update the symlinks together
 android-ndk-current:
   file.symlink:
     - name: {{ common.servo_home }}/android/ndk/current
@@ -112,15 +103,4 @@ android-ndk-current:
     - user: servo
     - group: servo
     - require:
-      - cmd: android-ndk
-      - cmd: android-toolchain
-
-android-toolchain-current:
-  file.symlink:
-    - name: {{ common.servo_home }}/android/toolchain/current
-    - target: {{ common.servo_home }}/android/toolchain/{{ android.ndk.version }}/android-toolchain
-    - user: servo
-    - group: servo
-    - require:
-      - cmd: android-ndk
-      - cmd: android-toolchain
+      - android-ndk

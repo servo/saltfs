@@ -4,6 +4,8 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
+shopt -s nullglob
+
 salt_call() {
     sudo salt-call \
         --id="${SALT_NODE_ID}" \
@@ -50,7 +52,16 @@ else
     else
         git fetch origin master:master
         git checkout master
+        # Upstream changes could cause the old rev to fail, so disable errexit
+        # (homu will maintain the invariant that each rev on master is passing)
+        set +o errexit
         run_salt 'old'
+        set -o errexit
+
+        travis_fold_start "salt.invalidate_cache" 'Invalidating the Salt cache'
+        rm -rf /var/cache/salt/minion/files/base/*
+        salt_call 'saltutil.sync_all'
+        travis_fold_end "salt.invalidate_cache"
 
         git checkout "${TRAVIS_COMMIT}"
         run_salt 'upgrade'
@@ -60,5 +71,11 @@ else
     # TODO: don't hard-code this
     if [[ "${SALT_NODE_ID}" == "servo-master1" ]]; then
         ./test.py sls.buildbot.master sls.homu sls.nginx
+    fi
+
+    # Salt doesn't support timezone.system on OSX
+    # See https://github.com/saltstack/salt/issues/31345
+    if [[ ! "${SALT_NODE_ID}" =~ servo-mac* ]]; then
+        ./test.py sls.common
     fi
 fi
