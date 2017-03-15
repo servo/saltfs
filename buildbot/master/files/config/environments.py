@@ -43,23 +43,6 @@ build_common = Environment({
     'RUST_BACKTRACE': '1',
 })
 
-build_windows_gnu = build_common + Environment({
-    'CARGO_HOME': '/home/Administrator/.cargo',
-    'MSYS': 'winsymlinks=lnk',
-    'MSYSTEM': 'MINGW64',
-    'PATH': ';'.join([
-        r'C:\msys64\mingw64\bin',
-        r'C:\msys64\usr\bin',
-        r'C:\Windows\system32',
-        r'C:\Windows',
-        r'C:\Windows\System32\Wbem',
-        r'C:\Windows\System32\WindowsPowerShell\v1.0',
-        r'C:\Program Files\Amazon\cfn-bootstrap',
-        r'C:\Program Files (x86)\WiX Toolset v3.10\bin',
-    ]),
-    'SERVO_CACHE_DIR': '/home/Administrator/.servo',
-})
-
 build_windows_msvc = build_common + Environment({
     'CARGO_HOME': r'C:\Users\Administrator\.cargo',
     'PATH': ';'.join([
