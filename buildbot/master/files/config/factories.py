@@ -90,7 +90,6 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
     @defer.inlineCallbacks
     def run(self):
         self.is_windows = re.match('windows', self.builder_name)
-        self.is_win_gnu = re.match('windows-gnu', self.builder_name)
         try:
             show_cmd = "cat" if not self.is_windows else "type"
             native_yaml_path = self.yaml_path
@@ -177,9 +176,7 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
 
         command = command.split(' ')
 
-        # Add `bash -l` before every command on Windows GNU builders
-        bash_args = ["bash", "-l"] if self.is_win_gnu else []
-        step_kwargs['command'] = bash_args + command
+        step_kwargs['command'] = command
         if self.is_windows:
             step_env += envs.Environment({
                 # Set home directory, to avoid adding `cd` command every time
