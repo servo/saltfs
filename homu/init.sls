@@ -21,6 +21,7 @@ homu:
     - pkgs:
       - git+https://github.com/servo/homu@{{ homu.rev }}
       - toml == 0.9.1  # Please ensure this is in sync with requirements.txt
+    - upgrade: True
     - bin_env: /home/servo/homu/_venv
     - require:
       - virtualenv: homu
