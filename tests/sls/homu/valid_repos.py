@@ -1,4 +1,3 @@
-import os
 import toml
 import requests
 from tests.util import Failure, Success
@@ -22,9 +21,13 @@ def run():
     # these try and except blocks are largely to compensate for potential
     # upstream problems with requests and toml
 
+    try:
+        homu_cfg = toml.load('/home/servo/homu/cfg.toml')
+    except Exception as e:
+        return Failure('Unable to read the homu cfg.toml', str(e))
     # list of repos in homu build configuration
     try:
-        configured_repos = toml.load('/home/servo/homu/cfg.toml')['repo']
+        configured_repos = homu_cfg['repo']
         keys = configured_repos.keys()
         # in the event that libraries outside servo org
         homu_repos = ["https://github.com/"+configured_repos[i]['owner']+'/'+i
@@ -32,14 +35,18 @@ def run():
     except Exception as e:
         return Failure('Unable to construct list of homu repos', str(e))
     try:
-        auth = {'Authorization': 'token '+os.environ['TOKEN']}
-        x = []
-        repo_pager('https://api.github.com/orgs/servo/repos', x, auth)
+        access_token = homu_cfg['github']['access_token']
+        auth = {'Authorization': 'token '+access_token}
+        req_list = []
+        repo_pager('https://api.github.com/orgs/servo/repos', req_list, auth)
         # grok out the html_url's
-        gh_repos = [block['html_url'] for block in x]
+        # when the github api fails to authenticate, the html_url key will not
+        # exist in the req dicts
+        gh_repos = [req['html_url'] for req in req_list]
+    except TypeError as e:
+        return Failure('Unable to authorize to github API', str(e))
     except Exception as e:
         return Failure('Unable to construct list of github repos:', str(e))
-
     # set difference from homu to github
     homu_repo_diff = list(set(homu_repos) - set(gh_repos))
 
