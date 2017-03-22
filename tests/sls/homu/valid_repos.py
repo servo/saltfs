@@ -9,6 +9,8 @@ def repo_pager(endpoint, repoblock, auth):
     it will exit when it fails to find the 'next' key in the links dict
     """
     req = requests.get(endpoint, headers=auth)
+    # the requests lib will raise an HTTPError exception for weird responses
+    req.raise_for_status()
     repoblock += req.json()
     try:
         next_req_endpoint = req.links['next']['url']
