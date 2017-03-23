@@ -76,7 +76,11 @@ matrix:
       language: python
       python: 3.5
 
-script: .travis/dispatch.sh
+before_script:
+    - echo $GHTOKENLINE >> .travis/test_pillars/homu.sls
+
+script:
+    - .travis/dispatch.sh
 
 notifications:
   webhooks: http://build.servo.org:54856/travis
