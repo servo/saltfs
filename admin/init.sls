@@ -52,14 +52,13 @@ UTC:
         - user: {{ ssh_user }}
         - source: salt://{{ tpldir }}/files/ssh/{{ ssh_user }}.pub
 
-# FIXME This is just as bad as all sharing root login.
-{% if grains['os'] == 'MacOS' %}
-/etc/sudoers:
-    file.append:
-        - text: {{ ssh_user }} ALL=(ALL) ALL
-{% elif grains['os'] == 'Ubuntu' %}
-/etc/sudoers:
-    file.append:
-        - text: {{ ssh_user }} ALL=(ALL:ALL) ALL
-{% endif %}
 {% endfor %}
+
+# FIXME This is just as bad as all sharing root login.
+/etc/sudoers:
+    file.append:
+        - text:
+            {% for ssh_user in admin.ssh_users %}
+            - {{ ssh_user }} ALL=(ALL:ALL) ALL
+            {% endfor %}
+
