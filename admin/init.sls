@@ -28,14 +28,16 @@ UTC:
     - source: salt://{{ tpldir }}/files/hosts
 
 {% for ssh_user in admin.ssh_users %}
-useraccount-{{ ssh_user }}:
+{{ ssh_user }}:
     user.present:
         - name: {{ ssh_user }}
         - empty_password: True
-account-sshkey-{{ ssh_user }}:
-  ssh_auth.present:
-    - user: {{ ssh_user }}
-    - source: salt://{{ tpldir }}/files/ssh/{{ ssh_user }}.pub
+        - createhome: True
+        - optional_groups:
+            - wheel
+    ssh_auth.present:
+        - user: {{ ssh_user }}
+        - source: salt://{{ tpldir }}/files/ssh/{{ ssh_user }}.pub
 
 # FIXME This is just as bad as all sharing root login.
 {% if grains['os'] == 'MacOS' %}
