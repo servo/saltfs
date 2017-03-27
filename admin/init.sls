@@ -43,9 +43,7 @@ UTC:
 {% for ssh_user in admin.ssh_users %}
 {{ ssh_user }}:
     user.present:
-        - name: {{ ssh_user }}
         - empty_password: True
-        - createhome: True
         - optional_groups:
             - wheel
     ssh_auth.present:
