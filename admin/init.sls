@@ -37,12 +37,6 @@ account-sshkey-{{ ssh_user }}:
     - user: {{ ssh_user }}
     - source: salt://{{ tpldir }}/files/ssh/{{ ssh_user }}.pub
 
-# FIXME Remove this state to disallow root login.
-root-sshkey-{{ ssh_user }}:
-  ssh_auth.present:
-    - user: root
-    - source: salt://{{ tpldir }}/files/ssh/{{ ssh_user }}.pub
-
 # FIXME This is just as bad as all sharing root login.
 {% if grains['os'] == 'MacOS' %}
 /etc/sudoers:
@@ -55,5 +49,16 @@ root-sshkey-{{ ssh_user }}:
 {% endif %}
 {% endfor %}
 
-
+# FIXME we should also explicitly AllowUsers usera userb userc
+{% if grains['os'] == 'MacOS' %}
+/etc/ssh/sshd_config:
+    file.append:
+        - text:
+            - AllowRootLogin no
+{% elif grains['os'] == 'Ubuntu' %}
+/etc/ssh/ssh_config:
+    file.append:
+        - text:
+            - AllowRootLogin no
+{% endif %}
 
