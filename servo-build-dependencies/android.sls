@@ -43,9 +43,9 @@ android-dependencies:
 android-sdk:
   archive.extracted:
     - name: {{ common.servo_home }}/android/sdk/{{ android.sdk.version }}
-    - source: https://dl.google.com/android/android-sdk_{{ android.sdk.version }}-linux.tgz
+    - source: https://dl.google.com/android/repository/tools_{{ android.sdk.version }}-linux.zip
     - source_hash: sha512={{ android.sdk.sha512 }}
-    - archive_format: tar
+    - archive_format: zip
       # Workaround for https://github.com/saltstack/salt/pull/36552
     - archive_user: servo
     - user: servo
