@@ -33,6 +33,8 @@ servo-dependencies:
       - libosmesa6-dev
       - libssl-dev
       - llvm-3.5-dev
+      - libclang-3.5-dev
+      - clang-3.5
       - xorg-dev
       - xpra
       - xserver-xorg-input-void
