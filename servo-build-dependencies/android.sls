@@ -16,6 +16,19 @@ enable-i386-architecture:
       - pkg: android-dependencies
 {% endif %}
 
+openjdk:
+  pkgrepo.managed:
+    - ppa: openjdk-r/ppa
+    # Note: file arg is not accepted here, so have to use the path Salt/apt use
+    # in the file.exists state
+
+/etc/apt/sources.list.d/openjdk-r-ppa-trusty.list:
+  file.exists:
+    - require:
+      - pkgrepo: openjdk
+    - require_in:
+      - file: /etc/apt/sources.list.d
+
 android-dependencies:
   pkg.installed:
     - pkgs:
@@ -33,6 +46,8 @@ android-dependencies:
       - libgl1-mesa-dev
       - unzip
     - refresh: True
+    - require:
+      - pkgrepo: openjdk
   pip.installed:
     - pkgs:
       - s3cmd
