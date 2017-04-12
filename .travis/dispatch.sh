@@ -47,7 +47,7 @@ if [[ "${SALT_NODE_ID}" == "test" ]]; then
     # Run test suite separately for parallelism
     ./test.py
 else
-    if [ "${SALT_FROM_SCRATCH}" = "true" ]; then
+    if [[ "${SALT_FROM_SCRATCH}" = "true" ]]; then
         run_salt 'scratch'
     else
         git fetch origin master:master
