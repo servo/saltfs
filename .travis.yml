@@ -77,6 +77,12 @@ matrix:
       os: linux
       sudo: required
       dist: trusty
+    # Not a Salt node, checks that mach bootstrap works
+    - env:
+        - SALT_NODE_ID=mach-bootstrap
+      os: linux
+      sudo: required
+      dist: trusty
 
 script: .travis/dispatch.sh
 
