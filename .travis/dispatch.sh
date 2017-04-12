@@ -86,7 +86,7 @@ elif [[ -n "${SALT_DOCKER_IMAGE:-}" ]]; then  # macOS bash is too old for `-v`
 
     run_inside_docker "$@"
 else
-    if [ "${SALT_FROM_SCRATCH}" = "true" ]; then
+    if [[ "${SALT_FROM_SCRATCH}" = "true" ]]; then
         run_salt 'scratch'
     else
         git fetch origin master:master
