@@ -333,6 +333,23 @@ root@servo-master1$ salt-run jobs.lookup_jid <jid> --out=highstate
 
 See [the Salt docs](https://docs.saltstack.com/en/2016.3/ref/runners/all/salt.runners.jobs.html#module-salt.runners.jobs) for futher documentation.
 
+### Troubleshooting
+
+#### Refreshing the gitfs cache
+
+Salt by default should check for gitfs updates every 60 seconds,
+so highstates should always use up-to-date code from saltfs.
+However, sometimes the gitfs cache can get stuck out of date.
+To manually force a refresh, run on servo-master1:
+
+```console
+root@servo-master1$ salt-run fileserver.update
+```
+
+You can check to see if the gitfs cache is out of date by trying a
+`test=True` highstate, and inspecting the list of states that is executed
+to see if it matches what is currently in git master.
+
 ### Upgrading Salt
 
 We're using a manual update process for now since there are so few machines:
