@@ -18,7 +18,7 @@ python3:
       {% endif %}
       {% endif %}
 
-{% if grains['os'] == 'Ubuntu' %}
+{% if grains['os_family'] == 'Debian' %}
 python2-dev:
   pkg.installed:
     - pkgs:
@@ -28,7 +28,7 @@ python2-dev:
 pip:
   pkg.installed:
     - pkgs:
-      {% if grains['os'] in ['CentOS', 'Fedora', 'Ubuntu'] %}
+      {% if grains['os'] in ['CentOS', 'Fedora', 'Ubuntu', 'Debian'] %}
       - python-pip
       {% elif grains['os'] == 'MacOS' %}
       - python # pip is included with python in homebrew
