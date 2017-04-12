@@ -309,4 +309,4 @@ secret = "{{ pillar["homu"]["gh-webhook-secret"] }}"
 context = 'continuous-integration/appveyor/branch'
 
 [db]
-file = {{ db }}
+file = "{{ db }}"

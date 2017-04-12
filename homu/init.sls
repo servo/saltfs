@@ -33,13 +33,23 @@ homu:
       - file: /home/servo/homu/cfg.toml
       - file: /etc/init/homu.conf
 
+{{ salt['file.dirname'](homu.db) }}:
+  file.directory:
+    - user: servo
+    - group: servo
+    - dir_mode: 700
+    - require_in:
+      - file: /home/servo/homu/cfg.toml
+
 /home/servo/homu/cfg.toml:
   file.managed:
     - source: salt://{{ tpldir }}/files/cfg.toml
-    - template: jinja
     - user: servo
     - group: servo
     - mode: 644
+    - template: jinja
+    - context:
+        db: {{ homu.db }}
 
 /etc/init/homu.conf:
   file.managed:
@@ -50,9 +60,3 @@ homu:
     - require:
       - pip: homu
       - file: /home/servo/homu/cfg.toml
-
-/var/homu:
-  file.directory:
-    - user:  servo/servo
-    - group:  servo/servo
-    - dir_mode: 700
