@@ -11,7 +11,7 @@ buildbot-master:
       - txgithub == 15.0.0
       - boto == 2.38.0
       - pyyaml == 3.11
-      - twisted == 16.6.0
+      - twisted == 16.6.0  # NOTE: keep in sync with buildbot-slave sls
     - require:
       - pkg: pip
   service.running:

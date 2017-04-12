@@ -7,6 +7,7 @@ buildbot-slave-dependencies:
   pip.installed:
     - pkgs:
       - buildbot-slave == 0.8.12
+      - twisted == 16.6.0 # NOTE: keep in sync with buildbot-master sls
     - require:
       - pkg: pip
 
@@ -56,4 +57,5 @@ buildbot-slave:
   service.running:
     - enable: True
     - watch:
+      - pip: buildbot-slave-dependencies
       - file: {{ common.servo_home }}/buildbot/slave
