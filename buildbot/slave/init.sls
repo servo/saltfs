@@ -25,6 +25,8 @@ buildbot-slave-dependencies:
     - template: jinja
     - context:
         common: {{ common }}
+    - require:
+      - user: servo
 
 {% if grains['kernel'] == 'Darwin' %}
 
@@ -56,6 +58,8 @@ buildbot-slave-dependencies:
 buildbot-slave:
   service.running:
     - enable: True
+    - require:
+      - user: servo
     - watch:
       - pip: buildbot-slave-dependencies
       - file: {{ common.servo_home }}/buildbot/slave
