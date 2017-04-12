@@ -292,4 +292,4 @@ context = 'continuous-integration/appveyor/branch'
 context = 'continuous-integration/appveyor/branch'
 
 [db]
-file = "/var/homu/main.db"
+file = "{{ db }}"
