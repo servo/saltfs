@@ -16,7 +16,7 @@ servo-dependencies:
       - openssl
       - pkg-config
       - yasm
-      {% elif grains['os'] == 'Ubuntu' %}
+      {% elif grains['os_family'] == 'Debian' %}
       - autoconf2.13
       - curl
       - freeglut3-dev
