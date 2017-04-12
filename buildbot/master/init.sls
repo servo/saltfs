@@ -19,12 +19,14 @@ buildbot-master:
     # Buildbot must be restarted manually! See 'Buildbot administration' on the
     # wiki and https://github.com/servo/saltfs/issues/304.
     - require:
+      - user: servo
       - pip: buildbot-master
-      - file: {{ common.servo_home }}/buildbot/master
+      - file: ownership-{{ common.servo_home }}/buildbot/master
       - file: /etc/init/buildbot-master.conf
 
-{{ common.servo_home }}/buildbot/master:
+deploy-{{ common.servo_home }}/buildbot/master:
   file.recurse:
+    - name: {{ common.servo_home }}/buildbot/master
     - source: salt://{{ tpldir }}/files/config
     - user: servo
     - group: servo
@@ -34,6 +36,8 @@ buildbot-master:
     - context:
         common: {{ common }}
         buildbot_credentials: {{ pillar['buildbot']['credentials'] }}
+    - require:
+      - user: servo
 
 ownership-{{ common.servo_home }}/buildbot/master:
   file.directory:
@@ -43,6 +47,8 @@ ownership-{{ common.servo_home }}/buildbot/master:
     - recurse:
       - user
       - group
+    - require:
+      - file: deploy-{{ common.servo_home }}/buildbot/master
 
 /etc/init/buildbot-master.conf:
   file.managed:
