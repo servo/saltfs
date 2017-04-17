@@ -7,7 +7,7 @@ set -o pipefail
 install_salt () {
     # Ensure that pinned versions match as closely as possible
     if [[ "${OS_NAME}" == "linux" ]]; then
-        printf "$0: installing salt for Linux\n"
+        printf "%s: installing salt for Linux\n" "${0}"
         # Use Trusty (Ubuntu 14.04) on Travis
         # Don't autostart services
         printf '#!/bin/sh\nexit 101\n' | sudo install -m 755 /dev/stdin /usr/sbin/policy-rc.d
@@ -20,7 +20,7 @@ install_salt () {
                 -o Dpkg::Options::="--force-confdef" \
                 install salt-minion=2016.3.3+ds-1
     elif [[ "${OS_NAME}" == "osx" ]]; then
-        printf "$0: installing salt for Mac OS X\n"
+        printf "%s: installing salt for Mac OS X\n" "${0}"
         brew update
         printf "\nhomebrew --version output:\n"
         brew --version # For debugging
@@ -34,13 +34,13 @@ install_salt () {
         # In case we had the same version previously, we need to relink
         brew link saltstack
     else
-        printf >&2 "$0: unknown operating system ${OS_NAME}\n"
+        printf >&2 "%s: unknown operating system %s\n" "${0}" "${OS_NAME}"
         exit 1
     fi
 }
 
 configure_salt () {
-    printf "$0: copying Salt minion configuration from ${TEMPORARY_CONFIG_DIR}\n"
+    printf "%s: copying Salt minion configuration from %s\n" "${0}" "${TEMPORARY_CONFIG_DIR}"
     sudo rm -rf /etc/salt
     sudo mkdir -p /etc/salt
     sudo cp "${FORCE_FLAG}" -- "${TEMPORARY_CONFIG_DIR}/minion" /etc/salt/minion
@@ -79,7 +79,7 @@ while true; do
 done
 
 if [[ "$#" -lt 1 ]]; then
-    printf >&2 "usage: $0 [-c <config_dir> [-F]] [--] os_name\n"
+    printf >&2 "usage: %s [-c <config_dir> [-F]] [--] os_name\n" "${0}"
     exit 1
 fi
 
