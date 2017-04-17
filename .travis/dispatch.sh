@@ -14,12 +14,12 @@ salt_call() {
 }
 
 travis_fold_start () {
-    printf "travis_fold:start:$1\n"
-    printf "$2\n"
+    printf "travis_fold:start:%s\n" "${1}"
+    printf "%s\n" "${2}"
 }
 
 travis_fold_end () {
-    printf "travis_fold:end:$1\n"
+    printf "travis_fold:end:%s\n" "${1}"
 }
 
 run_salt () {
@@ -42,7 +42,7 @@ run_salt () {
 
 if [[ "${SALT_NODE_ID}" == "test" ]]; then
     # Using .travis.yml to specify Python 3.5 to be preinstalled, just to check
-    printf "Using $(python3 --version) at $(which python3)\n"
+    printf "Using %s at %s\n" "$(python3 --version)" "$(which python3)"
 
     # Run test suite separately for parallelism
     ./test.py
