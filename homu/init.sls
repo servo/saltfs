@@ -27,6 +27,7 @@ homu:
       - virtualenv: homu
   service.running:
     - enable: True
+    - reload: True
     - require:
       - pip: homu
     - watch:
