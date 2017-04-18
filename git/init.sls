@@ -2,4 +2,4 @@
 git:
   pkg.installed:
     - pkgs:
-      - git
+      - python-git
