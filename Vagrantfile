@@ -46,7 +46,7 @@ Vagrant.configure(2) do |config|
         os_and_version = node['os'] + version
         puts "OS #{os_and_version} is not yet supported"
       end
-    elsif node_config[:id] != 'test'
+    elsif node_config[:id].start_with? 'servo-'
       node_config
     end
   end.compact.uniq.each do |node|

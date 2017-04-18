@@ -46,8 +46,23 @@ if [[ "${SALT_NODE_ID}" == "test" ]]; then
 
     # Run test suite separately for parallelism
     ./test.py
+elif [[ "${SALT_NODE_ID}" == "mach-bootstrap" ]]; then
+    # Use system Python 2, not one of the supplemental ones Travis installs,
+    # so that `python-apt` is available
+    export PATH="/usr/bin:${PATH}"
+
+    # Run mach bootstrap test separately from `test` because it installs things
+    git clone --depth 1 https://github.com/servo/servo.git ../servo
+
+    # mach is intolerant of being run from other directories
+    cd ../servo
+    SERVO_SALTFS_ROOT="../saltfs" ./mach bootstrap --force
+    cd ../saltfs
+
+    # Check that the local saltfs tree was used
+    ./test.py servo.bootstrap
 else
-    if [ "${SALT_FROM_SCRATCH}" = "true" ]; then
+    if [[ "${SALT_FROM_SCRATCH}" = "true" ]]; then
         run_salt 'scratch'
     else
         git fetch origin master:master

@@ -75,6 +75,15 @@ matrix:
       dist: trusty
       language: python
       python: 3.5
+    # Not a Salt node, checks that mach bootstrap works
+    - env:
+        - SALT_NODE_ID=mach-bootstrap
+      os: linux
+      sudo: required
+      dist: trusty
+      language: python
+      python: 3.5
+
 
 script: .travis/dispatch.sh
 
