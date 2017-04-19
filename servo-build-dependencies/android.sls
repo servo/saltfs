@@ -95,6 +95,8 @@ android-sdk-{{ version }}:
          "Do you accept the license" { exp_send "y\r" ; exp_continue }
          eof
         }
+        catch wait result
+        exit [lindex $result 3]
         '
     - runas: servo
     - creates:
