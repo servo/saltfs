@@ -65,8 +65,8 @@ android-sdk:
     - archive_user: servo
     - user: servo
     - group: servo
-    - if_missing: {{ common.servo_home }}/android/sdk/{{ android.sdk.version }}/android-sdk-linux
     - require:
+      - pkg: android-dependencies
       - user: servo
   cmd.run:
     - name: |
@@ -107,8 +107,8 @@ android-ndk:
     - archive_user: servo
     - user: servo
     - group: servo
-    - if_missing: {{ common.servo_home }}/android/ndk/{{ android.ndk.version }}/android-ndk-{{ android.ndk.version }}
     - require:
+      - pkg: android-dependencies
       - user: servo
 
 android-ndk-current:
