@@ -55,6 +55,12 @@ android-dependencies:
       - pkg: pip
 
 {% for version, sdk in android.sdk.items() if version != 'current' %}
+android-sdk-{{ version }}-purge:
+  file.absent:
+    - name: {{ common.servo_home }}/android/sdk/{{ version }}
+    - prereq:
+      - archive: android-sdk-{{ version }}
+
 android-sdk-{{ version }}:
   archive.extracted:
     - name: {{ common.servo_home }}/android/sdk/{{ version }}
@@ -99,6 +105,14 @@ android-sdk-{{ version }}:
       - pkg: android-dependencies
       - file: android-sdk-{{ version }}
 {% endfor %}
+
+android-sdk-current-unlink:
+  file.absent:
+    - name: {{ common.servo_home }}/android/sdk/current
+    - prereq:
+      - archive: android-sdk-{{ android.sdk.current }}
+    - require_in:
+      - file: android-sdk-{{ android.sdk.current }}-purge
 
 android-sdk-current:
   file.symlink:
