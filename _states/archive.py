@@ -276,6 +276,7 @@ def extracted(name,
 
         .. versionadded:: 2016.3.0
     '''
+    log.error('DEBUGGG: Welcome to archive.extracted for {}'.format(name))
     ret = {'name': name, 'result': None, 'changes': {}, 'comment': ''}
     valid_archives = ('tar', 'rar', 'zip')
 
@@ -425,8 +426,10 @@ def extracted(name,
     log.debug('Extracting {0} to {1}'.format(filename, name))
     if archive_format == 'zip':
         if password is None and salt.utils.which('unzip'):
+            log.error('DEBUGGG: Calling archive.cmd_unzip')
             files = __salt__['archive.cmd_unzip'](filename, name, trim_output=trim_output)
         else:
+            log.error('DEBUGGG: Calling archive.unzip')
             # https://bugs.python.org/issue15795
             if password is not None:
                 log.warning('Password supplied: using archive.unzip')
@@ -536,6 +539,7 @@ def extracted(name,
 
     # Recursively set user and group ownership of files after extraction.
     # Note: We do this here because we might not have access to the cachedir.
+    log.error('DEBUGGG: more code')
     if user or group:
         if os.path.isdir(if_missing):
             recurse = []
@@ -543,6 +547,7 @@ def extracted(name,
                 recurse.append('user')
             if group:
                 recurse.append('group')
+            log.error('DEBUGGG: calling file.directory')
             dir_result = __states__['file.directory'](if_missing,
                                                       user=user,
                                                       group=group,
