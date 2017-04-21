@@ -13,7 +13,8 @@ def repoExists(identifier):
     on github was successful (200) or not
     '''
     try:
-        requester = Request(identifier,method='HEAD')
+        endpoint = "https://github.com/{}".format(identifier)
+        requester = Request(endpoint, method='HEAD')
         with urlopen(requester) as conn:
             if conn.status != 200:
                 response = False
