@@ -6,14 +6,19 @@ import toml
 from tests.util import Failure, Success
 
 
-def getStatus(url):
+def repoExists(identifier):
     '''
-    Consumes a url string and returns the status code of a GET request
+    Consumes a repo identifier string in the form of owner/name and returns a
+    boolean indicating whether the request to check if the repository exists
+    on github was successful (200) or not
     '''
     try:
-        response = urllib.request.urlopen(url).status
+        if urllib.request.urlopen(identifier).status != 200:
+            response = False
+        else:
+            response = True
     except URLError:
-        response = url
+        response = False
     return response
 
 
@@ -26,7 +31,7 @@ def run():
     homu_repos = [repo_cfg[repo_title]['owner']+'/'+repo_title
                   for repo_title in repo_cfg.keys()]
     failed_responses = [repository for repository in homu_repos
-                        if getStatus(VCS+repository) != 200]
+                        if not repoExists(VCS+repository)]
     failed_resp_str = " \n".join(failed_responses)
     if len(failed_responses) > 0:
         return Failure('repos in homu not on github: ',
