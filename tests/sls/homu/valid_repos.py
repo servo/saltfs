@@ -33,7 +33,7 @@ def run():
     missing_repos = ["- {}".format(repository) for repository in homu_repos
                      if not repoExists(repository)]
     if len(missing_repos) > 0:
-        return Failure('repos in homu not on github: ',
+        return Failure('Repos in homu not on github: ',
                        "\n".join(missing_repos))
     else:
         return Success('All repos in homu config on github')
