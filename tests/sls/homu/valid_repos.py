@@ -25,18 +25,14 @@ def repoExists(identifier):
 
 
 def run():
-    # repository configuration dictionary from homu
     repo_cfg = toml.load('/home/servo/homu/cfg.toml')['repo']
-    VCS = "https://github.com/"
-    # extracting owner and repo from the configuration dict
-    # and formatting it to more easily form a url to submit a request to
-    homu_repos = [repo_cfg[repo_title]['owner']+'/'+repo_title
-                  for repo_title in repo_cfg.keys()]
-    failed_responses = [repository for repository in homu_repos
-                        if not repoExists(VCS+repository)]
-    failed_resp_str = " \n".join(failed_responses)
-    if len(failed_responses) > 0:
+    # formatting to more easily form a url to submit a request to
+    homu_repos = ("{}/{}".format(repo['owner'], repo['name'])
+                  for repo in repo_cfg.values())
+    missing_repos = ["- {}".format(repository) for repository in homu_repos
+                     if not repoExists(repository)]
+    if len(missing_repos) > 0:
         return Failure('repos in homu not on github: ',
-                       failed_resp_str)
+                       "\n".join(missing_repos))
     else:
         return Success('All repos in homu config on github')
