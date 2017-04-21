@@ -1,5 +1,5 @@
 from urllib.error import URLError
-import urllib.request
+from urllib.request import Request, urlopen
 
 import toml
 
@@ -13,10 +13,12 @@ def repoExists(identifier):
     on github was successful (200) or not
     '''
     try:
-        if urllib.request.urlopen(identifier).status != 200:
-            response = False
-        else:
-            response = True
+        requester = Request(identifier,method='HEAD')
+        with urlopen(requester) as conn:
+            if conn.status != 200:
+                response = False
+            else:
+                response = True
     except URLError:
         response = False
     return response
