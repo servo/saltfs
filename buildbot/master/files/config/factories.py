@@ -210,22 +210,11 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
 
             # Provide environment variables for s3cmd
             elif (
-                arg == './etc/ci/upload_nightly.sh' or
-                arg == r'.\etc\ci\upload_nightly.sh'
+                arg == './etc/ci/upload_nightly' or
+                arg == r'.\etc\ci\upload_nightly'
             ):
                 step_kwargs['logEnviron'] = False
                 step_env += envs.upload_nightly
-                if self.is_windows:
-                    # s3cmd on Windows GNU does not work in MINGW
-                    step_env['MSYSTEM'] = 'MSYS'
-                    step_env['PATH'] = ';'.join([
-                        r'C:\msys64\usr\bin',
-                        r'C:\Windows\system32',
-                        r'C:\Windows',
-                        r'C:\Windows\System32\Wbem',
-                        r'C:\Windows\System32\WindowsPowerShell\v1.0',
-                        r'C:\Program Files\Amazon\cfn-bootstrap',
-                    ])
 
             else:
                 step_desc += [arg]
