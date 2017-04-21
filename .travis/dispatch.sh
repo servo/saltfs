@@ -58,12 +58,13 @@ else
         run_salt 'old'
         set -o errexit
 
+        git checkout "${TRAVIS_COMMIT}"
+
         travis_fold_start "salt.invalidate_cache" 'Invalidating the Salt cache'
-        rm -rf /var/cache/salt/minion/files/base/*
+        salt_call 'saltutil.clear_cache'
         salt_call 'saltutil.sync_all'
         travis_fold_end "salt.invalidate_cache"
 
-        git checkout "${TRAVIS_COMMIT}"
         run_salt 'upgrade'
     fi
 
@@ -71,6 +72,9 @@ else
     # TODO: don't hard-code this
     if [[ "${SALT_NODE_ID}" == "servo-master1" ]]; then
         ./test.py sls.buildbot.master sls.homu sls.nginx
+    fi
+    if [[ "${SALT_NODE_ID}" == "servo-linux-cross1" ]]; then
+        ./test.py sls.servo-build-dependencies.android
     fi
 
     # Salt doesn't support timezone.system on OSX
