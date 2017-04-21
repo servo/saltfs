@@ -1,6 +1,8 @@
-import toml
-import urllib.request
 from urllib.error import URLError
+import urllib.request
+
+import toml
+
 from tests.util import Failure, Success
 
 
