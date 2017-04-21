@@ -1,6 +1,9 @@
 # NOTE: Ensure all node types are covered in .travis.yml
 
 base:
+  '*':
+    - python
+
   'not G@os:Windows':
     - match: compound
     - admin

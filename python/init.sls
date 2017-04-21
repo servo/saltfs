@@ -1,3 +1,14 @@
+python3:
+  pkg.installed:
+    {% if grains['os'] == 'Windows' %}
+    - name: python3_x64
+    - version: 3.5.2150.0  # Need to pin version to set $PATH
+    {% else %}
+    - pkgs:
+      - python3
+    {% endif %}
+
+{% if grains['os'] != 'Windows' %}
 python2:
   pkg.installed:
     - pkgs:
@@ -5,11 +16,6 @@ python2:
     {% if grains['os'] == 'MacOS' %}
     - refresh: True
     {% endif %}
-
-python3:
-  pkg.installed:
-    - pkgs:
-      - python3
 
 {% if grains['os'] == 'Ubuntu' %}
 python2-dev:
@@ -36,3 +42,4 @@ virtualenv:
       - virtualenv == 14.0.6
     - require:
       - pkg: pip
+{% endif %}

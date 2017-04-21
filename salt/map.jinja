@@ -7,7 +7,10 @@
           'config': {
             'fileserver_backend': [ 'roots', 'git' ],
             'file_roots': {
-              'base': [ '/tmp/salt-testing-root/saltfs' ]
+              'base': [
+                '/tmp/salt-testing-root/saltfs',
+                '/srv/salt-win'
+              ]
             },
             'gitfs_remotes': [ 'https://github.com/servo/saltfs.git' ],
             'gitfs_env_whitelist': [ 'base' ],
@@ -15,7 +18,8 @@
             'keep_jobs': 0,
             'pillar_roots': {
               'base': [ '/srv/pillar' ]
-            }
+            },
+            'winrepo_dir_ng': '/srv/salt-win/win/repo-ng'
           }
         },
         'Ubuntu': {
