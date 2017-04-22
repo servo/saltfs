@@ -29,7 +29,7 @@ def run():
         if not repo_exists(repository)
     ]
     if len(missing_repos) > 0:
-        return Failure('Some repos configured for Homu do not exist on GitHub:',
+        return Failure('Some repos set up for Homu do not exist on GitHub:',
                        "\n".join(
                            " - {}".format(repo)
                            for repo in missing_repos
