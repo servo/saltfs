@@ -307,3 +307,6 @@ secret = "{{ pillar["homu"]["gh-webhook-secret"] }}"
 
 [repo.dwrote-rs.status.appveyor]
 context = 'continuous-integration/appveyor/branch'
+
+[db]
+file = {{ db }}
