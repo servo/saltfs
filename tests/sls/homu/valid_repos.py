@@ -6,34 +6,32 @@ import toml
 from tests.util import Failure, Success
 
 
-def repoExists(identifier):
+def repo_exists(url):
     '''
-    Consumes a repo identifier string in the form of owner/name and returns a
-    boolean indicating whether the request to check if the repository exists
-    on github was successful (200) or not
+    Checks if the given repo exists on GitHub
     '''
     try:
-        endpoint = "https://github.com/{}".format(identifier)
-        requester = Request(endpoint, method='HEAD')
-        with urlopen(requester) as conn:
-            if conn.status != 200:
-                response = False
-            else:
-                response = True
+        request = Request("https://github.com/{}".format(url), method='HEAD')
+        with urlopen(request) as conn:
+            return conn.status == 200
     except URLError:
-        response = False
-    return response
+        return False
 
 
 def run():
     repo_cfg = toml.load('/home/servo/homu/cfg.toml')['repo']
-    # formatting to more easily form a url to submit a request to
-    homu_repos = ("{}/{}".format(repo['owner'], repo['name'])
-                  for repo in repo_cfg.values())
-    missing_repos = ["- {}".format(repository) for repository in homu_repos
-                     if not repoExists(repository)]
+    homu_repos = (
+        "{}/{}".format(repo['owner'], repo['name'])
+        for repo in repo_cfg.values()
+    )
+    missing_repos = [
+        repository for repository in homu_repos
+        if not repo_exists(repository)
+    ]
     if len(missing_repos) > 0:
-        return Failure('Repos in homu not on github: ',
-                       "\n".join(missing_repos))
-    else:
-        return Success('All repos in homu config on github')
+        return Failure('Some repos configured for Homu do not exist on GitHub:',
+                       "\n".join(
+                           " - {}".format(repo)
+                           for repo in missing_repos
+                       ))
+    return Success('All repos in the Homu config exist on Github')
