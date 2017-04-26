@@ -35,8 +35,8 @@ def check_whitespace(path):
 def run():
     failures = list(itertools.chain(*map(check_whitespace, paths())))
 
-    if len(failures) == 0:
-        return Success("No trailing whitespace found")
-    else:
+    if len(failures) != 0:
         output = '\n'.join([display_failure(failure) for failure in failures])
         return Failure("Trailing whitespace found on files and lines:", output)
+
+    return Success("No trailing whitespace found")
