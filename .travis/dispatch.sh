@@ -13,16 +13,16 @@ salt_call() {
         "$@"
 }
 
-travis_fold_start () {
+travis_fold_start() {
     printf "travis_fold:start:%s\n" "${1}"
     printf "%s\n" "${2}"
 }
 
-travis_fold_end () {
+travis_fold_end() {
     printf "travis_fold:end:%s\n" "${1}"
 }
 
-run_salt () {
+run_salt() {
     travis_fold_start "salt.install.$1" 'Installing and configuring Salt'
     .travis/install_salt.sh -F -c .travis -- "${TRAVIS_OS_NAME}"
     travis_fold_end "salt.install.$1"
