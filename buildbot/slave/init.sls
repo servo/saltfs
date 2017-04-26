@@ -50,11 +50,14 @@ buildbot-slave-dependencies:
     - template: jinja
     - context:
         common: {{ common }}
+    {% if grains.get('virtual_subtype', '') != 'Docker' %}
     - watch_in:
       - service: buildbot-slave
+    {% endif %}
 
 {% endif %}
 
+{% if grains.get('virtual_subtype', '') != 'Docker' %}
 buildbot-slave:
   service.running:
     - enable: True
@@ -63,3 +66,4 @@ buildbot-slave:
     - watch:
       - pip: buildbot-slave-dependencies
       - file: {{ common.servo_home }}/buildbot/slave
+{% endif %}

@@ -11,7 +11,7 @@ admin-packages:
       - mobile-shell
       {% endif %}
 
-{% if grains['os'] != 'MacOS' %}
+{% if grains['os'] != 'MacOS' and grains.get('virtual_subtype', '') != 'Docker' %}
 UTC:
     timezone.system
 {% endif %}
