@@ -4,7 +4,7 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-install_salt () {
+install_salt() {
     # Ensure that pinned versions match as closely as possible
     if [[ "${OS_NAME}" == "linux" ]]; then
         printf "%s: installing salt for Linux\n" "${0}"
@@ -39,7 +39,7 @@ install_salt () {
     fi
 }
 
-configure_salt () {
+configure_salt() {
     printf "%s: copying Salt minion configuration from %s\n" "${0}" "${TEMPORARY_CONFIG_DIR}"
     sudo rm -rf /etc/salt
     sudo mkdir -p /etc/salt
