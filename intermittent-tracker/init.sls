@@ -23,6 +23,7 @@ intermittent-tracker:
     - bin_env: /home/servo/intermittent-tracker/_venv
     - require:
       - virtualenv: intermittent-tracker
+  {% if grains.get('virtual_subtype', '') != 'Docker' %}
   service.running:
     - enable: True
     - name: tracker
@@ -31,6 +32,7 @@ intermittent-tracker:
     - watch:
       - file: /home/servo/intermittent-tracker/config.json
       - file: /etc/init/tracker.conf
+  {% endif %}
 
 /home/servo/intermittent-tracker/config.json:
   file.managed:
