@@ -75,10 +75,10 @@ servo-dependencies:
       - pip: virtualenv
   {% endif %}
 
-{% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'trusty' %}
+{% if grains['os'] == 'Ubuntu' %}
 multiverse:
   pkgrepo.managed:
-    - name: 'deb http://archive.ubuntu.com/ubuntu trusty multiverse'
+    - name: 'deb http://archive.ubuntu.com/ubuntu {{ grains['oscodename'] }} multiverse'
     - file: /etc/apt/sources.list.d/multiverse.list
     - require_in:
       - pkg: ttf-mscorefonts-installer

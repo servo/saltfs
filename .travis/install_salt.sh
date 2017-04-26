@@ -7,15 +7,24 @@ set -o pipefail
 install_salt() {
     # Ensure that pinned versions match as closely as possible
     if [[ "${OS_NAME}" == "linux" ]]; then
-        printf "%s: installing salt for Linux\n" "${0}"
-        # Use Trusty (Ubuntu 14.04) on Travis
+        local os_codename os_release
+        os_codename="$(grep 'DISTRIB_CODENAME' /etc/lsb-release | cut -f2 -d'=')"
+        declare -r os_codename
+        os_release="$(grep 'DISTRIB_RELEASE' /etc/lsb-release | cut -f2 -d'=')"
+        declare -r os_release
+        printf \
+            "%s: installing salt for Linux (%s, %s)\n" \
+            "${0}" "${os_codename}" "${os_release}"
+
         # Don't autostart services
         printf '#!/bin/sh\nexit 101\n' | \
             ${SUDO} install -m 755 /dev/stdin /usr/sbin/policy-rc.d
-        curl https://repo.saltstack.com/apt/ubuntu/14.04/amd64/archive/2016.3.3/SALTSTACK-GPG-KEY.pub | \
+        curl "https://repo.saltstack.com/apt/ubuntu/${os_release}/amd64/archive/2016.3.3/SALTSTACK-GPG-KEY.pub" | \
             ${SUDO} apt-key add -
-        printf 'deb http://repo.saltstack.com/apt/ubuntu/14.04/amd64/archive/2016.3.3 trusty main\n' | \
-            ${SUDO} tee /etc/apt/sources.list.d/saltstack.list >/dev/null
+        printf \
+            'deb http://repo.saltstack.com/apt/ubuntu/%s/amd64/archive/2016.3.3 %s main\n' \
+            "${os_release}" "${os_codename}" | \
+                ${SUDO} tee /etc/apt/sources.list.d/saltstack.list >/dev/null
         ${SUDO} apt-get -y update
         # Use existing config file if it exists (if reinstalling)
         ${SUDO} apt-get -y \
