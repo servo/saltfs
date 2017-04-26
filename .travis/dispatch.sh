@@ -7,7 +7,7 @@ set -o pipefail
 shopt -s nullglob
 
 salt_call() {
-    sudo salt-call \
+    ${SUDO} salt-call \
         --force-color \
         --id="${SALT_NODE_ID}" \
         --local --file-root='./.' --pillar-root='./.travis/test_pillars' \
@@ -56,6 +56,12 @@ run_inside_docker() {
         "${SALT_DOCKER_IMAGE}" \
         "${DOCKER_SALT_ROOT}/.travis/dispatch.sh"
 }
+
+
+SUDO=""
+if (( EUID != 0 )); then
+    SUDO="sudo"
+fi
 
 
 if [[ "${SALT_NODE_ID}" == "test" ]]; then
