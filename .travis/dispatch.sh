@@ -7,7 +7,7 @@ set -o pipefail
 shopt -s nullglob
 
 salt_call() {
-    sudo salt-call \
+    ${SUDO} salt-call \
         --id="${SALT_NODE_ID}" \
         --local --file-root='./.' --pillar-root='./.travis/test_pillars' \
         "$@"
@@ -38,6 +38,12 @@ run_salt() {
     printf 'Running the full Salt highstate\n'
     salt_call --retcode-passthrough --log-level=warning state.highstate
 }
+
+
+SUDO=""
+if (( EUID != 0 )); then
+    SUDO="sudo"
+fi
 
 
 if [[ "${SALT_NODE_ID}" == "test" ]]; then
