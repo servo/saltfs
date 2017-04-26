@@ -54,6 +54,23 @@ matrix:
       os: linux
       sudo: required
       dist: trusty
+    # Salt inside Docker
+    - env:
+        - SALT_NODE_ID=servo-linux1
+        - SALT_FROM_SCRATCH=true
+          # ubuntu/14.04
+        - SALT_DOCKER_IMAGE=ubuntu@sha256:edf05697d8ea17028a69726b4b450ad48da8b29884cd640fec950c904bfb50ce
+      os: linux
+      sudo: required
+      dist: trusty
+    - env:
+        - SALT_NODE_ID=servo-linux1
+        - SALT_FROM_SCRATCH=true
+          # ubuntu/16.04
+        - SALT_DOCKER_IMAGE=ubuntu@sha256:f3a61450ae43896c4332bda5e78b453f4a93179045f20c8181043b26b5e79028
+      os: linux
+      sudo: required
+      dist: trusty
     # Not a Salt node, runs test suite instead
     - env:
         - SALT_NODE_ID=test
