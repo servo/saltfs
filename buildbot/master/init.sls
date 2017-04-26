@@ -14,6 +14,7 @@ buildbot-master:
       - twisted == 16.6.0  # NOTE: keep in sync with buildbot-slave sls
     - require:
       - pkg: pip
+  {% if grains.get('virtual_subtype', '') != 'Docker' %}
   service.running:
     - enable: True
     # Buildbot must be restarted manually! See 'Buildbot administration' on the
@@ -23,6 +24,7 @@ buildbot-master:
       - pip: buildbot-master
       - file: ownership-{{ common.servo_home }}/buildbot/master
       - file: /etc/init/buildbot-master.conf
+  {% endif %}
 
 deploy-{{ common.servo_home }}/buildbot/master:
   file.recurse:
@@ -77,12 +79,14 @@ ownership-{{ common.servo_home }}/buildbot/master:
     - context:
         common: {{ common }}
 
+{% if grains.get('virtual_subtype', '') != 'Docker' %}
 buildbot-github-listener:
   service.running:
     - enable: True
     - watch:
       - file: /usr/local/bin/github_buildbot.py
       - file: /etc/init/buildbot-github-listener.conf
+{% endif %}
 
 remove-old-build-logs:
   cron.present:
