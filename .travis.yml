@@ -1,5 +1,4 @@
-# Python is not supported on OS X yet
-# But a system python is installed for all workers
+# Handle Python installation and dependencies ourselves
 language: cpp
 
 # NOTE: Make sure the matrix covers all node types in top.sls
@@ -14,8 +13,6 @@ matrix:
       os: linux
       sudo: required
       dist: trusty
-      language: python
-      python: 3.5
     - env:
         - SALT_NODE_ID=servo-mac1
         - SALT_FROM_SCRATCH=true
@@ -27,16 +24,12 @@ matrix:
       os: linux
       sudo: required
       dist: trusty
-      language: python
-      python: 3.5
     - env:
         - SALT_NODE_ID=servo-master1
         - SALT_FROM_SCRATCH=true
       os: linux
       sudo: required
       dist: trusty
-      language: python
-      python: 3.5
     # Salt from previous configuration
     - env:
         - SALT_NODE_ID=servo-linux-cross1
@@ -44,8 +37,6 @@ matrix:
       os: linux
       sudo: required
       dist: trusty
-      language: python
-      python: 3.5
     - env:
         - SALT_NODE_ID=servo-mac1
         - SALT_FROM_SCRATCH=false
@@ -57,16 +48,12 @@ matrix:
       os: linux
       sudo: required
       dist: trusty
-      language: python
-      python: 3.5
     - env:
         - SALT_NODE_ID=servo-master1
         - SALT_FROM_SCRATCH=false
       os: linux
       sudo: required
       dist: trusty
-      language: python
-      python: 3.5
     # Salt inside Docker
     - env:
         - SALT_NODE_ID=servo-linux1
@@ -90,8 +77,6 @@ matrix:
       os: linux
       sudo: required
       dist: trusty
-      language: python
-      python: 3.5
 
 script: .travis/dispatch.sh
 

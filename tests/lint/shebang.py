@@ -37,8 +37,8 @@ def run():
     executables = filter(is_executable, paths())
     failures = list(filter(lambda e: not has_correct_header(e), executables))
 
-    if len(failures) == 0:
-        return Success("All executable shebangs are correct")
-    else:
+    if len(failures) != 0:
         output = '\n'.join([display_path(path) for path in failures])
         return Failure("Bad shebangs found in these files:", output)
+
+    return Success("All executable shebangs are correct")

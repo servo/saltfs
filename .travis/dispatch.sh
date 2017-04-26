@@ -58,6 +58,20 @@ run_inside_docker() {
 }
 
 
+setup_venv() {
+    local -r VENV_DIR="/tmp/saltfs-venv3"
+    # Using .travis.yml to specify Python 3.5 to be preinstalled, just to check
+    printf "Using %s at %s\n" "$(python3 --version)" "$(which python3)"
+
+    python3 -m venv "${VENV_DIR}"
+    set +o nounset
+    source "${VENV_DIR}/bin/activate"
+    set -o nounset
+    pip install wheel
+    pip install -r requirements.txt
+}
+
+
 SUDO=""
 if (( EUID != 0 )); then
     SUDO="sudo"
@@ -65,10 +79,8 @@ fi
 
 
 if [[ "${SALT_NODE_ID}" == "test" ]]; then
-    # Using .travis.yml to specify Python 3.5 to be preinstalled, just to check
-    printf "Using %s at %s\n" "$(python3 --version)" "$(which python3)"
-
     # Run test suite separately for parallelism
+    setup_venv
     ./test.py
 elif [[ -n "${SALT_DOCKER_IMAGE:-}" ]]; then  # macOS bash is too old for `-v`
     printf "Using %s\n" "$(docker -v)"
@@ -97,6 +109,8 @@ else
     fi
 
     # Only run tests against the new configuration
+    setup_venv
+
     # TODO: don't hard-code this
     if [[ "${SALT_NODE_ID}" == "servo-master1" ]]; then
         ./test.py sls.buildbot.master sls.homu sls.nginx
