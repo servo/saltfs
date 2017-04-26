@@ -11,6 +11,9 @@ install_salt() {
         # Use Trusty (Ubuntu 14.04) on Travis
         # Don't autostart services
         printf '#!/bin/sh\nexit 101\n' | sudo install -m 755 /dev/stdin /usr/sbin/policy-rc.d
+        # Ensure curl is installed (is not present by default in Docker)
+        sudo apt-get -y update
+        sudo apt-get -y install --no-install-recommends ca-certificates curl
         curl https://repo.saltstack.com/apt/ubuntu/14.04/amd64/archive/2016.3.3/SALTSTACK-GPG-KEY.pub | sudo apt-key add -
         printf 'deb http://repo.saltstack.com/apt/ubuntu/14.04/amd64/archive/2016.3.3 trusty main\n' | sudo tee /etc/apt/sources.list.d/saltstack.list >/dev/null
         sudo apt-get -y update
