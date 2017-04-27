@@ -230,6 +230,11 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
             else:
                 step_desc += [arg]
 
+        # Add Git SHA for tracking testing failures
+        if step_class == steps.Test:
+            step_env['GIT_SHA'] = self.getProperty('got_revision')
+            step_kwargs['gitSha'] = self.getProperty('got_revision')
+
         if step_class != steps.ShellCommand:
             step_kwargs['description'] = "running"
             step_kwargs['descriptionDone'] = "ran"
