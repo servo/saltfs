@@ -7,22 +7,23 @@ set -o pipefail
 shopt -s nullglob
 
 salt_call() {
-    sudo salt-call \
+    ${SUDO} salt-call \
+        --force-color \
         --id="${SALT_NODE_ID}" \
         --local --file-root='./.' --pillar-root='./.travis/test_pillars' \
         "$@"
 }
 
-travis_fold_start () {
-    printf "travis_fold:start:$1\n"
-    printf "$2\n"
+travis_fold_start() {
+    printf "travis_fold:start:%s\n" "${1}"
+    printf "%s\n" "${2}"
 }
 
-travis_fold_end () {
-    printf "travis_fold:end:$1\n"
+travis_fold_end() {
+    printf "travis_fold:end:%s\n" "${1}"
 }
 
-run_salt () {
+run_salt() {
     travis_fold_start "salt.install.$1" 'Installing and configuring Salt'
     .travis/install_salt.sh -F -c .travis -- "${TRAVIS_OS_NAME}"
     travis_fold_end "salt.install.$1"
@@ -40,12 +41,51 @@ run_salt () {
 }
 
 
-if [[ "${SALT_NODE_ID}" == "test" ]]; then
-    # Using .travis.yml to specify Python 3.5 to be preinstalled, just to check
-    printf "Using $(python3 --version) at $(which python3)\n"
+run_inside_docker() {
+    # Reexec this script inside docker
+    # (without exporting the `SALT_DOCKER_IMAGE` environment variable
+    # to prevent recursion)
+    local -r DOCKER_SALT_ROOT="/tmp/salt"
+    docker run \
+        --env="SALT_NODE_ID=${SALT_NODE_ID}" \
+        --env="SALT_FROM_SCRATCH=${SALT_FROM_SCRATCH}" \
+        --env="TRAVIS_COMMIT=${TRAVIS_COMMIT}" \
+        --env="TRAVIS_OS_NAME=${TRAVIS_OS_NAME}" \
+        --volume="$(pwd):${DOCKER_SALT_ROOT}" \
+        --workdir="${DOCKER_SALT_ROOT}" \
+        "${SALT_DOCKER_IMAGE}" \
+        "${DOCKER_SALT_ROOT}/.travis/dispatch.sh"
+}
 
+
+setup_venv() {
+    local -r VENV_DIR="/tmp/saltfs-venv3"
+    # Using .travis.yml to specify Python 3.5 to be preinstalled, just to check
+    printf "Using %s at %s\n" "$(python3 --version)" "$(which python3)"
+
+    python3 -m venv "${VENV_DIR}"
+    set +o nounset
+    source "${VENV_DIR}/bin/activate"
+    set -o nounset
+    pip install wheel
+    pip install -r requirements.txt
+}
+
+
+SUDO=""
+if (( EUID != 0 )); then
+    SUDO="sudo"
+fi
+
+
+if [[ "${SALT_NODE_ID}" == "test" ]]; then
     # Run test suite separately for parallelism
+    setup_venv
     ./test.py
+elif [[ -n "${SALT_DOCKER_IMAGE:-}" ]]; then  # macOS bash is too old for `-v`
+    printf "Using %s\n" "$(docker -v)"
+
+    run_inside_docker "$@"
 else
     if [ "${SALT_FROM_SCRATCH}" = "true" ]; then
         run_salt 'scratch'
@@ -69,6 +109,8 @@ else
     fi
 
     # Only run tests against the new configuration
+    setup_venv
+
     # TODO: don't hard-code this
     if [[ "${SALT_NODE_ID}" == "servo-master1" ]]; then
         ./test.py sls.buildbot.master sls.homu sls.nginx

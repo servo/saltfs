@@ -8,12 +8,15 @@ def run():
     paths = ['test.py', 'tests']
     paths = [os.path.join(project_path(), path) for path in paths]
     command = ['flake8'] + paths
-    ret = subprocess.run(command,
-                         stdout=subprocess.PIPE,
-                         stderr=subprocess.PIPE,
-                         universal_newlines=True)
+    proc = subprocess.Popen(
+        command,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        universal_newlines=True
+    )
+    stdout, _ = proc.communicate()
 
-    if ret.returncode == 0:
-        return Success("Tests passed flake8 lint")
-    else:
-        return Failure("Tests failed flake8 lint:", ret.stdout)
+    if proc.returncode != 0:
+        return Failure("Tests failed flake8 lint:", stdout)
+
+    return Success("Tests passed flake8 lint")

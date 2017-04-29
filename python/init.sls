@@ -10,6 +10,13 @@ python3:
   pkg.installed:
     - pkgs:
       - python3
+      {% if grains['os'] == 'Ubuntu' %}
+      {% if grains['osrelease'] == '14.04' %}
+      - python3.4-venv
+      {% else %}
+      - python3-venv
+      {% endif %}
+      {% endif %}
 
 {% if grains['os'] == 'Ubuntu' %}
 python2-dev:

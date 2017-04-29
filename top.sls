@@ -5,6 +5,7 @@ base:
     - match: compound
     - admin
     - common
+    - python
     - salt.common
 
   'os:Ubuntu':
