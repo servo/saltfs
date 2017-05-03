@@ -275,6 +275,9 @@ Installation is not yet scripted and must currently be done manually.
    configure the minion and autostart the minion.
    Make sure to provide the correct minion ID!
    `Salt-Minion-2016.3.3-AMD64-Setup.exe /S /master=servo-master1.servo.org /minion-name=servo-windowsN`
+3. Update the winrepo package database on the minion.
+   On the master, run: `root@servo-master1$ salt 'servo-windowsN' pkg.refresh_db`,
+   replacing `servo-windowsN` with the minion ID.
 
 #### Enabling a new Salt minion
 
@@ -293,6 +296,19 @@ on the new minion to set it up.
 
 See [the wiki](https://github.com/servo/servo/wiki/SaltStack-Administration)
 for more information about setting up new masters.
+
+When the master is created, the Windows repository data must be fetched:
+
+```console
+root@servo-master1$ salt-run winrepo.update_git_repos
+```
+
+This command is similar to `apt-get update` and can be run at any time.
+After each run, the minion databases must be updated as well:
+
+```console
+root@servo-master1$ salt -G 'os:Windows' pkg.refresh_db
+```
 
 ### Looking up previous runs
 
