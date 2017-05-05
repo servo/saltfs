@@ -7,8 +7,8 @@ import sys
 from tests.util import color, GREEN, RED, Failure, project_path
 
 
-def is_python_script(dir_entry):
-    return dir_entry.name.endswith('.py') and dir_entry.is_file()
+def is_python_script(path):
+    return path.endswith('.py') and os.path.isfile(path)
 
 
 def run_tests(tests):
@@ -16,10 +16,11 @@ def run_tests(tests):
 
     for test_spec in tests:
         test_dir = os.path.join(project_path(), 'tests', *test_spec.split('.'))
-
-        python_scripts = filter(is_python_script, os.scandir(test_dir))
-        tests = sorted([entry.name for entry in python_scripts])
-
+        # TODO(aneeshusa): switch back to scandir on Python 3.5+
+        tests = sorted(
+            path for path in os.listdir(test_dir)
+            if is_python_script(os.path.join(test_dir, path))
+        )
         for test in tests:
             test_mod_name = 'tests.{}.{}'.format(test_spec, test[:-3])
             test_mod = importlib.import_module(test_mod_name)
@@ -44,8 +45,8 @@ def run_tests(tests):
 
 
 def main():
-    if sys.version_info < (3, 5):  # We use features introduced in Python 3.5
-        sys.stderr.write('{}: Python 3.5 or later is needed for this script\n'
+    if sys.version_info < (3, 4):  # Only tested on 3.4 and up
+        sys.stderr.write('{}: Python 3.4 or later is needed for this script\n'
                          .format(__file__))
         return 1
 
