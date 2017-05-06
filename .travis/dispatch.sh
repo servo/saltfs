@@ -46,9 +46,19 @@ run_inside_docker() {
     # (without exporting the `SALT_DOCKER_IMAGE` environment variable
     # to prevent recursion)
     local -r DOCKER_SALT_ROOT="/tmp/salt"
+
+    # Use an env file for variables which may or may not be present
+    local -r DOCKER_ENV_FILE="/tmp/docker-env-file"
+    printf '' > "${DOCKER_ENV_FILE}"
+    # macOS bash is too old for `-v`, so use `-n` and default empty instead
+    if [[ -n "${SALT_FROM_SCRATCH:-}" ]]; then
+        printf "%s\n" >> "${DOCKER_ENV_FILE}" \
+            "SALT_FROM_SCRATCH=${SALT_FROM_SCRATCH}"
+    fi
+
     docker run \
+        --env-file="${DOCKER_ENV_FILE}" \
         --env="SALT_NODE_ID=${SALT_NODE_ID}" \
-        --env="SALT_FROM_SCRATCH=${SALT_FROM_SCRATCH}" \
         --env="TRAVIS_COMMIT=${TRAVIS_COMMIT}" \
         --env="TRAVIS_OS_NAME=${TRAVIS_OS_NAME}" \
         --volume="$(pwd):${DOCKER_SALT_ROOT}" \
@@ -77,7 +87,11 @@ if (( EUID != 0 )); then
 fi
 
 
-if [[ "${SALT_NODE_ID}" == "test" ]]; then
+if [[ -n "${SALT_DOCKER_IMAGE:-}" ]]; then  # macOS bash is too old for `-v`
+    printf "Using %s\n" "$(docker -v)"
+
+    run_inside_docker "$@"
+elif [[ "${SALT_NODE_ID}" == "test" ]]; then
     # Run test suite separately for parallelism
     setup_venv
     ./test.py
@@ -85,6 +99,10 @@ elif [[ "${SALT_NODE_ID}" == "mach-bootstrap" ]]; then
     # Use system Python 2, not one of the supplemental ones Travis installs,
     # so that `python-apt` is available
     export PATH="/usr/bin:${PATH}"
+
+    # Install git (not present by default in Docker)
+    sudo apt-get update
+    sudo apt-get -y install git
 
     # Run mach bootstrap test separately from `test` because it installs things
     git clone --depth 1 https://github.com/servo/servo.git ../servo
@@ -96,10 +114,6 @@ elif [[ "${SALT_NODE_ID}" == "mach-bootstrap" ]]; then
 
     # Check that the local saltfs tree was used
     ./test.py servo.bootstrap
-elif [[ -n "${SALT_DOCKER_IMAGE:-}" ]]; then  # macOS bash is too old for `-v`
-    printf "Using %s\n" "$(docker -v)"
-
-    run_inside_docker "$@"
 else
     if [[ "${SALT_FROM_SCRATCH}" = "true" ]]; then
         run_salt 'scratch'
