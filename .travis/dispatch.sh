@@ -45,7 +45,7 @@ run_inside_docker() {
     # Reexec this script inside docker
     # (without exporting the `SALT_DOCKER_IMAGE` environment variable
     # to prevent recursion)
-    local -r DOCKER_SALT_ROOT="/tmp/salt"
+    local -r DOCKER_SALT_ROOT="/tmp/saltfs"
 
     # Use an env file for variables which may or may not be present
     local -r DOCKER_ENV_FILE="/tmp/docker-env-file"
@@ -100,9 +100,9 @@ elif [[ "${SALT_NODE_ID}" == "mach-bootstrap" ]]; then
     # so that `python-apt` is available
     export PATH="/usr/bin:${PATH}"
 
-    # Install git (not present by default in Docker)
-    sudo apt-get update
-    sudo apt-get -y install git
+    # Install basic deps (not present by default in Docker)
+    ${SUDO} apt-get update
+    ${SUDO} apt-get -y install git python-apt python-dev python-pip python-virtualenv
 
     # Run mach bootstrap test separately from `test` because it installs things
     git clone --depth 1 https://github.com/servo/servo.git ../servo
