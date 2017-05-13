@@ -136,6 +136,12 @@ Once your PR has been approved and merged by Travis,
 it will be available on the master branch and Salt will automatically
 use that code for deploys.
 
+Highfive will automatically add the `S-needs-deploy` label to merged PRs.
+Before running a deploy, please check what's open for deploy:
+https://github.com/servo/saltfs/issues?utf8=%E2%9C%93&q=label%3AS-needs-deploy.
+This helps prevent surprises at deploy time.
+Make sure to remove these labels from the relevant PRs after deploying!
+
 Examples of highstates, which should be run as root from the Salt master:
 
 * `$ salt '*' state.highstate`: Apply all configs to all hosts
