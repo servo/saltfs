@@ -70,7 +70,9 @@ secret = "{{ secrets['web-secret'] }}"
     "skia": {},
     "string-cache": {},
     "tendril": {},
-    "unicode-bidi": {},
+    "unicode-bidi": {
+        "extra_reviewers": [ "behnam" ],
+    },
     "unicode-script": {},
     "webrender": {
         "extra_reviewers": [ "nical", "jrmuizel" ],
