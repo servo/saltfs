@@ -169,7 +169,8 @@ secret = "{{ pillar["homu"]["web-secret"] }}"
         "name": "unicode-script"
     },
     {
-        "name": "webrender"
+        "name": "webrender",
+        "extra_reviewers": [ "jrmuizel", "vvuk" ]
     },
     {
         "name": "webrender_traits"
