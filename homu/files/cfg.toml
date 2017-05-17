@@ -4,177 +4,79 @@
 # under <https://github.com/settings/applications>.
 
 # A GitHub personal access token
-access_token = "{{ pillar["homu"]["gh-access-token"] }}"
+access_token = "{{ secrets['gh-access-token'] }}"
 
 # A GitHub oauth application for this instance of homu:
-app_client_id = "{{ pillar["homu"]["app-client-id"] }}"
-app_client_secret = "{{ pillar["homu"]["app-client-secret"] }}"
+app_client_id = "{{ secrets['app-client-id'] }}"
+app_client_secret = "{{ secrets['app-client-secret'] }}"
 
 [web]
 host = "0.0.0.0"
 port = 54856
-secret = "{{ pillar["homu"]["web-secret"] }}"
+secret = "{{ secrets['web-secret'] }}"
 
-{% set travis_repos = [
-    {
-        "name": "angle"
+{% set travis_repos = {
+    "angle": {},
+    "app_units": {},
+    "cgl-rs": {},
+    "cocoa-rs": {},
+    "core-foundation-rs": {},
+    "core-graphics-rs": {},
+    "core-text-rs": {},
+    "devices": {},
+    "download.servo.org": {},
+    "euclid": {
+        "extra_reviewers": [ "nical" ],
     },
-    {
-        "name": "app_units"
-    },
-    {
-        "name": "cgl-rs"
-    },
-    {
-        "name": "cocoa-rs"
-    },
-    {
-        "name": "core-foundation-rs"
-    },
-    {
-        "name": "core-graphics-rs"
-    },
-    {
-        "name": "core-text-rs"
-    },
-    {
-        "name": "devices"
-    },
-    {
-        "name": "download.servo.org"
-    },
-    {
-        "name": "euclid"
-    },
-    {
-        "name": "fontsan"
-    },
-    {
-        "name": "futf"
-    },
-    {
-        "name": "gaol"
-    },
-    {
-        "name": "gleam"
-    },
-    {
-        "name": "glutin"
-    },
-    {
-        "name": "heapsize"
-    },
-    {
-        "name": "highfive"
-    },
-    {
-        "name": "homu"
-    },
-    {
-        "name": "html5ever"
-    },
-    {
-        "name": "io-surface-rs"
-    },
-    {
-        "name": "ipc-channel",
+    "fontsan": {},
+    "futf": {},
+    "gaol": {},
+    "gleam": {},
+    "glutin": {},
+    "heapsize": {},
+    "highfive": {},
+    "homu": {},
+    "html5ever": {},
+    "io-surface-rs": {},
+    "ipc-channel": {
         "extra_reviewers": [ "antrik" ],
     },
-    {
-        "name": "libexpat"
-    },
-    {
-        "name": "libfontconfig"
-    },
-    {
-        "name": "libfreetype2"
-    },
-    {
-        "name": "mozjs"
-    },
-    {
-        "name": "osmesa-src"
-    },
-    {
-        "name": "rust-azure"
-    },
-    {
-        "name": "rust-bindgen",
+    "libexpat": {},
+    "libfontconfig": {},
+    "libfreetype2": {},
+    "mozjs": {},
+    "osmesa-src": {},
+    "rust-azure": {},
+    "rust-bindgen": {
         "extra_reviewers": [ "fitzgen" ],
     },
-    {
-        "name": "rust-cssparser"
+    "rust-cssparser": {},
+    "rust-fnv": {},
+    "rust-fontconfig": {},
+    "rust-freetype": {},
+    "rust-glx": {},
+    "rust-harfbuzz": {},
+    "rust-layers": {},
+    "rust-mozjs": {},
+    "rust-png": {},
+    "rust-quicksort": {},
+    "rust-selectors": {},
+    "rust-smallvec": {},
+    "rust-stb-image": {},
+    "rust-url": {},
+    "rust-websocket": {},
+    "saltfs": {},
+    "servo-starters": {},
+    "skia": {},
+    "string-cache": {},
+    "tendril": {},
+    "unicode-bidi": {},
+    "unicode-script": {},
+    "webrender": {
+        "extra_reviewers": [ "nical" ],
     },
-    {
-        "name": "rust-fnv"
-    },
-    {
-        "name": "rust-fontconfig"
-    },
-    {
-        "name": "rust-freetype"
-    },
-    {
-        "name": "rust-glx"
-    },
-    {
-        "name": "rust-harfbuzz"
-    },
-    {
-        "name": "rust-layers"
-    },
-    {
-        "name": "rust-mozjs"
-    },
-    {
-        "name": "rust-png"
-    },
-    {
-        "name": "rust-quicksort"
-    },
-    {
-        "name": "rust-selectors"
-    },
-    {
-        "name": "rust-smallvec"
-    },
-    {
-        "name": "rust-stb-image"
-    },
-    {
-        "name": "rust-url"
-    },
-    {
-        "name": "rust-websocket"
-    },
-    {
-        "name": "saltfs"
-    },
-    {
-        "name": "servo-starters"
-    },
-    {
-        "name": "skia"
-    },
-    {
-        "name": "string-cache"
-    },
-    {
-        "name": "tendril"
-    },
-    {
-        "name": "unicode-bidi"
-    },
-    {
-        "name": "unicode-script"
-    },
-    {
-        "name": "webrender"
-    },
-    {
-        "name": "webrender_traits"
-    },
-] %}
+    "webrender_traits": {},
+} %}
 
 {% set reviewers = [
     "aneeshusa",
@@ -201,7 +103,6 @@ secret = "{{ pillar["homu"]["web-secret"] }}"
     "michaelwu",
     "mrobinson",
     "Ms2ger",
-    "nical",
     "notriddle",
     "nox",
     "pcwalton",
@@ -248,15 +149,39 @@ reviewers = {{ reviewers + operators }}
 try_users = {{ try }}
 
 [repo.servo.github]
-secret = "{{ pillar["homu"]["gh-webhook-secret"] }}"
+secret = "{{ secrets['gh-webhook-secret'] }}"
 
 [repo.servo.buildbot]
 url = "http://build.servo.org"
-secret = "{{ pillar["homu"]["buildbot-secret"] }}"
-builders = ["linux-dev", "linux-rel-css", "linux-rel-wpt", "mac-dev-unit", "mac-rel-wpt1", "mac-rel-wpt2", "mac-rel-css", "android", "arm32", "arm64", "windows-msvc-dev"]
-try_builders = ["linux-dev", "linux-rel-css", "linux-rel-wpt", "mac-dev-unit", "mac-rel-wpt1", "mac-rel-wpt2", "mac-rel-css", "android", "arm32", "arm64", "windows-msvc-dev"]
-username = "{{ pillar["homu"]["buildbot-http-user"] }}"
-password = "{{ pillar["homu"]["buildbot-http-pass"] }}"
+secret = "{{ secrets["buildbot-secret"] }}"
+builders = [
+    "linux-dev",
+    "linux-rel-css",
+    "linux-rel-wpt",
+    "mac-dev-unit",
+    "mac-rel-wpt1",
+    "mac-rel-wpt2",
+    "mac-rel-css",
+    "android",
+    "arm32",
+    "arm64",
+    "windows-msvc-dev",
+]
+try_builders = [
+    "linux-dev",
+    "linux-rel-css",
+    "linux-rel-wpt",
+    "mac-dev-unit",
+    "mac-rel-wpt1",
+    "mac-rel-wpt2",
+    "mac-rel-css",
+    "android",
+    "arm32",
+    "arm64",
+    "windows-msvc-dev",
+]
+username = "{{ secrets["buildbot-http-user"] }}"
+password = "{{ secrets["buildbot-http-pass"] }}"
 
 # Disabled due to performance and instability
 #[repo.servo.status.appveyor]
@@ -264,18 +189,18 @@ password = "{{ pillar["homu"]["buildbot-http-pass"] }}"
 
 # Standard per-repo configs (generated)
 
-{% for repo in travis_repos %}
+{% for name, repo in travis_repos.items() %}
 
-[repo."{{ repo["name"] }}"]
+[repo."{{ name }}"]
 owner = "{{ repo.get("owner", "servo") }}"
-name = "{{ repo["name"] }}"
+name = "{{ name }}"
 reviewers = {{ reviewers + operators + repo.get("extra_reviewers", []) }}
 try_users = {{ try }}
 
-[repo."{{ repo["name"] }}".github]
-secret = "{{ pillar["homu"]["gh-webhook-secret"] }}"
+[repo."{{ name }}".github]
+secret = "{{ secrets['gh-webhook-secret'] }}"
 
-[repo."{{ repo["name"] }}".status.travis]
+[repo."{{ name }}".status.travis]
 context = 'continuous-integration/travis-ci/push'
 
 {% endfor %}
@@ -308,7 +233,7 @@ reviewers = {{ reviewers + operators }}
 try_users = {{ try }}
 
 [repo.dwrote-rs.github]
-secret = "{{ pillar["homu"]["gh-webhook-secret"] }}"
+secret = "{{ secrets['gh-webhook-secret'] }}"
 
 [repo.dwrote-rs.status.appveyor]
 context = 'continuous-integration/appveyor/branch'
