@@ -214,10 +214,11 @@ secret = "{{ pillar["homu"]["web-secret"] }}"
 ] %}
 
 {% set operators = [
+    "aethanyc",
+    "birtles",
     "BorisChiou",
     "hiikezoe",
     "jryans",
-    "aethanyc",
 ] %}
 
 {% set try = [
