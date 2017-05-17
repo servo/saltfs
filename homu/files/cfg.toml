@@ -73,7 +73,7 @@ secret = "{{ secrets['web-secret'] }}"
     "unicode-bidi": {},
     "unicode-script": {},
     "webrender": {
-        "extra_reviewers": [ "nical" ],
+        "extra_reviewers": [ "nical", "jrmuizel" ],
     },
     "webrender_traits": {},
 } %}
