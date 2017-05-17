@@ -25,7 +25,9 @@ secret = "{{ secrets['web-secret'] }}"
     "core-text-rs": {},
     "devices": {},
     "download.servo.org": {},
-    "euclid": {},
+    "euclid": {
+        "extra_reviewers": [ "nical" ],
+    },
     "fontsan": {},
     "futf": {},
     "gaol": {},
@@ -70,7 +72,9 @@ secret = "{{ secrets['web-secret'] }}"
     "tendril": {},
     "unicode-bidi": {},
     "unicode-script": {},
-    "webrender": {},
+    "webrender": {
+        "extra_reviewers": [ "nical" ],
+    },
     "webrender_traits": {},
 } %}
 
@@ -99,7 +103,6 @@ secret = "{{ secrets['web-secret'] }}"
     "michaelwu",
     "mrobinson",
     "Ms2ger",
-    "nical",
     "notriddle",
     "nox",
     "pcwalton",
