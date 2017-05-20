@@ -63,7 +63,9 @@ secret = "{{ secrets['web-secret'] }}"
     "rust-selectors": {},
     "rust-smallvec": {},
     "rust-stb-image": {},
-    "rust-url": {},
+    "rust-url": {
+        "extra_reviewers": [ "Hoverbear" ],
+    },
     "rust-websocket": {},
     "saltfs": {},
     "servo-starters": {},
