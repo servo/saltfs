@@ -189,11 +189,12 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
         step_class = steps.ShellCommand
         args = iter(command)
         for arg in args:
-            # Change Step class to capture warnings as needed
-            # (steps.Compile and steps.Test catch warnings)
             if arg == './mach' or arg == 'mach.bat':
                 mach_arg = next(args)
                 step_desc = [mach_arg]
+
+                # Change Step class to capture warnings as needed
+                # (steps.Compile and steps.Test catch warnings)
                 if re.match('build(-.*)?', mach_arg):
                     step_class = steps.Compile
                 elif re.match('package', mach_arg):
@@ -201,31 +202,17 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
                 elif re.match('test-.*', mach_arg):
                     step_class = steps.Test
 
+                # Provide credentials where necessary
+                if re.match('upload-nightly', mach_arg):
+                    step_kwargs['logEnviron'] = False
+                    step_env += envs.upload_nightly
+
             # Capture any logfiles
             elif re.match('--log-.*', arg):
                 logfile = next(args)
                 if 'logfiles' not in step_kwargs:
                     step_kwargs['logfiles'] = {}
                 step_kwargs['logfiles'][logfile] = logfile
-
-            # Provide environment variables for s3cmd
-            elif (
-                arg == './etc/ci/upload_nightly.sh' or
-                arg == r'.\etc\ci\upload_nightly.sh'
-            ):
-                step_kwargs['logEnviron'] = False
-                step_env += envs.upload_nightly
-                if self.is_windows:
-                    # s3cmd on Windows GNU does not work in MINGW
-                    step_env['MSYSTEM'] = 'MSYS'
-                    step_env['PATH'] = ';'.join([
-                        r'C:\msys64\usr\bin',
-                        r'C:\Windows\system32',
-                        r'C:\Windows',
-                        r'C:\Windows\System32\Wbem',
-                        r'C:\Windows\System32\WindowsPowerShell\v1.0',
-                        r'C:\Program Files\Amazon\cfn-bootstrap',
-                    ])
 
             else:
                 step_desc += [arg]

@@ -69,7 +69,6 @@ servo-dependencies:
   pip.installed:
     - pkgs:
       - ghp-import
-      - s3cmd
     - require:
       - pkg: pip
       - pip: virtualenv

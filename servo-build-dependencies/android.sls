@@ -48,11 +48,6 @@ android-dependencies:
     - refresh: True
     - require:
       - pkgrepo: openjdk
-  pip.installed:
-    - pkgs:
-      - s3cmd
-    - require:
-      - pkg: pip
 
 {% for version, sdk in android.sdk.items() if version != 'current' %}
 android-sdk-{{ version }}-purge:
