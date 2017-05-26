@@ -18,6 +18,18 @@ your own instance and run into trouble, file [an issue](https://github.com/servo
 
 TravisCI is set up to test all configurations.
 
+Environment variables:
+
+With a valid GitHub access token instead of the following placeholder value,
+set the `GHTOKENLINE` env var to:
+
+```
+   'gh-access-token' : 'abc123def456'
+```
+
+The whole thing goes in the var because it's needlessly confusing to try to
+sneak the punctuation through both bash and Travis's yaml parser.
+
 ## License
 
 This repository is distributed under the terms of both the MIT license
