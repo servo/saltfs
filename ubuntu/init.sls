@@ -30,3 +30,9 @@
     - group: root
     - mode: 644
     - source: salt://{{ tpldir }}/files/sources.list
+
+refresh_pkg_db:
+  module.run:
+    - name: pkg.refresh_db
+  onchanges:
+    - file: /etc/apt/sources.list
