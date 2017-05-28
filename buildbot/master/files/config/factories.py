@@ -59,7 +59,7 @@ class ServoFactory(util.BuildFactory):
                 repourl=SERVO_REPO,
                 mode="full", method="fresh", retryFetch=True
             ),
-            CheckRevisionStep(),
+            CheckRevisionStep()
         ] + build_steps
         # util.BuildFactory is an old-style class so we cannot use super()
         # but must hardcode the superclass here
@@ -216,6 +216,11 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
 
             else:
                 step_desc += [arg]
+
+        # Add Git SHA for tracking testing failures
+        if step_class == steps.Test:
+            step_env['GIT_SHA'] = self.getProperty('got_revision')
+            step_kwargs['gitSha'] = self.getProperty('got_revision')
 
         if step_class != steps.ShellCommand:
             step_kwargs['description'] = "running"
