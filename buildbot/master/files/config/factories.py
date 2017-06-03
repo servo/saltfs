@@ -106,10 +106,20 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
                     str(cmd.rc)
                 ))
             else:
-                builder_steps = yaml.safe_load(cmd.stdout)
-                commands = builder_steps[self.builder_name]
+                config = yaml.safe_load(cmd.stdout)
+                builder_config = config[self.builder_name]
+
+                commands = None
+                env = self.environment
+                env += envs.Environment(config.get('env', {}))
+                if isinstance(builder_config, collections.Mapping):
+                    commands = builder_config['commands']
+                    env += envs.Environment(builder_config.get('env', {}))
+                else:
+                    commands = builder_config
+
                 dynamic_steps = [
-                    self.make_step(command) for command in commands
+                    self.make_step(command, env) for command in commands
                 ]
         except Exception as e:  # Bad step configuration, fail build
             # Capture the exception and re-raise with a friendly message
@@ -169,9 +179,9 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
         step_status = self.build.build_status.addStepWithName(step.name)
         step.setStepStatus(step_status)
 
-    def make_step(self, command):
+    def make_step(self, command, env):
         step_kwargs = {}
-        step_env = self.environment.copy()
+        step_env = env
 
         command = command.split(' ')
 
