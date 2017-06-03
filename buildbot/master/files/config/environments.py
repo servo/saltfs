@@ -1,5 +1,3 @@
-import copy
-
 from passwords import GITHUB_DOC_TOKEN, GITHUB_HOMEBREW_TOKEN
 from passwords import S3_UPLOAD_ACCESS_KEY_ID, S3_UPLOAD_SECRET_ACCESS_KEY
 
@@ -12,19 +10,29 @@ class Environment(dict):
 
     def __init__(self, *args, **kwargs):
         super(Environment, self).__init__(*args, **kwargs)
+        # Ensure keys and values are strings,
+        # which are immutable in Python,
+        # allowing usage of self.copy() instead of copy.deepcopy().
+        for k in self:
+            assert type(k) == str
+            assert type(self[k]) == str
+
+    def copy(self):
+        # Return an environment, not a plain dict
+        return Environment(self)
 
     def __add__(self, other):
         assert type(self) == type(other)
         combined = self.copy()
         combined.update(other)  # other takes precedence over self
-        return Environment(combined)
+        return combined
 
     def without(self, to_unset):
         """
         Return a new Environment that does not contain the environment
         variables specified in the list of strings to_unset.
         """
-        modified = copy.deepcopy(self)
+        modified = self.copy()
         assert type(to_unset) == list
         for env_var in to_unset:
             if env_var in modified:
