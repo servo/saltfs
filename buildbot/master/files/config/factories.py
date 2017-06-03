@@ -1,5 +1,4 @@
 import collections
-import copy
 import re
 
 from buildbot.plugins import steps, util
@@ -172,7 +171,7 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
 
     def make_step(self, command):
         step_kwargs = {}
-        step_env = copy.deepcopy(self.environment)
+        step_env = self.environment.copy()
 
         command = command.split(' ')
 
