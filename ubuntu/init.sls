@@ -29,6 +29,7 @@
     - user: root
     - group: root
     - mode: 644
+    - template: jinja
     - source: salt://{{ tpldir }}/files/sources.list
 
 refresh_pkg_db:
