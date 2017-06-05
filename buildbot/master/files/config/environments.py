@@ -63,6 +63,7 @@ build_windows_msvc = build_common + Environment({
         r'C:\Program Files\Amazon\cfn-bootstrap',
         r'C:\Program Files\Git\cmd',
         r'C:\Program Files (x86)\WiX Toolset v3.10\bin',
+        r'C:\sccache',
     ]),
     'SERVO_CACHE_DIR': r'C:\Users\Administrator\.servo',
 })
