@@ -1,3 +1,4 @@
+{% from 'common/map.jinja' import root %}
 {% from tpldir ~ '/map.jinja' import admin %}
 
 admin-packages:
@@ -18,12 +19,8 @@ UTC:
 
 /etc/hosts:
   file.managed:
-    - user: root
-    {% if grains['os'] == 'MacOS' %}
-    - group: wheel
-    {% elif grains['os'] == 'Ubuntu' %}
-    - group: root
-    {% endif %}
+    - user: {{ root.user }}
+    - group: {{ root.group }}
     - mode: 644
     - source: salt://{{ tpldir }}/files/hosts
 

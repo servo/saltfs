@@ -11,3 +11,21 @@
     grain='os'
   )
 %}
+
+{%
+  set root = salt['grains.filter_by']({
+      'defaults': {
+        'user': 'root',
+        'group': 'root'
+      },
+      'MacOS': {
+        'group': 'wheel'
+      },
+      'Windows': {
+        'user': 'Administrators'
+      }
+    },
+    base='defaults',
+    grain='os',
+  )
+%}
