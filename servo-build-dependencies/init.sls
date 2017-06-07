@@ -16,6 +16,7 @@ servo-dependencies:
       - openssl
       - pkg-config
       - yasm
+      - zlib
       {% elif grains['os'] == 'Ubuntu' %}
       - autoconf2.13
       - curl
