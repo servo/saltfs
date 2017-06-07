@@ -16,10 +16,12 @@
   set root = salt['grains.filter_by']({
       'defaults': {
         'user': 'root',
-        'group': 'root'
+        'group': 'root',
+        'home': '/root'
       },
       'MacOS': {
-        'group': 'wheel'
+        'group': 'wheel',
+        'home': '/private/var/root'
       },
       'Windows': {
         'user': 'Administrators'
