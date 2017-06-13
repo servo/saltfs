@@ -149,6 +149,7 @@ secret = "{{ secrets['web-secret'] }}"
     "tschneidereit",
     "vvuk",
     "Yoric",
+    "Gankro",
 ] %}
 
 [repo.servo]
