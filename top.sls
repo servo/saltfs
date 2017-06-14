@@ -39,3 +39,8 @@ base:
     - intermittent-tracker
     - nginx
     - salt.master
+
+  'servo-gecko-try':
+    - common
+    - git
+    - servo-gecko-try
