@@ -11,7 +11,7 @@ app_client_id = "{{ secrets['app-client-id'] }}"
 app_client_secret = "{{ secrets['app-client-secret'] }}"
 
 # Priority values above max_priority will be refused.
-max_priority = 9001
+max_priority = 9002
 
 [web]
 host = "0.0.0.0"
