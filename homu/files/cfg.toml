@@ -52,6 +52,7 @@ secret = "{{ secrets['web-secret'] }}"
     "rust-azure": {},
     "rust-bindgen": {
         "extra_reviewers": [ "fitzgen" ],
+        "owner": "rust-lang-nursery",
     },
     "rust-cssparser": {},
     "rust-fnv": {},
