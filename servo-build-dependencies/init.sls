@@ -75,6 +75,15 @@ servo-dependencies:
       - pip: virtualenv
   {% endif %}
 
+{% if grains['os'] == 'MacOS' %}
+post-servo-dependencies:  
+  cmd.run:
+    - name: brew link --force zlib
+    - runas: servo
+    - require:
+      - pkg: servo-dependencies
+{% endif %}
+
 {% if grains['os'] == 'Ubuntu' %}
 multiverse:
   pkgrepo.managed:
