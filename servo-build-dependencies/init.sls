@@ -79,7 +79,7 @@ servo-dependencies:
 post-servo-dependencies:  
   cmd.run:
     - name: brew link --force zlib
-    - runas: servo
+    - runas: root
     - require:
       - pkg: servo-dependencies
 {% endif %}
