@@ -67,3 +67,20 @@ buildbot-slave:
       - pip: buildbot-slave-dependencies
       - file: {{ common.servo_home }}/buildbot/slave
 {% endif %}
+
+{% if grains.get('virtual_subtype', '') != 'Docker' and grains['kernel'] == 'Linux' %}
+coreutils:
+  pkg.installed
+
+/swapfile:
+  cmd.run:
+    - name: |
+        [ -f /swapfile ] || dd if=/dev/zero of=/swapfile bs=1M count=2048k
+        chmod 0600 /swapfile
+        mkswap /swapfile
+        swapon -a
+    - unless:
+      - file /swapfile 2>&1 | grep -q "Linux/i386 swap"
+  mount.swap:
+    - persist: true
+{% endif %}
