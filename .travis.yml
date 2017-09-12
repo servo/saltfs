@@ -1,5 +1,4 @@
-# Handle Python installation and dependencies ourselves
-language: cpp
+language: python
 
 # NOTE: Make sure the matrix covers all node types in top.sls
 # NOTE: Make sure each node type is tested both from scratch and as an upgrade
