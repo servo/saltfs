@@ -23,16 +23,21 @@ travis_fold_end() {
     printf "travis_fold:end:%s\n" "${1}"
 }
 
-run_salt() {
+install_salt() {
     travis_fold_start "salt.install.$1" 'Installing and configuring Salt'
     .travis/install_salt.sh -F -c .travis -- "${TRAVIS_OS_NAME}"
     travis_fold_end "salt.install.$1"
+}
+
+run_salt() {
+    install_salt "${1}"
 
     travis_fold_start "grains.items.$1" 'Printing Salt grains for debugging'
     salt_call grains.items
     travis_fold_end "grains.items.$1"
 
-    travis_fold_start "state.show_highstate.$1" 'Performing basic YAML and Jinja validation'
+    travis_fold_start "state.show_highstate.$1" \
+        'Performing basic YAML and Jinja validation'
     salt_call --retcode-passthrough state.show_highstate
     travis_fold_end "state.show_highstate.$1"
 
@@ -58,16 +63,30 @@ run_inside_docker() {
 }
 
 
-setup_venv() {
-    local -r VENV_DIR="/tmp/saltfs-venv3"
+setup_test_venv() {
+    if ! which salt-call >/dev/null; then
+        install_salt 'test_venv'
+    fi
+    travis_fold_start 'test_venv.install_python3' \
+        'Setting up Python 3 virtualenv for testing'
+    # Use the system Python 3 to make it easy to run tests on fresh hosts
+    # Make sure dependencies are installed (like `python3-venv` on Debian derivatives)
+    salt_call --retcode-passthrough state.sls python
+    travis_fold_end 'test_venv.install_python3'
+
+
     printf "Using %s at %s\n" "$(python3 --version)" "$(which python3)"
 
+    travis_fold_start 'test_venv.install_requirements' \
+        'Installing pip dependencies for testing'
+    local -r VENV_DIR="/tmp/saltfs-venv3"
     python3 -m venv "${VENV_DIR}"
     set +o nounset
     source "${VENV_DIR}/bin/activate"
     set -o nounset
     pip install wheel
     pip install -r requirements.txt
+    travis_fold_end 'test_venv.install_requirements'
 }
 
 
@@ -79,7 +98,7 @@ fi
 
 if [[ "${SALT_NODE_ID}" == "test" ]]; then
     # Run test suite separately for parallelism
-    setup_venv
+    setup_test_venv
     ./test.py
 elif [[ -n "${SALT_DOCKER_IMAGE:-}" ]]; then  # macOS bash is too old for `-v`
     printf "Using %s\n" "$(docker -v)"
@@ -108,7 +127,7 @@ else
     fi
 
     # Only run tests against the new configuration
-    setup_venv
+    setup_test_venv
 
     # TODO: don't hard-code this
     if [[ "${SALT_NODE_ID}" == "servo-master1" ]]; then
