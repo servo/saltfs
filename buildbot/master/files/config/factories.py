@@ -43,19 +43,19 @@ class CheckRevisionStep(buildstep.BuildStep):
         yield defer.returnValue(SUCCESS)
 
 
-class ServoFactory(util.BuildFactory):
+class GitUrlFactory(util.BuildFactory):
     """\
-    Build factory which checks out the servo repo as the first build step.
+    Build factory which checks out a git url as the first build step.
     """
 
-    def __init__(self, build_steps):
+    def __init__(self, url, build_steps):
         """\
         Takes a list of Buildbot steps.
         Prefer using DynamicServoFactory to using this class directly.
         """
         all_steps = [
             steps.Git(
-                repourl=SERVO_REPO,
+                repourl=url,
                 mode="full", method="fresh", retryFetch=True
             ),
             CheckRevisionStep(),
@@ -67,8 +67,8 @@ class ServoFactory(util.BuildFactory):
 
 class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
     """\
-    Step which reads the YAML steps configuration in the main servo repo
-    and dynamically adds test steps.
+    Step which reads the YAML steps configuration in the repo and dynamically
+    adds test steps.
     """
 
     haltOnFailure = True
@@ -246,25 +246,24 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
         )
 
 
-class DynamicServoFactory(ServoFactory):
+class DynamicGitUrlFactory(GitUrlFactory):
     """\
     Smart factory which takes a list of shell commands
-    from a YAML file located in the main servo/servo repository
+    from a YAML file located in the repository
     and creates the appropriate Buildbot Steps.
     Uses heuristics to infer Step type, if there are any logfiles, etc.
     """
 
-    def __init__(self, builder_name, environment):
+    def __init__(self, url, builder_name, environment, yaml_path):
 
         # util.BuildFactory is an old-style class so we cannot use super()
         # but must hardcode the superclass here
-        ServoFactory.__init__(self, [
-            StepsYAMLParsingStep(builder_name, environment,
-                                 "etc/ci/buildbot_steps.yml")
+        ServoFactory.__init__(self, url, [
+            StepsYAMLParsingStep(builder_name, environment, yaml_path)
         ])
 
 
-doc = ServoFactory([
+doc = GitUrlFactory(SERVO_REPO, [
     # This is not dynamic because a) we need to pass the logEnviron kwarg
     # and b) changes to the documentation build are already encapsulated
     # in the upload_docs.sh script; any further changes should go through
