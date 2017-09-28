@@ -6,6 +6,7 @@ class Environment(dict):
     """
     Wrapper that allows 'adding' environment dictionaries
     to make it easy to build up environments piece by piece.
+    Also (mostly) immutable and hashable.
     """
 
     def __init__(self, *args, **kwargs):
@@ -17,27 +18,41 @@ class Environment(dict):
             assert type(k) == str
             assert type(self[k]) == str
 
+    def __hash__(self):
+        try:
+            return self._cached_hash
+        except AttributeError:
+            self._cached_hash = hash(tuple(sorted(self.items())))
+            return self._cached_hash
+
+    @classmethod
+    def _blocked_attribute(cls, *args, **kwargs):
+        raise TypeError('%r objects are immutable' % cls.__name__)
+
+    __delitem__ = __setitem__ = _blocked_attribute
+    clear = pop = popitem = setdefault = update = _blocked_attribute
+
     def copy(self):
         # Return an environment, not a plain dict
         return Environment(self)
 
     def __add__(self, other):
         assert type(self) == type(other)
-        combined = self.copy()
+        combined = dict(self.copy())
         combined.update(other)  # other takes precedence over self
-        return combined
+        return Environment(combined)
 
     def without(self, to_unset):
         """
         Return a new Environment that does not contain the environment
         variables specified in the list of strings to_unset.
         """
-        modified = self.copy()
+        modified = dict(self.copy())
         assert type(to_unset) == list
         for env_var in to_unset:
             if env_var in modified:
                 modified.pop(env_var)
-        return modified
+        return Environment(modified)
 
 
 doc = Environment({
