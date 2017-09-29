@@ -5,11 +5,9 @@ admin-packages:
   pkg.installed:
     - pkgs:
       - tmux
-      {% if grains['os'] != 'MacOS' %}
       - mosh
+      {% if grains['os'] != 'MacOS' %}
       - screen # Installed by default on OS X
-      {% else %}
-      - mobile-shell
       {% endif %}
 
 {% if grains['os'] != 'MacOS' and grains.get('virtual_subtype', '') != 'Docker' %}
