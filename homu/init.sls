@@ -45,7 +45,6 @@ homu:
     - bin_env: /home/servo/homu/_venv
     - require:
       - virtualenv: homu
-  {% if grains.get('virtual_subtype', '') != 'Docker' %}
   service.running:
     - enable: True
     - require:
@@ -53,7 +52,6 @@ homu:
     - watch:
       - file: /home/servo/homu/cfg.toml
       - file: /etc/init/homu.conf
-  {% endif %}
 
 {{ salt['file.dirname'](homu.db) }}:
   file.directory:
