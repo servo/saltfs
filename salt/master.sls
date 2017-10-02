@@ -16,10 +16,8 @@ salt-master-dependencies:
     - user: root
     - group: root
     - mode: 755
-    {% if grains.get('virtual_subtype', '') != 'Docker' %}
     - require_in:
       - service: salt-master
-    {% endif %}
 
 {{ rootfs_parent_dir }}/ADMIN_README:
   file.managed:
@@ -27,10 +25,8 @@ salt-master-dependencies:
     - group: root
     - mode: 644
     - source: salt://{{ tpldir }}/files/master/ADMIN_README
-    {% if grains.get('virtual_subtype', '') != 'Docker' %}
     - require_in:
       - service: salt-master
-    {% endif %}
 {% endfor %}
 
 salt-master:
@@ -40,13 +36,11 @@ salt-master:
     - require:
       - sls: salt.common
       - pkg: salt-master-dependencies
-  {% if grains.get('virtual_subtype', '') != 'Docker' %}
   service.running:
     - enable: True
     - require:  # Updates and upgrades must be handled manually
       - file: /etc/salt/master
       - pkg: salt-master
-  {% endif %}
 
 /etc/salt/master:
   file.managed:
