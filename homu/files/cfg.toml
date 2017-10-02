@@ -51,7 +51,7 @@ secret = "{{ secrets['web-secret'] }}"
     "osmesa-src": {},
     "rust-azure": {},
     "rust-bindgen": {
-        "extra_reviewers": [ "fitzgen" ],
+        "extra_reviewers": [ "fitzgen", "pepyakin" ],
         "owner": "rust-lang-nursery",
     },
     "rust-cssparser": {},
