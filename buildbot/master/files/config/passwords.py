@@ -10,3 +10,4 @@ S3_UPLOAD_ACCESS_KEY_ID = \
 S3_UPLOAD_SECRET_ACCESS_KEY = \
     "{{ buildbot_credentials['s3-upload-secret-access-key'] }}"
 GITHUB_STATUS_TOKEN = "{{ buildbot_credentials['gh-status-token'] }}"
+WPT_SYNC_TOKEN = "{{ buildbot_credentials['wpt-sync-token'] }}"

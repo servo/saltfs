@@ -1,4 +1,4 @@
-from passwords import GITHUB_DOC_TOKEN, GITHUB_HOMEBREW_TOKEN
+from passwords import GITHUB_DOC_TOKEN, GITHUB_HOMEBREW_TOKEN, WPT_SYNC_TOKEN
 from passwords import S3_UPLOAD_ACCESS_KEY_ID, S3_UPLOAD_SECRET_ACCESS_KEY
 
 
@@ -83,6 +83,10 @@ build_linux = build_common + Environment({
     'DISPLAY': ':0',
     'SERVO_CACHE_DIR': '{{ common.servo_home }}/.servo',
     'SHELL': '/bin/bash',
+})
+
+sync_wpt = build_linux + Environment({
+    'WPT_SYNC_TOKEN': WPT_SYNC_TOKEN,
 })
 
 build_android = build_linux + Environment({

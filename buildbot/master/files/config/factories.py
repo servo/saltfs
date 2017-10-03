@@ -274,3 +274,14 @@ doc = ServoFactory([
                        # important not to leak token
                        logEnviron=False),
 ])
+
+sync_wpt = ServoFactory([
+    # This is not dynamic because a) we need to pass the logEnviron kwarg
+    # and b) changes to the sync process are already encapsulated
+    # in the update_wpt_checkout.sh script; any further changes should go
+    # through the saltfs repo to avoid leaking the token.
+    steps.ShellCommand(command=["etc/ci/update_wpt_checkout.sh"],
+                       env=envs.sync_wpt,
+                       # important not to leak token
+                       logEnviron=False),
+])

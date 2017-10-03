@@ -10,3 +10,4 @@ buildbot:
     'homu-secret': 'TEST_BUILDBOT_HOMU_SECRET'
     's3-upload-access-key-id': 'TEST_BUILDBOT_S3_UPLOAD_ACCESS_KEY_ID'
     's3-upload-secret-access-key': 'TEST_BUILDBOT_S3_UPLOAD_SECRET_ACCESS_KEY'
+    'wpt-sync-token': 'TEST_BUILDBOT_WPT_SYNC_TOKEN'
