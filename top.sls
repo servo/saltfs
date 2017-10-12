@@ -44,5 +44,6 @@ base:
     - homu
     - intermittent-tracker
     - intermittent-failure-tracker
+    - upstream-wpt-webhook
     - nginx
     - salt.master
