@@ -19,9 +19,8 @@ end
 
 # Need Vagrant >= 1.8.0, in which the Vagrant Salt provisioner was overhauled
 # See https://github.com/servo/saltfs/pull/180
-# Vagrant 1.8.3+ breaks our usage of minion_id to pass additional args to Salt
-# See https://github.com/mitchellh/vagrant/pull/7207
-Vagrant.require_version('>= 1.8.0', "< 1.8.3")
+# Need Vagrant >=1.8.6 for `salt_call_args`
+Vagrant.require_version('>= 1.8.6')
 
 Vagrant.configure(2) do |config|
 
@@ -53,6 +52,7 @@ Vagrant.configure(2) do |config|
     config.vm.define node[:id] do |machine|
       machine.vm.box = node[:box]
       machine.vm.provider :virtualbox do |vbox|
+      machine.vm.hostname = node[:id]
         # Need extra memory for downloading large files (e.g. Android SDK)
         vbox.memory = 1024
         vbox.linked_clone = true
@@ -72,12 +72,7 @@ Vagrant.configure(2) do |config|
         salt.install_args = node[:os] # Pass OS type to bootstrap script
         salt.masterless = true
         salt.minion_config = File.join(dir, '.travis', 'minion')
-        # hack to provide additional options to salt-call
-        salt.minion_id = node[:id] + ' ' + ([
-            '--file-root=/vagrant',
-            '--pillar-root=/vagrant/.travis/test_pillars',
-            '--retcode-passthrough'
-        ].join(' '))
+        salt.salt_call_args='--file-root /vagrant/ --pillar-root /vagrant/.travis/test_pillars'
         salt.run_highstate = true
         salt.verbose = true
         salt.log_level = 'info'
