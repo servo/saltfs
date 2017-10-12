@@ -28,6 +28,7 @@ Vagrant.configure(2) do |config|
 
   dir = File.dirname(__FILE__)
   test_pillars_path = File.join(dir, '.travis', 'test_pillars')
+  test_wpt_path = File.join(dir, '.travis', 'test_web-platform-tests')
 
   YAML.load_file(File.join(dir, '.travis.yml'))['matrix']['include'].map do |node|
     node_config = case node['os']
@@ -63,6 +64,7 @@ Vagrant.configure(2) do |config|
         # testing out changes locally.
         machine.vm.synced_folder dir, '/tmp/salt-testing-root/saltfs'
         machine.vm.synced_folder test_pillars_path, '/srv/pillar'
+        machine.vm.synced_folder test_wpt_path, '/srv/web-platform-tests'
       end
       machine.vm.provision :salt do |salt|
         salt.bootstrap_script = File.join(dir, '.travis', 'install_salt.sh')

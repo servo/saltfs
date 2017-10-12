@@ -8,3 +8,4 @@ homu:
   'buildbot-http-pass': 'TEST_HOMU_BUILDBOT_HTTP_PASS'
   'travis-ci-token': 'TEST_HOMU_TRAVIS_CI_TOKEN'
   'web-secret': 'TEST_HOMU_WEB_SECRET'
+  'upstream-wpt-sync-token': 'TEST_UPSTREAM_WPT_SYNC_TOKEN'
