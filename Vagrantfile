@@ -17,11 +17,8 @@ def is_salt_master(id)
   !id.match(/servo-master\d+/).nil?
 end
 
-# Need Vagrant >= 1.8.0, in which the Vagrant Salt provisioner was overhauled
-# See https://github.com/servo/saltfs/pull/180
-# Vagrant 1.8.3+ breaks our usage of minion_id to pass additional args to Salt
-# See https://github.com/mitchellh/vagrant/pull/7207
-Vagrant.require_version('>= 1.8.0', "< 1.8.3")
+# Need Vagrant >= 2.0.0 for `salt_call_args`
+Vagrant.require_version('>= 2.0.0')
 
 Vagrant.configure(2) do |config|
 
@@ -73,11 +70,12 @@ Vagrant.configure(2) do |config|
         salt.masterless = true
         salt.minion_config = File.join(dir, '.travis', 'minion')
         # hack to provide additional options to salt-call
-        salt.minion_id = node[:id] + ' ' + ([
+        salt.minion_id = node[:id]
+        salt.salt_call_args = [
             '--file-root=/vagrant',
             '--pillar-root=/vagrant/.travis/test_pillars',
             '--retcode-passthrough'
-        ].join(' '))
+        ]
         salt.run_highstate = true
         salt.verbose = true
         salt.log_level = 'info'
