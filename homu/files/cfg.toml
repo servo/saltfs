@@ -34,6 +34,9 @@ secret = "{{ secrets['web-secret'] }}"
     "fontsan": {},
     "futf": {},
     "gaol": {},
+    "gecko-media": {
+        "extra_reviewers": [ "cpearce" ],
+    },
     "gleam": {},
     "glutin": {},
     "heapsize": {},
