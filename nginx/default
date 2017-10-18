@@ -16,5 +16,8 @@ server {
   location /intermittent-tracker/ {
     proxy_pass http://localhost:5000/;
   }
+  location /intermittent-failure-tracker/ {
+    proxy_pass http://localhost:5002/;
+  }
 }
 

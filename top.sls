@@ -43,5 +43,6 @@ base:
     - buildbot.master
     - homu
     - intermittent-tracker
+    - intermittent-failure-tracker
     - nginx
     - salt.master
