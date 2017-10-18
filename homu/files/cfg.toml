@@ -35,7 +35,7 @@ secret = "{{ secrets['web-secret'] }}"
     "futf": {},
     "gaol": {},
     "gecko-media": {
-        "extra_reviewers": [ "cpearce" ],
+        "extra_reviewers": [ "cpearce", "philn" ],
     },
     "gleam": {},
     "glutin": {},
