@@ -1,2 +1,4 @@
-.vagrant/
-__pycache__
+/.vagrant
+
+*.pyc
+__pycache__/
