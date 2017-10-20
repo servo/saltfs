@@ -84,7 +84,7 @@ secret = "{{ secrets['web-secret'] }}"
     },
     "unicode-script": {},
     "webrender": {
-        "extra_reviewers": [ "nical", "jrmuizel" ],
+        "extra_reviewers": [ "nical", "jrmuizel", "Gankro" ],
     },
     "webrender_traits": {},
 } %}
