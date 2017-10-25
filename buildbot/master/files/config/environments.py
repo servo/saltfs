@@ -1,3 +1,4 @@
+from buildbot.plugins import util
 from passwords import GITHUB_DOC_TOKEN, GITHUB_HOMEBREW_TOKEN
 from passwords import S3_UPLOAD_ACCESS_KEY_ID, S3_UPLOAD_SECRET_ACCESS_KEY
 
@@ -49,6 +50,7 @@ doc = Environment({
 
 build_common = Environment({
     'RUST_BACKTRACE': '1',
+    'BUILD_MACHINE': str(util.Property('slavename')),
 })
 
 build_windows_msvc = build_common + Environment({
