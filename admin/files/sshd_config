@@ -21,7 +21,8 @@ LogLevel VERBOSE
 # Additionally, only tools such as systemd and auditd record the process session id.
 # On other OSes, the user session id is not necessarily recorded at all kernel-side.
 # Using regular users in combination with /bin/su or /usr/bin/sudo ensure a clear audit track.
-PermitRootLogin No
+# FIXME take this away once all users have logged in and set their passwords
+PermitRootLogin Yes
 
 # Use kernel sandbox mechanisms where possible in unprivileged processes
 # Systrace on OpenBSD, Seccomp on Linux, seatbelt on MacOSX/Darwin, rlimit elsewhere.
