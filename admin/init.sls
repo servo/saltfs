@@ -61,12 +61,3 @@ wheel:
         - require:
             - user: {{ ssh_user }}
 {% endfor %}
-
-# FIXME This is just as bad as all sharing root login.
-/etc/sudoers:
-    file.append:
-        - text:
-            {% for ssh_user in admin.ssh_users %}
-            - {{ ssh_user }} ALL=(ALL:ALL) ALL
-            {% endfor %}
-
