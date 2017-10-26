@@ -90,7 +90,7 @@ buildbot-github-listener:
 
 remove-old-build-logs:
   cron.present:
-    - name: 'find {{ common.servo_home }}/buildbot/master/*/*.bz2 -mtime +5 -delete'
+    - name: 'find {{ common.servo_home }}/buildbot/master/*/* -mtime +5 -delete'
     - user: root
     - minute: 1
     - hour: 0
