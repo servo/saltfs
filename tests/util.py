@@ -22,10 +22,10 @@ EXCLUDE_DIRS = ['.git', '.vagrant']
 
 
 def project_path():
+    abspath = os.path.realpath(os.path.join(os.getcwd(), __file__))
     # One dirname for tests dir, another for project dir
-    project_dir = os.path.dirname(os.path.dirname(__file__))
-    common = os.path.commonpath([project_dir, os.getcwd()])
-    return project_dir.replace(common, '.', 1)  # Only replace once
+    project_dir = os.path.dirname(os.path.dirname(abspath))
+    return os.path.relpath(project_dir)
 
 
 def paths():

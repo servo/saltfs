@@ -5,6 +5,7 @@ base:
     - match: compound
     - admin
     - common
+    - python
     - salt.common
 
   'os:Ubuntu':
@@ -17,18 +18,24 @@ base:
     - servo-build-dependencies
     - servo-build-dependencies.android
     - servo-build-dependencies.arm
+    - servo-build-dependencies.ci
 
   'servo-(mac|macpro)\d+':
     - match: pcre
     - osx
     - buildbot.slave
     - servo-build-dependencies
+    - servo-build-dependencies.ci
 
   'servo-linux\d+':
     - match: pcre
     - buildbot.slave
     - servo-build-dependencies
+    - servo-build-dependencies.ci
     - xvfb
+
+  'servo-windows\d+':
+    - servo-build-dependencies.ci
 
   'servo-master\d+':
     - match: pcre
@@ -36,5 +43,6 @@ base:
     - buildbot.master
     - homu
     - intermittent-tracker
+    - intermittent-failure-tracker
     - nginx
     - salt.master

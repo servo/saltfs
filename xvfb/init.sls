@@ -7,8 +7,10 @@
 
 xvfb:
   pkg.installed: []
+  {% if grains.get('virtual_subtype', '') != 'Docker' %}
   service.running:
     - enable: True
     - watch:
       - pkg: xvfb
       - file: /etc/init/xvfb.conf
+  {% endif %}

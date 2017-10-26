@@ -3,14 +3,9 @@
 include:
   - python
 
-tracker-debugging-packages:
-  pip.installed:
-    - pkgs:
-      - github3.py == 1.0.0a4
-
-intermittent-tracker:
+intermittent-failure-tracker:
   virtualenv.managed:
-    - name: /home/servo/intermittent-tracker/_venv
+    - name: /home/servo/intermittent-failure-tracker/_venv
     - venv_bin: virtualenv-3.5
     - python: python3
     - system_site_packages: False
@@ -19,22 +14,22 @@ intermittent-tracker:
       - pip: virtualenv
   pip.installed:
     - pkgs:
-      - git+https://github.com/servo/intermittent-tracker@{{ tracker.rev }}
-    - bin_env: /home/servo/intermittent-tracker/_venv
+      - git+https://github.com/servo/intermittent-failure-tracker@{{ tracker.rev }}
+    - bin_env: /home/servo/intermittent-failure-tracker/_venv
     - require:
-      - virtualenv: intermittent-tracker
+      - virtualenv: intermittent-failure-tracker
   {% if grains.get('virtual_subtype', '') != 'Docker' %}
   service.running:
     - enable: True
-    - name: tracker
+    - name: failure-tracker
     - require:
-      - pip: intermittent-tracker
+      - pip: intermittent-failure-tracker
     - watch:
-      - file: /home/servo/intermittent-tracker/config.json
-      - file: /etc/init/tracker.conf
+      - file: /home/servo/intermittent-failure-tracker/config.json
+      - file: /etc/init/failure-tracker.conf
   {% endif %}
 
-/home/servo/intermittent-tracker/config.json:
+/home/servo/intermittent-failure-tracker/config.json:
   file.managed:
     - source: salt://{{ tpldir }}/files/config.json
     - template: jinja
@@ -42,12 +37,12 @@ intermittent-tracker:
     - group: servo
     - mode: 644
 
-/etc/init/tracker.conf:
+/etc/init/failure-tracker.conf:
   file.managed:
     - source: salt://{{ tpldir }}/files/tracker.conf
     - user: root
     - group: root
     - mode: 644
     - require:
-      - pip: intermittent-tracker
-      - file: /home/servo/intermittent-tracker/config.json
+      - pip: intermittent-failure-tracker
+      - file: /home/servo/intermittent-failure-tracker/config.json

@@ -7,6 +7,7 @@ buildbot-slave-dependencies:
   pip.installed:
     - pkgs:
       - buildbot-slave == 0.8.12
+      - twisted == 16.6.0 # NOTE: keep in sync with buildbot-master sls
     - require:
       - pkg: pip
 
@@ -24,6 +25,8 @@ buildbot-slave-dependencies:
     - template: jinja
     - context:
         common: {{ common }}
+    - require:
+      - user: servo
 
 {% if grains['kernel'] == 'Darwin' %}
 
@@ -47,13 +50,20 @@ buildbot-slave-dependencies:
     - template: jinja
     - context:
         common: {{ common }}
+    {% if grains.get('virtual_subtype', '') != 'Docker' %}
     - watch_in:
       - service: buildbot-slave
+    {% endif %}
 
 {% endif %}
 
+{% if grains.get('virtual_subtype', '') != 'Docker' %}
 buildbot-slave:
   service.running:
     - enable: True
+    - require:
+      - user: servo
     - watch:
+      - pip: buildbot-slave-dependencies
       - file: {{ common.servo_home }}/buildbot/slave
+{% endif %}

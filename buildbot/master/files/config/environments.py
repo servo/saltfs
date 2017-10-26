@@ -1,5 +1,4 @@
-import copy
-
+from buildbot.plugins import util
 from passwords import GITHUB_DOC_TOKEN, GITHUB_HOMEBREW_TOKEN
 from passwords import S3_UPLOAD_ACCESS_KEY_ID, S3_UPLOAD_SECRET_ACCESS_KEY
 
@@ -12,19 +11,29 @@ class Environment(dict):
 
     def __init__(self, *args, **kwargs):
         super(Environment, self).__init__(*args, **kwargs)
+        # Ensure keys and values are strings,
+        # which are immutable in Python,
+        # allowing usage of self.copy() instead of copy.deepcopy().
+        for k in self:
+            assert type(k) == str
+            assert type(self[k]) == str
+
+    def copy(self):
+        # Return an environment, not a plain dict
+        return Environment(self)
 
     def __add__(self, other):
         assert type(self) == type(other)
         combined = self.copy()
         combined.update(other)  # other takes precedence over self
-        return Environment(combined)
+        return combined
 
     def without(self, to_unset):
         """
         Return a new Environment that does not contain the environment
         variables specified in the list of strings to_unset.
         """
-        modified = copy.deepcopy(self)
+        modified = self.copy()
         assert type(to_unset) == list
         for env_var in to_unset:
             if env_var in modified:
@@ -41,6 +50,7 @@ doc = Environment({
 
 build_common = Environment({
     'RUST_BACKTRACE': '1',
+    'BUILD_MACHINE': str(util.Property('slavename')),
 })
 
 build_windows_msvc = build_common + Environment({
@@ -55,6 +65,7 @@ build_windows_msvc = build_common + Environment({
         r'C:\Program Files\Amazon\cfn-bootstrap',
         r'C:\Program Files\Git\cmd',
         r'C:\Program Files (x86)\WiX Toolset v3.10\bin',
+        r'C:\sccache',
     ]),
     'SERVO_CACHE_DIR': r'C:\Users\Administrator\.servo',
 })
@@ -79,6 +90,8 @@ build_linux = build_common + Environment({
 build_android = build_linux + Environment({
     'ANDROID_NDK': '{{ common.servo_home }}/android/ndk/current/',
     'ANDROID_SDK': '{{ common.servo_home }}/android/sdk/current/',
+    # TODO(aneeshusa): Template this value for e.g. macOS builds
+    'JAVA_HOME': '/usr/lib/jvm/java-8-openjdk-amd64',
     'PATH': ':'.join([
         '/usr/local/sbin',
         '/usr/local/bin',
@@ -101,8 +114,8 @@ build_arm = build_linux + Environment({
 # Use arm32 because it is the fastest cross builder.
 build_arm32 = build_arm.without(['SERVO_CACHE_DIR']) + Environment({
     'BUILD_TARGET': 'arm-unknown-linux-gnueabihf',
-    'CC': 'arm-linux-gnueabihf-gcc',
-    'CXX': 'arm-linux-gnueabihf-g++',
+    'CC_arm-unknown-linux-gnueabihf': 'arm-linux-gnueabihf-gcc',
+    'CXX_arm-unknown-linux-gnueabihf': 'arm-linux-gnueabihf-g++',
     'PATH': ':'.join([
         '{{ common.servo_home }}/bin',
         '/usr/local/sbin',
@@ -117,8 +130,8 @@ build_arm32 = build_arm.without(['SERVO_CACHE_DIR']) + Environment({
 
 build_arm64 = build_arm + Environment({
     'BUILD_TARGET': 'aarch64-unknown-linux-gnu',
-    'CC': 'aarch64-linux-gnu-gcc',
-    'CXX': 'aarch64-linux-gnu-g++',
+    'CC_aarch64-unknown-linux-gnu': 'aarch64-linux-gnu-gcc',
+    'CXX_aarch64-unknown-linux-gnu': 'aarch64-linux-gnu-g++',
     'PATH': ':'.join([
         '{{ common.servo_home }}/bin',
         '/usr/local/sbin',

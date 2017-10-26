@@ -1,5 +1,4 @@
 import collections
-import copy
 import re
 
 from buildbot.plugins import steps, util
@@ -57,7 +56,7 @@ class ServoFactory(util.BuildFactory):
         all_steps = [
             steps.Git(
                 repourl=SERVO_REPO,
-                mode="full", method="clean", retryFetch=True
+                mode="full", method="fresh", retryFetch=True
             ),
             CheckRevisionStep(),
         ] + build_steps
@@ -107,10 +106,20 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
                     str(cmd.rc)
                 ))
             else:
-                builder_steps = yaml.safe_load(cmd.stdout)
-                commands = builder_steps[self.builder_name]
+                config = yaml.safe_load(cmd.stdout)
+                builder_config = config[self.builder_name]
+
+                commands = None
+                env = self.environment
+                env += envs.Environment(config.get('env', {}))
+                if isinstance(builder_config, collections.Mapping):
+                    commands = builder_config['commands']
+                    env += envs.Environment(builder_config.get('env', {}))
+                else:
+                    commands = builder_config
+
                 dynamic_steps = [
-                    self.make_step(command) for command in commands
+                    self.make_step(command, env) for command in commands
                 ]
         except Exception as e:  # Bad step configuration, fail build
             # Capture the exception and re-raise with a friendly message
@@ -170,9 +179,9 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
         step_status = self.build.build_status.addStepWithName(step.name)
         step.setStepStatus(step_status)
 
-    def make_step(self, command):
+    def make_step(self, command, env):
         step_kwargs = {}
-        step_env = copy.deepcopy(self.environment)
+        step_env = env
 
         command = command.split(' ')
 
@@ -189,11 +198,12 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
         step_class = steps.ShellCommand
         args = iter(command)
         for arg in args:
-            # Change Step class to capture warnings as needed
-            # (steps.Compile and steps.Test catch warnings)
             if arg == './mach' or arg == 'mach.bat':
                 mach_arg = next(args)
                 step_desc = [mach_arg]
+
+                # Change Step class to capture warnings as needed
+                # (steps.Compile and steps.Test catch warnings)
                 if re.match('build(-.*)?', mach_arg):
                     step_class = steps.Compile
                 elif re.match('package', mach_arg):
@@ -201,31 +211,17 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
                 elif re.match('test-.*', mach_arg):
                     step_class = steps.Test
 
+                # Provide credentials where necessary
+                if re.match('upload-nightly', mach_arg):
+                    step_kwargs['logEnviron'] = False
+                    step_env += envs.upload_nightly
+
             # Capture any logfiles
             elif re.match('--log-.*', arg):
                 logfile = next(args)
                 if 'logfiles' not in step_kwargs:
                     step_kwargs['logfiles'] = {}
                 step_kwargs['logfiles'][logfile] = logfile
-
-            # Provide environment variables for s3cmd
-            elif (
-                arg == './etc/ci/upload_nightly.sh' or
-                arg == r'.\etc\ci\upload_nightly.sh'
-            ):
-                step_kwargs['logEnviron'] = False
-                step_env += envs.upload_nightly
-                if self.is_windows:
-                    # s3cmd on Windows GNU does not work in MINGW
-                    step_env['MSYSTEM'] = 'MSYS'
-                    step_env['PATH'] = ';'.join([
-                        r'C:\msys64\usr\bin',
-                        r'C:\Windows\system32',
-                        r'C:\Windows',
-                        r'C:\Windows\System32\Wbem',
-                        r'C:\Windows\System32\WindowsPowerShell\v1.0',
-                        r'C:\Program Files\Amazon\cfn-bootstrap',
-                    ])
 
             else:
                 step_desc += [arg]

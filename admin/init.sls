@@ -1,29 +1,24 @@
+{% from 'common/map.jinja' import root %}
 {% from tpldir ~ '/map.jinja' import admin %}
 
 admin-packages:
   pkg.installed:
     - pkgs:
       - tmux
-      {% if grains['os'] != 'MacOS' %}
       - mosh
+      {% if grains['os'] != 'MacOS' %}
       - screen # Installed by default on OS X
-      {% else %}
-      - mobile-shell
       {% endif %}
 
-{% if grains['os'] != 'MacOS' %}
+{% if grains['os'] != 'MacOS' and grains.get('virtual_subtype', '') != 'Docker' %}
 UTC:
     timezone.system
 {% endif %}
 
 /etc/hosts:
   file.managed:
-    - user: root
-    {% if grains['os'] == 'MacOS' %}
-    - group: wheel
-    {% elif grains['os'] == 'Ubuntu' %}
-    - group: root
-    {% endif %}
+    - user: {{ root.user }}
+    - group: {{ root.group }}
     - mode: 644
     - source: salt://{{ tpldir }}/files/hosts
 

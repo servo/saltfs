@@ -59,7 +59,7 @@ a Vagrantfile is included in the repo.
 Vagrant's Salt provisioner tends to make backwards-incompatible changes often,
 so only a few versions of Vagrant will work at any time;
 the Vagrantfile has information about which ones.
-Currently, version 1.8.1 is recommended;
+Currently, any version >= 2.0.0 should work;
 note that many OSs like Ubuntu may still have older versions like 1.7.x,
 so you may need to
 [download a different version](https://releases.hashicorp.com/vagrant/).
@@ -135,6 +135,12 @@ for some helpful hints.
 Once your PR has been approved and merged by Travis,
 it will be available on the master branch and Salt will automatically
 use that code for deploys.
+
+Highfive will automatically add the `S-needs-deploy` label to merged PRs.
+Before running a deploy, please check what's open for deploy:
+https://github.com/servo/saltfs/issues?utf8=%E2%9C%93&q=label%3AS-needs-deploy.
+This helps prevent surprises at deploy time.
+Make sure to remove these labels from the relevant PRs after deploying!
 
 Examples of highstates, which should be run as root from the Salt master:
 
@@ -265,6 +271,17 @@ $ sudo service salt-minion start
 See [the wiki](https://github.com/servo/servo/wiki/SaltStack-Administration)
 for information about setting up new macOS minions.
 
+#### Windows
+
+Installation is not yet scripted and must currently be done manually.
+
+1. Download [the Salt MSI](https://repo.saltstack.com/windows/Salt-Minion-2016.3.3-AMD64-Setup.exe),
+   currently using version 2016.3.3.
+2. Run the installer with a some options that
+   configure the minion and autostart the minion.
+   Make sure to provide the correct minion ID!
+   `Salt-Minion-2016.3.3-AMD64-Setup.exe /S /master=servo-master1.servo.org /minion-name=servo-windowsN`
+
 #### Enabling a new Salt minion
 
 On the master:
@@ -321,6 +338,23 @@ root@servo-master1$ salt-run jobs.lookup_jid <jid> --out=highstate
 ```
 
 See [the Salt docs](https://docs.saltstack.com/en/2016.3/ref/runners/all/salt.runners.jobs.html#module-salt.runners.jobs) for futher documentation.
+
+### Troubleshooting
+
+#### Refreshing the gitfs cache
+
+Salt by default should check for gitfs updates every 60 seconds,
+so highstates should always use up-to-date code from saltfs.
+However, sometimes the gitfs cache can get stuck out of date.
+To manually force a refresh, run on servo-master1:
+
+```console
+root@servo-master1$ salt-run fileserver.update
+```
+
+You can check to see if the gitfs cache is out of date by trying a
+`test=True` highstate, and inspecting the list of states that is executed
+to see if it matches what is currently in git master.
 
 ### Upgrading Salt
 

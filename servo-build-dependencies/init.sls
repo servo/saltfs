@@ -16,6 +16,7 @@ servo-dependencies:
       - openssl
       - pkg-config
       - yasm
+      - zlib
       {% elif grains['os'] == 'Ubuntu' %}
       - autoconf2.13
       - curl
@@ -33,6 +34,8 @@ servo-dependencies:
       - libosmesa6-dev
       - libssl-dev
       - llvm-3.5-dev
+      - libclang-3.5-dev
+      - clang-3.5
       - xorg-dev
       - xpra
       - xserver-xorg-input-void
@@ -67,16 +70,15 @@ servo-dependencies:
   pip.installed:
     - pkgs:
       - ghp-import
-      - s3cmd
     - require:
       - pkg: pip
       - pip: virtualenv
   {% endif %}
 
-{% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'trusty' %}
+{% if grains['os'] == 'Ubuntu' %}
 multiverse:
   pkgrepo.managed:
-    - name: 'deb http://archive.ubuntu.com/ubuntu trusty multiverse'
+    - name: 'deb http://archive.ubuntu.com/ubuntu {{ grains['oscodename'] }} multiverse'
     - file: /etc/apt/sources.list.d/multiverse.list
     - require_in:
       - pkg: ttf-mscorefonts-installer

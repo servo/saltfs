@@ -13,17 +13,20 @@ def run():
     # We need to invoke a new process to read the Buildbot master config
     # because Buildbot is written in python2.
     scriptpath = os.path.join(os.path.dirname(__file__), 'get_buildbot_cfg.py')
-    ret = subprocess.run(
+    proc = subprocess.Popen(
         ['/usr/bin/python2', scriptpath],
         stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE
+        stderr=subprocess.PIPE,
+        universal_newlines=True
     )
-    if ret.returncode != 0:
+    stdout, stderr = proc.communicate()
+
+    if proc.returncode != 0:
         return Failure(
-            'Unable to retrieve buildbot builders:', ret.stderr
+            'Unable to retrieve buildbot builders:', stderr
         )
 
-    buildbot_builders = json.loads(ret.stdout.decode('utf-8'))['builders']
+    buildbot_builders = json.loads(stdout)['builders']
 
     failure_msg = ''
     for builder_set in ['builders', 'try_builders']:

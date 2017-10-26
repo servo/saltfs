@@ -4,15 +4,15 @@ from tests.util import Failure, Success
 
 
 def run():
-    ret = subprocess.run(
+    proc = subprocess.Popen(
         ['date'],
         stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE
+        stderr=subprocess.PIPE,
+        universal_newlines=True
     )
+    stdout, _ = proc.communicate()
 
-    stdout = ret.stdout.decode('utf-8')
-
-    if ret.returncode == 0 and 'UTC' in stdout:
-        return Success('Date is in UTC')
-    else:
+    if proc.returncode != 0 or 'UTC' not in stdout:
         return Failure('Date is not in UTC: ', stdout)
+
+    return Success('Date is in UTC')
