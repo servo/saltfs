@@ -59,7 +59,7 @@ a Vagrantfile is included in the repo.
 Vagrant's Salt provisioner tends to make backwards-incompatible changes often,
 so only a few versions of Vagrant will work at any time;
 the Vagrantfile has information about which ones.
-Currently, version 1.8.1 is recommended;
+Currently, any version >= 2.0.0 should work;
 note that many OSs like Ubuntu may still have older versions like 1.7.x,
 so you may need to
 [download a different version](https://releases.hashicorp.com/vagrant/).
