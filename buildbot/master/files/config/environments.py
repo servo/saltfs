@@ -1,3 +1,4 @@
+from buildbot.plugins import util
 from passwords import GITHUB_DOC_TOKEN, GITHUB_HOMEBREW_TOKEN
 from passwords import S3_UPLOAD_ACCESS_KEY_ID, S3_UPLOAD_SECRET_ACCESS_KEY
 
@@ -49,6 +50,7 @@ doc = Environment({
 
 build_common = Environment({
     'RUST_BACKTRACE': '1',
+    'BUILD_MACHINE': str(util.Property('slavename')),
 })
 
 build_windows_msvc = build_common + Environment({
@@ -112,8 +114,8 @@ build_arm = build_linux + Environment({
 # Use arm32 because it is the fastest cross builder.
 build_arm32 = build_arm.without(['SERVO_CACHE_DIR']) + Environment({
     'BUILD_TARGET': 'arm-unknown-linux-gnueabihf',
-    'CC': 'arm-linux-gnueabihf-gcc',
-    'CXX': 'arm-linux-gnueabihf-g++',
+    'CC_arm-unknown-linux-gnueabihf': 'arm-linux-gnueabihf-gcc',
+    'CXX_arm-unknown-linux-gnueabihf': 'arm-linux-gnueabihf-g++',
     'PATH': ':'.join([
         '{{ common.servo_home }}/bin',
         '/usr/local/sbin',
@@ -128,8 +130,8 @@ build_arm32 = build_arm.without(['SERVO_CACHE_DIR']) + Environment({
 
 build_arm64 = build_arm + Environment({
     'BUILD_TARGET': 'aarch64-unknown-linux-gnu',
-    'CC': 'aarch64-linux-gnu-gcc',
-    'CXX': 'aarch64-linux-gnu-g++',
+    'CC_aarch64-unknown-linux-gnu': 'aarch64-linux-gnu-gcc',
+    'CXX_aarch64-unknown-linux-gnu': 'aarch64-linux-gnu-g++',
     'PATH': ':'.join([
         '{{ common.servo_home }}/bin',
         '/usr/local/sbin',
