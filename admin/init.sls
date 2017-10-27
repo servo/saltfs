@@ -22,37 +22,57 @@ UTC:
     - mode: 644
     - source: salt://{{ tpldir }}/files/hosts
 
-/etc/sshd_config:
-  file.managed:
-    - user: root
-    {% if grains['os'] == 'MacOS' %}
-    - group: wheel
-    {% elif grains['os'] == 'Ubuntu' %}
-    - group: root
-    {% endif %}
-    - mode: 644
-    - source: salt://{{ tpldir }}/files/sshd_config
+sshkeys-dir:
+  file.directory:
+    - name: {{ root.home }}/.ssh
+    - user: {{ root.user }}
+    - group: {{ root.group }}
+    - mode: 700
 
-wheel:
+sshkeys:
+  file.managed:
+    - name: {{ root.home }}/.ssh/authorized_keys
+    - user: {{ root.user }}
+    - group: {{ root.group }}
+    - mode: 600
+    - contents:
+      {% for ssh_user in admin.ssh_users %}
+      - {% include tpldir ~ '/files/ssh/' ~ ssh_user ~ '.pub' %}
+      {% endfor %}
+    - require:
+      - file: sshkeys-dir
+
+# Admin state is never run on Windows. We care about accounts primarily on
+# buildmaster, which is always a Linux.
+{% if grains['os'] != 'MacOS' %}
+sshusers:
     group.present
 
+/etc/sshd_config:
+    file.managed:
+        - user: root
+        - group: root
+        - mode: 644
+        - source: salt://{{ tlpdir }}/files/sshd_config
 {% for ssh_user in admin.ssh_users %}
 {{ ssh_user }}:
-    group.present:
-        - members:
-            - {{ ssh_user }}
+    group.present: []
     user.present:
         - empty_password: True
         - gid_from_name: True
         - groups:
-            - wheel
+            - sshusers
         - require:
-            - group:
-                - wheel
-                - {{ ssh_user }}
-    ssh_auth.present:
+            - group: sshusers
+            - group: {{ ssh_user }}
+    file.managed:
+        - name: /home/{{ ssh_user }}/.ssh/authorized_keys
         - user: {{ ssh_user }}
-        - source: salt://{{ tpldir }}/files/ssh/{{ ssh_user }}.pub
+        - group: {{ ssh_user }}
+        - mode: 600
+        - contents:
+            - {% include tpldir ~ '/files/ssh/' ~ ssh_user ~ '.pub' %}
         - require:
             - user: {{ ssh_user }}
 {% endfor %}
+{% endif %}
