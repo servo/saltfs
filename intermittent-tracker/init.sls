@@ -21,6 +21,7 @@ intermittent-tracker:
     - pkgs:
       - git+https://github.com/servo/intermittent-tracker@{{ tracker.rev }}
     - bin_env: /home/servo/intermittent-tracker/_venv
+    - upgrade: True
     - require:
       - virtualenv: intermittent-tracker
   {% if grains.get('virtual_subtype', '') != 'Docker' %}
