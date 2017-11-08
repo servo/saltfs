@@ -33,6 +33,7 @@ intermittent-tracker:
     - watch:
       - file: /home/servo/intermittent-tracker/config.json
       - file: /etc/init/tracker.conf
+      - pip: intermittent-tracker
   {% endif %}
 
 /home/servo/intermittent-tracker/config.json:
