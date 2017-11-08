@@ -53,6 +53,7 @@ homu:
     - watch:
       - file: /home/servo/homu/cfg.toml
       - file: /etc/init/homu.conf
+      - pip: homu
   {% endif %}
 
 {{ salt['file.dirname'](homu.db) }}:

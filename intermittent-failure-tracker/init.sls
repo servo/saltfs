@@ -32,6 +32,7 @@ intermittent-failure-tracker:
     - watch:
       - file: /home/servo/intermittent-failure-tracker/config.json
       - file: /etc/init/failure-tracker.conf
+      - pip: intermittent-failure-tracker
   {% endif %}
 
 /home/servo/intermittent-failure-tracker/config.json:
