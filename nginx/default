@@ -16,6 +16,9 @@ server {
   location /intermittent-tracker/ {
     proxy_pass http://localhost:5000/;
   }
+  location /upstream-wpt-webhook/ {
+    proxy_pass http://localhost:5001/;
+  }
   location /intermittent-failure-tracker/ {
     proxy_pass http://localhost:5002/;
   }
