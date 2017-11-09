@@ -6,6 +6,8 @@ servo-dependencies:
     {% if grains['os'] == 'Ubuntu' %}
     - require:
       - pkgrepo: cmake-ppa
+      - pkgrepo: gcc-ppa
+      - pkgrepo: ffmpeg-ppa
     {% endif %}
     - pkgs:
       - ccache
@@ -29,7 +31,10 @@ servo-dependencies:
       - cmake
       {% endif %}
       - curl
+      - dbus-x11
       - freeglut3-dev
+      - gcc-5
+      - g++-5
       - gperf
       - libavcodec-dev
       - libavformat-dev
@@ -41,7 +46,10 @@ servo-dependencies:
       - libglib2.0-dev
       - libgles2-mesa-dev
       - libosmesa6-dev
+      - libpulse-dev
       - libssl-dev
+      - libswscale-dev
+      - libswresample-dev
       - llvm-3.5-dev
       - libclang-3.5-dev
       - clang-3.5
@@ -93,6 +101,14 @@ cmake-ppa:
     - ppa: george-edison55/cmake-3.x
     - require:
       - pkg: python-software-properties
+
+gcc-ppa:
+  pkgrepo.managed:
+    - ppa: ubuntu-toolchain-r/test
+
+ffmpeg-ppa:
+  pkgrepo.managed:
+    - ppa: jonathonf/ffmpeg-3
 
 multiverse:
   pkgrepo.managed:
