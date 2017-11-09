@@ -3,13 +3,17 @@ include:
 
 servo-dependencies:
   pkg.installed:
+    {% if grains['os'] == 'Ubuntu' %}
+    - require:
+      - pkgrepo: cmake-ppa
+    {% endif %}
     - pkgs:
       - ccache
-      - cmake
       - git
       {% if grains['os'] == 'MacOS' %}
       - autoconf@2.13
       - automake
+      - cmake
       - ffmpeg
       - freetype
       - llvm
@@ -19,6 +23,11 @@ servo-dependencies:
       - zlib
       {% elif grains['os'] == 'Ubuntu' %}
       - autoconf2.13
+      {% if grains['osrelease'] == '14.04' %}
+      - cmake: 3.2.2-2~ubuntu14.04.1~ppa1
+      {% else %}
+      - cmake
+      {% endif %}
       - curl
       - freeglut3-dev
       - gperf
@@ -43,6 +52,7 @@ servo-dependencies:
       {% elif grains['os'] in ['CentOS', 'Fedora'] %}
       - bzip2-devel
       - cabextract
+      - cmake
       - curl
       - dbus-devel
       - expat-devel
@@ -76,6 +86,14 @@ servo-dependencies:
   {% endif %}
 
 {% if grains['os'] == 'Ubuntu' %}
+cmake-ppa:
+  pkg.installed:
+    - name: python-software-properties
+  pkgrepo.managed:
+    - ppa: george-edison55/cmake-3.x
+    - require:
+      - pkg: python-software-properties
+
 multiverse:
   pkgrepo.managed:
     - name: 'deb http://archive.ubuntu.com/ubuntu {{ grains['oscodename'] }} multiverse'
