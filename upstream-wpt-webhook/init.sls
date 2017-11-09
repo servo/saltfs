@@ -40,6 +40,7 @@ upstream-wpt-webhook:
     - watch:
       - file: /home/wpt-sync/upstream-wpt-sync-webhook/config.json
       - file: /etc/init/wpt-webhook.conf
+      - pip: upstream-wpt-webhook
   {% endif %}
 
 web-platform-tests:
