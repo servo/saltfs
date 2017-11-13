@@ -30,6 +30,9 @@ upstream-wpt-webhook:
     - upgrade: True
     - require:
       - virtualenv: upstream-wpt-webhook
+  pkg.installed:
+    - pkgs:
+      - patchutils
   {% if grains.get('virtual_subtype', '') != 'Docker' %}
   service.running:
     - enable: True
@@ -37,6 +40,7 @@ upstream-wpt-webhook:
     - require:
       - pip: upstream-wpt-webhook
       - git: web-platform-tests
+      - pkg: upstream-wpt-webhook
     - watch:
       - file: /home/wpt-sync/upstream-wpt-sync-webhook/config.json
       - file: /etc/init/wpt-webhook.conf
@@ -47,6 +51,8 @@ web-platform-tests:
   git.latest:
     - user: wpt-sync
     - branch: master
+    - rev: master
+    - force_fetch: True
     - depth: 1
     - target: /home/wpt-sync/upstream-wpt-sync-webhook/web-platform-tests
     - name: https://github.com/w3c/web-platform-tests.git
