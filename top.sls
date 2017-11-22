@@ -31,6 +31,7 @@ base:
     - match: pcre
     - buildbot.slave
     - servo-build-dependencies
+    - servo-build-dependencies.aws
     - servo-build-dependencies.ci
     - xvfb
 
