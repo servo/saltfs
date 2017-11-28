@@ -1,7 +1,17 @@
+{% from 'common/map.jinja' import common %}
+
 include:
   - python
 
 servo-dependencies:
+  cmd.run:
+    - name: |
+        curl https://sh.rustup.rs -sSf |
+        sh -s -- --default-toolchain none -y
+    - runas: servo
+    - creates:
+      - {{ common.servo_home }}/.rustup
+      - {{ common.servo_home }}/.cargo
   pkg.installed:
     {% if grains['os'] == 'Ubuntu' %}
     - require:
