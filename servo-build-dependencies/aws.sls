@@ -8,3 +8,7 @@ aws-cli:
     - require:
       - pkg: pip
       - pip: virtualenv
+
+unzip:
+  pkg.installed:
+    - name: unzip
