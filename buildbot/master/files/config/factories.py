@@ -216,6 +216,12 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
                     step_kwargs['logEnviron'] = False
                     step_env += envs.upload_nightly
 
+            # Provide credentials where necessary
+            if arg == 'aws':
+                step_kwargs['logEnviron'] = False
+                step_env += envs.upload_nightly
+                step_desc += [arg]
+
             # Capture any logfiles
             elif re.match('--log-.*', arg):
                 logfile = next(args)
