@@ -217,7 +217,7 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
                     step_env += envs.upload_nightly
 
             # Provide credentials where necessary
-            if arg == 'aws':
+            elif arg == 'aws':
                 step_kwargs['logEnviron'] = False
                 step_env += envs.upload_nightly
                 step_desc += [arg]
