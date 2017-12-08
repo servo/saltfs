@@ -1,4 +1,10 @@
 {%
+  set rustup = {
+    'version': 'rustup 1.7.0 (813f7b7a8 2017-10-30)'
+  }
+%}
+
+{%
   set sccache = salt['grains.filter_by']({
       'defaults': {
         'destination': '/usr/local/bin/sccache',

@@ -1,5 +1,5 @@
-{% from 'common/map.jinja' import root %}
-{% from tpldir ~ '/ci-map.jinja' import sccache %}
+{% from 'common/map.jinja' import root, common %}
+{% from tpldir ~ '/ci-map.jinja' import sccache, rustup %}
 
 sccache:
   file.managed:
@@ -12,3 +12,21 @@ sccache:
     - mode: 755
     {% endif %}
     - makedirs: True
+
+rustup-update:
+  cmd.run:
+    - name: rustup self update
+    - runas: servo
+    - unless: rustup --version | grep '{{ rustup.version }}'
+    - require:
+      - rustup-install
+
+rustup-install:
+  cmd.run:
+    - name: |
+        curl https://sh.rustup.rs -sSf |
+        sh -s -- --default-toolchain none -y
+    - runas: servo
+    - creates:
+      - {{ common.servo_home }}/.rustup
+      - {{ common.servo_home }}/.cargo
