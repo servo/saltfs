@@ -59,7 +59,7 @@ matrix:
         - SALT_NODE_ID=servo-linux1
         - SALT_FROM_SCRATCH=true
           # ubuntu:trusty
-          # NOTE: Keep in sync with Dockerfile
+          # NOTE: Keep in sync with Dockerfile, .taskcluster.yml
         - SALT_DOCKER_IMAGE=ubuntu@sha256:084989eb923bd86dbf7e706d464cf3587274a826b484f75b69468c19f8ae354c
       os: linux
       sudo: required

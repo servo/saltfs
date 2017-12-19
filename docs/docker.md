@@ -19,6 +19,9 @@ e.g. adding a new dependency.
 
 ## Usage
 
+Docker images are automatically built by Taskcluster on pushes to master,
+as well as when invoked by Homu by pushes to auto and try.
+
 To build manually, run from the saltfs root:
 ```sh
 $ sudo docker build .
