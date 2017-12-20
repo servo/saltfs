@@ -1,0 +1,31 @@
+version: '2'
+
+# This file adds a static network configuration to compose.
+# That is because we need to know the host's ip, and it can change
+# every time you run compose. (see GH: docker/docker#1143).
+#
+# We also add the hostname to the services that use it, and setup the
+# observatory-cli container
+
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 172.101.0.0/16
+          ip_range: 172.101.0.0/24
+          gateway: 172.101.0.1
+
+
+services:
+  scanner:
+    extra_hosts:
+      build.servo.org.test: 172.101.0.1
+  website:
+    extra_hosts:
+      build.servo.org.test: 172.101.0.1
+  observatory-cli:
+    image: jarondl/observatory-cli
+    links:
+      - website
+    environment:
+      HTTPOBS_API_URL: http://website:57001/api/v1/
