@@ -11,7 +11,7 @@ servo-dependencies:
     - runas: servo
     - creates:
       - {{ common.servo_home }}/.rustup
-      - {{ common.servo_home }}/.cargo
+      - {{ common.servo_home }}/.cargo/bin/rustup
   pkg.installed:
     {% if grains['os'] == 'Ubuntu' %}
     - require:
