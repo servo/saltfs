@@ -15,6 +15,15 @@ nginx:
     - group: root
     - mode: 644
 
+/etc/nginx/conf.d/https_headers.conf:
+  file.managed:
+    - source: salt://nginx/https_headers.conf
+    - user: root
+    - group: root
+    - mode: 644
+    - watch_in:
+      - service: nginx
+
 /etc/nginx/sites-enabled/default:
   file.symlink:
     - target: /etc/nginx/sites-available/default
