@@ -79,7 +79,7 @@ build_mac = build_common + Environment({
     'OPENSSL_INCLUDE_DIR': '/usr/local/opt/openssl/include',
     'OPENSSL_LIB_DIR': '/usr/local/opt/openssl/lib',
     'PATH': ':'.join([
-        '{{ common.servo_home }}/.cargo/bin',
+        '/Users/servo/.cargo/bin',
         '/usr/local/bin',
         '/usr/bin',
         '/bin',
