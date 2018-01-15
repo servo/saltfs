@@ -255,5 +255,8 @@ secret = "{{ secrets['gh-webhook-secret'] }}"
 [repo.dwrote-rs.status.appveyor]
 context = 'continuous-integration/appveyor/branch'
 
+[repo.webrender.status.taskcluster]
+context = 'Taskcluster (push)'
+
 [db]
 file = "{{ db }}"
