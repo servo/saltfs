@@ -23,6 +23,9 @@ upstream-wpt-webhook:
     - require:
       - pkg: python3
       - pip: virtualenv
+  pkg.installed:
+    - pkgs:
+      - patchutils
   pip.installed:
     - pkgs:
       - git+https://github.com/servo-automation/upstream-wpt-sync-webhook@{{ webhook.rev }}
