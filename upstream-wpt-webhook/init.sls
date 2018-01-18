@@ -36,20 +36,11 @@ upstream-wpt-webhook:
     - name: wpt-webhook
     - require:
       - pip: upstream-wpt-webhook
-      - git: web-platform-tests
     - watch:
       - file: /home/wpt-sync/upstream-wpt-sync-webhook/config.json
       - file: /etc/init/wpt-webhook.conf
       - pip: upstream-wpt-webhook
   {% endif %}
-
-web-platform-tests:
-  git.latest:
-    - user: wpt-sync
-    - branch: master
-    - depth: 1
-    - target: /home/wpt-sync/upstream-wpt-sync-webhook/web-platform-tests
-    - name: https://github.com/w3c/web-platform-tests.git
 
 /home/wpt-sync/upstream-wpt-sync-webhook/config.json:
   file.managed:
