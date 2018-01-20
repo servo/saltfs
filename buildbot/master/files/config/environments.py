@@ -1,3 +1,4 @@
+from buildbot.plugins import util
 from passwords import GITHUB_DOC_TOKEN, GITHUB_HOMEBREW_TOKEN
 from passwords import S3_UPLOAD_ACCESS_KEY_ID, S3_UPLOAD_SECRET_ACCESS_KEY
 
@@ -49,6 +50,8 @@ doc = Environment({
 
 build_common = Environment({
     'RUST_BACKTRACE': '1',
+    'BUILD_MACHINE': str(util.Property('slavename')),
+    'SCCACHE_IDLE_TIMEOUT': '0',
 })
 
 build_windows_msvc = build_common + Environment({
@@ -63,6 +66,8 @@ build_windows_msvc = build_common + Environment({
         r'C:\Program Files\Amazon\cfn-bootstrap',
         r'C:\Program Files\Git\cmd',
         r'C:\Program Files (x86)\WiX Toolset v3.10\bin',
+        r'C:\sccache',
+        r'C:\Users\Administrator\.cargo\bin',
     ]),
     'SERVO_CACHE_DIR': r'C:\Users\Administrator\.servo',
 })
@@ -73,6 +78,14 @@ build_mac = build_common + Environment({
     'SERVO_CACHE_DIR': '/Users/servo/.servo',
     'OPENSSL_INCLUDE_DIR': '/usr/local/opt/openssl/include',
     'OPENSSL_LIB_DIR': '/usr/local/opt/openssl/lib',
+    'PATH': ':'.join([
+        '/Users/servo/.cargo/bin',
+        '/usr/local/bin',
+        '/usr/bin',
+        '/bin',
+        '/usr/sbin',
+        '/sbin',
+    ]),
 })
 
 
@@ -82,6 +95,16 @@ build_linux = build_common + Environment({
     'DISPLAY': ':0',
     'SERVO_CACHE_DIR': '{{ common.servo_home }}/.servo',
     'SHELL': '/bin/bash',
+    'PATH': ':'.join([
+        '{{ common.servo_home }}/.cargo/bin',
+        '{{ common.servo_home }}/bin',
+        '/usr/local/sbin',
+        '/usr/local/bin',
+        '/usr/bin',
+        '/usr/sbin',
+        '/sbin',
+        '/bin',
+    ]),
 })
 
 build_android = build_linux + Environment({
@@ -90,6 +113,7 @@ build_android = build_linux + Environment({
     # TODO(aneeshusa): Template this value for e.g. macOS builds
     'JAVA_HOME': '/usr/lib/jvm/java-8-openjdk-amd64',
     'PATH': ':'.join([
+        '{{ common.servo_home }}/.cargo/bin',
         '/usr/local/sbin',
         '/usr/local/bin',
         '/usr/bin',
@@ -111,33 +135,15 @@ build_arm = build_linux + Environment({
 # Use arm32 because it is the fastest cross builder.
 build_arm32 = build_arm.without(['SERVO_CACHE_DIR']) + Environment({
     'BUILD_TARGET': 'arm-unknown-linux-gnueabihf',
-    'CC': 'arm-linux-gnueabihf-gcc',
-    'CXX': 'arm-linux-gnueabihf-g++',
-    'PATH': ':'.join([
-        '{{ common.servo_home }}/bin',
-        '/usr/local/sbin',
-        '/usr/local/bin',
-        '/usr/bin',
-        '/usr/sbin',
-        '/sbin',
-        '/bin',
-    ]),
+    'CC_arm-unknown-linux-gnueabihf': 'arm-linux-gnueabihf-gcc',
+    'CXX_arm-unknown-linux-gnueabihf': 'arm-linux-gnueabihf-g++',
     'PKG_CONFIG_PATH': '/usr/lib/arm-linux-gnueabihf/pkgconfig',
 })
 
 build_arm64 = build_arm + Environment({
     'BUILD_TARGET': 'aarch64-unknown-linux-gnu',
-    'CC': 'aarch64-linux-gnu-gcc',
-    'CXX': 'aarch64-linux-gnu-g++',
-    'PATH': ':'.join([
-        '{{ common.servo_home }}/bin',
-        '/usr/local/sbin',
-        '/usr/local/bin',
-        '/usr/bin',
-        '/usr/sbin',
-        '/sbin',
-        '/bin',
-    ]),
+    'CC_aarch64-unknown-linux-gnu': 'aarch64-linux-gnu-gcc',
+    'CXX_aarch64-unknown-linux-gnu': 'aarch64-linux-gnu-g++',
     'PKG_CONFIG_PATH': '/usr/lib/aarch64-linux-gnu/pkgconfig',
     'SERVO_RUSTC_WITH_GOLD': 'False',
 })

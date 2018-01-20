@@ -1,0 +1,24 @@
+{%
+  set sccache = salt['grains.filter_by']({
+      'defaults': {
+        'destination': '/usr/local/bin/sccache',
+        'version': '2018-01-09',
+      },
+      'MacOS': {
+        'platform': 'x86_64-apple-darwin',
+        'sha384': 'cd8dac86c250e8b5c59e231dc413ead48e97e7c9630d9a30ae1f9b16d738ac8004ebbdfe04351df71ced582f4022393d'
+      },
+      'Ubuntu': {
+        'platform': 'x86_64-unknown-linux-musl',
+        'sha384': '6f005785e1178b30b3629dd1c69539a1df608216309ec9cded093e5447e9787cb462f36c7025a7564f3c4c93e0e4a8a2'
+      },
+      'Windows': {
+        'destination': 'C:\sccache\sccache.exe',
+        'platform': 'x86_64-pc-windows-msvc',
+        'sha384': '2f25ee8e1e21bced7af8c16c4c94831d188729588eeef72f494b0af620a04d25635d6f939842db6a8fddb3beb27460e1'
+      }
+    },
+    base='defaults',
+    grain='os',
+  )
+%}

@@ -11,7 +11,7 @@ app_client_id = "{{ secrets['app-client-id'] }}"
 app_client_secret = "{{ secrets['app-client-secret'] }}"
 
 # Priority values above max_priority will be refused.
-max_priority = 9001
+max_priority = 9002
 
 [web]
 host = "0.0.0.0"
@@ -34,6 +34,9 @@ secret = "{{ secrets['web-secret'] }}"
     "fontsan": {},
     "futf": {},
     "gaol": {},
+    "gecko-media": {
+        "extra_reviewers": [ "cpearce", "philn" ],
+    },
     "gleam": {},
     "glutin": {},
     "heapsize": {},
@@ -51,7 +54,8 @@ secret = "{{ secrets['web-secret'] }}"
     "osmesa-src": {},
     "rust-azure": {},
     "rust-bindgen": {
-        "extra_reviewers": [ "fitzgen" ],
+        "extra_reviewers": [ "fitzgen", "pepyakin" ],
+        "owner": "rust-lang-nursery",
     },
     "rust-cssparser": {},
     "rust-fnv": {},
@@ -80,7 +84,7 @@ secret = "{{ secrets['web-secret'] }}"
     },
     "unicode-script": {},
     "webrender": {
-        "extra_reviewers": [ "nical", "jrmuizel" ],
+        "extra_reviewers": [ "nical", "jrmuizel", "Gankro" ],
     },
     "webrender_traits": {},
 } %}
@@ -125,6 +129,7 @@ secret = "{{ secrets['web-secret'] }}"
     "aethanyc",
     "birtles",
     "BorisChiou",
+    "bradwerth",
     "chenpighead",
     "ferjm",
     "hiikezoe",
@@ -136,7 +141,9 @@ secret = "{{ secrets['web-secret'] }}"
     "askalski",
     "chandler",
     "cynicaldevil",
+    "CYBAI",
     "danlrobertson",
+    "dsandeephegde",
     "dzbarsky",
     "froydnj",
     "Gankro",
@@ -145,9 +152,12 @@ secret = "{{ secrets['web-secret'] }}"
     "izgzhen",
     "jyc",
     "magni-",
+    "neeharanshu",
+    "panup21091993",
     "paulrouget",
     "pyfisch",
     "stshine",
+    "tigercosmos",
     "tschneidereit",
     "vvuk",
     "Yoric",
@@ -239,6 +249,9 @@ context = 'continuous-integration/appveyor/branch'
 context = 'continuous-integration/appveyor/branch'
 
 [repo.rust-mozjs.status.appveyor]
+context = 'continuous-integration/appveyor/branch'
+
+[repo.webrender.status.appveyor]
 context = 'continuous-integration/appveyor/branch'
 
 # dwrote only has appveyor
