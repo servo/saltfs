@@ -1,6 +1,7 @@
 {% from 'common/map.jinja' import common %}
 
 include:
+  - common
   - python
 
 buildbot-slave-dependencies:
