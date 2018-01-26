@@ -4,5 +4,6 @@
     "wpt_path": "./web-platform-tests",
     "upstream_org": "w3c",
     "servo_org": "servo",
-    "port": 5001
+    "port": 5001,
+    "api": "https://api.github.com/"
 }
