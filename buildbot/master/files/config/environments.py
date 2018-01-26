@@ -1,6 +1,7 @@
 from buildbot.plugins import util
 from passwords import GITHUB_DOC_TOKEN, GITHUB_HOMEBREW_TOKEN
 from passwords import S3_UPLOAD_ACCESS_KEY_ID, S3_UPLOAD_SECRET_ACCESS_KEY
+from passwords import WPT_SYNC_PR_CREATION_TOKEN
 
 
 class Environment(dict):
@@ -152,4 +153,8 @@ upload_nightly = Environment({
     'AWS_ACCESS_KEY_ID': S3_UPLOAD_ACCESS_KEY_ID,
     'AWS_SECRET_ACCESS_KEY': S3_UPLOAD_SECRET_ACCESS_KEY,
     'GITHUB_HOMEBREW_TOKEN': GITHUB_HOMEBREW_TOKEN,
+})
+
+sync_wpt = Environment({
+    'WPT_SYNC_TOKEN': WPT_SYNC_PR_CREATION_TOKEN,
 })
