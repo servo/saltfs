@@ -49,9 +49,7 @@ doc = Environment({
 })
 
 build_common = Environment({
-    'RUST_BACKTRACE': '1',
     'BUILD_MACHINE': str(util.Property('slavename')),
-    'SCCACHE_IDLE_TIMEOUT': '0',
 })
 
 build_windows_msvc = build_common + Environment({
