@@ -38,6 +38,7 @@ deploy-{{ common.servo_home }}/buildbot/master:
     - context:
         common: {{ common }}
         buildbot_credentials: {{ pillar['buildbot']['credentials'] }}
+        wpt_sync_credentials: {{ pillar['wpt-sync'] }}
     - require:
       - user: servo
 

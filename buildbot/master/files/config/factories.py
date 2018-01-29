@@ -222,6 +222,15 @@ class StepsYAMLParsingStep(buildstep.ShellMixin, buildstep.BuildStep):
                 step_env += envs.upload_nightly
                 step_desc += [arg]
 
+            elif arg == './etc/ci/update-wpt-checkout':
+                update_arg = next(args)
+                step_desc = [update_arg]
+
+                # Provide credentials where necessary
+                if update_arg == 'open-pr':
+                    step_kwargs['logEnviron'] = False
+                    step_env += envs.sync_wpt
+
             # Capture any logfiles
             elif re.match('--log-.*', arg):
                 logfile = next(args)
