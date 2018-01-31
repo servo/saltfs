@@ -41,6 +41,7 @@ class Environment(dict):
                 modified.pop(env_var)
         return modified
 
+
 build_linux_common = Environment({
     'CARGO_HOME': '{{ common.servo_home }}/.cargo',
     'PATH': ':'.join([
@@ -55,7 +56,7 @@ build_linux_common = Environment({
     ]),
     'SHELL': '/bin/bash',
 })
-    
+
 doc = build_linux_common + Environment({
     'SERVO_CACHE_DIR': '{{ common.servo_home }}/.servo',
     'TOKEN': GITHUB_DOC_TOKEN,
