@@ -42,10 +42,23 @@ class Environment(dict):
         return modified
 
 
-doc = Environment({
+build_linux_common = Environment({
     'CARGO_HOME': '{{ common.servo_home }}/.cargo',
-    'SERVO_CACHE_DIR': '{{ common.servo_home }}/.servo',
+    'PATH': ':'.join([
+        '{{ common.servo_home }}/.cargo/bin',
+        '{{ common.servo_home }}/bin',
+        '/usr/local/sbin',
+        '/usr/local/bin',
+        '/usr/bin',
+        '/usr/sbin',
+        '/sbin',
+        '/bin',
+    ]),
     'SHELL': '/bin/bash',
+})
+
+doc = build_linux_common + Environment({
+    'SERVO_CACHE_DIR': '{{ common.servo_home }}/.servo',
     'TOKEN': GITHUB_DOC_TOKEN,
 })
 
@@ -88,22 +101,10 @@ build_mac = build_common + Environment({
 })
 
 
-build_linux = build_common + Environment({
-    'CARGO_HOME': '{{ common.servo_home }}/.cargo',
+build_linux = build_common + build_linux_common + Environment({
     'CCACHE': '/usr/bin/ccache',
     'DISPLAY': ':0',
     'SERVO_CACHE_DIR': '{{ common.servo_home }}/.servo',
-    'SHELL': '/bin/bash',
-    'PATH': ':'.join([
-        '{{ common.servo_home }}/.cargo/bin',
-        '{{ common.servo_home }}/bin',
-        '/usr/local/sbin',
-        '/usr/local/bin',
-        '/usr/bin',
-        '/usr/sbin',
-        '/sbin',
-        '/bin',
-    ]),
 })
 
 build_android = build_linux + Environment({
