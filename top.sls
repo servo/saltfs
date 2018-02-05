@@ -48,4 +48,5 @@ base:
     - intermittent-failure-tracker
     - upstream-wpt-webhook
     - nginx
+    - saltbot
     - salt.master
