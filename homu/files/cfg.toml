@@ -23,9 +23,15 @@ secret = "{{ secrets['web-secret'] }}"
     "app_units": {},
     "cgl-rs": {},
     "cocoa-rs": {},
-    "core-foundation-rs": {},
-    "core-graphics-rs": {},
-    "core-text-rs": {},
+    "core-foundation-rs": {
+        "extra_reviewers": [ "jrmuizel" ]
+    },
+    "core-graphics-rs": {
+        "extra_reviewers": [ "jrmuizel" ]
+    },
+    "core-text-rs": {
+        "extra_reviewers": [ "jrmuizel" ]
+    },
     "devices": {},
     "download.servo.org": {},
     "euclid": {
