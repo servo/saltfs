@@ -19,3 +19,6 @@ so it is important to follow a few guidelines:
 
 - There is only one of these folders, so if it's already in use,
   wait until it is empty again before testing your change.
+  You can look at the CLONER file inside the clone to see who
+  created the clone and at what time they did so.
+  Note that the timestamp is in UTC.
