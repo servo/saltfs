@@ -43,7 +43,6 @@ class Environment(dict):
 
 
 build_linux_common = Environment({
-    'CARGO_HOME': '{{ common.servo_home }}/.cargo',
     'PATH': ':'.join([
         '{{ common.servo_home }}/.cargo/bin',
         '{{ common.servo_home }}/bin',
@@ -67,7 +66,6 @@ build_common = Environment({
 })
 
 build_windows_msvc = build_common + Environment({
-    'CARGO_HOME': r'C:\Users\Administrator\.cargo',
     'PATH': ';'.join([
         r'C:\Python27',
         r'C:\Python27\Scripts',
@@ -85,7 +83,6 @@ build_windows_msvc = build_common + Environment({
 })
 
 build_mac = build_common + Environment({
-    'CARGO_HOME': '/Users/servo/.cargo',
     'CCACHE': '/usr/local/bin/ccache',
     'SERVO_CACHE_DIR': '/Users/servo/.servo',
     'OPENSSL_INCLUDE_DIR': '/usr/local/opt/openssl/include',
