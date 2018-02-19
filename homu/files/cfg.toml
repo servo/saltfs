@@ -147,8 +147,8 @@ secret = "{{ secrets['web-secret'] }}"
 {% set try = [
     "askalski",
     "chandler",
-    "cynicaldevil",
     "CYBAI",
+    "cynicaldevil",
     "danlrobertson",
     "dsandeephegde",
     "dzbarsky",
