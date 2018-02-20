@@ -22,7 +22,7 @@ install_salt() {
 
         # Ensure curl is installed (is not present by default in Docker)
         ${SUDO} apt-get -y update
-        ${SUDO} apt-get -y install --no-install-recommends ca-certificates curl
+        ${SUDO} apt-get -y install --no-install-recommends ca-certificates curl apt-transport-https
 
         curl "https://repo.saltstack.com/apt/ubuntu/${os_release}/amd64/archive/2016.3.3/SALTSTACK-GPG-KEY.pub" | \
             ${SUDO} apt-key add -
