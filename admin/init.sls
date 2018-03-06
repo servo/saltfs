@@ -1,5 +1,5 @@
 {% from 'common/map.jinja' import root %}
-{% from tpldir ~ '/map.jinja' import admin %}
+{% from tpldir ~ '/map.jinja' import admin, hostkey %}
 
 admin-packages:
   pkg.installed:
@@ -31,6 +31,13 @@ sshd_config:
     - mode: 644
     - template: jinja
     - source: salt://{{ tpldir }}/files/sshd_config
+    - defaults:
+        hostkey: "{{ hostkey }}"
+  cmd.run:
+    - name: ssh-keygen -A
+    - runas: {{ root.user }}
+    - creates:
+      - /etc/ssh/{{ hostkey }}
 
 sshkeys-dir:
   file.directory:

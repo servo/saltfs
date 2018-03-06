@@ -1,4 +1,4 @@
-HostKey /etc/ssh/ssh_host_ed25519_key
+HostKey /etc/ssh/{{ hostkey }}
 KexAlgorithms curve25519-sha256@libssh.org
 Ciphers chacha20-poly1305@openssh.com
 
