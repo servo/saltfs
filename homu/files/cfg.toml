@@ -69,7 +69,9 @@ secret = "{{ secrets['web-secret'] }}"
     "rust-fontconfig": {},
     "rust-freetype": {},
     "rust-glx": {},
-    "rust-harfbuzz": {},
+    "rust-harfbuzz": {
+        "extra_reviewers": [ "waywardmonkeys" ],
+    },
     "rust-layers": {},
     "rust-mozjs": {},
     "rust-png": {},
