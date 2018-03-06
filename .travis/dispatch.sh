@@ -69,6 +69,10 @@ setup_test_venv() {
     fi
     travis_fold_start 'test_venv.install_python3' \
         'Setting up Python 3 virtualenv for testing'
+    if [[ "${SALT_NODE_ID}" =~ servo-mac.* ]]; then
+        brew update
+        brew upgrade python
+    fi
     # Use the system Python 3 to make it easy to run tests on fresh hosts
     # Make sure dependencies are installed (like `python3-venv` on Debian derivatives)
     salt_call --retcode-passthrough state.sls python
@@ -139,7 +143,7 @@ else
 
     # Salt doesn't support timezone.system on OSX
     # See https://github.com/saltstack/salt/issues/31345
-    if [[ ! "${SALT_NODE_ID}" =~ servo-mac* ]]; then
+    if [[ ! "${SALT_NODE_ID}" =~ servo-mac.* ]]; then
         ./test.py sls.common
     fi
 fi
