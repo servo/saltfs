@@ -27,6 +27,11 @@ matrix:
       os: osx
       osx_image: xcode8
     - env:
+        - SALT_NODE_ID=servo-mac2
+        - SALT_FROM_SCRATCH=true
+      os: osx
+      osx_image: xcode6.4
+    - env:
         - SALT_NODE_ID=servo-linux1
         - SALT_FROM_SCRATCH=true
       os: linux
@@ -50,6 +55,11 @@ matrix:
         - SALT_FROM_SCRATCH=false
       os: osx
       osx_image: xcode8
+    - env:
+        - SALT_NODE_ID=servo-mac2
+        - SALT_FROM_SCRATCH=false
+      os: osx
+      osx_image: xcode6.4
     - env:
         - SALT_NODE_ID=servo-linux1
         - SALT_FROM_SCRATCH=false
