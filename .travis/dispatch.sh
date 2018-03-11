@@ -72,6 +72,7 @@ setup_test_venv() {
     if [[ "${SALT_NODE_ID}" =~ servo-mac.* ]]; then
         brew update
         brew upgrade python
+        brew unlink python
     fi
     # Use the system Python 3 to make it easy to run tests on fresh hosts
     # Make sure dependencies are installed (like `python3-venv` on Debian derivatives)
