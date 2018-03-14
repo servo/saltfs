@@ -1,10 +1,18 @@
 server {
   listen 80 default_server;
   server_name build.servo.org;
+  return 307 https://$host$request_uri;
+}
+
+server {
   ssl_certificate /etc/letsencrypt/live/build.servo.org/fullchain.pem;
   ssl_certificate_key /etc/letsencrypt/live/build.servo.org/privkey.pem;
 
   listen 443 ssl;
+  server_name build.servo.org;
+
+  # add Strict-Transport-Security to prevent man in the middle attacks
+  add_header Strict-Transport-Security "max-age=31536000" always;
 
   location / {
     proxy_pass http://localhost:8010/;
