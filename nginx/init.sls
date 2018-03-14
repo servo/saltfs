@@ -19,3 +19,20 @@ nginx:
   file.symlink:
     - target: /etc/nginx/sites-available/default
 
+certbot:
+  pkgrepo.managed:
+    - ppa: certbot/certbot
+  pkg.installed:
+    - pkgs:
+      - certbot
+      - python-certbot-nginx
+
+certbot renew:
+  cron.present:
+    - identifier: build-cert-renew
+    - user: root
+    - minute: 0
+    - hour: 0
+    - daymonth: 1
+    - require:
+      - pkg: certbot
