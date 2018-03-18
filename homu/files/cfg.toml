@@ -109,9 +109,12 @@ secret = "{{ secrets['web-secret'] }}"
     "webrender": {
         "extra_reviewers": [ "nical", "jrmuizel", "Gankro" ],
         "taskcluster": True,
+        "travis": False,
         "webrender": True,
     },
-    "webrender_traits": {},
+    "webrender_traits": {
+        "travis": False,
+    },
 } %}
 
 {% set reviewers = [
