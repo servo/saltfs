@@ -92,10 +92,6 @@ secret = "{{ secrets['web-secret'] }}"
         "extra_reviewers": [ "behnam" ],
     },
     "unicode-script": {},
-    "webrender": {
-        "extra_reviewers": [ "nical", "jrmuizel", "Gankro" ],
-    },
-    "webrender_traits": {},
 } %}
 
 {% set reviewers = [
@@ -109,10 +105,12 @@ secret = "{{ secrets['web-secret'] }}"
     "edunham",
     "emilio",
     "frewsxcv",
+    "Gankro",
     "glennw",
     "heycam",
     "jdm",
     "jgraham",
+    "jrmuizel",
     "KiChjang",
     "kmcallister",
     "kvark",
@@ -123,6 +121,7 @@ secret = "{{ secrets['web-secret'] }}"
     "michaelwu",
     "mrobinson",
     "Ms2ger",
+    "nical",
     "notriddle",
     "nox",
     "paulrouget",
