@@ -29,15 +29,24 @@ certbot:
       - certbot
       - python-certbot-nginx
 
-certbot renew:
+/root/renew.sh:
+  file.managed:
+    - source: salt://nginx/renew.sh
+    - template: jinja
+    - user: root
+    - group: root
+    - mode: 644
+
+bash /root/renew.sh:
   cron.present:
     - identifier: build-cert-renew
     - user: root
-    - minute: 0
-    - hour: 0
-    - daymonth: 1
+    - minute: 40
+    - hour: 2
+    - dayweek: 1
     - require:
       - pkg: certbot
+      - file: /root/renew.sh
 
 create-cert:
   cmd.run:
