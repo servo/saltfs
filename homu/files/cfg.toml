@@ -18,7 +18,7 @@ host = "0.0.0.0"
 port = 54856
 secret = "{{ secrets['web-secret'] }}"
 
-{% set travis_repos = {
+{% set repos = {
     "angle": {},
     "app_units": {},
     "cgl-rs": {},
@@ -34,6 +34,10 @@ secret = "{{ secrets['web-secret'] }}"
     },
     "devices": {},
     "download.servo.org": {},
+    "dwrote-rs": {
+        "travis": False,
+        "appveyor": True,
+    },
     "euclid": {
         "extra_reviewers": [ "nical" ],
     },
@@ -52,12 +56,17 @@ secret = "{{ secrets['web-secret'] }}"
     "io-surface-rs": {},
     "ipc-channel": {
         "extra_reviewers": [ "antrik" ],
+        "appveyor": True,
     },
     "libexpat": {},
     "libfontconfig": {},
     "libfreetype2": {},
-    "mozangle": {},
-    "mozjs": {},
+    "mozangle": {
+        "appveyor": True,
+    },
+    "mozjs": {
+        "appveyor": True,
+    },
     "osmesa-src": {},
     "rust-azure": {},
     "rust-bindgen": {
@@ -73,7 +82,9 @@ secret = "{{ secrets['web-secret'] }}"
         "extra_reviewers": [ "waywardmonkeys" ],
     },
     "rust-layers": {},
-    "rust-mozjs": {},
+    "rust-mozjs": {
+        "appveyor": True,
+    },
     "rust-png": {},
     "rust-quicksort": {},
     "rust-selectors": {},
@@ -83,6 +94,9 @@ secret = "{{ secrets['web-secret'] }}"
         "extra_reviewers": [ "Hoverbear" ],
     },
     "rust-websocket": {},
+    "servo": {
+        "travis": False,
+    },
     "saltfs": {},
     "servo-starters": {},
     "skia": {},
@@ -94,8 +108,13 @@ secret = "{{ secrets['web-secret'] }}"
     "unicode-script": {},
     "webrender": {
         "extra_reviewers": [ "nical", "jrmuizel", "Gankro" ],
+        "taskcluster": True,
+        "appveyor": True,
+        "travis": False,
     },
-    "webrender_traits": {},
+    "webrender_traits": {
+        "travis": False,
+    },
 } %}
 
 {% set reviewers = [
@@ -175,15 +194,6 @@ secret = "{{ secrets['web-secret'] }}"
     "Yoric",
 ] %}
 
-[repo.servo]
-owner = "servo"
-name = "servo"
-reviewers = {{ reviewers + operators }}
-try_users = {{ try }}
-
-[repo.servo.github]
-secret = "{{ secrets['gh-webhook-secret'] }}"
-
 [repo.servo.buildbot]
 url = "http://build.servo.org"
 secret = "{{ secrets["buildbot-secret"] }}"
@@ -228,7 +238,7 @@ password = "{{ secrets["buildbot-http-pass"] }}"
 
 # Standard per-repo configs (generated)
 
-{% for name, repo in travis_repos.items() %}
+{% for name, repo in repos.items() %}
 
 [repo."{{ name }}"]
 owner = "{{ repo.get("owner", "servo") }}"
@@ -239,8 +249,20 @@ try_users = {{ try }}
 [repo."{{ name }}".github]
 secret = "{{ secrets['gh-webhook-secret'] }}"
 
+{% if repo.get('travis', True) %}
 [repo."{{ name }}".status.travis]
 context = 'continuous-integration/travis-ci/push'
+{% endif %}
+
+{% if repo.get('appveyor', False) %}
+[repo."{{ name }}".status.appveyor]
+context = 'continuous-integration/appveyor/branch'
+{% endif %}
+
+{% if repo.get('taskcluster', False) %}
+[repo."{{ name }}".status.taskcluster]
+context = 'Taskcluster (push)'
+{% endif %}
 
 {% endfor %}
 
@@ -251,40 +273,6 @@ master = "servo"
 
 [repo.rust-websocket.branch]
 master = "servo"
-
-# Additional AppVeyor testing for relevant repos
-
-[repo.ipc-channel.status.appveyor]
-context = 'continuous-integration/appveyor/branch'
-
-[repo.mozangle.status.appveyor]
-context = 'continuous-integration/appveyor/branch'
-
-[repo.mozjs.status.appveyor]
-context = 'continuous-integration/appveyor/branch'
-
-[repo.rust-mozjs.status.appveyor]
-context = 'continuous-integration/appveyor/branch'
-
-[repo.webrender.status.appveyor]
-context = 'continuous-integration/appveyor/branch'
-
-# dwrote only has appveyor
-
-[repo.dwrote-rs]
-owner = "servo"
-name = "dwrote-rs"
-reviewers = {{ reviewers + operators }}
-try_users = {{ try }}
-
-[repo.dwrote-rs.github]
-secret = "{{ secrets['gh-webhook-secret'] }}"
-
-[repo.dwrote-rs.status.appveyor]
-context = 'continuous-integration/appveyor/branch'
-
-[repo.webrender.status.taskcluster]
-context = 'Taskcluster (push)'
 
 [db]
 file = "{{ db }}"
