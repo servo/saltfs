@@ -9,6 +9,7 @@ buildbot-slave-dependencies:
     - pkgs:
       - buildbot-slave == 0.8.12
       - twisted == 16.6.0 # NOTE: keep in sync with buildbot-master sls
+    - ignore_installed: True
     - require:
       - pkg: pip
 
