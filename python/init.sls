@@ -55,5 +55,6 @@ virtualenv:
   pip.installed:
     - pkgs:
       - virtualenv == 14.0.6
+    - ignore_installed: True
     - require:
       - pkg: pip
