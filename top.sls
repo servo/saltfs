@@ -49,3 +49,8 @@ base:
     - upstream-wpt-webhook
     - nginx
     - salt.master
+
+  'servo-gecko-try':
+    - common
+    - git
+    - servo-gecko-try

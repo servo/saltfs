@@ -1,0 +1,9 @@
+{
+    "servo-clone": "{{ servo-clone }}",
+    "gecko-clones": {
+        "mozilla-central": "{{ m-c-clone }}",
+        "autoland": "{{ autoland-clone }}"
+    },
+    "host": "0.0.0.0",
+    "port": 6000
+}

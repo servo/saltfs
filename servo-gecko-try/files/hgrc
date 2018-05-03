@@ -1,0 +1,7 @@
+[extensions]
+mq =
+push-to-try = ~/.mozbuild/version-control-tools/hgext/push-to-try
+
+[ui]
+username = Bors <whatever@whatever.com>
+ssh = ssh -l 'borsusername@bors.com' -i '/home/servo/.ssh/id_rsa.pub'
