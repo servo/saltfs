@@ -129,6 +129,7 @@ secret = "{{ secrets['web-secret'] }}"
     "emilio",
     "frewsxcv",
     "glennw",
+    "gw3583",
     "heycam",
     "jdm",
     "jgraham",
