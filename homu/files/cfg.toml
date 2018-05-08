@@ -68,6 +68,7 @@ secret = "{{ secrets['web-secret'] }}"
         "appveyor": True,
     },
     "osmesa-src": {},
+    "plane-split": {},
     "rust-azure": {},
     "rust-bindgen": {
         "extra_reviewers": [ "fitzgen", "pepyakin" ],
