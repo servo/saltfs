@@ -101,7 +101,9 @@ servo-dependencies:
     - require:
       - pkg: pip
       - pip: virtualenv
+    {% if grains['os'] == 'MacOS' %}
     - ignore_installed: True
+    {% endif %}
   {% endif %}
 
 {% if grains['os'] == 'Ubuntu' %}
