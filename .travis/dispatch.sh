@@ -95,6 +95,11 @@ if (( EUID != 0 )); then
     SUDO="sudo"
 fi
 
+# Accommodate homebrew changes to python 2/3 formulas.
+if [[ "${SALT_NODE_ID}" =~ servo-mac.* ]]; then
+    brew update
+    brew upgrade python
+fi
 
 if [[ "${SALT_NODE_ID}" == "test" ]]; then
     # Run test suite separately for parallelism
@@ -139,7 +144,7 @@ else
 
     # Salt doesn't support timezone.system on OSX
     # See https://github.com/saltstack/salt/issues/31345
-    if [[ ! "${SALT_NODE_ID}" =~ servo-mac* ]]; then
+    if [[ ! "${SALT_NODE_ID}" =~ servo-mac.* ]]; then
         ./test.py sls.common
     fi
 fi

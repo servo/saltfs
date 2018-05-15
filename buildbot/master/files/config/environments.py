@@ -1,6 +1,7 @@
 from buildbot.plugins import util
 from passwords import GITHUB_DOC_TOKEN, GITHUB_HOMEBREW_TOKEN
 from passwords import S3_UPLOAD_ACCESS_KEY_ID, S3_UPLOAD_SECRET_ACCESS_KEY
+from passwords import WPT_SYNC_PR_CREATION_TOKEN
 
 
 class Environment(dict):
@@ -41,20 +42,30 @@ class Environment(dict):
         return modified
 
 
-doc = Environment({
-    'CARGO_HOME': '{{ common.servo_home }}/.cargo',
-    'SERVO_CACHE_DIR': '{{ common.servo_home }}/.servo',
+build_linux_common = Environment({
+    'PATH': ':'.join([
+        '{{ common.servo_home }}/.cargo/bin',
+        '{{ common.servo_home }}/bin',
+        '/usr/local/sbin',
+        '/usr/local/bin',
+        '/usr/bin',
+        '/usr/sbin',
+        '/sbin',
+        '/bin',
+    ]),
     'SHELL': '/bin/bash',
+})
+
+doc = build_linux_common + Environment({
+    'SERVO_CACHE_DIR': '{{ common.servo_home }}/.servo',
     'TOKEN': GITHUB_DOC_TOKEN,
 })
 
 build_common = Environment({
-    'RUST_BACKTRACE': '1',
     'BUILD_MACHINE': str(util.Property('slavename')),
 })
 
 build_windows_msvc = build_common + Environment({
-    'CARGO_HOME': r'C:\Users\Administrator\.cargo',
     'PATH': ';'.join([
         r'C:\Python27',
         r'C:\Python27\Scripts',
@@ -72,30 +83,25 @@ build_windows_msvc = build_common + Environment({
 })
 
 build_mac = build_common + Environment({
-    'CARGO_HOME': '/Users/servo/.cargo',
     'CCACHE': '/usr/local/bin/ccache',
     'SERVO_CACHE_DIR': '/Users/servo/.servo',
     'OPENSSL_INCLUDE_DIR': '/usr/local/opt/openssl/include',
     'OPENSSL_LIB_DIR': '/usr/local/opt/openssl/lib',
+    'PATH': ':'.join([
+        '/Users/servo/.cargo/bin',
+        '/usr/local/bin',
+        '/usr/bin',
+        '/bin',
+        '/usr/sbin',
+        '/sbin',
+    ]),
 })
 
 
-build_linux = build_common + Environment({
-    'CARGO_HOME': '{{ common.servo_home }}/.cargo',
+build_linux = build_common + build_linux_common + Environment({
     'CCACHE': '/usr/bin/ccache',
     'DISPLAY': ':0',
     'SERVO_CACHE_DIR': '{{ common.servo_home }}/.servo',
-    'SHELL': '/bin/bash',
-    'PATH': ':'.join([
-        '{{ common.servo_home }}/.cargo/bin',
-        '{{ common.servo_home }}/bin',
-        '/usr/local/sbin',
-        '/usr/local/bin',
-        '/usr/bin',
-        '/usr/sbin',
-        '/sbin',
-        '/bin',
-    ]),
 })
 
 build_android = build_linux + Environment({
@@ -143,4 +149,8 @@ upload_nightly = Environment({
     'AWS_ACCESS_KEY_ID': S3_UPLOAD_ACCESS_KEY_ID,
     'AWS_SECRET_ACCESS_KEY': S3_UPLOAD_SECRET_ACCESS_KEY,
     'GITHUB_HOMEBREW_TOKEN': GITHUB_HOMEBREW_TOKEN,
+})
+
+sync_wpt = Environment({
+    'WPT_SYNC_TOKEN': WPT_SYNC_PR_CREATION_TOKEN,
 })

@@ -1,6 +1,7 @@
 {% from 'common/map.jinja' import common %}
 
 include:
+  - common
   - python
 
 buildbot-slave-dependencies:
@@ -8,6 +9,9 @@ buildbot-slave-dependencies:
     - pkgs:
       - buildbot-slave == 0.8.12
       - twisted == 16.6.0 # NOTE: keep in sync with buildbot-master sls
+    {% if grains['os'] == 'MacOS' %}
+    - ignore_installed: True
+    {% endif %}
     - require:
       - pkg: pip
 

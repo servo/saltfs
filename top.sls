@@ -36,6 +36,7 @@ base:
     - xvfb
 
   'servo-windows\d+':
+    - match: pcre
     - servo-build-dependencies.ci
 
   'servo-master\d+':
