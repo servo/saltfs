@@ -1,7 +1,9 @@
-# Ubuntu Xenial
-FROM ubuntu@sha256:a0ee7647e24c8494f1cf6b94f1a3cd127f423268293c25d924fbe18fd82db5a4
+# ubuntu:trusty
+# NOTE: Keep in sync with .travis.yml
+FROM ubuntu@sha256:084989eb923bd86dbf7e706d464cf3587274a826b484f75b69468c19f8ae354c
 
 ARG SALT_ROOT=/tmp/salt-bootstrap
+ARG SALT_NODE_ID=servo-linux1
 
 COPY ./ "${SALT_ROOT}"
 
@@ -16,7 +18,6 @@ RUN : \
         --id="${SALT_NODE_ID}" \
         --config-dir="${SALT_ROOT}/.travis" \
         --file-root="${SALT_ROOT}" \
-        --log-level=warning \
         --retcode-passthrough \
         --force-color \
         state.apply common,servo-build-dependencies \
