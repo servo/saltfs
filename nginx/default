@@ -1,7 +1,10 @@
 server {
   listen 80 default_server;
   server_name build.servo.org;
+  ssl_certificate /etc/letsencrypt/live/build.servo.org/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/build.servo.org/privkey.pem;
 
+  listen 443 ssl;
 
   location / {
     proxy_pass http://localhost:8010/;
