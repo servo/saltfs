@@ -60,9 +60,9 @@ servo-dependencies:
       - libssl-dev
       - libswscale-dev
       - libswresample-dev
-      - llvm-3.5-dev
-      - libclang-3.5-dev
-      - clang-3.5
+      - llvm-4.0-dev
+      - libclang-4.0-dev
+      - clang-4.0
       - xorg-dev
       - xpra
       - xserver-xorg-input-void
