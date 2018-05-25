@@ -18,6 +18,7 @@ servo-dependencies:
       - pkgrepo: cmake-ppa
       - pkgrepo: gcc-ppa
       - pkgrepo: ffmpeg-ppa
+      - pkgrepo: llvm-deb
     {% endif %}
     - pkgs:
       - ccache
@@ -122,6 +123,11 @@ gcc-ppa:
 ffmpeg-ppa:
   pkgrepo.managed:
     - ppa: jonathonf/ffmpeg-3
+
+llvm-deb:
+  pkgrepo.managed:
+    - name: 'deb http://apt.llvm.org/{{ grains['oscodename'] }}/ llvm-toolchain-{{ grains['oscodename'] }}-4.0 main'
+    - key_url: https://apt.llvm.org/llvm-snapshot.gpg.key
 
 multiverse:
   pkgrepo.managed:
