@@ -256,7 +256,7 @@ see the [instructions below](#enabling-a-new-salt-minion).
 Install the Salt minion:
 
 ```console
-$ curl https://raw.githubusercontent.com/servo/saltfs/master/.travis/install_salt.sh | sudo sh -s linux
+$ curl https://raw.githubusercontent.com/servo/saltfs/master/.travis/install_salt.sh | sudo bash -s linux
 ```
 
 Configure and start the Salt minion:
