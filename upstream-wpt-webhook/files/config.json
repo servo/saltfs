@@ -1,0 +1,10 @@
+{
+    "token": "{{ pillar["wpt-sync"]["upstream-wpt-sync-token"] }}",
+    "username": "servo-wpt-sync",
+    "wpt_path": "./web-platform-tests",
+    "servo_path": "./servo",
+    "upstream_org": "jdm",
+    "servo_org": "servo",
+    "port": 5001,
+    "api": "https://api.github.com/"
+}

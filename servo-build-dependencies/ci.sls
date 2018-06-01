@@ -4,7 +4,7 @@
 sccache:
   file.managed:
     - name: {{ sccache.destination }}
-    - source: https://s3.amazonaws.com/rust-lang-ci/rust-ci-mirror/{{ sccache.version }}-sccache-{{ sccache.platform }}
+    - source: https://servo-deps.s3.amazonaws.com/sccache/{{ sccache.version }}-sccache-{{ sccache.platform }}
     - source_hash: sha384={{ sccache.sha384 }}
     - user: {{ root.user }}
     {% if grains['os'] != 'Windows' %}

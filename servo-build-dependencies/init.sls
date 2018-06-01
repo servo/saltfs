@@ -1,15 +1,32 @@
+{% from 'common/map.jinja' import common %}
+
 include:
   - python
 
 servo-dependencies:
+  cmd.run:
+    - name: |
+        curl https://sh.rustup.rs -sSf |
+        sh -s -- --default-toolchain none -y
+    - runas: servo
+    - creates:
+      - {{ common.servo_home }}/.rustup
+      - {{ common.servo_home }}/.cargo/bin/rustup
   pkg.installed:
+    {% if grains['os'] == 'Ubuntu' %}
+    - require:
+      - pkgrepo: cmake-ppa
+      - pkgrepo: gcc-ppa
+      - pkgrepo: ffmpeg-ppa
+      - pkgrepo: llvm-deb
+    {% endif %}
     - pkgs:
       - ccache
-      - cmake
       - git
       {% if grains['os'] == 'MacOS' %}
       - autoconf@2.13
       - automake
+      - cmake
       - ffmpeg
       - freetype
       - llvm
@@ -19,8 +36,16 @@ servo-dependencies:
       - zlib
       {% elif grains['os'] == 'Ubuntu' %}
       - autoconf2.13
+      {% if grains['osrelease'] == '14.04' %}
+      - cmake: 3.2.2-2~ubuntu14.04.1~ppa1
+      {% else %}
+      - cmake
+      {% endif %}
       - curl
+      - dbus-x11
       - freeglut3-dev
+      - gcc-5
+      - g++-5
       - gperf
       - libavcodec-dev
       - libavformat-dev
@@ -32,10 +57,13 @@ servo-dependencies:
       - libglib2.0-dev
       - libgles2-mesa-dev
       - libosmesa6-dev
+      - libpulse-dev
       - libssl-dev
-      - llvm-3.5-dev
-      - libclang-3.5-dev
-      - clang-3.5
+      - libswscale-dev
+      - libswresample-dev
+      - llvm-4.0-dev
+      - libclang-4.0-dev
+      - clang-4.0
       - xorg-dev
       - xpra
       - xserver-xorg-input-void
@@ -43,6 +71,7 @@ servo-dependencies:
       {% elif grains['os'] in ['CentOS', 'Fedora'] %}
       - bzip2-devel
       - cabextract
+      - cmake
       - curl
       - dbus-devel
       - expat-devel
@@ -73,9 +102,33 @@ servo-dependencies:
     - require:
       - pkg: pip
       - pip: virtualenv
+    {% if grains['os'] == 'MacOS' %}
+    - ignore_installed: True
+    {% endif %}
   {% endif %}
 
 {% if grains['os'] == 'Ubuntu' %}
+cmake-ppa:
+  pkg.installed:
+    - name: python-software-properties
+  pkgrepo.managed:
+    - ppa: george-edison55/cmake-3.x
+    - require:
+      - pkg: python-software-properties
+
+gcc-ppa:
+  pkgrepo.managed:
+    - ppa: ubuntu-toolchain-r/test
+
+ffmpeg-ppa:
+  pkgrepo.managed:
+    - ppa: jonathonf/ffmpeg-3
+
+llvm-deb:
+  pkgrepo.managed:
+    - name: 'deb http://apt.llvm.org/{{ grains['oscodename'] }}/ llvm-toolchain-{{ grains['oscodename'] }}-4.0 main'
+    - key_url: https://apt.llvm.org/llvm-snapshot.gpg.key
+
 multiverse:
   pkgrepo.managed:
     - name: 'deb http://archive.ubuntu.com/ubuntu {{ grains['oscodename'] }} multiverse'

@@ -32,6 +32,13 @@
     - template: jinja
     - source: salt://{{ tpldir }}/files/sources.list
 
+/root/remove-build-directories:
+  file.managed:
+    - user: root
+    - group: root
+    - mode: 654
+    - source: salt://{{ tpldir }}/files/remove-build-directories
+
 refresh_pkg_db:
   module.run:
     - name: pkg.refresh_db

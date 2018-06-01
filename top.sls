@@ -31,10 +31,12 @@ base:
     - match: pcre
     - buildbot.slave
     - servo-build-dependencies
+    - servo-build-dependencies.aws
     - servo-build-dependencies.ci
     - xvfb
 
   'servo-windows\d+':
+    - match: pcre
     - servo-build-dependencies.ci
 
   'servo-master\d+':
@@ -44,5 +46,6 @@ base:
     - homu
     - intermittent-tracker
     - intermittent-failure-tracker
+    - upstream-wpt-webhook
     - nginx
     - salt.master

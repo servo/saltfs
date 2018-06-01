@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o nounset
+set -o pipefail
+
+declare -a builders=("android" "linux-dev" "linux-nightly" "linux-rel-css"
+                     "linux-rel-intermittent" "linux-rel-nogate"
+                     "linux-rel-wpt" "android-nightly" "arm32" "arm64")
+
+declare -a targets=("doc" "release" "geckolib" "debug")
+
+for builder in "${builders[@]}"
+do
+  for target in "${targets[@]}"
+  do
+    rm -rf "/home/servo/buildbot/slave/${builder}/build/target/${target}"
+  done
+done

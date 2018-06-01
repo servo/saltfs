@@ -80,6 +80,8 @@ Note that your prompt will change once you're inside a VM.
 
 * `vagrant@vagrant-ubuntu-trusty-64$ sudo apt-get -y install cowsay; cowsay 'servo-saltfs ❤  Vagrant'`:
   Run commands in the VM
+* `vagrant@vagrant-ubuntu-trusty-64$ sudo su - servo`:
+  Change to user servo
 * `vagrant@vagrant-ubuntu-trusty-64$ exit`: Leave the VM
 
 Back outside the VM:
@@ -254,7 +256,7 @@ see the [instructions below](#enabling-a-new-salt-minion).
 Install the Salt minion:
 
 ```console
-$ curl https://raw.githubusercontent.com/servo/saltfs/master/.travis/install_salt.sh | sudo sh -s linux
+$ curl https://raw.githubusercontent.com/servo/saltfs/master/.travis/install_salt.sh | sudo bash -s linux
 ```
 
 Configure and start the Salt minion:

@@ -21,12 +21,39 @@ salt-master-dependencies:
       - service: salt-master
     {% endif %}
 
+{% if loop.index0 > 0 %}
+# Only the very first base file root should be used for testing
+{% continue %}
+{% endif %}
+
 {{ rootfs_parent_dir }}/ADMIN_README:
   file.managed:
     - user: root
     - group: root
     - mode: 644
     - source: salt://{{ tpldir }}/files/master/ADMIN_README
+    {% if grains.get('virtual_subtype', '') != 'Docker' %}
+    - require_in:
+      - service: salt-master
+    {% endif %}
+
+{{ rootfs_parent_dir }}/setup.sh:
+  file.managed:
+    - user: root
+    - group: root
+    - mode: 755
+    - source: salt://{{ tpldir }}/files/master/setup.sh
+    {% if grains.get('virtual_subtype', '') != 'Docker' %}
+    - require_in:
+      - service: salt-master
+    {% endif %}
+
+{{ rootfs_parent_dir }}/cleanup.sh:
+  file.managed:
+    - user: root
+    - group: root
+    - mode: 755
+    - source: salt://{{ tpldir }}/files/master/cleanup.sh
     {% if grains.get('virtual_subtype', '') != 'Docker' %}
     - require_in:
       - service: salt-master
