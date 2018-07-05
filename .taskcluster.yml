@@ -1,12 +1,15 @@
 version: 0
 tasks:
   - provisionerId: '{{ taskcluster.docker.provisionerId }}'
-    workerType: '{{ taskcluster.docker.workerType }}'
+    workerType: 'servo-docker-worker'
     extra:
       github:
         env: true
         events:
           - push
+          - pull_request.opened
+          - pull_request.reopened
+          - pull_request.synchronize
         branches:
           - auto
           - master
