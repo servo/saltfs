@@ -34,6 +34,7 @@ android-dependencies:
     - pkgs:
       {% if '64' in grains['cpuarch'] %}
       - libc6:i386
+      - libc6-dev-i386
       - libstdc++6:i386
       {% endif %}
       - openjdk-8-jdk
