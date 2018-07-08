@@ -17,6 +17,6 @@ base:
     - match: pcre
     - buildbot.slave
 
-  'servo-linux-cross\d+':
+  'servo-linux-(cross|kvm)\d+':
     - match: pcre
     - buildbot.slave
