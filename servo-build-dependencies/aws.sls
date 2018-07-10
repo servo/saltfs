@@ -1,12 +1,13 @@
 include:
   - python
 
-{% if grains['os'] == 'Ubuntu' %}
 aws-cli:
-  pkg.installed:
+  pip.installed:
     - pkgs:
       - awscli
-{% endif %}
+    - require:
+      - pkg: pip
+      - pip: virtualenv
 
 unzip:
   pkg.installed:
