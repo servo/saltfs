@@ -20,6 +20,13 @@ base:
     - servo-build-dependencies.arm
     - servo-build-dependencies.ci
 
+  'servo-linux-kvm\d+':
+    - match: pcre
+    - buildbot.slave
+    - servo-build-dependencies
+    - servo-build-dependencies.java
+    - servo-build-dependencies.ci
+
   'servo-(mac|macpro)\d+':
     - match: pcre
     - osx
