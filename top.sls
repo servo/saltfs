@@ -24,6 +24,7 @@ base:
     - match: pcre
     - buildbot.slave
     - servo-build-dependencies
+    - servo-build-dependencies.kvm
     - servo-build-dependencies.java
     - servo-build-dependencies.ci
 
