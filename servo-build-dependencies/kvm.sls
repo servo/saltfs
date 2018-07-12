@@ -4,9 +4,8 @@ kvm-dependencies:
       # Also creates the 'kvm' group and gives it permissions to /dev/kvm
       - qemu-kvm
 
-kvm-group:
-  user.present:
-    - require:
-      - pkg: kvm-dependencies
-    - groups:
-      - kvm
+kvm:
+  group.present:
+    - system: True
+    - addusers:
+      - servo
