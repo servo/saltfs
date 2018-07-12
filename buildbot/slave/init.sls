@@ -43,11 +43,27 @@ buildbot-slave-dependencies:
     - watch_in:
       - service: buildbot-slave
 
-{% else %}
+{% elif grains['osrelease'] == '14.04' %}
 
 /etc/init/buildbot-slave.conf:
   file.managed:
     - source: salt://{{ tpldir }}/files/buildbot-slave.conf
+    - user: root
+    - group: root
+    - mode: 644
+    - template: jinja
+    - context:
+        common: {{ common }}
+    {% if grains.get('virtual_subtype', '') != 'Docker' %}
+    - watch_in:
+      - service: buildbot-slave
+    {% endif %}
+
+{% else %}
+
+/etc/systemd/system/buildbot-slave.service:
+  file.managed:
+    - source: salt://{{ tpldir }}/files/buildbot-slave.service
     - user: root
     - group: root
     - mode: 644
