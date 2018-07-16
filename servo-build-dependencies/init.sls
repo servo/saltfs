@@ -29,6 +29,9 @@ servo-dependencies:
       - cmake
       - ffmpeg
       - freetype
+      - gstreamer
+      - gst-plugins-base
+      - gst-plugins-good
       - llvm
       - openssl
       - pkg-config
