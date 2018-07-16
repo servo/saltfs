@@ -34,8 +34,15 @@ servo-dependencies:
       - pkg-config
       - yasm
       - zlib
+      - gstreamer
+      - gst-plugins-base
+      - gst-plugins-good
+      - libgstreamer1.0-dev
       {% elif grains['os'] == 'Ubuntu' %}
       - autoconf2.13
+      - libgstreamer-plugins-base1.0-dev
+      - gstreamer1.0-plugins-base
+      - gstreamer1.0-libav
       {% if grains['osrelease'] == '14.04' %}
       - cmake: 3.2.2-2~ubuntu14.04.1~ppa1
       {% else %}
