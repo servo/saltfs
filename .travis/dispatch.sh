@@ -96,14 +96,17 @@ if (( EUID != 0 )); then
 fi
 
 # Accommodate homebrew changes to python 2/3 formulas.
-#if [[ "${SALT_NODE_ID}" =~ servo-mac.* ]]; then
+if [[ "${SALT_NODE_ID}" =~ servo-mac.* ]]; then
     #travis_fold_start 'update_homebrew' 'Updating homebrew'
     #brew update
     #travis_fold_end 'update_homebrew'
     #travis_fold_start 'upgrade_python' 'Upgrading python2->python3'
     #brew upgrade python
-    #travis_fold_end   
-#fi
+    #travis_fold_end
+    travis_fold_start 'remove_python' 'Removing python'
+    brew uninstall python --force
+    travis_fold_end 'remove_python'
+fi
 
 if [[ "${SALT_NODE_ID}" == "test" ]]; then
     # Run test suite separately for parallelism
