@@ -5,6 +5,7 @@ python2:
     - pkgs:
       - python@2
     - refresh: True
+    - reload_modules: True
 
 python3:
   pkg.installed:
