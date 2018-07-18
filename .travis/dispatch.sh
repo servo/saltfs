@@ -104,7 +104,7 @@ if [[ "${SALT_NODE_ID}" =~ servo-mac.* ]]; then
     #brew upgrade python
     #travis_fold_end
     travis_fold_start 'remove_python' 'Removing python'
-    brew uninstall python --force
+    brew uninstall python --ignore-dependencies --force
     travis_fold_end 'remove_python'
 fi
 
