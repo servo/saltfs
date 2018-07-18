@@ -49,6 +49,9 @@ pip:
       - python@2 # pip is included with python in homebrew
       {% endif %}
     - reload_modules: True
+    {% if grains['os'] == 'MacOS' %}
+    - ignore_installed: True
+    {% endif %}
 
 # virtualenv == 14.0.6 package creates virtualenv and virtualenv-3.5 executables
 # note that the version of the second may change between virtualenv versions
