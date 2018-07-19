@@ -108,7 +108,8 @@ if [[ "${SALT_NODE_ID}" =~ servo-mac.* ]]; then
     travis_fold_end 'remove_python'
     travis_fold_start 'install_python2' 'Installing python2'
     brew install python@2
-    export PATH="/usr/local/opt/python@2/libexec/bin:$PATH"
+    pip install --upgrade pip setuptools
+    #export PATH="/usr/local/opt/python@2/libexec/bin:$PATH"
     travis_fold_end 'install_python2'
 fi
 
