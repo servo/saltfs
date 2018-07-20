@@ -105,20 +105,20 @@ if [[ "${SALT_NODE_ID}" =~ servo-mac.* ]]; then
     brew upgrade python
     travis_fold_end 'upgrade_python'
 
-    travis_fold_start 'remove_python' 'Removing python'
-    brew uninstall python --ignore-dependencies --force
-    travis_fold_end 'remove_python'
-
-    #travis_fold_start 'install_python2' 'Installing python2'
-    #brew install python@2
-    #pip install --upgrade pip setuptools
-    #travis_fold_end 'install_python2'
-
     travis_fold_start 'upgrade_ssl' 'Upgrading openssl'
     brew upgrade openssl || brew install openssl || true
     pip install pyOpenSSL
     travis_fold_end 'upgrade_ssl'
     #export PATH="/usr/local/Cellar/saltstack/2016.3.3/libexec/bin:$PATH"
+
+    #travis_fold_start 'remove_python' 'Removing python'
+    #brew uninstall python --ignore-dependencies --force
+    #travis_fold_end 'remove_python'
+
+    #travis_fold_start 'install_python2' 'Installing python2'
+    #brew install python@2
+    #pip install --upgrade pip setuptools
+    #travis_fold_end 'install_python2'
 fi
 
 if [[ "${SALT_NODE_ID}" == "test" ]]; then
