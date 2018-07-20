@@ -47,7 +47,9 @@ install_salt() {
         if brew list | grep 'saltstack' >/dev/null; then
             brew unlink saltstack
         fi
-        brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/9e3a66b6b7ca978bfea86897dcc3391c37f9f0ef/Formula/saltstack.rb
+        # Was: https://raw.githubusercontent.com/Homebrew/homebrew-core/9e3a66b6b7ca978bfea86897dcc3391c37f9f0ef/Formula/saltstack.rb
+        # We use our own copy of that old formula. We replaced EOS.undent with EOS to be compatible with the latest homebrew version
+        brew install --build-from-source .travis/saltstack.rb
         # In case we had the same version previously, we need to relink
         brew link saltstack
     else
