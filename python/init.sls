@@ -61,3 +61,6 @@ virtualenv:
       - virtualenv == 14.0.6
     - require:
       - pkg: pip
+    {% if grains['os'] == 'MacOS' %}
+    - ignore_installed: True
+    {% endif %}
