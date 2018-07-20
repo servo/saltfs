@@ -106,6 +106,9 @@ if [[ "${SALT_NODE_ID}" =~ servo-mac.* ]]; then
     travis_fold_start 'remove_python' 'Removing python'
     brew uninstall python --ignore-dependencies --force
     travis_fold_end 'remove_python'
+    travis_fold_start 'upgrade_ssl' 'Upgrading openssl'
+    brew upgrade openssl
+    travis_fold_end 'upgrade_ssl'
     export PATH="/usr/local/Cellar/saltstack/2016.3.3/libexec/bin:$PATH"
     #travis_fold_start 'install_python2' 'Installing python2'
     #brew install python@2
