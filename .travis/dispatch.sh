@@ -109,10 +109,10 @@ if [[ "${SALT_NODE_ID}" =~ servo-mac.* ]]; then
     brew uninstall python --ignore-dependencies --force
     travis_fold_end 'remove_python'
 
-    travis_fold_start 'install_python2' 'Installing python2'
-    brew install python@2
+    #travis_fold_start 'install_python2' 'Installing python2'
+    #brew install python@2
     #pip install --upgrade pip setuptools
-    travis_fold_end 'install_python2'
+    #travis_fold_end 'install_python2'
 
     travis_fold_start 'upgrade_ssl' 'Upgrading openssl'
     brew upgrade openssl || brew install openssl || true
