@@ -45,11 +45,11 @@ install_salt() {
         # Unlink allows switching versions,
         # I wish Homebrew had an atomic operation for pinned upgrades
         if brew list | grep 'salt' >/dev/null; then
-            brew unlink salt
+            brew unlink saltstack
         fi
-        brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/master/Formula/salt.rb
+        brew install --force https://raw.githubusercontent.com/Homebrew/homebrew-core/master/Formula/salt.rb
         # In case we had the same version previously, we need to relink
-        brew link salt
+        brew link --overwrite saltstack
     else
         printf >&2 "%s: unknown operating system %s\n" "${0}" "${OS_NAME}"
         exit 1
