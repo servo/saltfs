@@ -5,8 +5,8 @@
 We use [SaltStack](https://saltstack.com/) (Salt for short)
 to configure our infrastructure machines.
 
-We're currently on the Salt 2016.3 release branch, so make sure to look at the
-[right version of the docs](https://docs.saltstack.com/en/2016.3/contents.html).
+We're currently on the Salt 2018.3 release branch, so make sure to look at the
+[right version of the docs](https://docs.saltstack.com/en/2018.3/contents.html).
 
 Salt configurations are meant to be idempotent and can be applied as many times
 as you like; a single deploy is termed a `highstate`, which
@@ -153,7 +153,7 @@ Examples of highstates, which should be run as root from the Salt master:
 The '*' is a glob which means to apply the Salt states on all of the minions;
 you can specify just one minion ID instead to only run the Salt states there.
 [More complicated targeting is also available.]
-(https://docs.saltstack.com/en/2016.3/ref/cli/index.html#using-the-salt-command)
+(https://docs.saltstack.com/en/2018.3/ref/cli/index.html#using-the-salt-command)
 
 :warning: Make sure to run with `test=True` mode first to see what effect your
 changes will make before actually deploying! Read through the results carefully
@@ -277,12 +277,12 @@ for information about setting up new macOS minions.
 
 Installation is not yet scripted and must currently be done manually.
 
-1. Download [the Salt MSI](https://repo.saltstack.com/windows/Salt-Minion-2016.3.3-AMD64-Setup.exe),
-   currently using version 2016.3.3.
+1. Download [the Salt MSI](https://repo.saltstack.com/windows/Salt-Minion-2018.3.2-AMD64-Setup.exe),
+   currently using version 2018.3.2.
 2. Run the installer with a some options that
    configure the minion and autostart the minion.
    Make sure to provide the correct minion ID!
-   `Salt-Minion-2016.3.3-AMD64-Setup.exe /S /master=servo-master1.servo.org /minion-name=servo-windowsN`
+   `Salt-Minion-2018.3.2-AMD64-Setup.exe /S /master=servo-master1.servo.org /minion-name=servo-windowsN`
 
 #### Enabling a new Salt minion
 
@@ -339,7 +339,7 @@ To get just the return data for a highstate with the highstate formatting, use:
 root@servo-master1$ salt-run jobs.lookup_jid <jid> --out=highstate
 ```
 
-See [the Salt docs](https://docs.saltstack.com/en/2016.3/ref/runners/all/salt.runners.jobs.html#module-salt.runners.jobs) for futher documentation.
+See [the Salt docs](https://docs.saltstack.com/en/2018.3/ref/runners/all/salt.runners.jobs.html#module-salt.runners.jobs) for futher documentation.
 
 ### Troubleshooting
 
