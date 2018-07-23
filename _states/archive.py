@@ -44,8 +44,6 @@ from salt.ext.six.moves.urllib.parse import urlparse as _urlparse  # pylint: dis
 import salt.utils
 from salt.exceptions import CommandExecutionError
 import salt.utils
-# remove after archive_user deprecation.
-from salt.utils import warn_until
 
 log = logging.getLogger(__name__)
 
@@ -284,16 +282,6 @@ def extracted(name,
         ret['comment'] = '{0} is not supported, valid formats are: {1}'.format(
             archive_format, ','.join(valid_archives))
         return ret
-
-    # remove this whole block after formal deprecation.
-    if archive_user is not None:
-        warn_until(
-          'Carbon',
-          'Passing \'archive_user\' is deprecated.'
-          'Pass \'user\' instead.'
-        )
-        if user is None:
-            user = archive_user
 
     if not name.endswith('/'):
         name += '/'
