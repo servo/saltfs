@@ -138,9 +138,6 @@ else
     if [[ "${SALT_NODE_ID}" == "servo-master1" ]]; then
         ./test.py sls.buildbot.master sls.homu sls.nginx
     fi
-    if [[ "${SALT_NODE_ID}" == "servo-linux-cross1" ]]; then
-        ./test.py sls.servo-build-dependencies.android
-    fi
 
     # Salt doesn't support timezone.system on OSX
     # See https://github.com/saltstack/salt/issues/31345
