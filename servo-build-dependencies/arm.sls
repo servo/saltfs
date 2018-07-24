@@ -39,8 +39,6 @@ libs-{{ target.name }}:
     - source: https://servo-rust.s3.amazonaws.com/ARM/{{ target.download_name }}/{{ target.version }}/{{ target.download_name }}-{{ target.version }}.tgz
     - source_hash: sha512={{ target.sha512 }}
     - archive_format: tar
-      # Workaround for https://github.com/saltstack/salt/pull/36552
-    - archive_user: servo
     - user: servo
     - group: servo
 
