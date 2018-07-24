@@ -105,8 +105,6 @@ build_linux = build_common + build_linux_common + Environment({
 })
 
 build_android = build_linux + Environment({
-    'ANDROID_NDK': '{{ common.servo_home }}/android/ndk/current/',
-    'ANDROID_SDK': '{{ common.servo_home }}/android/sdk/current/',
     # TODO(aneeshusa): Template this value for e.g. macOS builds
     'JAVA_HOME': '/usr/lib/jvm/java-8-openjdk-amd64',
     'PATH': ':'.join([
@@ -117,7 +115,6 @@ build_android = build_linux + Environment({
         '/usr/sbin',
         '/sbin',
         '/bin',
-        '{{ common.servo_home }}/android/sdk/current/platform-tools',
     ]),
 })
 
