@@ -24,10 +24,10 @@ install_salt() {
         ${SUDO} apt-get -y update
         ${SUDO} apt-get -y install --no-install-recommends ca-certificates curl apt-transport-https
 
-        curl "https://repo.saltstack.com/apt/ubuntu/${os_release}/amd64/archive/2016.3.3/SALTSTACK-GPG-KEY.pub" | \
+        curl "https://repo.saltstack.com/apt/ubuntu/${os_release}/amd64/archive/2018.3.2/SALTSTACK-GPG-KEY.pub" | \
             ${SUDO} apt-key add -
         printf \
-            'deb http://repo.saltstack.com/apt/ubuntu/%s/amd64/archive/2016.3.3 %s main\n' \
+            'deb http://repo.saltstack.com/apt/ubuntu/%s/amd64/archive/2018.3.2 %s main\n' \
             "${os_release}" "${os_codename}" | \
                 ${SUDO} tee /etc/apt/sources.list.d/saltstack.list >/dev/null
         ${SUDO} apt-get -y update
@@ -35,7 +35,7 @@ install_salt() {
         ${SUDO} apt-get -y \
                 -o Dpkg::Options::="--force-confold" \
                 -o Dpkg::Options::="--force-confdef" \
-                install salt-minion=2016.3.3+ds-1
+                install salt-minion=2018.3.2+ds-1
     elif [[ "${OS_NAME}" == "osx" ]]; then
         printf "%s: installing salt for Mac OS X\n" "${0}"
         brew update
@@ -44,12 +44,12 @@ install_salt() {
         printf "\n"
         # Unlink allows switching versions,
         # I wish Homebrew had an atomic operation for pinned upgrades
-        if brew list | grep 'saltstack' >/dev/null; then
+        if brew list | grep 'salt' >/dev/null; then
             brew unlink saltstack
         fi
-        brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/9e3a66b6b7ca978bfea86897dcc3391c37f9f0ef/Formula/saltstack.rb
+        brew install --force https://raw.githubusercontent.com/Homebrew/homebrew-core/b87a9520e01f0a4e572640ddb1c489f57d830c8d/Formula/salt.rb
         # In case we had the same version previously, we need to relink
-        brew link saltstack
+        brew link --overwrite saltstack
     else
         printf >&2 "%s: unknown operating system %s\n" "${0}" "${OS_NAME}"
         exit 1
