@@ -370,3 +370,41 @@ first on the salt master, then on the minions. Things to be aware of:
 * Masters need to be updated before minions, but `salt '*' state.highstate`
   cannot enforce ordering - make sure to update just the master first with
   `salt 'servo-master1' state.highstate`.
+* On upgrade, nodes sometimes forget their configuration. On master, ensure `/etc/salt/master` has the following file
+
+    ```yaml
+    file_roots:
+      base:
+      - /tmp/salt-testing-root/saltfs
+    fileserver_backend:
+    - roots
+    - git
+    gitfs_env_whitelist:
+    - base
+    gitfs_remotes:
+    - https://github.com/servo/saltfs.git
+    hash_type: sha384
+    keep_jobs: 0
+    pillar_roots:
+      base:
+      - /srv/pillar
+    timeout: 60
+    ```
+  Without this file, you won't have a way to load the new configuration! This file itself is salt-managed
+  so after your first servo-master1 highstate it should will be recovered. The `file_roots` is the important
+  bit for the salt-testing-root to work.
+* On minions, ensure that `/etc/salt/minion_id` is populated with the minion name, and
+  that `/etc/salt/minion` contains:
+
+  ```yaml
+  master:
+   - servo-master1.servo.org
+  ```
+
+  If not, follow the steps from [Setting up a new Salt minion](#Setting up a new Salt minion)
+  to set up this file. Be sure to restart `salt-minion` afterwards.
+* You may have to refresh the keys. On master, call `salt-key -D` (or `salt-key -d minionname` for a single minion)
+  On the minions, remove `/etc/salt/pki/minion/minion_master.pub` and restart `salt-minion`. Then, on the master, call
+  `salt-key -A` and accept the new minions. If you had called `salt-key -D` make sure all the minions are back.
+* To test if everything is connected, use `salt '*' test.ping`. Beware, if a minion was removed via `salt-key -d` or `salt-key -D`
+  it will not be tested at all.
