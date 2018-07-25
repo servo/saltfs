@@ -41,6 +41,7 @@ libs-{{ target.name }}:
     - archive_format: tar
     - user: servo
     - group: servo
+    - enforce_toplevel: False
 
 {% for binary in binaries %}
 {{ common.servo_home }}/bin/{{ target.symlink_name }}-{{ binary }}:
