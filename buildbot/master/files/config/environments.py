@@ -52,6 +52,7 @@ build_linux_common = Environment({
         '/usr/sbin',
         '/sbin',
         '/bin',
+        '{{ common.servo_home }}/gstreamer/bin',
     ]),
     'SHELL': '/bin/bash',
 })
@@ -102,6 +103,9 @@ build_linux = build_common + build_linux_common + Environment({
     'CCACHE': '/usr/bin/ccache',
     'DISPLAY': ':0',
     'SERVO_CACHE_DIR': '{{ common.servo_home }}/.servo',
+    'PKG_CONFIG_PATH': '{{ common.servo_home }}/gstreamer/lib/x86_64-linux-gnu/pkgconfig',  # noqa: E501
+    'GST_PLUGIN_SYSTEM_PATH': '{{ common.servo_home }}/gstreamer/lib/x86_64-linux-gnu/gstreamer-1.0',  # noqa: E501
+    'GST_PLUGIN_SCANNER': '{{ common.servo_home }}/gstreamer/libexec/gstreamer-1.0/gst-plugin-scanner',  # noqa: E501
 })
 
 build_android = build_linux + Environment({
