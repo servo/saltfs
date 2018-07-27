@@ -41,6 +41,7 @@ base:
     - servo-build-dependencies
     - servo-build-dependencies.aws
     - servo-build-dependencies.ci
+    - servo-build-dependencies.linux-gstreamer
     - xvfb
 
   'servo-windows\d+':
