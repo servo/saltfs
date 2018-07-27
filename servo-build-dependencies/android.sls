@@ -48,3 +48,9 @@ android-dependencies:
     - refresh: True
     - require:
       - pkgrepo: openjdk
+
+java-8-alternative:
+  cmd.run:
+    - name: update-java-alternatives -s java-1.8.0-openjdk-amd64
+    - require:
+      - pkg: android-dependencies
