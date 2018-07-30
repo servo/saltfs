@@ -8,12 +8,7 @@ declare -a builders=("android" "android-x86" "linux-dev" "linux-nightly" "linux-
                      "linux-rel-intermittent" "linux-rel-nogate"
                      "linux-rel-wpt" "android-nightly" "arm32" "arm64")
 
-declare -a targets=("doc" "release" "geckolib" "debug")
-
 for builder in "${builders[@]}"
 do
-  for target in "${targets[@]}"
-  do
-    rm -rf "/home/servo/buildbot/slave/${builder}/build/target/${target}"
-  done
+  rm -rf "/home/servo/buildbot/slave/${builder}/build/target/"
 done
