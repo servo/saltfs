@@ -27,7 +27,6 @@ homu:
       - certifi==2017.4.17
       - chardet==3.0.3
       - github3.py==0.9.6
-      - homu==0.2.0
       - idna==2.5
       - Jinja2==2.9.6
       - MarkupSafe==1.0
