@@ -101,6 +101,7 @@ secret = "{{ secrets['web-secret'] }}"
     },
     "saltfs": {},
     "servo-starters": {},
+    "servo-warc-tests": {},
     "skia": {},
     "string-cache": {},
     "tendril": {},
