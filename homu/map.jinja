@@ -1,6 +1,11 @@
 {%
   set homu = {
     'db': '/var/homu/main.db',
-    'rev': 'ca6ba9605d6506edc74b98f95cdac62bbfc5deea'
+    'rev': 'ca6ba9605d6506edc74b98f95cdac62bbfc5deea',
+    'servo_try_choosers': {
+        'build': ['linux-dev'],
+        'wpt': ['linux-rel-css', 'linux-rel-wpt'],
+        'android': ['android', 'android-x86']
+    }
   }
 %}

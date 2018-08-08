@@ -1,4 +1,5 @@
 {% from 'common/map.jinja' import common %}
+{% from 'homu/map.jinja' import homu %}
 
 include:
   - python
@@ -37,6 +38,7 @@ deploy-{{ common.servo_home }}/buildbot/master:
     - template: jinja
     - context:
         common: {{ common }}
+        homu: {{ homu }}
         buildbot_credentials: {{ pillar['buildbot']['credentials'] }}
         wpt_sync_credentials: {{ pillar['wpt-sync'] }}
     - require:
