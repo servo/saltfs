@@ -240,11 +240,10 @@ try_builders = [
 username = "{{ secrets["buildbot-http-user"] }}"
 password = "{{ secrets["buildbot-http-pass"] }}"
 
-# Try choosers must be kept in sync with buildbot's master.cfg
-[repo.servo.buildbot.try_choosers]
-build = ["linux-dev"]
-wpt = ["linux-rel-css", "linux-rel-wpt"]
-android = ["android"]
+{% for chooser, builders in homu.try_choosers.items() %}
+[repo.servo.buildbot."{{ chooser }}"]
+build = {{ builders }}
+{% endfor %}
 
 # Disabled due to performance and instability
 #[repo.servo.status.appveyor]
