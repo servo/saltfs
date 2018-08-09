@@ -240,6 +240,11 @@ try_builders = [
 username = "{{ secrets["buildbot-http-user"] }}"
 password = "{{ secrets["buildbot-http-pass"] }}"
 
+[repo.servo.buildbot.try_choosers]
+{% for chooser, builders in homu.servo_try_choosers.items() %}
+{{ chooser }} = ["{{ builders | list | join ('\", \"') }}"]
+{% endfor %}
+
 # Disabled due to performance and instability
 #[repo.servo.status.appveyor]
 #context = 'continuous-integration/appveyor/branch'

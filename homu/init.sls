@@ -72,6 +72,7 @@ homu:
     - template: jinja
     - context:
         db: {{ homu.db }}
+        homu: {{ homu }}
         secrets: {{ pillar['homu'] }}
 
 /etc/init/homu.conf:
