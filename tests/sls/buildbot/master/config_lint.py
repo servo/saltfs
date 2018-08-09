@@ -13,7 +13,7 @@ def run():
         'config'
     )
     # Have to specify master.cfg separately because it is not a .py file
-    command = ['flake8', CONF_DIR, os.path.join(CONF_DIR, 'master.cfg')]
+    command = ['flake8', CONF_DIR, "/home/servo/buildbot/master/master.cfg"]
     proc = subprocess.Popen(
         command,
         stdout=subprocess.PIPE,
