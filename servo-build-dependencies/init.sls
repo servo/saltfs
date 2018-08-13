@@ -32,6 +32,7 @@ servo-dependencies:
       - gstreamer
       - gst-plugins-base
       - gst-plugins-good
+      - gst-plugins-bad
       - llvm
       - openssl
       - pkg-config
