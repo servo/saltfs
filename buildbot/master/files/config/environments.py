@@ -53,6 +53,10 @@ build_linux_common = Environment({
         '/sbin',
         '/bin',
         '{{ common.servo_home }}/gstreamer/bin',
+        '{{ common.servo_home }}/gstreamer/lib/x86_64-linux-gnu/',
+    ]),
+    'LD_LIBRARY_PATH': ':'.join([
+        '{{ common.servo_home }}/gstreamer/lib/x86_64-linux-gnu/',
     ]),
     'SHELL': '/bin/bash',
 })
@@ -79,7 +83,9 @@ build_windows_msvc = build_common + Environment({
         r'C:\Program Files (x86)\WiX Toolset v3.10\bin',
         r'C:\sccache',
         r'C:\Users\Administrator\.cargo\bin',
+        r'C:\gstreamer\1.0\x86_64\lib',
     ]),
+    'LIB': r'C:\gstreamer\1.0\x86_64\lib',
     'SERVO_CACHE_DIR': r'C:\Users\Administrator\.servo',
 })
 
