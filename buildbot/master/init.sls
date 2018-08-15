@@ -21,7 +21,6 @@ buildbot-master:
     # Buildbot must be restarted manually! See 'Buildbot administration' on the
     # wiki and https://github.com/servo/saltfs/issues/304.
     - require:
-      - user: servo
       - pip: buildbot-master
       - file: ownership-{{ common.servo_home }}/buildbot/master
       - file: /etc/init/buildbot-master.conf
@@ -41,8 +40,6 @@ deploy-{{ common.servo_home }}/buildbot/master:
         homu: {{ homu }}
         buildbot_credentials: {{ pillar['buildbot']['credentials'] }}
         wpt_sync_credentials: {{ pillar['wpt-sync'] }}
-    - require:
-      - user: servo
 
 ownership-{{ common.servo_home }}/buildbot/master:
   file.directory:
