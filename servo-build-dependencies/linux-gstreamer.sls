@@ -1,5 +1,8 @@
 {% from 'common/map.jinja' import common %}
 
+include:
+  - common
+
 libs-gstreamer:
   archive.extracted:
     - name: {{ common.servo_home }}
