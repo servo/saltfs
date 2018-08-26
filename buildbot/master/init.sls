@@ -2,6 +2,7 @@
 {% from 'homu/map.jinja' import homu %}
 
 include:
+  - common
   - python
 
 buildbot-master:

@@ -1,6 +1,9 @@
 {% from 'common/map.jinja' import common %}
 {% from tpldir ~ '/map.jinja' import arm %}
 
+include:
+  - common
+
 arm-dependencies:
   pkg.installed:
     - pkgs:

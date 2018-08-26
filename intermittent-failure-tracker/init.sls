@@ -1,6 +1,7 @@
 {% from tpldir ~ '/map.jinja' import tracker %}
 
 include:
+  - common
   - python
 
 intermittent-failure-tracker:
