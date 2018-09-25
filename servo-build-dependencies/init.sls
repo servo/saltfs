@@ -36,6 +36,7 @@ servo-dependencies:
       - llvm
       - openssl
       - pkg-config
+      - wget
       - yasm
       - zlib
       {% elif grains['os'] == 'Ubuntu' %}
