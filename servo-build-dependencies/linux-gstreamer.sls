@@ -6,8 +6,8 @@ include:
 libs-gstreamer:
   archive.extracted:
     - name: {{ common.servo_home }}
-    - source: https://github.com/ferjm/gstreamer-1.14.1-ubuntu-trusty/raw/master/gstreamer.tar.gz
-    - source_hash: sha512=59f76df0a773802d6158958e796977cfd78f0c5088b10d51ea01e9d6a9f18d94e06a9bda4b1b4c320f8a38226ec6a54651cc552dbf96eb7f7a8b1e1472f55b2f
+    - source: http://servo-deps.s3.amazonaws.com/gstreamer/gstreamer-x86_64-linux-gnu.tar.gz
+    - source_hash: sha512=dc454f9e07749f12c19bdbb305d449e90154b309c7b1e6b51d924ef89b550ece3a4dfa57f327c34148d555817629e895addbe11c5b7e2cc90c72230322f3acae
     - archive_format: tar
     - user: servo
     - group: servo
