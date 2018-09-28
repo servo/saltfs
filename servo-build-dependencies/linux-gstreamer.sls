@@ -7,7 +7,7 @@ libs-gstreamer:
   archive.extracted:
     - name: {{ common.servo_home }}
     - source: http://servo-deps.s3.amazonaws.com/gstreamer/gstreamer-x86_64-linux-gnu.tar.gz
-    - source_hash: sha512=dc454f9e07749f12c19bdbb305d449e90154b309c7b1e6b51d924ef89b550ece3a4dfa57f327c34148d555817629e895addbe11c5b7e2cc90c72230322f3acae
+    - source_hash: sha512=4ca1be625985615e44d92fd6d84b2bfb7d1f492beb335ea7d04686e88c0326143b5dd1514907d356b9f57223035988407153ee295fca30c55b15f4196176097a
     - archive_format: tar
     - user: servo
     - group: servo
