@@ -58,3 +58,4 @@ base:
     - upstream-wpt-webhook
     - nginx
     - salt.master
+    - standups
