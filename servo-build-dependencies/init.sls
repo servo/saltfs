@@ -12,6 +12,12 @@ servo-dependencies:
     - creates:
       - {{ common.servo_home }}/.rustup
       - {{ common.servo_home }}/.cargo/bin/rustup
+{% if grains['os'] == 'MacOS' %}
+  module.run:
+    - name: mac_brew.install
+    - pkgs: "['gst-plugins-base', 'gst-plugins-good', 'gst-plugins-bad', 'gstreamer']"
+    - options: "['--with-libogg', '--with-libvorbis', '--with-opus', '--with-theora']"
+{% endif %}
   pkg.installed:
     {% if grains['os'] == 'Ubuntu' %}
     - require:
@@ -29,10 +35,6 @@ servo-dependencies:
       - cmake
       - ffmpeg
       - freetype
-      - gstreamer
-      - gst-plugins-base
-      - gst-plugins-good
-      - gst-plugins-bad
       - llvm
       - openssl
       - pkg-config
