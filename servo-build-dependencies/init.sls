@@ -14,9 +14,9 @@ servo-dependencies:
       - {{ common.servo_home }}/.cargo/bin/rustup
 {% if grains['os'] == 'MacOS' %}
   module.run:
-    - name: mac_brew.install
-    - pkgs: "['gst-plugins-base', 'gst-plugins-good', 'gst-plugins-bad', 'gstreamer']"
-    - options: "['--with-libogg', '--with-libvorbis', '--with-opus', '--with-theora']"
+    - mac_brew.install
+      - pkgs: "['gst-plugins-base', 'gst-plugins-good', 'gst-plugins-bad', 'gstreamer']"
+      - options: "['--with-libogg', '--with-libvorbis', '--with-opus', '--with-theora']"
 {% endif %}
   pkg.installed:
     {% if grains['os'] == 'Ubuntu' %}
