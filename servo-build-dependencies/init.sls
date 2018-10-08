@@ -2,9 +2,6 @@
 
 include:
   - python
-  
-use_superseded:
-  - module.run
 
 servo-dependencies:
   cmd.run:
