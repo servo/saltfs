@@ -20,6 +20,10 @@ servo-dependencies:
       - pkgrepo: ffmpeg-ppa
       - pkgrepo: llvm-deb
     {% endif %}
+   {% if grains['os'] == 'MacOS' %}
+    - requires:
+      - pkg: mac-gstreamer
+   {% endif %}
     - pkgs:
       - ccache
       - git
@@ -29,10 +33,6 @@ servo-dependencies:
       - cmake
       - ffmpeg
       - freetype
-      - gstreamer
-      - gst-plugins-base
-      - gst-plugins-good
-      - gst-plugins-bad
       - llvm
       - openssl
       - pkg-config
@@ -111,6 +111,21 @@ servo-dependencies:
     - ignore_installed: True
     {% endif %}
   {% endif %}
+
+{% if grains['os'] == 'MacOS' %}
+mac-gstreamer:
+  pkg.installed:
+    - pkgs:
+      - gstreamer
+      - gst-plugins-base
+      - gst-plugins-good
+      - gst-plugins-bad
+    - options:
+      - --with-libogg
+      - --with-libvorbis
+      - --with-opus
+      - --with-theora
+{% endif %}
 
 {% if grains['os'] == 'Ubuntu' %}
 cmake-ppa:
