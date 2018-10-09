@@ -21,8 +21,11 @@ servo-dependencies:
       - pkgrepo: llvm-deb
     {% endif %}
    {% if grains['os'] == 'MacOS' %}
-    - requires:
+    - require:
       - pkg: mac-gstreamer
+      - pkg: mac-gst-plugins-base
+      - pkg: mac-gst-others
+      - pkg: mac-gst-plugins-bad
    {% endif %}
     - pkgs:
       - ccache
@@ -113,15 +116,27 @@ servo-dependencies:
   {% endif %}
 
 {% if grains['os'] == 'MacOS' %}
+
+# When passing options to homebrew, the options will not be passed
+# to any dependencies that are built. Thus it is imperative we
+# build the packages in the right order, ensuring that
+# no package with options is built as a dependency.
+#
+# Here, gst-plugins-base and gst-plugins-bad have options, so they have
+# their own build formula that is called before anything that depends on them
+# is built.
+
 mac-gstreamer:
   pkg.installed:
     - pkgs:
       - gstreamer
+
+mac-gst-plugins-base:
+  pkg.installed:
+    - require:
+      - pkg: mac-gstreamer
+    - pkgs:
       - gst-plugins-base
-      - gst-plugins-good
-      - gst-plugins-bad
-      - gst-libav
-      - gst-rtsp-server
     - options:
       - --with-libogg
       - --with-libvorbis
@@ -129,6 +144,25 @@ mac-gstreamer:
       - --with-theora
       - --with-orc
       - --with-pango
+
+mac-gst-others:
+  pkg.installed:
+    - require:
+      - pkg: mac-gst-plugins-base
+    - pkgs:
+      - gst-plugins-good
+      - gst-libav
+      - gst-rtsp-server
+
+mac-gst-plugins-bad:
+  pkg.installed:
+    - require:
+      - pkg: mac-gst-plugins-base
+    - pkgs:
+      - gst-plugins-bad
+    - options:
+      - --with-opus
+
 {% endif %}
 
 {% if grains['os'] == 'Ubuntu' %}
