@@ -120,11 +120,15 @@ mac-gstreamer:
       - gst-plugins-base
       - gst-plugins-good
       - gst-plugins-bad
+      - gst-libav
+      - gst-rtsp-server
     - options:
       - --with-libogg
       - --with-libvorbis
       - --with-opus
       - --with-theora
+      - --with-orc
+      - --with-pango
 {% endif %}
 
 {% if grains['os'] == 'Ubuntu' %}
