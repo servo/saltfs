@@ -8,6 +8,7 @@ base:
     - buildbot.master
     - homu
     - wpt-sync
+    - standups
 
   'servo-(linux|mac|macpro)\d+':
     - match: pcre
