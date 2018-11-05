@@ -17,7 +17,7 @@ magicleap:
 {{ common.servo_home }}/magicleap:
   file.directory:
     - user: servo
-    - group: servo
+    - group: staff
     - dir_mode: 755
     - file_mode: 644
     - makedirs: True
