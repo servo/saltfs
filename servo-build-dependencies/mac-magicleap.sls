@@ -10,7 +10,7 @@ magicleap:
     - source_hash: sha512=040147af4f9584213285672d9dee7a582486c6ae22751da7c322185ea0aceb8f5cb141a3a266550d805be7ad31df1794d16a731bb20fd03bf2c773caa24c4afc
     - archive_format: tar
     - user: servo
-    - group: servo
+    - group: staff
     - ensure_ownership_on: {{ common.servo_home }}/magicleap
 
 
