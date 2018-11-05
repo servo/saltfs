@@ -3,6 +3,13 @@
 include:
   - common
 
+
+# The magic Leap SDK is not publicly distributed, so on test deployments
+# we don't try to install it.
+
+{% set skipped = salt['environ.get']('SALT_TEST_DEPLOYMENT') %}
+{% if not skipped %}
+
 magicleap:
   archive.extracted:
     - name: {{ common.servo_home }}/magicleap
@@ -27,3 +34,5 @@ magicleap:
       - mode
     - require:
       - archive: magicleap
+
+{% endif %}
