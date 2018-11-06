@@ -3,27 +3,10 @@
 include:
   - common
 
-
 # The magic Leap SDK is not publicly distributed, so on test deployments
-# we don't try to install it.
-
-{% set skipped = salt['environ.get']('SALT_TEST_DEPLOYMENT') %}
-{% if skipped %}
-
-magicleap_skipped:
-
-{% else %}
-
-magicleap:
-  archive.extracted:
-    - name: {{ common.servo_home }}/magicleap
-    - source: https://servo-deps.s3.amazonaws.com/magicleap/macos-sdk-v0.17.0.tar.gz
-    - source_hash: sha512=040147af4f9584213285672d9dee7a582486c6ae22751da7c322185ea0aceb8f5cb141a3a266550d805be7ad31df1794d16a731bb20fd03bf2c773caa24c4afc
-    - archive_format: tar
-    - user: servo
-    - group: staff
-    - ensure_ownership_on: {{ common.servo_home }}/magicleap/v0.17.0
-
+# the download will fail, but we ignore the failures. To do this,
+# we use curl and tar directly rather using salt's downloader,
+# which fails if the download fails.
 
 {{ common.servo_home }}/magicleap:
   file.directory:
@@ -36,7 +19,14 @@ magicleap:
       - user
       - group
       - mode
-    - require:
-      - archive: magicleap
 
-{% endif %}
+{{ common.servo_home }}/magicleap/v0.17.0:
+magicleap:
+  cmd.run:
+    - name: |
+        curl https://servo-deps.s3.amazonaws.com/magicleap/macos-sdk-v0.17.0.tar.gz -sSf |
+        tar x -C {{ common.servo_home }}/magicleap ||
+	echo "Download of Magic Leap SDK failed, to be expected on test deployments."
+    - runas: servo
+    - require:
+        - file: {{ common.servo_home }}/magicleap
