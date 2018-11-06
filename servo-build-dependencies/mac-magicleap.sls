@@ -8,7 +8,11 @@ include:
 # we don't try to install it.
 
 {% set skipped = salt['environ.get']('SALT_TEST_DEPLOYMENT') %}
-{% if not skipped %}
+{% if skipped %}
+
+magicleap_skipped:
+
+{% else %}
 
 magicleap:
   archive.extracted:
