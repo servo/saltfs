@@ -9,13 +9,6 @@ filter_secrets: false
 # Handle Python installation and dependencies ourselves
 language: cpp
 
-# Some installations only work on the real build machines
-# (e.g. downloading the magicleap SDK). We switch them off using
-# the SALT_TEST_DEPLOYMENT environment variable.
-env:
-  global:
-    - SALT_TEST_DEPLOYMENT=true
-
 # NOTE: Make sure the matrix covers all node types in top.sls
 # NOTE: Make sure each node type is tested both from scratch and as an upgrade
 # sudo: required and dist: trusty enable usage of Trusty
