@@ -20,13 +20,14 @@ include:
       - group
       - mode
 
-{{ common.servo_home }}/magicleap/v0.17.0:
-magicleap:
+mac-magicleap:
   cmd.run:
     - name: |
-        curl https://servo-deps.s3.amazonaws.com/magicleap/macos-sdk-v0.17.0.tar.gz -sSf |
-        tar x -C {{ common.servo_home }}/magicleap ||
-	echo "Download of Magic Leap SDK failed, to be expected on test deployments."
+        curl https://servo-deps.s3.amazonaws.com/magicleap/macos-sdk-v0.17.0.tar.gz -sSf | tar x ||
+        echo "Download of Magic Leap SDK failed, to be expected on test deployments."
     - runas: servo
+    - cwd: {{ common.servo_home }}/magicleap
     - require:
-        - file: {{ common.servo_home }}/magicleap
+      - file: {{ common.servo_home }}/magicleap
+    - creates:
+      - {{ common.servo_home }}/magicleap/v0.17.0
