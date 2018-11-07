@@ -1,3 +1,4 @@
+fully_managed: False
 travis: True
 
 homebrew:
