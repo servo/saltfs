@@ -36,6 +36,10 @@ run_salt() {
     salt_call grains.items
     travis_fold_end "grains.items.$1"
 
+    travis_fold_start "pillar.items.$1" 'Printing Salt pillar for debugging'
+    salt_call pillar.items
+    travis_fold_end "pillar.items.$1"
+
     travis_fold_start "state.show_highstate.$1" \
         'Performing basic YAML and Jinja validation'
     salt_call --retcode-passthrough state.show_highstate
