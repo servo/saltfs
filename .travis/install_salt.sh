@@ -25,7 +25,11 @@ install_salt() {
         ${SUDO} apt-get -y install --no-install-recommends ca-certificates curl apt-transport-https
 
         # ensure venv is installed
-        ${SUDO} apt-get -y install python3.4-venv
+        if [[ "${os_codename}" == "trusty" ]]; then
+            ${SUDO} apt-get -y install python3.4-venv
+        else
+            ${SUDO} apt-get -y install python3-venv
+        fi
 
         curl "https://repo.saltstack.com/apt/ubuntu/${os_release}/amd64/archive/2018.3.2/SALTSTACK-GPG-KEY.pub" | \
             ${SUDO} apt-key add -
