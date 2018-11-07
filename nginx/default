@@ -1,10 +1,13 @@
 server {
   listen 80 default_server;
+  listen 443 ssl;
   server_name build.servo.org;
+  server_tokens off;
+  ssl_protocols TLSv1.2 TLSv1;
+  ssl_ciphers ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-SHA;
+  ssl_prefer_server_ciphers on;
   ssl_certificate /etc/letsencrypt/live/build.servo.org/fullchain.pem;
   ssl_certificate_key /etc/letsencrypt/live/build.servo.org/privkey.pem;
-
-  listen 443 ssl;
 
   location / {
     proxy_pass http://localhost:8010/;
