@@ -34,6 +34,7 @@ base:
     - buildbot.slave
     - servo-build-dependencies
     - servo-build-dependencies.ci
+    - servo-build-dependencies.mac-magicleap
 
   'servo-linux\d+':
     - match: pcre
