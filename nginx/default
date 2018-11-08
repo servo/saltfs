@@ -13,7 +13,6 @@ server {
   location / {
     proxy_pass http://localhost:8010/;
   }
-
   location /homu/ {
     proxy_pass http://localhost:54856/;
   }
@@ -25,6 +24,9 @@ server {
   }
   location /upstream-wpt-webhook/ {
     proxy_pass http://localhost:5001/;
+  }
+  location /github-buildbot/ {
+    proxy_pass http://localhost:9010/;
   }
   location /intermittent-failure-tracker/ {
     proxy_pass http://localhost:5002/;
