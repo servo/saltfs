@@ -218,7 +218,8 @@ builders = [
     "android",
     "android-mac",
     "android-x86",
-    "magicleap",
+    # Do not gate on the magicleap build for now
+    # "magicleap",
     "arm32",
     "arm64",
     "windows-msvc-dev",
@@ -237,7 +238,8 @@ try_builders = [
     "android",
     "android-mac",
     "android-x86",
-    "magicleap",
+    # Do not gate on the magicleap build for now
+    # "magicleap",
     "arm32",
     "arm64",
     "windows-msvc-dev",
