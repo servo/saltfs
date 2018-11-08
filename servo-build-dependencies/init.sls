@@ -34,6 +34,7 @@ servo-dependencies:
       - gst-plugins-good
       - gst-plugins-bad
       - llvm
+      - makedepend
       - openssl
       - pkg-config
       - wget
