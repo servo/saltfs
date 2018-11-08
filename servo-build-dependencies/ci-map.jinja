@@ -2,20 +2,20 @@
   set sccache = salt['grains.filter_by']({
       'defaults': {
         'destination': '/usr/local/bin/sccache',
-        'version': '2018-01-09',
+        'version': '0.2.7',
       },
       'MacOS': {
         'platform': 'x86_64-apple-darwin',
-        'sha384': 'cd8dac86c250e8b5c59e231dc413ead48e97e7c9630d9a30ae1f9b16d738ac8004ebbdfe04351df71ced582f4022393d'
+        'sha384': 'c4aa3854b3632f4f910055e36bd3ecf5e5d5213aba0beeae7e8d0614669db84c3fdf5a3e02f748a13fd53ef5afb50999'
       },
       'Ubuntu': {
         'platform': 'x86_64-unknown-linux-musl',
-        'sha384': '6f005785e1178b30b3629dd1c69539a1df608216309ec9cded093e5447e9787cb462f36c7025a7564f3c4c93e0e4a8a2'
+        'sha384': '03222349e17c4c9c23f2deb3286b15ab5e9a8f2ee9b6324b2676b90603b37e2f18ed3801433e9527ddb7e16ed5991f0e'
       },
       'Windows': {
         'destination': 'C:\sccache\sccache.exe',
         'platform': 'x86_64-pc-windows-msvc',
-        'sha384': '2f25ee8e1e21bced7af8c16c4c94831d188729588eeef72f494b0af620a04d25635d6f939842db6a8fddb3beb27460e1'
+        'sha384': '00c96a001e6cf30686f9b582e0bc9c4e049d209e0e086bdb19f93872970437710d4ac0d2bdf74e531b64dd3029d71d33'
       }
     },
     base='defaults',
