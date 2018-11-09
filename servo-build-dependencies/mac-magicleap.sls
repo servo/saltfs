@@ -18,7 +18,9 @@ include:
 mac-magicleap:
   cmd.run:
     - name: |
-        curl https://servo-deps.s3.amazonaws.com/magicleap/macos-sdk-v0.17.0.tar.gz -sSf | tar x ||
+        curl https://servo-deps.s3.amazonaws.com/magicleap/macos-sdk-v0.17.0.tar.gz -sSf | tar x &&
+        curl https://servo-deps.s3.amazonaws.com/magicleap/TempSharedCert.zip -sSf -o certs.zip &&
+        unzip -d certs -u certs.zip ||
         echo "Download of Magic Leap SDK failed, to be expected on test deployments."
     - runas: servo
     - cwd: {{ common.servo_home }}/magicleap
@@ -26,3 +28,4 @@ mac-magicleap:
       - file: {{ common.servo_home }}/magicleap
     - creates:
       - {{ common.servo_home }}/magicleap/v0.17.0
+      - {{ common.servo_home }}/magicleap/certs
