@@ -12,13 +12,8 @@ include:
   file.directory:
     - user: servo
     - group: staff
-    - dir_mode: 755
-    - file_mode: 644
+    - mode: 755
     - makedirs: True
-    - recurse:
-      - user
-      - group
-      - mode
 
 mac-magicleap:
   cmd.run:
