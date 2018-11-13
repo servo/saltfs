@@ -111,7 +111,7 @@ secret = "{{ secrets['web-secret'] }}"
     },
     "unicode-script": {},
     "webrender": {
-        "extra_reviewers": [ "nical", "jrmuizel", "Gankro" ],
+        "extra_reviewers": [ "nical", "jrmuizel", "Gankro", "staktrace" ],
         "taskcluster": True,
         "appveyor": True,
         "travis": False,
@@ -218,6 +218,8 @@ builders = [
     "android",
     "android-mac",
     "android-x86",
+    # Do not gate on the magicleap build for now
+    # "magicleap",
     "arm32",
     "arm64",
     "windows-msvc-dev",
@@ -236,6 +238,8 @@ try_builders = [
     "android",
     "android-mac",
     "android-x86",
+    # Do not gate on the magicleap build for now
+    # "magicleap",
     "arm32",
     "arm64",
     "windows-msvc-dev",

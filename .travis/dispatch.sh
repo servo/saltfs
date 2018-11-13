@@ -67,13 +67,6 @@ setup_test_venv() {
     if ! which salt-call >/dev/null; then
         install_salt 'test_venv'
     fi
-    travis_fold_start 'test_venv.install_python3' \
-        'Setting up Python 3 virtualenv for testing'
-    # Use the system Python 3 to make it easy to run tests on fresh hosts
-    # Make sure dependencies are installed (like `python3-venv` on Debian derivatives)
-    salt_call --retcode-passthrough state.sls python
-    travis_fold_end 'test_venv.install_python3'
-
 
     printf "Using %s at %s\n" "$(python3 --version)" "$(which python3)"
 
