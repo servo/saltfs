@@ -33,10 +33,11 @@ python3:
 {% endif %}
 
 {% if grains['os'] == 'Ubuntu' %}
-python2-dev:
+python-dev:
   pkg.installed:
     - pkgs:
       - python-dev
+      - python3-dev
 {% endif %}
 
 pip:
