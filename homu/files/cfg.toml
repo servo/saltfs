@@ -71,8 +71,8 @@ secret = "{{ secrets['web-secret'] }}"
     "plane-split": {},
     "rust-azure": {},
     "rust-bindgen": {
-        "extra_reviewers": [ "fitzgen", "pepyakin" ],
-        "owner": "rust-lang-nursery",
+        "extra_reviewers": [ "fitzgen" ],
+        "owner": "rust-lang",
     },
     "rust-cssparser": {},
     "rust-fnv": {},
