@@ -277,15 +277,3 @@ class DynamicServoFactory(ServoFactory):
             StepsYAMLParsingStep(builder_name, environment,
                                  "etc/ci/buildbot_steps.yml")
         ])
-
-
-doc = ServoFactory([
-    # This is not dynamic because a) we need to pass the logEnviron kwarg
-    # and b) changes to the documentation build are already encapsulated
-    # in the upload_docs.sh script; any further changes should go through
-    # the saltfs repo to avoid leaking the token.
-    steps.ShellCommand(command=["etc/ci/upload_docs.sh"],
-                       env=envs.doc,
-                       # important not to leak token
-                       logEnviron=False),
-])
