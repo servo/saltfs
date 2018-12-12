@@ -1,16 +1,21 @@
+{#
+    servo_try_choosers values are Buildbot jobs,
+    but Taskcluster also has tasks for `try-*` branches:
+    https://github.com/servo/servo/blob/master/etc/taskcluster/decision_task.py
+#}
 {%
   set homu = {
     'db': '/var/homu/main.db',
-    'rev': 'd2b0d20a379cdf5f70b1cfd78f679c24b123cad4',
+    'rev': '2f2d1b87b3344c53b98b9e6f71af98be7e6753f2',
     'servo_try_choosers': {
-        'linux': ['linux-dev'],
-        'mac': ['mac-dev-unit'],
-        'windows': ['windows-msvc-dev'],
+        'linux': [],
+        'mac': [],
+        'windows': [],
         'wpt': ['linux-rel-css', 'linux-rel-wpt'],
         'wpt-mac': ['mac-rel-css1', 'mac-rel-css2', 'mac-rel-wpt1', 'mac-rel-wpt2',
                     'mac-rel-wpt3', 'mac-rel-wpt4'],
-        'wpt-android': ['android-x86'],
-        'android': ['android', 'android-x86', 'android-mac'],
+        'wpt-android': [],
+        'android': ['android-mac'],
         'magicleap': ['magicleap'],
         'arm': ['arm32', 'arm64']
     }
