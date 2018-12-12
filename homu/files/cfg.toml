@@ -205,42 +205,32 @@ secret = "{{ secrets['web-secret'] }}"
 url = "http://build.servo.org"
 secret = "{{ secrets["buildbot-secret"] }}"
 builders = [
-    "linux-dev",
     "linux-rel-css",
     "linux-rel-wpt",
-    "mac-dev-unit",
     "mac-rel-wpt1",
     "mac-rel-wpt2",
     "mac-rel-wpt3",
     "mac-rel-wpt4",
     "mac-rel-css1",
     "mac-rel-css2",
-    "android",
     "android-mac",
-    "android-x86",
     "magicleap",
     "arm32",
     "arm64",
-    "windows-msvc-dev",
 ]
 try_builders = [
-    "linux-dev",
     "linux-rel-css",
     "linux-rel-wpt",
-    "mac-dev-unit",
     "mac-rel-wpt1",
     "mac-rel-wpt2",
     "mac-rel-wpt3",
     "mac-rel-wpt4",
     "mac-rel-css1",
     "mac-rel-css2",
-    "android",
     "android-mac",
-    "android-x86",
     "magicleap",
     "arm32",
     "arm64",
-    "windows-msvc-dev",
 ]
 username = "{{ secrets["buildbot-http-user"] }}"
 password = "{{ secrets["buildbot-http-pass"] }}"
