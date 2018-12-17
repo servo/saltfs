@@ -52,7 +52,9 @@ secret = "{{ secrets['web-secret'] }}"
     "heapsize": {},
     "highfive": {},
     "homu": {},
-    "html5ever": {},
+    "html5ever": {
+        "extra_reviewers": [ "Ygg01" ],
+    },
     "io-surface-rs": {},
     "ipc-channel": {
         "extra_reviewers": [ "antrik" ],
