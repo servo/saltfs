@@ -1,5 +1,7 @@
 require 'yaml'
 
+Vagrant::DEFAULT_SERVER_URL.replace('https://vagrantcloud.com')
+
 def extract_id(env)
   id = env.map do |env_var|
     env_var[/^SALT_NODE_ID=(?<node_id>.+)$/, "node_id"]
