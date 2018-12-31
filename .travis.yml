@@ -95,7 +95,7 @@ matrix:
       sudo: required
       dist: trusty
 
-script: .travis/dispatch.sh
+script: travis_wait .travis/dispatch.sh
 
 notifications:
   webhooks: http://build.servo.org:54856/travis
