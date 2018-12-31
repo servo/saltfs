@@ -42,7 +42,7 @@ run_salt() {
     travis_fold_end "state.show_highstate.$1"
 
     printf 'Running the full Salt highstate\n'
-    salt_call --retcode-passthrough --log-level=warning state.highstate
+    travis_wait salt_call --retcode-passthrough --log-level=warning state.highstate
 }
 
 
