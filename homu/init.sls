@@ -39,7 +39,7 @@ homu:
       - toml==0.9.1
       - uritemplate==3.0.0
       - uritemplate.py==3.0.2
-      - urllib3==1.21.3
+      - urllib3==1.23
       - waitress==1.0.2
     - upgrade: True
     - bin_env: /home/servo/homu/_venv
