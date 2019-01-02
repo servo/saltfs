@@ -32,7 +32,7 @@ at all times, which makes it hard to get out of sync and makes deploys easier.
 
 For this reason, the recommended workflow for making changes is to make PRs
 to this repository; however, note that there is a
-[manual override]([Discouraged: Testing in production])
+[manual override](salt.md#discouraged-testing-in-production)
 that can be used if necessary.
 
 ### Getting started
