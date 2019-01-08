@@ -37,6 +37,7 @@ secret = "{{ secrets['web-secret'] }}"
     "dwrote-rs": {
         "travis": False,
         "appveyor": True,
+        "extra_reviewers": [ "jrmuizel" ],
     },
     "euclid": {
         "extra_reviewers": [ "nical" ],
