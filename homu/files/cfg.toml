@@ -76,6 +76,8 @@ secret = "{{ secrets['web-secret'] }}"
     "rust-bindgen": {
         "extra_reviewers": [ "fitzgen" ],
         "owner": "rust-lang",
+        "travis": False,
+        "travis-legacy": True,
     },
     "rust-cssparser": {},
     "rust-fnv": {},
@@ -262,6 +264,11 @@ try_users = {{ try }}
 secret = "{{ secrets['gh-webhook-secret'] }}"
 
 {% if repo.get('travis', True) %}
+[repo."{{ name }}".checks.travis]
+name = "Travis CI - Branch"
+{% endif %}
+
+{% if repo.get('travis-legacy', False) %}
 [repo."{{ name }}".status.travis]
 context = 'continuous-integration/travis-ci/push'
 {% endif %}
