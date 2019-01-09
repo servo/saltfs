@@ -58,7 +58,7 @@ secret = "{{ secrets['web-secret'] }}"
     },
     "io-surface-rs": {},
     "ipc-channel": {
-        "extra_reviewers": [ "antrik" ],
+        "extra_reviewers": [ "antrik", "dlrobertson" ],
         "appveyor": True,
     },
     "libexpat": {},
