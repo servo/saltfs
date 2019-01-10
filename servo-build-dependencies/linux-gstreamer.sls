@@ -35,3 +35,11 @@ gstreamer-pc:
     - cwd: {{ common.servo_home }}/gstreamer
     - require:
       - file: {{ common.servo_home }}/gstreamer
+
+gstreamer-rebuild-registry:
+  cmd.run:
+    - name: touch lib/x86_64-linux-gnu/gstreamer-1.0/libgstlibav.so
+    - runas: servo
+    - cwd: {{ common.servo_home }}/gstreamer
+    - require:
+      - file: {{ common.servo_home }}/gstreamer
