@@ -116,7 +116,7 @@ secret = "{{ secrets['web-secret'] }}"
     },
     "unicode-script": {},
     "webrender": {
-        "extra_reviewers": [ "nical", "jrmuizel", "Gankro", "staktrace" ],
+        "extra_reviewers": [ "nical", "jrmuizel", "Gankro", "staktrace", "moz-gfx" ],
         "taskcluster": True,
         "appveyor": True,
         "travis": False,
