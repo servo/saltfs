@@ -65,6 +65,9 @@ secret = "{{ secrets['web-secret'] }}"
     "libexpat": {},
     "libfontconfig": {},
     "libfreetype2": {},
+    "media": {
+        "extra_reviewers": [ "ceyusa", "philn", "sdroege" ],
+    },
     "mozangle": {
         "appveyor": True,
     },
