@@ -105,6 +105,9 @@ secret = "{{ secrets['web-secret'] }}"
         "extra_reviewers": [ "Hoverbear" ],
     },
     "rust-websocket": {},
+    "rust-webvr": {
+      "extra_reviewers": [ "MortimerGoro" ],
+    },
     "servo": {
         "travis": False,
         "taskcluster": True,
