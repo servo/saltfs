@@ -52,16 +52,16 @@ build_linux_common = Environment({
         '/usr/sbin',
         '/sbin',
         '/bin',
-        '{{ common.servo_home }}/gstreamer/bin',
-        '{{ common.servo_home }}/gstreamer/lib/x86_64-linux-gnu/',
+        '{{ common.servo_home }}/gst/bin',
+        '{{ common.servo_home }}/gst/lib/',
     ]),
     'LD_LIBRARY_PATH': ':'.join([
-        '{{ common.servo_home }}/gstreamer/lib/x86_64-linux-gnu/',
+        '{{ common.servo_home }}/gst/lib/',
     ]),
     'SHELL': '/bin/bash',
-    'PKG_CONFIG_PATH': '{{ common.servo_home }}/gstreamer/lib/x86_64-linux-gnu/pkgconfig',  # noqa: E501
-    'GST_PLUGIN_SYSTEM_PATH': '{{ common.servo_home }}/gstreamer/lib/x86_64-linux-gnu/gstreamer-1.0',  # noqa: E501
-    'GST_PLUGIN_SCANNER': '{{ common.servo_home }}/gstreamer/libexec/gstreamer-1.0/gst-plugin-scanner',  # noqa: E501
+    'PKG_CONFIG_PATH': '{{ common.servo_home }}/gst/lib/pkgconfig',  # noqa: E501
+    'GST_PLUGIN_SYSTEM_PATH': '{{ common.servo_home }}/gst/lib/gstreamer-1.0',  # noqa: E501
+    'GST_PLUGIN_SCANNER': '{{ common.servo_home }}/gst/libexec/gstreamer-1.0/gst-plugin-scanner',  # noqa: E501
 })
 
 doc = build_linux_common + Environment({

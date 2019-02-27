@@ -11,10 +11,10 @@ libs-gstreamer:
     - archive_format: tar
     - user: servo
     - group: servo
-    - ensure_ownership_on: {{ common.servo_home }}/gstreamer
+    - ensure_ownership_on: {{ common.servo_home }}/gst
 
 
-{{ common.servo_home }}/gstreamer:
+{{ common.servo_home }}/gst:
   file.directory:
     - user: servo
     - group: servo
@@ -30,16 +30,16 @@ libs-gstreamer:
 
 gstreamer-pc:
   cmd.run:
-    - name: sed -i "s;prefix=/root/gstreamer;prefix=$PWD;g" $PWD/lib/x86_64-linux-gnu/pkgconfig/*.pc
+    - name: sed -i "s;prefix=/opt/gst;prefix=$PWD;g" $PWD/lib/pkgconfig/*.pc
     - runas: servo
-    - cwd: {{ common.servo_home }}/gstreamer
+    - cwd: {{ common.servo_home }}/gst
     - require:
-      - file: {{ common.servo_home }}/gstreamer
+      - file: {{ common.servo_home }}/gst
 
 gstreamer-rebuild-registry:
   cmd.run:
-    - name: touch lib/x86_64-linux-gnu/gstreamer-1.0/libgstlibav.so
+    - name: touch lib/gstreamer-1.0/libgstlibav.so
     - runas: servo
-    - cwd: {{ common.servo_home }}/gstreamer
+    - cwd: {{ common.servo_home }}/gst
     - require:
-      - file: {{ common.servo_home }}/gstreamer
+      - file: {{ common.servo_home }}/gst
