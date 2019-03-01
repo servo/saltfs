@@ -48,7 +48,9 @@ secret = "{{ secrets['web-secret'] }}"
     "gecko-media": {
         "extra_reviewers": [ "cpearce", "philn" ],
     },
-    "gleam": {},
+    "gleam": {
+        "extra_reviewers": [ "jrmuizel" ],
+    },
     "glutin": {},
     "heapsize": {},
     "highfive": {},
