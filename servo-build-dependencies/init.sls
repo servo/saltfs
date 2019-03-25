@@ -42,6 +42,7 @@ servo-dependencies:
       - zlib
       {% elif grains['os'] == 'Ubuntu' %}
       - autoconf2.13
+      - libunwind-dev
       {% if grains['osrelease'] == '14.04' %}
       - cmake: 3.2.2-2~ubuntu14.04.1~ppa1
       {% else %}
