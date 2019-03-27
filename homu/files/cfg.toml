@@ -183,6 +183,7 @@ secret = "{{ secrets['web-secret'] }}"
     "hiikezoe",
     "jryans",
     "moz-servo-sync",
+    "servo-wpt-sync",
 ] %}
 
 {% set try = [
