@@ -44,3 +44,16 @@ refresh_pkg_db:
     - name: pkg.refresh_db
     - onchanges:
         - file: /etc/apt/sources.list
+
+ntp:
+  pkg.installed:
+    - name: ntp
+  service.running:
+    - watch:
+      - file: /etc/ntp.conf
+  file.managed:
+    - name: /etc/ntp.conf
+    - user: root
+    - group: root
+    - mode: 644
+    - source: salt://{{ tpldir }}/files/ntp.conf
