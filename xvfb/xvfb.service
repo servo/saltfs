@@ -1,0 +1,9 @@
+[Unit]
+Description=Job that runs xvfb
+Documentation=man:Xvfb(1)
+
+[Service]
+ExecStart=/usr/bin/Xvfb :0 -screen 0 1280x960x24 +extension RANDR +extension RENDER +extension GLX
+
+[Install]
+WantedBy=multi-user.target

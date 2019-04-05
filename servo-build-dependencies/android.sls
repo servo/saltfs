@@ -21,7 +21,7 @@ openjdk:
     # Note: file arg is not accepted here, so have to use the path Salt/apt use
     # in the file.exists state
 
-/etc/apt/sources.list.d/openjdk-r-ppa-trusty.list:
+/etc/apt/sources.list.d/openjdk-r-ppa-xenial.list:
   file.exists:
     - require:
       - pkgrepo: openjdk
