@@ -33,6 +33,7 @@ servo-dependencies:
       - gst-plugins-base
       - gst-plugins-good
       - gst-plugins-bad
+      - jq
       - llvm
       - makedepend
       - openssl

@@ -26,7 +26,6 @@ upstream-wpt-webhook:
   pkg.installed:
     - pkgs:
       - patchutils
-      - jq
   pip.installed:
     - pkgs:
       - git+https://github.com/servo-automation/upstream-wpt-sync-webhook@{{ webhook.rev }}
