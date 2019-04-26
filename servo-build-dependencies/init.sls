@@ -54,6 +54,8 @@ servo-dependencies:
       - dbus-x11
       - freeglut3-dev
       - gcc-5
+      - libgcc-5-dev
+      - libcc1-0
       - g++-5
       - gperf
       - libavcodec-dev
@@ -63,6 +65,7 @@ servo-dependencies:
       - libdbus-glib-1-dev
       - libfreetype6-dev
       - libgl1-mesa-dri
+      - libglu1-mesa-dev
       - libglib2.0-dev
       - libgles2-mesa-dev
       - libosmesa6-dev
