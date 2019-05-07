@@ -21,13 +21,6 @@ openjdk:
     # Note: file arg is not accepted here, so have to use the path Salt/apt use
     # in the file.exists state
 
-/etc/apt/sources.list.d/openjdk-r-ppa-trusty.list:
-  file.exists:
-    - require:
-      - pkgrepo: openjdk
-    - require_in:
-      - file: /etc/apt/sources.list.d
-
 android-dependencies:
   pkg.installed:
     - pkgs:
