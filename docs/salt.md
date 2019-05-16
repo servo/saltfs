@@ -1,5 +1,11 @@
 # Notes on Salt
 
+## Coordination
+
+If you're mucking around on the servers, please check [the salt status document](https://paper.dropbox.com/doc/Servo-saltfs-status--AdOtNHxx6Bqb9EKqT7~G2rQJAg-aSdGEwPjtBVSDgLKgfMli) to see if there are things you should know, and ensure that nobody else is using it. Make sure you add your name in the field at the top whilst actively changing things, and remove it when done.
+
+If you do not have access to this document, please request permission from @Manishearth, @jdm, or @SimonSapin (or hit the "request access" button)
+
 ## Salt overview
 
 We use [SaltStack](https://saltstack.com/) (Salt for short)
