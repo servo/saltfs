@@ -223,19 +223,11 @@ secret = "{{ secrets["buildbot-secret"] }}"
 builders = [
     "linux-rel-css",
     "linux-rel-wpt",
-    "mac-rel-wpt4",
-    "mac-rel-css1",
-    "mac-rel-css2",
-    "magicleap",
     "arm64",
 ]
 try_builders = [
     "linux-rel-css",
     "linux-rel-wpt",
-    "mac-rel-wpt4",
-    "mac-rel-css1",
-    "mac-rel-css2",
-    "magicleap",
     "arm64",
 ]
 username = "{{ secrets["buildbot-http-user"] }}"
