@@ -57,3 +57,7 @@ ntp:
     - group: root
     - mode: 644
     - source: salt://{{ tpldir }}/files/ntp.conf
+
+debconf-utils:
+  pkg.installed:
+    - name: debconf-utils

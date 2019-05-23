@@ -20,7 +20,7 @@ matrix:
         - SALT_FROM_SCRATCH=true
       os: linux
       sudo: required
-      dist: trusty
+      dist: xenial
     - env:
         - SALT_NODE_ID=servo-mac1
         - SALT_FROM_SCRATCH=true
@@ -31,7 +31,7 @@ matrix:
         - SALT_FROM_SCRATCH=true
       os: linux
       sudo: required
-      dist: trusty
+      dist: xenial
     - env:
         - SALT_NODE_ID=servo-master1
         - SALT_FROM_SCRATCH=true
@@ -44,7 +44,7 @@ matrix:
         - SALT_FROM_SCRATCH=false
       os: linux
       sudo: required
-      dist: trusty
+      dist: xenial
     - env:
         - SALT_NODE_ID=servo-mac1
         - SALT_FROM_SCRATCH=false
@@ -55,7 +55,7 @@ matrix:
         - SALT_FROM_SCRATCH=false
       os: linux
       sudo: required
-      dist: trusty
+      dist: xenial
     - env:
         - SALT_NODE_ID=servo-master1
         - SALT_FROM_SCRATCH=false
@@ -66,20 +66,11 @@ matrix:
     - env:
         - SALT_NODE_ID=servo-linux1
         - SALT_FROM_SCRATCH=true
-          # ubuntu:trusty
-          # NOTE: Keep in sync with Dockerfile, .taskcluster.yml
-        - SALT_DOCKER_IMAGE=ubuntu@sha256:084989eb923bd86dbf7e706d464cf3587274a826b484f75b69468c19f8ae354c
-      os: linux
-      sudo: required
-      dist: trusty
-    - env:
-        - SALT_NODE_ID=servo-linux1
-        - SALT_FROM_SCRATCH=true
           # ubuntu:xenial
-        - SALT_DOCKER_IMAGE=ubuntu@sha256:ec0e4e8bf2c1178e025099eed57c566959bb408c6b478c284c1683bc4298b683
+        - SALT_DOCKER_IMAGE=ubuntu@sha256:f3a61450ae43896c4332bda5e78b453f4a93179045f20c8181043b26b5e79028
       os: linux
       sudo: required
-      dist: trusty
+      dist: xenial
     - env:
         - SALT_NODE_ID=servo-linux-kvm1
         - SALT_FROM_SCRATCH=true
@@ -87,13 +78,13 @@ matrix:
         - SALT_DOCKER_IMAGE=ubuntu@sha256:f3a61450ae43896c4332bda5e78b453f4a93179045f20c8181043b26b5e79028
       os: linux
       sudo: required
-      dist: trusty
+      dist: xenial
     # Not a Salt node, runs test suite instead
     - env:
         - SALT_NODE_ID=test
       os: linux
       sudo: required
-      dist: trusty
+      dist: xenial
 
 script: .travis/dispatch.sh
 

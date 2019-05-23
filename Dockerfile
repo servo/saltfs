@@ -1,6 +1,6 @@
-# ubuntu:trusty
+# ubuntu:xenial
 # NOTE: Keep in sync with .travis.yml
-FROM ubuntu@sha256:084989eb923bd86dbf7e706d464cf3587274a826b484f75b69468c19f8ae354c
+FROM ubuntu@sha256:f3a61450ae43896c4332bda5e78b453f4a93179045f20c8181043b26b5e79028
 
 ARG SALT_ROOT=/tmp/salt-bootstrap
 ARG SALT_NODE_ID=servo-linux1

@@ -37,6 +37,8 @@ Vagrant.configure(2) do |config|
       case node['dist']
       when 'trusty'
         { id: extract_id(node['env']), os: node['os'], box: 'ubuntu/trusty64' }
+      when 'xenial'
+        { id: extract_id(node['env']), os: node['os'], box: 'ubuntu/xenial64' }
       end
     end
     if node_config.nil?

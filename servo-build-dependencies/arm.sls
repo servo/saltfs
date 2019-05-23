@@ -38,8 +38,8 @@ arm-dependencies:
 
 libs-{{ target.name }}:
   archive.extracted:
-    - name: {{ common.servo_home }}/rootfs-trusty-{{ target.name }}/{{ target.version }}
-    - source: https://servo-rust.s3.amazonaws.com/ARM/{{ target.download_name }}/{{ target.version }}/{{ target.download_name }}-{{ target.version }}.tgz
+    - name: {{ common.servo_home }}/rootfs-xenial-{{ target.name }}/{{ target.version }}
+    - source: https://servo-deps.s3.amazonaws.com/arm-deps/{{ target.download_name }}-{{ target.version }}.tgz
     - source_hash: sha512={{ target.sha512 }}
     - archive_format: tar
     - user: servo
@@ -55,7 +55,7 @@ libs-{{ target.name }}:
       - archive: libs-{{ target.name }}
 {% endfor %}
 
-{{ common.servo_home }}/rootfs-trusty-{{ target.name }}/{{ target.version }}:
+{{ common.servo_home }}/rootfs-xenial-{{ target.name }}/{{ target.version }}:
   file.directory:
     - user: servo
     - group: servo
@@ -65,7 +65,7 @@ libs-{{ target.name }}:
     - require:
       - archive: libs-{{ target.name }}
 
-{{ common.servo_home }}/rootfs-trusty-{{ target.name }}:
+{{ common.servo_home }}/rootfs-xenial-{{ target.name }}:
   file.directory:
     - user: servo
     - group: servo
@@ -74,12 +74,12 @@ libs-{{ target.name }}:
     - makedirs: True
     - clean: True
     - require:
-      - file: {{ common.servo_home }}/rootfs-trusty-{{ target.name }}/{{ target.version }}
+      - file: {{ common.servo_home }}/rootfs-xenial-{{ target.name }}/{{ target.version }}
 
 {% for root in ['usr/include', 'usr/lib', 'lib'] %}
 /{{ root }}/{{ target.name }}:
   file.symlink:
-    - target: {{ common.servo_home }}/rootfs-trusty-{{ target.name }}/{{ target.version }}/{{ root }}/{{ target.name }}
+    - target: {{ common.servo_home }}/rootfs-xenial-{{ target.name }}/{{ target.version }}/{{ root }}/{{ target.name }}
     - require:
       - archive: libs-{{ target.name }}
 {% endfor %}

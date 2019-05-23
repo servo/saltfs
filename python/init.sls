@@ -34,7 +34,7 @@ python3:
 
 {% if grains['os'] == 'Ubuntu' %}
 python-dev:
-  pkg.installed:
+  pkg.latest:
     - pkgs:
       - python-dev
       - python3-dev

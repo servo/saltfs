@@ -84,11 +84,11 @@ your checkout of the saltfs repo (same directory as the Vagrantfile):
 
 Note that your prompt will change once you're inside a VM.
 
-* `vagrant@vagrant-ubuntu-trusty-64$ sudo apt-get -y install cowsay; cowsay 'servo-saltfs ❤  Vagrant'`:
+* `vagrant@vagrant-ubuntu-xenial-64$ sudo apt-get -y install cowsay; cowsay 'servo-saltfs ❤  Vagrant'`:
   Run commands in the VM
-* `vagrant@vagrant-ubuntu-trusty-64$ sudo su - servo`:
+* `vagrant@vagrant-ubuntu-xenial-64$ sudo su - servo`:
   Change to user servo
-* `vagrant@vagrant-ubuntu-trusty-64$ exit`: Leave the VM
+* `vagrant@vagrant-ubuntu-xenial-64$ exit`: Leave the VM
 
 Back outside the VM:
 
@@ -123,7 +123,7 @@ it requires Python 3.5 (currently must be installed manually)
 and can be run as follows (must be inside the VM):
 
 ```console
-vagrant@vagrant-ubuntu-trusty-64$ ./test.py
+vagrant@vagrant-ubuntu-xenial-64$ ./test.py
 ```
 
 ### PR + Review process
