@@ -1,0 +1,13 @@
+[Unit]
+Description=Job that runs intermittent-tracker
+Requires=network-online.target
+
+[Service]
+ExecStart={{ common.servo_home }}/intermittent-tracker/_venv/bin/intermittent_tracker
+Environment=HOME={{ common.servo_home }}
+User=servo
+Group=servo
+WorkingDirectory={{ common.servo_home }}/intermittent-tracker
+
+[Install]
+WantedBy=multi-user.target

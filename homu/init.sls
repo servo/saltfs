@@ -1,3 +1,4 @@
+{% from 'common/map.jinja' import common %}
 {% from tpldir ~ '/map.jinja' import homu %}
 
 include:
@@ -52,7 +53,7 @@ homu:
       - pip: homu
     - watch:
       - file: /home/servo/homu/cfg.toml
-      - file: /etc/init/homu.conf
+      - file: /lib/systemd/system/homu.service
       - pip: homu
   {% endif %}
 
@@ -76,12 +77,15 @@ homu:
         homu: {{ homu }}
         secrets: {{ pillar['homu'] }}
 
-/etc/init/homu.conf:
+/lib/systemd/system/homu.service:
   file.managed:
-    - source: salt://{{ tpldir }}/files/homu.conf
+    - source: salt://{{ tpldir }}/files/homu.service
     - user: root
     - group: root
     - mode: 644
+    - template: jinja
+    - context:
+        common: {{ common }}
     - require:
       - pip: homu
       - file: /home/servo/homu/cfg.toml
