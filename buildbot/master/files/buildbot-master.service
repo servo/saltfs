@@ -1,0 +1,12 @@
+[Unit]
+Description=Job that runs buildbot-master
+Requires=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/buildbot start --nodaemon {{ common.servo_home }}/buildbot/master
+Environment=HOME={{ common.servo_home }}
+User=servo
+Group=servo
+
+[Install]
+WantedBy=multi-user.target

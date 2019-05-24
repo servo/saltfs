@@ -1,0 +1,13 @@
+[Unit]
+Description=Job that runs homu
+Requires=network-online.target
+
+[Service]
+ExecStart={{ common.servo_home }}/homu/_venv/bin/homu
+Environment=HOME={{ common.servo_home }}
+User=servo
+Group=servo
+WorkingDirectory={{ common.servo_home }}/homu
+
+[Install]
+WantedBy=multi-user.target

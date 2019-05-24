@@ -1,3 +1,4 @@
+{% from 'common/map.jinja' import common %}
 {% from tpldir ~ '/map.jinja' import standups %}
 
 include:
@@ -32,7 +33,7 @@ standups:
       - pip: standups
     - watch:
       - file: /home/servo/standups/config.json
-      - file: /etc/init/standups.conf
+      - file: /lib/systemd/system/standups.service
       - pip: standups
   {% endif %}
 
@@ -49,13 +50,17 @@ standups:
     - user: servo
     - group: servo
     - mode: 644
+    - replace: False
 
-/etc/init/standups.conf:
+/lib/systemd/system/standups.service:
   file.managed:
-    - source: salt://{{ tpldir }}/files/standups.conf
+    - source: salt://{{ tpldir }}/files/standups.service
+    - template: jinja
     - user: root
     - group: root
     - mode: 644
+    - context:
+        common: {{ common }}
     - require:
       - pip: standups
       - file: /home/servo/standups/config.json

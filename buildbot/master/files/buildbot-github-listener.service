@@ -1,0 +1,12 @@
+[Unit]
+Description=Job that runs buildbot-github-listener
+Requires=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/github_buildbot.py -p 9010 -m localhost:9001 --auth=change:{{ pillar['buildbot']['credentials']['change-pass'] }} --secret={{ pillar['buildbot']['credentials']['gh-hook-secret'] }} -l {{ common.servo_home }}/buildbot/master/github-listener.log
+Environment=HOME={{ common.servo_home }}
+User=servo
+Group=servo
+
+[Install]
+WantedBy=multi-user.target

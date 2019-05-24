@@ -41,7 +41,7 @@ upstream-wpt-webhook:
       - pip: upstream-wpt-webhook
     - watch:
       - file: /home/wpt-sync/upstream-wpt-sync-webhook/config.json
-      - file: /etc/init/wpt-webhook.conf
+      - file: /lib/systemd/system/wpt-webhook.service
       - pip: upstream-wpt-webhook
   {% endif %}
 
@@ -53,9 +53,9 @@ upstream-wpt-webhook:
     - group: wpt-sync
     - mode: 644
 
-/etc/init/wpt-webhook.conf:
+/lib/systemd/system/wpt-webhook.service:
   file.managed:
-    - source: salt://{{ tpldir }}/files/wpt-webhook.conf
+    - source: salt://{{ tpldir }}/files/wpt-webhook.service
     - user: root
     - group: root
     - mode: 644

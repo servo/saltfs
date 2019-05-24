@@ -1,0 +1,13 @@
+[Unit]
+Description=Job that runs standups
+Requires=network-online.target
+
+[Service]
+ExecStart={{ common.servo_home }}/standups/_venv/bin/standups
+Environment=HOME={{ common.servo_home }}
+User=servo
+Group=servo
+WorkingDirectory={{ common.servo_home }}/standups
+
+[Install]
+WantedBy=multi-user.target

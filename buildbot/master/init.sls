@@ -25,7 +25,7 @@ buildbot-master:
       - user: servo
       - pip: buildbot-master
       - file: ownership-{{ common.servo_home }}/buildbot/master
-      - file: /etc/init/buildbot-master.conf
+      - file: /lib/systemd/system/buildbot-master.service
   {% endif %}
 
 deploy-{{ common.servo_home }}/buildbot/master:
@@ -56,9 +56,9 @@ ownership-{{ common.servo_home }}/buildbot/master:
     - require:
       - file: deploy-{{ common.servo_home }}/buildbot/master
 
-/etc/init/buildbot-master.conf:
+/lib/systemd/system/buildbot-master.service:
   file.managed:
-    - source: salt://{{ tpldir }}/files/buildbot-master.conf
+    - source: salt://{{ tpldir }}/files/buildbot-master.service
     - user: root
     - group: root
     - mode: 644
@@ -73,9 +73,9 @@ ownership-{{ common.servo_home }}/buildbot/master:
     - group: root
     - mode: 755
 
-/etc/init/buildbot-github-listener.conf:
+/lib/systemd/system/buildbot-github-listener.service:
   file.managed:
-    - source: salt://{{ tpldir }}/files/buildbot-github-listener.conf
+    - source: salt://{{ tpldir }}/files/buildbot-github-listener.service
     - user: root
     - group: root
     - mode: 644
@@ -89,7 +89,7 @@ buildbot-github-listener:
     - enable: True
     - watch:
       - file: /usr/local/bin/github_buildbot.py
-      - file: /etc/init/buildbot-github-listener.conf
+      - file: /lib/systemd/system/buildbot-github-listener.service
 {% endif %}
 
 remove-old-build-logs:

@@ -1,10 +1,3 @@
-/etc/init/xvfb.conf:
-  file.managed:
-    - source: salt://xvfb/xvfb.conf
-    - user: root
-    - group: root
-    - mode: 644
-
 /lib/systemd/system/xvfb.service:
   file.managed:
     - source: salt://xvfb/xvfb.service

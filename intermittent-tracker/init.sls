@@ -1,3 +1,4 @@
+{% from 'common/map.jinja' import common %}
 {% from tpldir ~ '/map.jinja' import tracker %}
 
 include:
@@ -33,7 +34,7 @@ intermittent-tracker:
       - pip: intermittent-tracker
     - watch:
       - file: /home/servo/intermittent-tracker/config.json
-      - file: /etc/init/tracker.conf
+      - file: /lib/systemd/system/tracker.service
       - pip: intermittent-tracker
   {% endif %}
 
@@ -45,12 +46,15 @@ intermittent-tracker:
     - group: servo
     - mode: 644
 
-/etc/init/tracker.conf:
+/lib/systemd/system/tracker.service:
   file.managed:
-    - source: salt://{{ tpldir }}/files/tracker.conf
+    - source: salt://{{ tpldir }}/files/tracker.service
+    - template: jinja
     - user: root
     - group: root
     - mode: 644
+    - context:
+        common: {{ common }}
     - require:
       - pip: intermittent-tracker
       - file: /home/servo/intermittent-tracker/config.json
