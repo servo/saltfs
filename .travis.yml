@@ -11,7 +11,6 @@ language: cpp
 
 # NOTE: Make sure the matrix covers all node types in top.sls
 # NOTE: Make sure each node type is tested both from scratch and as an upgrade
-# sudo: required and dist: trusty enable usage of Trusty
 matrix:
   include:
     # Salt from scratch
@@ -37,7 +36,7 @@ matrix:
         - SALT_FROM_SCRATCH=true
       os: linux
       sudo: required
-      dist: trusty
+      dist: xenial
     # Salt from previous configuration
     - env:
         - SALT_NODE_ID=servo-linux-cross1
@@ -61,7 +60,7 @@ matrix:
         - SALT_FROM_SCRATCH=false
       os: linux
       sudo: required
-      dist: trusty
+      dist: xenial
     # Salt inside Docker
     - env:
         - SALT_NODE_ID=servo-linux1
