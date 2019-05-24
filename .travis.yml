@@ -37,7 +37,7 @@ matrix:
         - SALT_FROM_SCRATCH=true
       os: linux
       sudo: required
-      dist: trusty
+      dist: xenial
     # Salt from previous configuration
     - env:
         - SALT_NODE_ID=servo-linux-cross1
@@ -61,7 +61,7 @@ matrix:
         - SALT_FROM_SCRATCH=false
       os: linux
       sudo: required
-      dist: trusty
+      dist: xenial
     # Salt inside Docker
     - env:
         - SALT_NODE_ID=servo-linux1
