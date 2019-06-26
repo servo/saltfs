@@ -132,6 +132,7 @@ else
         ./test.py sls.buildbot.master sls.homu sls.nginx
     fi
 
+    ./test.py sls.admin
     # Salt doesn't support timezone.system on OSX
     # See https://github.com/saltstack/salt/issues/31345
     if [[ ! "${SALT_NODE_ID}" =~ servo-mac.* ]]; then
