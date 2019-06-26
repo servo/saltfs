@@ -12,30 +12,6 @@ base:
     - match: grain
     - ubuntu
 
-  'servo-linux-cross\d+':
-    - match: pcre
-    - buildbot.slave
-    - servo-build-dependencies
-    - servo-build-dependencies.android
-    - servo-build-dependencies.arm
-    - servo-build-dependencies.ci
-
-  'servo-linux-kvm\d+':
-    - match: pcre
-    - buildbot.slave
-    - servo-build-dependencies
-    - servo-build-dependencies.kvm
-    - servo-build-dependencies.java
-    - servo-build-dependencies.ci
-
-  'servo-(mac|macpro)\d+':
-    - match: pcre
-    - osx
-    - buildbot.slave
-    - servo-build-dependencies
-    - servo-build-dependencies.ci
-    - servo-build-dependencies.mac-magicleap
-
   'servo-linux\d+':
     - match: pcre
     - buildbot.slave
@@ -44,10 +20,6 @@ base:
     - servo-build-dependencies.ci
     - servo-build-dependencies.linux-gstreamer
     - xvfb
-
-  'servo-windows\d+':
-    - match: pcre
-    - servo-build-dependencies.ci
 
   'servo-master\d+':
     - match: pcre

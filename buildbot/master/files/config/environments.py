@@ -73,25 +73,6 @@ build_common = Environment({
     'BUILD_MACHINE': str(util.Property('slavename')),
 })
 
-build_windows_msvc = build_common + Environment({
-    'PATH': ';'.join([
-        r'C:\Python27',
-        r'C:\Python27\Scripts',
-        r'C:\Windows\system32',
-        r'C:\Windows',
-        r'C:\Windows\System32\Wbem',
-        r'C:\Windows\System32\WindowsPowerShell\v1.0',
-        r'C:\Program Files\Amazon\cfn-bootstrap',
-        r'C:\Program Files\Git\cmd',
-        r'C:\Program Files (x86)\WiX Toolset v3.10\bin',
-        r'C:\sccache',
-        r'C:\Users\Administrator\.cargo\bin',
-        r'C:\gstreamer\1.0\x86_64\lib',
-    ]),
-    'LIB': r'C:\gstreamer\1.0\x86_64\lib',
-    'SERVO_CACHE_DIR': r'C:\Users\Administrator\.servo',
-})
-
 build_mac = build_common + Environment({
     'CCACHE': '/usr/local/bin/ccache',
     'SERVO_CACHE_DIR': '/Users/servo/.servo',
@@ -112,44 +93,6 @@ build_linux = build_common + build_linux_common + Environment({
     'CCACHE': '/usr/bin/ccache',
     'DISPLAY': ':0',
     'SERVO_CACHE_DIR': '{{ common.servo_home }}/.servo',
-})
-
-build_android = build_linux + Environment({
-    # TODO(aneeshusa): Template this value for e.g. macOS builds
-    'JAVA_HOME': '/usr/lib/jvm/java-8-openjdk-amd64',
-    'PATH': ':'.join([
-        '{{ common.servo_home }}/.cargo/bin',
-        '/usr/local/sbin',
-        '/usr/local/bin',
-        '/usr/bin',
-        '/usr/sbin',
-        '/sbin',
-        '/bin',
-    ]),
-})
-
-build_arm = build_linux + Environment({
-    'EXPAT_NO_PKG_CONFIG': '1',
-    'FONTCONFIG_NO_PKG_CONFIG': '1',
-    'FREETYPE2_NO_PKG_CONFIG': '1',
-    'PKG_CONFIG_ALLOW_CROSS': '1',
-})
-
-# Unset SERVO_CACHE_DIR to test our download code for host and cross targets.
-# Use arm32 because it is the fastest cross builder.
-build_arm32 = build_arm.without(['SERVO_CACHE_DIR']) + Environment({
-    'BUILD_TARGET': 'arm-unknown-linux-gnueabihf',
-    'CC_arm-unknown-linux-gnueabihf': 'arm-linux-gnueabihf-gcc',
-    'CXX_arm-unknown-linux-gnueabihf': 'arm-linux-gnueabihf-g++',
-    'PKG_CONFIG_PATH': '/usr/lib/arm-linux-gnueabihf/pkgconfig',
-})
-
-build_arm64 = build_arm + Environment({
-    'BUILD_TARGET': 'aarch64-unknown-linux-gnu',
-    'CC_aarch64-unknown-linux-gnu': 'aarch64-linux-gnu-gcc',
-    'CXX_aarch64-unknown-linux-gnu': 'aarch64-linux-gnu-g++',
-    'PKG_CONFIG_PATH': '/usr/lib/aarch64-linux-gnu/pkgconfig',
-    'SERVO_RUSTC_WITH_GOLD': 'False',
 })
 
 upload_nightly = Environment({
