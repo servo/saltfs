@@ -43,20 +43,6 @@ install_salt() {
                 -o Dpkg::Options::="--force-confold" \
                 -o Dpkg::Options::="--force-confdef" \
                 install salt-minion=2018.3.4+ds-1
-    elif [[ "${OS_NAME}" == "osx" ]]; then
-        printf "%s: installing salt for Mac OS X\n" "${0}"
-        brew update
-        printf "\nhomebrew --version output:\n"
-        brew --version # For debugging
-        printf "\n"
-        # Unlink allows switching versions,
-        # I wish Homebrew had an atomic operation for pinned upgrades
-        if brew list | grep 'salt' >/dev/null; then
-            brew unlink saltstack
-        fi
-        brew install --force https://raw.githubusercontent.com/Homebrew/homebrew-core/b87a9520e01f0a4e572640ddb1c489f57d830c8d/Formula/salt.rb
-        # In case we had the same version previously, we need to relink
-        brew link --overwrite saltstack
     else
         printf >&2 "%s: unknown operating system %s\n" "${0}" "${OS_NAME}"
         exit 1

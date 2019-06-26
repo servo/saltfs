@@ -1,18 +1,3 @@
-{% if grains['os'] == 'MacOS' %}
-
-python2:
-  pkg.installed:
-    - pkgs:
-      - python@2
-    - refresh: True
-
-python3:
-  pkg.installed:
-    - pkgs:
-      - python
-
-{% else %}
-
 python2:
   pkg.installed:
     - pkgs:
@@ -30,8 +15,6 @@ python3:
       {% endif %}
       {% endif %}
 
-{% endif %}
-
 {% if grains['os'] == 'Ubuntu' %}
 python-dev:
   pkg.latest:
@@ -45,8 +28,6 @@ pip:
     - pkgs:
       {% if grains['os'] in ['CentOS', 'Fedora', 'Ubuntu'] %}
       - python-pip
-      {% elif grains['os'] == 'MacOS' %}
-      - python@2 # pip is included with python in homebrew
       {% endif %}
     - reload_modules: True
 
@@ -56,8 +37,5 @@ virtualenv:
   pip.installed:
     - pkgs:
       - virtualenv == 14.0.6
-    {% if grains['os'] == 'MacOS' %}
-    - ignore_installed: True
-    {% endif %}
     - require:
       - pkg: pip

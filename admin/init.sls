@@ -6,11 +6,8 @@ admin-packages:
     - pkgs:
       - tmux
       - mosh
-      {% if grains['os'] != 'MacOS' %}
-      - screen # Installed by default on OS X
-      {% endif %}
 
-{% if grains['os'] != 'MacOS' and grains.get('virtual_subtype', '') != 'Docker' %}
+{% if grains.get('virtual_subtype', '') != 'Docker' %}
 UTC:
     timezone.system
 {% endif %}

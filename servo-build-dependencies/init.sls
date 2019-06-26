@@ -21,25 +21,7 @@ servo-dependencies:
     - pkgs:
       - ccache
       - git
-      {% if grains['os'] == 'MacOS' %}
-      - autoconf@2.13
-      - automake
-      - cmake
-      - ffmpeg
-      - freetype
-      - gstreamer
-      - gst-plugins-base
-      - gst-plugins-good
-      - gst-plugins-bad
-      - jq
-      - llvm
-      - makedepend
-      - openssl
-      - pkg-config
-      - wget
-      - yasm
-      - zlib
-      {% elif grains['os'] == 'Ubuntu' %}
+      {% if grains['os'] == 'Ubuntu' %}
       - autoconf2.13
       - libunwind8-dev
       - liblzma-dev
@@ -108,9 +90,6 @@ servo-dependencies:
     - require:
       - pkg: pip
       - pip: virtualenv
-    {% if grains['os'] == 'MacOS' %}
-    - ignore_installed: True
-    {% endif %}
   {% endif %}
 
 {% if grains['os'] == 'Ubuntu' %}
