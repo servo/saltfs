@@ -133,6 +133,9 @@ secret = "{{ secrets['web-secret'] }}"
     "webrender_traits": {
         "travis": False,
     },
+    "webxr": {
+      "extra_reviewers": [ "MortimerGoro" ],
+    },
 } %}
 
 {% set reviewers = [
