@@ -1,7 +1,4 @@
 from buildbot.plugins import util
-from passwords import GITHUB_DOC_TOKEN, GITHUB_HOMEBREW_TOKEN
-from passwords import S3_UPLOAD_ACCESS_KEY_ID, S3_UPLOAD_SECRET_ACCESS_KEY
-from passwords import WPT_SYNC_PR_CREATION_TOKEN
 
 
 class Environment(dict):
@@ -64,43 +61,12 @@ build_linux_common = Environment({
     'GST_PLUGIN_SCANNER': '{{ common.servo_home }}/gst/libexec/gstreamer-1.0/gst-plugin-scanner',  # noqa: E501
 })
 
-doc = build_linux_common + Environment({
-    'SERVO_CACHE_DIR': '{{ common.servo_home }}/.servo',
-    'TOKEN': GITHUB_DOC_TOKEN,
-})
-
 build_common = Environment({
     'BUILD_MACHINE': str(util.Property('slavename')),
 })
-
-build_mac = build_common + Environment({
-    'CCACHE': '/usr/local/bin/ccache',
-    'SERVO_CACHE_DIR': '/Users/servo/.servo',
-    'OPENSSL_INCLUDE_DIR': '/usr/local/opt/openssl/include',
-    'OPENSSL_LIB_DIR': '/usr/local/opt/openssl/lib',
-    'PATH': ':'.join([
-        '/Users/servo/.cargo/bin',
-        '/usr/local/bin',
-        '/usr/bin',
-        '/bin',
-        '/usr/sbin',
-        '/sbin',
-    ]),
-})
-
 
 build_linux = build_common + build_linux_common + Environment({
     'CCACHE': '/usr/bin/ccache',
     'DISPLAY': ':0',
     'SERVO_CACHE_DIR': '{{ common.servo_home }}/.servo',
-})
-
-upload_nightly = Environment({
-    'AWS_ACCESS_KEY_ID': S3_UPLOAD_ACCESS_KEY_ID,
-    'AWS_SECRET_ACCESS_KEY': S3_UPLOAD_SECRET_ACCESS_KEY,
-    'GITHUB_HOMEBREW_TOKEN': GITHUB_HOMEBREW_TOKEN,
-})
-
-sync_wpt = Environment({
-    'WPT_SYNC_TOKEN': WPT_SYNC_PR_CREATION_TOKEN,
 })

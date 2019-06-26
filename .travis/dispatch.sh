@@ -88,12 +88,6 @@ if (( EUID != 0 )); then
     SUDO="sudo"
 fi
 
-# Accommodate homebrew changes to python 2/3 formulas.
-if [[ "${SALT_NODE_ID}" =~ servo-mac.* ]]; then
-    brew update
-    brew upgrade python
-fi
-
 if [[ "${SALT_NODE_ID}" == "test" ]]; then
     # Run test suite separately for parallelism
     setup_test_venv
