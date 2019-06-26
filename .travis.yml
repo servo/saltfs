@@ -15,12 +15,6 @@ matrix:
   include:
     # Salt from scratch
     - env:
-        - SALT_NODE_ID=servo-linux-cross1
-        - SALT_FROM_SCRATCH=true
-      os: linux
-      sudo: required
-      dist: xenial
-    - env:
         - SALT_NODE_ID=servo-linux1
         - SALT_FROM_SCRATCH=true
       os: linux
@@ -33,12 +27,6 @@ matrix:
       sudo: required
       dist: xenial
     # Salt from previous configuration
-    - env:
-        - SALT_NODE_ID=servo-linux-cross1
-        - SALT_FROM_SCRATCH=false
-      os: linux
-      sudo: required
-      dist: xenial
     - env:
         - SALT_NODE_ID=servo-linux1
         - SALT_FROM_SCRATCH=false
