@@ -58,5 +58,6 @@ matrix:
 script: .travis/dispatch.sh
 
 notifications:
+  webhooks: https://build.servo.org/homu/travis
   irc: "irc.mozilla.org#servo-bots"
 
