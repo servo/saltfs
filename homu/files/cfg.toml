@@ -223,7 +223,7 @@ secret = "{{ secrets['web-secret'] }}"
 ] %}
 
 [repo.servo.buildbot]
-url = "http://build.servo.org"
+url = "https://build.servo.org"
 secret = "{{ secrets["buildbot-secret"] }}"
 builders = [
     "linux-rel-css",
