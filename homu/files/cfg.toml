@@ -238,7 +238,11 @@ password = "{{ secrets["buildbot-http-pass"] }}"
 
 [repo.servo.buildbot.try_choosers]
 {% for chooser, builders in homu.servo_try_choosers.items() %}
+{% if builders %}
 {{ chooser }} = ["{{ builders | list | join ('\", \"') }}"]
+{% else %}
+{{ chooser }} = []
+{% endif %}
 {% endfor %}
 
 # Disabled due to performance and instability
