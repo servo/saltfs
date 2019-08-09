@@ -1,6 +1,6 @@
 # Servo's SaltStack Configuration
 
-[![Build Status](https://travis-ci.org/servo/saltfs.svg)](https://travis-ci.org/servo/saltfs)
+[![Build Status](https://travis-ci.com/servo/saltfs.svg)](https://travis-ci.com/servo/saltfs)
 
 ## What's going on?
 
@@ -9,14 +9,14 @@ infrastructure. See [the tutorials](https://docs.saltstack.com/en/2016.3/topics/
 
 ## Contributing
 
-There are guides available on [the servo wiki](https://github.com/servo/servo/wiki/Buildbot-administration),
+There are guides available on [the Servo wiki](https://github.com/servo/servo/wiki/Buildbot-administration),
 as well as some documention in-tree in the `docs` folder.
 If you see a way that these configurations could be improved, or try to set up
 your own instance and run into trouble, file [an issue](https://github.com/servo/saltfs/issues/new)!
 
 ## Travis
 
-TravisCI is set up to test all configurations.
+Travis CI is set up to test all configurations.
 
 ## License
 
