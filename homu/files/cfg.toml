@@ -23,21 +23,11 @@ secret = "{{ secrets['web-secret'] }}"
     "app_units": {},
     "cgl-rs": {},
     "cocoa-rs": {},
-    "core-foundation-rs": {
-        "extra_reviewers": [ "jrmuizel" ]
-    },
-    "core-graphics-rs": {
-        "extra_reviewers": [ "jrmuizel" ]
-    },
-    "core-text-rs": {
-        "extra_reviewers": [ "jrmuizel" ]
-    },
     "devices": {},
     "download.servo.org": {},
     "dwrote-rs": {
         "travis": False,
         "appveyor": True,
-        "extra_reviewers": [ "jrmuizel" ],
     },
     "euclid": {
         "extra_reviewers": [ "nical" ],
@@ -47,9 +37,6 @@ secret = "{{ secrets['web-secret'] }}"
     "gaol": {},
     "gecko-media": {
         "extra_reviewers": [ "cpearce", "philn" ],
-    },
-    "gleam": {
-        "extra_reviewers": [ "jrmuizel" ],
     },
     "glutin": {},
     "heapsize": {},
@@ -125,7 +112,7 @@ secret = "{{ secrets['web-secret'] }}"
     },
     "unicode-script": {},
     "webrender": {
-        "extra_reviewers": [ "nical", "jrmuizel", "Gankro", "staktrace", "moz-gfx" ],
+        "extra_reviewers": [ "nical", "Gankro", "staktrace", "moz-gfx" ],
         "taskcluster": True,
         "appveyor": True,
         "travis": False,
@@ -155,6 +142,7 @@ secret = "{{ secrets['web-secret'] }}"
     "heycam",
     "jdm",
     "jgraham",
+    "jrmuizel",
     "KiChjang",
     "kmcallister",
     "kvark",
