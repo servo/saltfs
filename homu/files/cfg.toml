@@ -23,6 +23,9 @@ secret = "{{ secrets['web-secret'] }}"
     "app_units": {},
     "cgl-rs": {},
     "cocoa-rs": {},
+    "core-foundation-rs": {},
+    "core-graphics-rs": {},
+    "core-text-rs": {},
     "devices": {},
     "download.servo.org": {},
     "dwrote-rs": {
@@ -38,6 +41,7 @@ secret = "{{ secrets['web-secret'] }}"
     "gecko-media": {
         "extra_reviewers": [ "cpearce", "philn" ],
     },
+    "gleam": {},
     "glutin": {},
     "heapsize": {},
     "highfive": {},
