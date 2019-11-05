@@ -278,6 +278,9 @@ context = 'Taskcluster (push)'
 
 # Specialized per-repo configs
 
+[repo.servo.status.community-tc]
+context = 'Community-TC (push)'
+
 [repo.glutin.branch]
 master = "servo"
 
