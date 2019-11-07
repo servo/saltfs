@@ -117,6 +117,7 @@ secret = "{{ secrets['web-secret'] }}"
     "unicode-script": {},
     "webrender": {
         "extra_reviewers": [ "nical", "Gankro", "staktrace", "moz-gfx" ],
+        "taskcluster": True,
         "appveyor": True,
         "travis": False,
     },
@@ -270,18 +271,12 @@ context = 'continuous-integration/appveyor/branch'
 
 {% if repo.get('taskcluster', False) %}
 [repo."{{ name }}".status.taskcluster]
-context = 'Taskcluster (push)'
+context = 'Community-TC (push)'
 {% endif %}
 
 {% endfor %}
 
 # Specialized per-repo configs
-
-[repo.servo.status.community-tc]
-context = 'Community-TC (push)'
-
-[repo.webrender.status.community-tc]
-context = 'Community-TC (push)'
 
 [repo.glutin.branch]
 master = "servo"
