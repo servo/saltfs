@@ -219,12 +219,8 @@ secret = "{{ secrets['web-secret'] }}"
 url = "http://build.servo.org"
 secret = "{{ secrets["buildbot-secret"] }}"
 builders = [
-    "linux-rel-css",
-    "linux-rel-wpt",
 ]
 try_builders = [
-    "linux-rel-css",
-    "linux-rel-wpt",
 ]
 username = "{{ secrets["buildbot-http-user"] }}"
 password = "{{ secrets["buildbot-http-pass"] }}"
