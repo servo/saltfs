@@ -1,26 +1,6 @@
-{#
-    servo_try_choosers values are Buildbot jobs,
-    but Taskcluster also has tasks for `try-*` branches:
-    https://github.com/servo/servo/blob/master/etc/taskcluster/decision_task.py
-
-    When adding a new key, also add it to the "branch" field of the "servo-try" entry in
-    https://github.com/mozilla/treeherder/blob/master/treeherder/model/fixtures/repository.json
-#}
 {%
   set homu = {
     'db': '/var/homu/main.db',
     'rev': 'd6b918f45b4aadfb43ae4cba5b9b80a4f9c00638',
-    'servo_try_choosers': {
-        'linux': [],
-        'mac': [],
-        'windows': [],
-        'wpt': [],
-        'wpt-2020': [],
-        'wpt-mac': [],
-        'wpt-android': [],
-        'android': [],
-        'magicleap': [],
-        'arm': []
-    }
   }
 %}
