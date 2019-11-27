@@ -18,6 +18,20 @@ host = "0.0.0.0"
 port = 54856
 secret = "{{ secrets['web-secret'] }}"
 
+# When adding a new chooser, also add it to the "branch" field of the "servo-try" entry in
+# https://github.com/mozilla/treeherder/blob/master/treeherder/model/fixtures/repository.json
+{% set servo_try_choosers = [
+    "linux",
+    "mac",
+    "windows",
+    "wpt",
+    "wpt-2020",
+    "wpt-mac",
+    "wpt-android",
+    "android",
+    "magicleap",
+    "arm",
+] %}
 {% set repos = {
     "angle": {},
     "app_units": {},
@@ -104,6 +118,7 @@ secret = "{{ secrets['web-secret'] }}"
     "servo": {
         "travis": False,
         "taskcluster": True,
+        "try_choosers": servo_try_choosers,
     },
     "saltfs": {},
     "servo-starters": {},
@@ -215,29 +230,6 @@ secret = "{{ secrets['web-secret'] }}"
     "Yoric",
 ] %}
 
-[repo.servo.buildbot]
-url = "http://build.servo.org"
-secret = "{{ secrets["buildbot-secret"] }}"
-builders = [
-]
-try_builders = [
-]
-username = "{{ secrets["buildbot-http-user"] }}"
-password = "{{ secrets["buildbot-http-pass"] }}"
-
-[repo.servo.buildbot.try_choosers]
-{% for chooser, builders in homu.servo_try_choosers.items() %}
-{% if builders %}
-{{ chooser }} = ["{{ builders | list | join ('\", \"') }}"]
-{% else %}
-{{ chooser }} = []
-{% endif %}
-{% endfor %}
-
-# Disabled due to performance and instability
-#[repo.servo.status.appveyor]
-#context = 'continuous-integration/appveyor/branch'
-
 # Standard per-repo configs (generated)
 
 {% for name, repo in repos.items() %}
@@ -247,6 +239,7 @@ owner = "{{ repo.get("owner", "servo") }}"
 name = "{{ name }}"
 reviewers = {{ reviewers + operators + repo.get("extra_reviewers", []) }}
 try_users = {{ try }}
+try_choosers = {{ repo.get("try_choosers", []) }}
 
 [repo."{{ name }}".github]
 secret = "{{ secrets['gh-webhook-secret'] }}"
