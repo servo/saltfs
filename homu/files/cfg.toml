@@ -234,10 +234,6 @@ password = "{{ secrets["buildbot-http-pass"] }}"
 {% endif %}
 {% endfor %}
 
-# Disabled due to performance and instability
-#[repo.servo.status.appveyor]
-#context = 'continuous-integration/appveyor/branch'
-
 # Standard per-repo configs (generated)
 
 {% for name, repo in repos.items() %}
