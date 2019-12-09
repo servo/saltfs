@@ -105,10 +105,6 @@ gcc-ppa:
   pkgrepo.managed:
     - ppa: ubuntu-toolchain-r/test
 
-ffmpeg-ppa:
-  pkgrepo.managed:
-    - ppa: jonathonf/ffmpeg-3
-
 llvm-deb:
   pkgrepo.managed:
     - name: 'deb http://apt.llvm.org/{{ grains['oscodename'] }}/ llvm-toolchain-{{ grains['oscodename'] }}-4.0 main'
