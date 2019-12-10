@@ -218,6 +218,7 @@ secret = "{{ secrets['web-secret'] }}"
     "jyc",
     "magni-",
     "mandreyel",
+    "marmeladema",
     "neeharanshu",
     "panup21091993",
     "paulrouget",
