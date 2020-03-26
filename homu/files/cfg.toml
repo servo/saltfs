@@ -102,7 +102,6 @@ secret = "{{ secrets['web-secret'] }}"
     "rust-mozjs": {
         "appveyor": True,
     },
-    "rust-offscreen-rendering-context": {},
     "rust-png": {},
     "rust-quicksort": {},
     "rust-selectors": {},
@@ -125,6 +124,7 @@ secret = "{{ secrets['web-secret'] }}"
     "servo-warc-tests": {},
     "skia": {},
     "string-cache": {},
+    "surfman": {},
     "tendril": {},
     "unicode-bidi": {
         "extra_reviewers": [ "behnam" ],
