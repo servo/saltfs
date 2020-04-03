@@ -24,6 +24,7 @@ secret = "{{ secrets['web-secret'] }}"
     "linux",
     "mac",
     "windows",
+    "windows-rdp",
     "wpt",
     "wpt-2020",
     "wpt-mac",
