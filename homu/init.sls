@@ -31,7 +31,7 @@ homu:
       - github3.py==0.9.6
       - idna==2.5
       - Jinja2==2.9.6
-      - MarkupSafe==1.0
+      - MarkupSafe==1.1
       - packaging==16.8
       - pyparsing==2.1.10
       - requests==2.20.0
@@ -40,8 +40,8 @@ homu:
       - toml==0.9.1
       - uritemplate==3.0.0
       - uritemplate.py==3.0.2
-      - urllib3==1.23
-      - waitress==1.0.2
+      - urllib3==1.25
+      - waitress==1.4.3
     - upgrade: True
     - bin_env: /home/servo/homu/_venv
     - require:
