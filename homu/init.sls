@@ -31,7 +31,7 @@ homu:
       - github3.py==0.9.6
       - idna==2.5
       - Jinja2==2.9.6
-      - MarkupSafe==1.0
+      - MarkupSafe==1.1
       - packaging==16.8
       - pyparsing==2.1.10
       - requests==2.20.0
