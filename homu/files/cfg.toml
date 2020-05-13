@@ -50,6 +50,7 @@ secret = "{{ secrets['web-secret'] }}"
     "euclid": {
         "extra_reviewers": [ "nical" ],
     },
+    "fontkit": {},
     "fontsan": {},
     "futf": {},
     "gaol": {},
@@ -83,6 +84,7 @@ secret = "{{ secrets['web-secret'] }}"
         "appveyor": True,
     },
     "osmesa-src": {},
+    "pathfinder": {},
     "plane-split": {},
     "rust-azure": {},
     "rust-bindgen": {
