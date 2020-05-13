@@ -134,7 +134,6 @@ secret = "{{ secrets['web-secret'] }}"
     "webrender": {
         "extra_reviewers": [ "nical", "Gankro", "staktrace", "moz-gfx" ],
         "taskcluster": True,
-        "appveyor": True,
         "travis": False,
     },
     "webrender_traits": {
