@@ -123,7 +123,7 @@ else
 
     # TODO: don't hard-code this
     if [[ "${SALT_NODE_ID}" == "servo-master1" ]]; then
-        ./test.py sls.buildbot.master sls.homu sls.nginx
+        ./test.py sls.homu sls.nginx
     fi
 
     # Salt doesn't support timezone.system on OSX
