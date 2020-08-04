@@ -249,60 +249,6 @@ make sure it finds it way into the saltfs repo to make it repeatable!
 
 ## Salt administration
 
-### Setting up a new Salt minion
-
-Installation differs from OS to OS; see each specific section for details.
-After installation, new minions must be enabled and accepted into the Salt PKI;
-see the [instructions below](#enabling-a-new-salt-minion).
-
-#### Linux
-
-:warning: Setting up a master requires additional steps, these instructions only set up a minion.
-
-Install the Salt minion:
-
-```console
-$ curl https://raw.githubusercontent.com/servo/saltfs/master/.travis/install_salt.sh | sudo bash -s linux
-```
-
-Configure and start the Salt minion:
-
-```console
-$ echo 'master:' | sudo tee /etc/salt/minion
-$ echo ' - servo-master1.servo.org' | sudo tee -a /etc/salt/minion
-$ echo 'servo-linuxN' | sudo tee /etc/salt/minion_id # Use the actual minion ID!
-$ sudo service salt-minion start
-```
-
-#### macOS
-
-See [the wiki](https://github.com/servo/servo/wiki/SaltStack-Administration)
-for information about setting up new macOS minions.
-
-#### Windows
-
-Installation is not yet scripted and must currently be done manually.
-
-1. Download [the Salt MSI](https://repo.saltstack.com/windows/Salt-Minion-2019.2.5-AMD64-Setup.exe),
-   currently using version 2019.2.5.
-2. Run the installer with a some options that
-   configure the minion and autostart the minion.
-   Make sure to provide the correct minion ID!
-   `Salt-Minion-2019.2.5-AMD64-Setup.exe /S /master=servo-master1.servo.org /minion-name=servo-windowsN`
-
-#### Enabling a new Salt minion
-
-On the master:
-
-```console
-root@servo-master1$ salt-key -L # List pending minion keys
-root@servo-master1$ salt-key -a KEY # Accept a pending minion key
-root@servo-master1$ salt '*' test.ping # Verify connectivity to the new minion
-```
-
-It's also a good idea to [run a highstate](#deploying-changes)
-on the new minion to set it up.
-
 #### Setting up a new Salt master
 
 See [the wiki](https://github.com/servo/servo/wiki/SaltStack-Administration)
