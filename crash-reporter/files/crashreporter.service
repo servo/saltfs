@@ -1,0 +1,13 @@
+[Unit]
+Description=Job that runs crash-reporter
+Requires=network-online.target
+
+[Service]
+ExecStart={{ common.servo_home }}/crash-reporter/_venv/bin/crash_reporter
+Environment=HOME={{ common.servo_home }}
+User=servo
+Group=servo
+WorkingDirectory={{ common.servo_home }}/crash-reporter
+
+[Install]
+WantedBy=multi-user.target
