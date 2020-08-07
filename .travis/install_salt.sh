@@ -31,10 +31,10 @@ install_salt() {
             ${SUDO} apt-get -y install python3-venv
         fi
 
-        curl "https://repo.saltstack.com/apt/ubuntu/${os_release}/amd64/archive/2018.3.4/SALTSTACK-GPG-KEY.pub" | \
+        curl "https://repo.saltstack.com/apt/ubuntu/${os_release}/amd64/archive/2019.2.5/SALTSTACK-GPG-KEY.pub" | \
             ${SUDO} apt-key add -
         printf \
-            'deb http://repo.saltstack.com/apt/ubuntu/%s/amd64/archive/2018.3.4 %s main\n' \
+            'deb http://repo.saltstack.com/apt/ubuntu/%s/amd64/archive/2019.2.5 %s main\n' \
             "${os_release}" "${os_codename}" | \
                 ${SUDO} tee /etc/apt/sources.list.d/saltstack.list >/dev/null
         ${SUDO} apt-get -y update
@@ -42,7 +42,7 @@ install_salt() {
         ${SUDO} apt-get -y \
                 -o Dpkg::Options::="--force-confold" \
                 -o Dpkg::Options::="--force-confdef" \
-                install salt-minion=2018.3.4+ds-1
+                install salt-minion=2019.2.5+ds-1
     else
         printf >&2 "%s: unknown operating system %s\n" "${0}" "${OS_NAME}"
         exit 1

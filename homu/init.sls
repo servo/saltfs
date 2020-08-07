@@ -75,7 +75,7 @@ homu:
     - context:
         db: {{ homu.db }}
         homu: {{ homu }}
-        secrets: {{ pillar['homu'] }}
+        secrets: {{ pillar['homu']|tojson }}
 
 /lib/systemd/system/homu.service:
   file.managed:

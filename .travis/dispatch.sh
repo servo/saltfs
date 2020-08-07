@@ -46,23 +46,6 @@ run_salt() {
 }
 
 
-run_inside_docker() {
-    # Reexec this script inside docker
-    # (without exporting the `SALT_DOCKER_IMAGE` environment variable
-    # to prevent recursion)
-    local -r DOCKER_SALT_ROOT="/tmp/salt"
-    docker run \
-        --env="SALT_NODE_ID=${SALT_NODE_ID}" \
-        --env="SALT_FROM_SCRATCH=${SALT_FROM_SCRATCH}" \
-        --env="TRAVIS_COMMIT=${TRAVIS_COMMIT}" \
-        --env="TRAVIS_OS_NAME=${TRAVIS_OS_NAME}" \
-        --volume="$(pwd):${DOCKER_SALT_ROOT}" \
-        --workdir="${DOCKER_SALT_ROOT}" \
-        "${SALT_DOCKER_IMAGE}" \
-        "${DOCKER_SALT_ROOT}/.travis/dispatch.sh"
-}
-
-
 setup_test_venv() {
     if ! which salt-call >/dev/null; then
         install_salt 'test_venv'
@@ -92,10 +75,6 @@ if [[ "${SALT_NODE_ID}" == "test" ]]; then
     # Run test suite separately for parallelism
     setup_test_venv
     ./test.py
-elif [[ -n "${SALT_DOCKER_IMAGE:-}" ]]; then  # macOS bash is too old for `-v`
-    printf "Using %s\n" "$(docker -v)"
-
-    run_inside_docker "$@"
 else
     if [ "${SALT_FROM_SCRATCH}" = "true" ]; then
         run_salt 'scratch'
@@ -123,7 +102,7 @@ else
 
     # TODO: don't hard-code this
     if [[ "${SALT_NODE_ID}" == "servo-master1" ]]; then
-        ./test.py sls.buildbot.master sls.homu sls.nginx
+        ./test.py sls.homu sls.nginx
     fi
 
     # Salt doesn't support timezone.system on OSX
