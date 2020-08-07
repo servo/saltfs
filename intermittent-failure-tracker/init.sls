@@ -25,7 +25,6 @@ intermittent-failure-tracker:
     - upgrade: True
     - require:
       - virtualenv: intermittent-failure-tracker
-  {% if grains.get('virtual_subtype', '') != 'Docker' %}
   service.running:
     - enable: True
     - name: failure-tracker
@@ -35,7 +34,6 @@ intermittent-failure-tracker:
       - file: /home/servo/intermittent-failure-tracker/config.json
       - file: /lib/systemd/system/failure-tracker.service
       - pip: intermittent-failure-tracker
-  {% endif %}
 
 /home/servo/intermittent-failure-tracker/config.json:
   file.managed:

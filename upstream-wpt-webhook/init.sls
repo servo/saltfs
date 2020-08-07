@@ -33,7 +33,6 @@ upstream-wpt-webhook:
     - upgrade: True
     - require:
       - virtualenv: upstream-wpt-webhook
-  {% if grains.get('virtual_subtype', '') != 'Docker' %}
   service.running:
     - enable: True
     - name: wpt-webhook
@@ -43,7 +42,6 @@ upstream-wpt-webhook:
       - file: /home/wpt-sync/upstream-wpt-sync-webhook/config.json
       - file: /lib/systemd/system/wpt-webhook.service
       - pip: upstream-wpt-webhook
-  {% endif %}
 
 /home/wpt-sync/upstream-wpt-sync-webhook/config.json:
   file.managed:

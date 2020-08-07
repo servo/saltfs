@@ -25,7 +25,6 @@ standups:
     - upgrade: True
     - require:
       - virtualenv: standups
-  {% if grains.get('virtual_subtype', '') != 'Docker' %}
   service.running:
     - enable: True
     - name: standups
@@ -35,7 +34,6 @@ standups:
       - file: /home/servo/standups/config.json
       - file: /lib/systemd/system/standups.service
       - pip: standups
-  {% endif %}
 
 /home/servo/standups/config.json:
   file.managed:

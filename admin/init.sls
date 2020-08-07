@@ -7,10 +7,8 @@ admin-packages:
       - tmux
       - mosh
 
-{% if grains.get('virtual_subtype', '') != 'Docker' %}
 UTC:
     timezone.system
-{% endif %}
 
 /etc/hosts:
   file.managed:

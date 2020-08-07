@@ -1,6 +1,5 @@
 nginx:
   pkg.installed: []
-  {% if grains.get('virtual_subtype', '') != 'Docker' %}
   service.running:
     - enable: True
     - watch:
@@ -8,7 +7,6 @@ nginx:
       - file: /etc/nginx/sites-available/default
     - require:
       - cmd: create-cert
-  {% endif %}
 
 /etc/nginx/sites-available/default:
   file.managed:
