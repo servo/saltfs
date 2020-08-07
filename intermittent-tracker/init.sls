@@ -26,7 +26,6 @@ intermittent-tracker:
     - upgrade: True
     - require:
       - virtualenv: intermittent-tracker
-  {% if grains.get('virtual_subtype', '') != 'Docker' %}
   service.running:
     - enable: True
     - name: tracker
@@ -36,7 +35,6 @@ intermittent-tracker:
       - file: /home/servo/intermittent-tracker/config.json
       - file: /lib/systemd/system/tracker.service
       - pip: intermittent-tracker
-  {% endif %}
 
 /home/servo/intermittent-tracker/config.json:
   file.managed:

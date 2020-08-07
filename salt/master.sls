@@ -16,10 +16,8 @@ salt-master-dependencies:
     - user: root
     - group: root
     - mode: 755
-    {% if grains.get('virtual_subtype', '') != 'Docker' %}
     - require_in:
       - service: salt-master
-    {% endif %}
 
 {% if loop.index0 > 0 %}
 # Only the very first base file root should be used for testing
@@ -32,10 +30,8 @@ salt-master-dependencies:
     - group: root
     - mode: 644
     - source: salt://{{ tpldir }}/files/master/ADMIN_README
-    {% if grains.get('virtual_subtype', '') != 'Docker' %}
     - require_in:
       - service: salt-master
-    {% endif %}
 
 {{ rootfs_parent_dir }}/setup.sh:
   file.managed:
@@ -43,10 +39,8 @@ salt-master-dependencies:
     - group: root
     - mode: 755
     - source: salt://{{ tpldir }}/files/master/setup.sh
-    {% if grains.get('virtual_subtype', '') != 'Docker' %}
     - require_in:
       - service: salt-master
-    {% endif %}
 
 {{ rootfs_parent_dir }}/cleanup.sh:
   file.managed:
@@ -54,10 +48,8 @@ salt-master-dependencies:
     - group: root
     - mode: 755
     - source: salt://{{ tpldir }}/files/master/cleanup.sh
-    {% if grains.get('virtual_subtype', '') != 'Docker' %}
     - require_in:
       - service: salt-master
-    {% endif %}
 {% endfor %}
 
 salt-master:
@@ -67,13 +59,11 @@ salt-master:
     - require:
       - sls: salt.common
       - pkg: salt-master-dependencies
-  {% if grains.get('virtual_subtype', '') != 'Docker' %}
   service.running:
     - enable: True
     - require:  # Updates and upgrades must be handled manually
       - file: /etc/salt/master
       - pkg: salt-master
-  {% endif %}
 
 /etc/salt/master:
   file.managed:
