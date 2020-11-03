@@ -34,7 +34,7 @@ homu:
       - MarkupSafe==1.1
       - packaging==16.8
       - pyparsing==2.1.10
-      - requests==2.20.0
+      - requests==2.24.0
       - retrying==1.3.3
       - six==1.10.0
       - toml==0.9.1
