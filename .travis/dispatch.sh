@@ -87,7 +87,9 @@ else
         run_salt 'old'
         set -o errexit
 
-        git checkout "${TRAVIS_COMMIT}"
+        pip install -U pip
+
+        git checkout "${TRAVIS_COMMIT}"        
 
         travis_fold_start "salt.invalidate_cache" 'Invalidating the Salt cache'
         salt_call 'saltutil.clear_cache'
