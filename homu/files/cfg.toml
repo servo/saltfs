@@ -79,6 +79,7 @@ secret = "{{ secrets['web-secret'] }}"
     },
     "mozangle": {
         "appveyor": True,
+        "extra_reviewers": [],
     },
     "mozjs": {
         "appveyor": True,
