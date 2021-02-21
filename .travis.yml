@@ -22,12 +22,12 @@ matrix:
       dist: xenial
     # Salt from previous configuration
     # Disabled temporarily while previous configuration on master is busted.
-    - env:
-        - SALT_NODE_ID=servo-master1
-        - SALT_FROM_SCRATCH=false
-      os: linux
-      sudo: required
-      dist: xenial
+    #- env:
+    #    - SALT_NODE_ID=servo-master1
+    #    - SALT_FROM_SCRATCH=false
+    #  os: linux
+    #  sudo: required
+    #  dist: xenial
     # Not a Salt node, runs test suite instead
     - env:
         - SALT_NODE_ID=test
