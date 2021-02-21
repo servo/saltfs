@@ -82,6 +82,7 @@ secret = "{{ secrets['web-secret'] }}"
     },
     "mozjs": {
         "github": True,
+        "travis": False,
     },
     "osmesa-src": {},
     "pathfinder": {},
@@ -104,6 +105,7 @@ secret = "{{ secrets['web-secret'] }}"
     "rust-layers": {},
     "rust-mozjs": {
         "github": True,
+        "travis": False,
     },
     "rust-png": {},
     "rust-quicksort": {},
