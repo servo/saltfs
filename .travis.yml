@@ -19,7 +19,7 @@ matrix:
         - SALT_FROM_SCRATCH=true
       os: linux
       sudo: required
-      dist: xenial
+      dist: bionic
     # Salt from previous configuration
     # Disabled temporarily while previous configuration on master is busted.
     #- env:
@@ -33,7 +33,7 @@ matrix:
         - SALT_NODE_ID=test
       os: linux
       sudo: required
-      dist: xenial
+      dist: bionic
 
 script: .travis/dispatch.sh
 
