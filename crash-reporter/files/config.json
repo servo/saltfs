@@ -1,0 +1,1 @@
+{"port": 5004, "crash_dir": "./crashes/", "read_secret": "{{ pillar['crash-reporter']['read_secret'] }}", "write_secret": "{{ pillar['crash-reporter']['write_secret'] }}" }

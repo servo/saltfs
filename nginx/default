@@ -36,5 +36,8 @@ server {
     proxy_set_header X-Scheme $scheme;
     proxy_set_header X-Script-Name /standups;
   }
+  location /crash-reporter/ {
+    proxy_pass http://localhost:5004/;
+  }
 }
 

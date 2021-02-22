@@ -22,3 +22,4 @@ base:
     - nginx
     - salt.master
     - standups
+    - crash-reporter
