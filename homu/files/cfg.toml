@@ -81,7 +81,8 @@ secret = "{{ secrets['web-secret'] }}"
         "appveyor": True,
     },
     "mozjs": {
-        "appveyor": True,
+        "github": True,
+        "travis": False,
     },
     "osmesa-src": {},
     "pathfinder": {},
@@ -103,7 +104,8 @@ secret = "{{ secrets['web-secret'] }}"
     },
     "rust-layers": {},
     "rust-mozjs": {
-        "appveyor": True,
+        "github": True,
+        "travis": False,
     },
     "rust-png": {},
     "rust-quicksort": {},
@@ -250,6 +252,11 @@ try_choosers = {{ repo.get("try_choosers", []) }}
 
 [repo."{{ name }}".github]
 secret = "{{ secrets['gh-webhook-secret'] }}"
+
+{% if repo.get('github', False) %}
+[repo."{{ name }}".checks.github]
+name = "homu build finished"
+{% endif %}
 
 {% if repo.get('travis', True) %}
 [repo."{{ name }}".checks.travis]
