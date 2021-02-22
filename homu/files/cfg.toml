@@ -38,7 +38,9 @@ secret = "{{ secrets['web-secret'] }}"
     "app_units": {},
     "cgl-rs": {},
     "cocoa-rs": {},
-    "core-foundation-rs": {},
+    "core-foundation-rs": {
+        "extra_reviewers": [ "mstange" ],
+    },
     "core-graphics-rs": {},
     "core-text-rs": {},
     "devices": {},
@@ -57,7 +59,9 @@ secret = "{{ secrets['web-secret'] }}"
     "gecko-media": {
         "extra_reviewers": [ "cpearce", "philn" ],
     },
-    "gleam": {},
+    "gleam": {
+        "extra_reviewers": [ "mstange" ],
+    },
     "glutin": {},
     "heapsize": {},
     "highfive": {},
