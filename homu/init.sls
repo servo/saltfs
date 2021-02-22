@@ -25,7 +25,7 @@ homu:
       - toml==0.9.1  # Please ensure this is in sync with requirements.txt
       # Pin all other dependencies
       - appdirs==1.4.0
-      - bottle==0.12.13
+      - bottle==0.12.19
       - certifi==2017.4.17
       - chardet==3.0.3
       - github3.py==0.9.6
