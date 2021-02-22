@@ -22,7 +22,7 @@
       - user
       - group
       - mode
-    - clean: True
+    - clean: true
 
 /etc/apt/sources.list:
   file.managed:
@@ -34,7 +34,7 @@
 
 refresh_pkg_db:
   module.run:
-    - name: pkg.refresh_db
+    - pkg.refresh_db:
     - onchanges:
         - file: /etc/apt/sources.list
 

@@ -1,3 +1,5 @@
 master: localhost  # Used to test the salt-master
 state_output: mixed
 state_tabular: True
+use_superseded:
+  - module.run

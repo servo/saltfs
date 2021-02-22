@@ -47,8 +47,8 @@ deb-src http://archive.ubuntu.com/ubuntu {{ grains['oscodename'] }}-updates univ
 # deb http://archive.canonical.com/ubuntu {{ grains['oscodename'] }} partner
 # deb-src http://archive.canonical.com/ubuntu {{ grains['oscodename'] }} partner
 
-deb http://security.ubuntu.com/ubuntu {{ grains['oscodename'] }}-security main {% if grains['oscodename'] == 'xenial' %} restricted {% endif %}
-deb-src http://security.ubuntu.com/ubuntu {{ grains['oscodename'] }}-security main {% if grains['oscodename'] == 'xenial' %} restricted {% endif %}
+deb http://security.ubuntu.com/ubuntu {{ grains['oscodename'] }}-security main {% if grains['oscodename'] == 'bionic' %} restricted {% endif %}
+deb-src http://security.ubuntu.com/ubuntu {{ grains['oscodename'] }}-security main {% if grains['oscodename'] == 'bionic' %} restricted {% endif %}
 
 deb http://security.ubuntu.com/ubuntu {{ grains['oscodename'] }}-security universe
 deb-src http://security.ubuntu.com/ubuntu {{ grains['oscodename'] }}-security universe
