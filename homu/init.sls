@@ -30,7 +30,7 @@ homu:
       - chardet==3.0.3
       - github3.py==0.9.6
       - idna==2.5
-      - Jinja2==2.9.6
+      - Jinja2==2.11.3
       - MarkupSafe==1.1
       - packaging==16.8
       - pyparsing==2.1.10
