@@ -38,7 +38,7 @@ install_salt() {
         ${SUDO} apt-get -y \
                 -o Dpkg::Options::="--force-confold" \
                 -o Dpkg::Options::="--force-confdef" \
-                install salt-minion=3000.8+ds-1
+                install salt-minion=3000.9+ds-1
     else
         printf >&2 "%s: unknown operating system %s\n" "${0}" "${OS_NAME}"
         exit 1
