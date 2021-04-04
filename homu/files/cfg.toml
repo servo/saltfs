@@ -126,6 +126,7 @@ secret = "{{ secrets['web-secret'] }}"
     "servo": {
         "travis": False,
         "taskcluster": True,
+        "github": True,
         "try_choosers": servo_try_choosers,
     },
     "saltfs": {},
