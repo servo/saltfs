@@ -134,7 +134,10 @@ secret = "{{ secrets['web-secret'] }}"
     "servo-warc-tests": {},
     "skia": {},
     "string-cache": {},
-    "surfman": {},
+    "surfman": {
+        "travis": False,
+        "github": True,
+    },
     "tendril": {},
     "unicode-bidi": {
         "extra_reviewers": [ "behnam" ],
