@@ -44,7 +44,10 @@ secret = "{{ secrets['web-secret'] }}"
     "core-graphics-rs": {},
     "core-text-rs": {},
     "devices": {},
-    "download.servo.org": {},
+    "download.servo.org": {
+        "travis": False,
+        "github": True,
+    },
     "dwrote-rs": {
         "travis": False,
         "appveyor": True,
