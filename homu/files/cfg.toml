@@ -71,6 +71,8 @@ secret = "{{ secrets['web-secret'] }}"
     "homu": {},
     "html5ever": {
         "extra_reviewers": [ "Ygg01" ],
+        "github": True,
+        "travis": False,
     },
     "hyper_serde": {},
     "io-surface-rs": {},
