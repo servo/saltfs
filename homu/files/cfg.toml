@@ -93,7 +93,10 @@ secret = "{{ secrets['web-secret'] }}"
         "github": True,
         "travis": False,
     },
-    "osmesa-src": {},
+    "osmesa-src": {
+        "github": True,
+        "travis": False,
+    },
     "pathfinder": {},
     "plane-split": {},
     "rust-azure": {},
