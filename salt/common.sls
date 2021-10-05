@@ -3,13 +3,13 @@
 {% if grains['os'] == 'Ubuntu' %}
 salt:
   pkgrepo.managed:
-    - name: 'deb http://repo.saltstack.com/apt/ubuntu/{{ grains['osrelease'] }}/amd64/archive/{{ salt.version }} {{ grains['oscodename'] }} main'
+    - name: 'deb http://repo.saltproject.io/py3/ubuntu/{{ grains['osrelease'] }}/amd64/archive/{{ salt.version }} {{ grains['oscodename'] }} main'
     - file: /etc/apt/sources.list.d/saltstack.list
-    - key_url: https://repo.saltstack.com/apt/ubuntu/{{ grains['osrelease'] }}/amd64/archive/{{ salt.version }}/SALTSTACK-GPG-KEY.pub
+    - key_url: https://repo.saltproject.io/py3/ubuntu/{{ grains['osrelease'] }}/amd64/archive/{{ salt.version }}/SALTSTACK-GPG-KEY.pub
 
 no-old-salt:
   pkgrepo.absent:
-    - name: 'deb http://repo.saltstack.com/apt/ubuntu/16.04/amd64/archive/2019.2.5 xenial main'
+    - name: 'deb http://repo.saltstack.com/apt/ubuntu/18.04/amd64/archive/3000.8 bionic main'
     - file: /etc/apt/sources.list.d/saltstack.list
 
 /etc/apt/sources.list.d/saltstack.list:

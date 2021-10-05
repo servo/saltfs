@@ -7,6 +7,7 @@ python3:
   pkg.installed:
     - pkgs:
       - python3
+      - python3-pip
       {% if grains['os'] == 'Ubuntu' %}
       {% if grains['osrelease'] == '14.04' %}
       - python3.4-venv
