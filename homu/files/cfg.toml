@@ -141,7 +141,10 @@ secret = "{{ secrets['web-secret'] }}"
     "servo-starters": {},
     "servo-warc-tests": {},
     "skia": {},
-    "string-cache": {},
+    "string-cache": {
+        "travis": False,
+        "github": True,
+    },
     "surfman": {
         "travis": False,
         "github": True,
