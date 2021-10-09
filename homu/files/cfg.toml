@@ -55,7 +55,10 @@ secret = "{{ secrets['web-secret'] }}"
     "euclid": {
         "extra_reviewers": [ "nical" ],
     },
-    "font-kit": {},
+    "font-kit": {
+        "travis": False,
+        "github": True,
+    },
     "fontsan": {},
     "futf": {},
     "gaol": {},
