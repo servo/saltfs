@@ -83,7 +83,8 @@ secret = "{{ secrets['web-secret'] }}"
     "io-surface-rs": {},
     "ipc-channel": {
         "extra_reviewers": [ "antrik", "dlrobertson" ],
-        "appveyor": True,
+        "travis": False,
+        "github": True,
     },
     "libexpat": {},
     "libfontconfig": {},
