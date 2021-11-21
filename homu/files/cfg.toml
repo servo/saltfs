@@ -108,7 +108,10 @@ secret = "{{ secrets['web-secret'] }}"
         "travis": False,
     },
     "pathfinder": {},
-    "plane-split": {},
+    "plane-split": {
+        "github": True,
+        "travis": False,
+    },
     "rust-azure": {},
     "rust-bindgen": {
         "extra_reviewers": [ "fitzgen" ],
@@ -116,7 +119,10 @@ secret = "{{ secrets['web-secret'] }}"
         "travis": False,
         "travis-legacy": True,
     },
-    "rust-cssparser": {},
+    "rust-cssparser": {
+        "github": True,
+        "travis": False,
+    },
     "rust-fnv": {},
     "rust-fontconfig": {},
     "rust-freetype": {},
@@ -132,7 +138,10 @@ secret = "{{ secrets['web-secret'] }}"
     "rust-png": {},
     "rust-quicksort": {},
     "rust-selectors": {},
-    "rust-smallvec": {},
+    "rust-smallvec": {
+        "travis": False,
+        "github": True,
+    },
     "rust-stb-image": {},
     "rust-url": {
         "extra_reviewers": [ "Hoverbear" ],
@@ -159,7 +168,10 @@ secret = "{{ secrets['web-secret'] }}"
         "travis": False,
         "github": True,
     },
-    "tendril": {},
+    "tendril": {
+        "travis": False,
+        "github": True,
+    },
     "unicode-bidi": {
         "extra_reviewers": [ "behnam" ],
     },
