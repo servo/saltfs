@@ -83,7 +83,10 @@ secret = "{{ secrets['web-secret'] }}"
         "github": True,
         "travis": False,
     },
-    "hyper_serde": {},
+    "hyper_serde": {
+        "travis": False,
+        "github": True,
+    },
     "io-surface-rs": {},
     "ipc-channel": {
         "extra_reviewers": [ "antrik", "dlrobertson" ],
