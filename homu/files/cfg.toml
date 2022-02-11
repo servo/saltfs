@@ -155,7 +155,7 @@ secret = "{{ secrets['web-secret'] }}"
     },
     "servo": {
         "travis": False,
-        "taskcluster": True,
+        "taskcluster": False,
         "github": True,
         "try_choosers": servo_try_choosers,
     },
