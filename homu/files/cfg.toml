@@ -177,6 +177,9 @@ secret = "{{ secrets['web-secret'] }}"
     },
     "unicode-bidi": {
         "extra_reviewers": [ "behnam" ],
+        "travis": False,
+        "github": True,
+        "appveyor": True,
     },
     "unicode-script": {},
     "webrender": {
