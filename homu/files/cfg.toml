@@ -52,7 +52,7 @@ secret = "{{ secrets['web-secret'] }}"
     },
     "dwrote-rs": {
         "travis": False,
-        "appveyor": True,
+        "github": True,
     },
     "euclid": {
         "extra_reviewers": [ "nical" ],
