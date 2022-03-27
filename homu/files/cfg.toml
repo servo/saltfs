@@ -35,7 +35,10 @@ secret = "{{ secrets['web-secret'] }}"
 ] %}
 {% set repos = {
     "angle": {},
-    "app_units": {},
+    "app_units": {
+        "travis": False,
+        "github": True,
+    },
     "cgl-rs": {},
     "cocoa-rs": {},
     "core-foundation-rs": {
