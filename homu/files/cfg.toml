@@ -110,7 +110,9 @@ secret = "{{ secrets['web-secret'] }}"
         "github": True,
         "travis": False,
     },
-    "pathfinder": {},
+    "pathfinder": {
+        "extra_reviewers": [ "s3bk" ],
+    },
     "plane-split": {
         "github": True,
         "travis": False,
