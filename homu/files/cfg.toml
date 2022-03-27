@@ -132,6 +132,9 @@ secret = "{{ secrets['web-secret'] }}"
     "rust-glx": {},
     "rust-harfbuzz": {
         "extra_reviewers": [ "waywardmonkeys" ],
+        "appveyor": False,
+        "github": True,
+        "travis": False,
     },
     "rust-layers": {},
     "rust-mozjs": {
