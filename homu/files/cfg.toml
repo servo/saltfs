@@ -64,7 +64,10 @@ secret = "{{ secrets['web-secret'] }}"
         "github": True,
     },
     "fontsan": {},
-    "futf": {},
+    "futf": {
+        "travis": False,
+        "github": True,
+    },
     "gaol": {},
     "gecko-media": {
         "extra_reviewers": [ "cpearce", "philn" ],
