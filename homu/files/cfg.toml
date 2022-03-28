@@ -118,6 +118,8 @@ secret = "{{ secrets['web-secret'] }}"
     },
     "pathfinder": {
         "extra_reviewers": [ "s3bk" ],
+        "github": True,
+        "travis": False,
     },
     "plane-split": {
         "github": True,
