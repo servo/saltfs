@@ -294,6 +294,7 @@ secret = "{{ secrets['web-secret'] }}"
     "pylbrecht",
     "saschanaz",
     "stshine",
+    "teymour-aldridge",
     "tigercosmos",
     "tschneidereit",
     "vvuk",
