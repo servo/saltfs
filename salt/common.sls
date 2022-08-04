@@ -9,7 +9,7 @@ salt:
 
 no-old-salt:
   pkgrepo.absent:
-    - name: 'deb http://repo.saltstack.com/apt/ubuntu/18.04/amd64/archive/3000.8 bionic main'
+    - name: 'deb http://repo.saltstack.com/apt/ubuntu/18.04/amd64/archive/3001.8 bionic main'
     - file: /etc/apt/sources.list.d/saltstack.list
 
 /etc/apt/sources.list.d/saltstack.list:
