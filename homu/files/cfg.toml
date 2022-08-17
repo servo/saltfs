@@ -43,7 +43,7 @@ secret = "{{ secrets['web-secret'] }}"
     "cocoa-rs": {},
     "core-foundation-rs": {
         "extra_reviewers": [ "mstange" ],
-        "travis": True,
+        "travis": False,
         "github": True,
     },
     "core-graphics-rs": {},
