@@ -104,6 +104,9 @@ secret = "{{ secrets['web-secret'] }}"
     "libfreetype2": {},
     "media": {
         "extra_reviewers": [ "ceyusa", "philn", "sdroege" ],
+        "appveyor": True,
+        "travis": False,
+        "github": True,
     },
     "mozangle": {
         "appveyor": True,
