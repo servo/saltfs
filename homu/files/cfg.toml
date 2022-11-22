@@ -208,6 +208,8 @@ secret = "{{ secrets['web-secret'] }}"
     },
     "webxr": {
       "extra_reviewers": [ "MortimerGoro" ],
+      "travis": False,
+      "github": True,
     },
 } %}
 
