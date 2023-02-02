@@ -1,6 +1,7 @@
 homu:
   'gh-access-token': 'TEST_HOMU_GH_ACCESS_TOKEN'
   'gh-webhook-secret': 'TEST_HOMU_GH_WEBHOOK_SECRET'
+  'intermittent-dashboard-secret': 'TEST_HOMU_INTERMITTENT_DASHBOARD_SECRET'
   'app-client-id': 'TEST_HOMU_APP_CLIENT_ID'
   'app-client-secret': 'TEST_HOMU_APP_CLIENT_SECRET'
   'buildbot-secret': 'TEST_HOMU_BUILDBOT_SECRET'

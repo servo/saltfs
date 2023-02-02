@@ -1,1 +1,1 @@
-{"token": "{{ pillar["homu"]["gh-access-token"] }}", "port": 5000}
+{"github_token": "{{ pillar["homu"]["gh-access-token"] }}", "dashboard_secret": "{{ pillar["homu"]["intermittent-dashboard-secret"] }}", "port": 5000}
