@@ -20,12 +20,18 @@ intermittent-tracker:
       - pkg: python3
       - pip: virtualenv
   pip.installed:
+    # pinned deps by specifying both pkgs and requirements (to verify this
+    # behaviour, try checking out the tracker repo, downgrading something in
+    # requirements.txt, and running `pip install -r requirements.txt .`)
     - pkgs:
       - git+https://github.com/servo/intermittent-tracker@{{ tracker.rev }}
+    - requirements:
+      - /home/servo/intermittent-tracker/requirements.txt
     - bin_env: /home/servo/intermittent-tracker/_venv
-    - upgrade: True
+    - force_reinstall: True  # upgrade: True doesn’t work for git+@ packages
     - require:
       - virtualenv: intermittent-tracker
+      - file: /home/servo/intermittent-tracker/requirements.txt
   service.running:
     - enable: True
     - name: tracker
@@ -35,6 +41,13 @@ intermittent-tracker:
       - file: /home/servo/intermittent-tracker/config.json
       - file: /lib/systemd/system/tracker.service
       - pip: intermittent-tracker
+
+/home/servo/intermittent-tracker/requirements.txt:
+  file.managed:
+    - source: https://github.com/servo/intermittent-tracker/raw/{{ tracker.rev }}/requirements.txt
+    - user: root
+    - group: root
+    - mode: 644
 
 /home/servo/intermittent-tracker/config.json:
   file.managed:
