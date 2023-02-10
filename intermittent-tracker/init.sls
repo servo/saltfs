@@ -13,7 +13,7 @@ tracker-debugging-packages:
 intermittent-tracker:
   virtualenv.managed:
     - name: /home/servo/intermittent-tracker/_venv
-    - venv_bin: virtualenv-3.5
+    - venv_bin: virtualenv
     - python: python3
     - system_site_packages: False
     - require:
