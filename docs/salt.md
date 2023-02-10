@@ -12,7 +12,8 @@ We use [SaltStack](https://saltstack.com/) (Salt for short)
 to configure our infrastructure machines.
 
 We're currently on the Salt 2019.2 release branch, so make sure to look at the
-[right version of the docs](https://docs.saltstack.com/en/2019.5/contents.html).
+[right version of the docs](https://docs.saltstack.com/en/2019.2/contents.html)
+and [tutorials](https://docs.saltstack.com/en/2019.2/topics/tutorials/index.html).
 
 Salt configurations are meant to be idempotent and can be applied as many times
 as you like; a single deploy is termed a `highstate`, which
