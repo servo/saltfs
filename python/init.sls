@@ -11,6 +11,8 @@ python3:
       {% if grains['os'] == 'Ubuntu' %}
       {% if grains['osrelease'] == '14.04' %}
       - python3.4-venv
+      {% elif grains['osrelease'] == '18.04' %}
+      - python3.7-venv
       {% else %}
       - python3-venv
       {% endif %}
