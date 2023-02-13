@@ -10,7 +10,19 @@ tracker-debugging-packages:
     - pkgs:
       - github3.py == 1.0.0a4
 
-intermittent-tracker:
+# by convention, setup.py is for direct loose dependencies, and requirements.txt
+# is for transitive exact dependencies, because only end users should get to pin
+# package versions, not their dependencies.
+#
+# but to make deployment repeatable, we want to install our application with
+# setup.py *and* install its dependencies with requirements.txt.
+#
+# unfortunately putting both pkgs and requirements in pip.installed does *not*
+# do the equivalent of pip install git+https://... -r requirements.txt (which
+# would do what we want) but rather just pip install -r requirements.txt,
+# ignoring the pkgs, so we need to break the install into two parts.
+
+intermittent-tracker-deps:
   # use virtualenv rather than venv to ensure pip is up to date
   # (fixes ModuleNotFoundError for setuptools_rust in cryptography==39.0.1)
   virtualenv.managed:
@@ -22,17 +34,30 @@ intermittent-tracker:
       - pkg: python3
       - pip: virtualenv
   pip.installed:
-    # pinned deps by specifying both pkgs and requirements (to verify this
-    # behaviour, try checking out the tracker repo, downgrading something in
-    # requirements.txt, and running `pip install -r requirements.txt .`)
-    - pkgs:
-      - git+https://github.com/servo/intermittent-tracker@{{ tracker.rev }}
     - requirements:
       - /home/servo/intermittent-tracker/requirements.txt
     - bin_env: /home/servo/intermittent-tracker/_venv
     - force_reinstall: True  # upgrade: True doesn’t work for git+@ packages
     - require:
       - virtualenv: intermittent-tracker
+      - file: /home/servo/intermittent-tracker/requirements.txt
+
+intermittent-tracker:
+  virtualenv.managed:
+    - name: /home/servo/intermittent-tracker/_venv
+    - venv_bin: virtualenv
+    - python: python3.7
+    - system_site_packages: False
+    - require:
+      - pkg: python3
+      - pip: virtualenv
+  pip.installed:
+    - pkgs:
+      - git+https://github.com/servo/intermittent-tracker@{{ tracker.rev }}
+    - bin_env: /home/servo/intermittent-tracker/_venv
+    - force_reinstall: True  # upgrade: True doesn’t work for git+@ packages
+    - require:
+      - virtualenv: intermittent-tracker-deps
       - file: /home/servo/intermittent-tracker/requirements.txt
   service.running:
     - enable: True
