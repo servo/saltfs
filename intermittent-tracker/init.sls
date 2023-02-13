@@ -19,7 +19,7 @@ intermittent-tracker:
     - python: python3.7
     - system_site_packages: False
     - require:
-      - pkg: python3.7
+      - pkg: python3
       - pip: virtualenv
   pip.installed:
     # pinned deps by specifying both pkgs and requirements (to verify this
