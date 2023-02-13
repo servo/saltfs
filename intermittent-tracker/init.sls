@@ -11,10 +11,12 @@ tracker-debugging-packages:
       - github3.py == 1.0.0a4
 
 intermittent-tracker:
+  # use virtualenv rather than venv to ensure pip is up to date
+  # (fixes ModuleNotFoundError for setuptools_rust in cryptography==39.0.1)
   virtualenv.managed:
     - name: /home/servo/intermittent-tracker/_venv
     - venv_bin: virtualenv
-    - python: python3
+    - python: python3.7
     - system_site_packages: False
     - require:
       - pkg: python3
@@ -45,6 +47,7 @@ intermittent-tracker:
 /home/servo/intermittent-tracker/requirements.txt:
   file.managed:
     - source: https://github.com/servo/intermittent-tracker/raw/{{ tracker.rev }}/requirements.txt
+    - skip_verify: True  # ok because source is content-addressed and https
     - user: root
     - group: root
     - mode: 644
