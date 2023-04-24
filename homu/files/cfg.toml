@@ -79,7 +79,7 @@ secret = "{{ secrets['web-secret'] }}"
         "extra_reviewers": [ "cpearce", "philn" ],
     },
     "gleam": {
-        "extra_reviewers": [ "mstange" ],
+        "extra_reviewers": [ "mstange", "nical" ],
         "travis": False,
         "github": True,
     },
@@ -128,6 +128,7 @@ secret = "{{ secrets['web-secret'] }}"
         "travis": False,
     },
     "plane-split": {
+        "extra_reviewers": [ "nical" ],
         "github": True,
         "travis": False,
     },
