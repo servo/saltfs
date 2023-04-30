@@ -112,7 +112,8 @@ secret = "{{ secrets['web-secret'] }}"
         "github": True,
     },
     "mozangle": {
-        "appveyor": True,
+        "appveyor": False,
+        "github": True,
     },
     "mozjs": {
         "github": True,
