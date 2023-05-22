@@ -231,6 +231,7 @@ secret = "{{ secrets['web-secret'] }}"
     "kvark",
     "Loirooriol",
     "Manishearth",
+    "mbrubeck",
     "mrego",
     "mrobinson",
     "mukilan",
