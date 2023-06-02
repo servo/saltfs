@@ -221,6 +221,7 @@ secret = "{{ secrets['web-secret'] }}"
 
 {% set reviewers = [
     "asajeffrey",
+    "atbrakhi",
     "delan",
     "emilio",
     "glennw",
@@ -244,6 +245,7 @@ secret = "{{ secrets['web-secret'] }}"
 ] %}
 
 {% set try = [
+    "atbrakhi",
     "CYBAI",
     "delan",
     "gterzian",
