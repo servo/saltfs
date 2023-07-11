@@ -169,7 +169,7 @@ secret = "{{ secrets['web-secret'] }}"
     },
     "rust-stb-image": {},
     "rust-url": {
-        "extra_reviewers": [ "Hoverbear" ],
+        "extra_reviewers": [ "Hoverbear", "valenting", "lucacasonato" ],
     },
     "rust-websocket": {},
     "rust-webvr": {
