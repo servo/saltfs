@@ -34,209 +34,15 @@ secret = "{{ secrets['web-secret'] }}"
     "arm",
 ] %}
 {% set repos = {
-    "angle": {},
-    "app_units": {
-        "travis": False,
-        "github": True,
-    },
-    "cgl-rs": {},
-    "cocoa-rs": {},
-    "core-foundation-rs": {
-        "extra_reviewers": [ "mstange" ],
-        "travis": False,
-        "github": True,
-    },
-    "core-graphics-rs": {},
-    "core-text-rs": {},
-    "devices": {},
-    "download.servo.org": {
-        "travis": False,
-        "github": True,
-    },
-    "dwrote-rs": {
-        "travis": False,
-        "github": True,
-    },
-    "euclid": {
-        "extra_reviewers": [ "nical" ],
-        "travis": False,
-        "github": True,
-    },
-    "font-kit": {
-        "travis": False,
-        "github": True,
-    },
-    "fontsan": {
-        "travis": False,
-        "github": True,
-    },
-    "futf": {
-        "travis": False,
-        "github": True,
-    },
-    "gaol": {},
-    "gecko-media": {
-        "extra_reviewers": [ "cpearce", "philn" ],
-    },
-    "gleam": {
-        "extra_reviewers": [ "mstange", "nical" ],
-        "travis": False,
-        "github": True,
-    },
-    "glutin": {},
-    "heapsize": {},
-    "highfive": {},
-    "homu": {},
-    "html5ever": {
-        "extra_reviewers": [ "Ygg01" ],
-        "github": True,
-        "travis": False,
-    },
-    "hyper_serde": {
-        "travis": False,
-        "github": True,
-    },
-    "io-surface-rs": {},
-    "ipc-channel": {
-        "extra_reviewers": [ "antrik", "dlrobertson" ],
-        "travis": False,
-        "github": True,
-    },
-    "libexpat": {},
-    "libfontconfig": {},
-    "libfreetype2": {},
-    "media": {
-        "extra_reviewers": [ "ceyusa", "philn", "sdroege" ],
-        "appveyor": True,
-        "travis": False,
-        "github": True,
-    },
-    "mozangle": {
-        "appveyor": False,
-        "github": True,
-        "travis": False,
-    },
-    "mozjs": {
-        "github": True,
-        "travis": False,
-    },
-    "osmesa-src": {
-        "github": True,
-        "travis": False,
-    },
-    "pathfinder": {
-        "extra_reviewers": [ "s3bk" ],
-        "github": True,
-        "travis": False,
-    },
-    "plane-split": {
-        "extra_reviewers": [ "nical" ],
-        "github": True,
-        "travis": False,
-    },
-    "rust-azure": {},
-    "rust-bindgen": {
-        "extra_reviewers": [ "fitzgen" ],
-        "owner": "rust-lang",
-        "travis": False,
-        "travis-legacy": True,
-    },
-    "rust-cssparser": {
-        "github": True,
-        "travis": False,
-    },
-    "rust-fnv": {},
-    "rust-fontconfig": {},
-    "rust-freetype": {},
-    "rust-glx": {},
-    "rust-harfbuzz": {
-        "extra_reviewers": [ "waywardmonkeys" ],
-        "appveyor": False,
-        "github": True,
-        "travis": False,
-    },
-    "rust-layers": {},
-    "rust-mozjs": {
-        "github": True,
-        "travis": False,
-    },
-    "rust-png": {},
-    "rust-quicksort": {},
-    "rust-selectors": {},
-    "rust-smallvec": {
-        "travis": False,
-        "github": True,
-    },
-    "rust-stb-image": {},
-    "rust-url": {
-        "extra_reviewers": [ "Hoverbear" ],
-    },
-    "rust-websocket": {},
-    "rust-webvr": {
-      "extra_reviewers": [ "MortimerGoro" ],
-    },
     "servo": {
         "travis": False,
         "taskcluster": False,
         "github": True,
         "try_choosers": servo_try_choosers,
     },
-    "saltfs": {},
-    "servo-starters": {},
-    "servo-warc-tests": {},
-    "skia": {},
-    "string-cache": {
-        "travis": False,
-        "github": True,
-    },
-    "surfman": {
-        "travis": False,
-        "github": True,
-    },
-    "tendril": {
-        "travis": False,
-        "github": True,
-    },
-    "unicode-bidi": {
-        "extra_reviewers": [ "behnam" ],
-        "travis": False,
-        "github": True,
-        "appveyor": True,
-    },
-    "unicode-script": {},
-    "webrender": {
-        "extra_reviewers": [ "nical", "Gankro", "staktrace", "moz-gfx" ],
-        "taskcluster": True,
-        "travis": False,
-    },
-    "webrender_traits": {
-        "travis": False,
-    },
-    "webxr": {
-      "extra_reviewers": [ "MortimerGoro" ],
-      "travis": False,
-      "github": True,
-    },
 } %}
 
 {% set reviewers = [
-    "asajeffrey",
-    "atbrakhi",
-    "delan",
-    "emilio",
-    "glennw",
-    "gterzian",
-    "gw3583",
-    "jdm",
-    "jrmuizel",
-    "kvark",
-    "Loirooriol",
-    "Manishearth",
-    "mbrubeck",
-    "mrego",
-    "mrobinson",
-    "mukilan",
-    "SimonSapin",
 ] %}
 
 {% set operators = [
@@ -295,14 +101,6 @@ context = 'Community-TC (push)'
 {% endif %}
 
 {% endfor %}
-
-# Specialized per-repo configs
-
-[repo.glutin.branch]
-master = "servo"
-
-[repo.rust-websocket.branch]
-master = "servo"
 
 [db]
 file = "{{ db }}"
