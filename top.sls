@@ -15,7 +15,6 @@ base:
   'servo-master\d+':
     - match: pcre
     - git
-    - homu
     - intermittent-tracker
     - intermittent-failure-tracker
     - upstream-wpt-webhook
