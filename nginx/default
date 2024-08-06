@@ -17,6 +17,7 @@ server {
     proxy_pass http://localhost:54857/;
   }
   location /intermittent-tracker/ {
+    client_max_body_size 10M; # For https://github.com/servo/servo/issues/31845, default value is 1M
     proxy_pass http://localhost:5000/;
   }
   location /upstream-wpt-webhook/ {
